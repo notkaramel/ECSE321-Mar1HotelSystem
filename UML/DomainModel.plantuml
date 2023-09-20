@@ -1,54 +1,76 @@
 @startuml MHS
-package MarwaanHotelSystem <<Node>> {
-    Class Account {
-        firstName
-        lastName
-        email
-        password
-        phoneNumber
-    }
+title Marwaan's Hotel System
+top to bottom direction
+skinparam linetype ortho
 
-    Class StaffAccount extends Account {
-        void editBooking()
-    }
+package MHS <<Rectangle>> {
+    together {
 
-    Class Manager extends StaffAccount {
-        void setOpeningHour()
-        void setClosingHour()
-        void createRoom()
-        void changeRoom()
-        void createShift()
-        void modifyShift()
-        void hireEmployee()
-        void fireEmployee()
-    }
+        abstract Class Account <<abstract>>{
+            firstName
+            lastName
+            email
+            password
+            phoneNumber
+        }
 
-    Class Employee extends StaffAccount {
-        type : EmployeeType
-    }
+        Class StaffAccount {
+            void editBooking()
+        }
 
-    Class Room {
-        type : RoomType
-        bed : BedType
-        pricePerNight
-    }
+        Account <|-down- StaffAccount
+        Account <|-down- Customer
 
-    Class Booking {
-        numberOfGuest
-        checkinDate
-        checkoutDate
-    }
+        Class Manager {
+            void setOpeningHour()
+            void setClosingHour()
+            void createRoom()
+            void changeRoom()
+            void createShift()
+            void modifyShift()
+            void hireEmployee()
+            void fireEmployee()
+        }
 
-    Class Request {
-        customerName
-        room : Room
-        description
-    }
+        Class Employee {
+            type : EmployeeType
+        }
 
-    Class Customer extends Account {
-    }
+        StaffAccount <|-down- Manager
+        StaffAccount <|-down- Employee
 
+
+        Class Customer {
+        }
+    }
     Class Guest
+
+    together {
+
+        Class Room {
+            type : RoomType
+            bed : BedType
+            pricePerNight
+        }
+
+        Class Booking {
+            numberOfGuest
+            checkinDate
+            checkoutDate
+        }
+
+        Class Request {
+            customerName
+            room : Room
+            description
+        }
+    }
+
+
+    Class Hotel {
+        openingHour
+        closingHour
+    }
 
     Class Payment {
         amount
@@ -63,15 +85,11 @@ package MarwaanHotelSystem <<Node>> {
 
     Class Schedule
 
-    Class Hotel {
-        openingHour
-        closingHour
-    }
 
     Manager --> Room
     Manager --> Hotel
 
-    Manager --> Employee
+    Manager -left-> Employee
     StaffAccount --> Request
 
     Employee --> Shift
@@ -81,11 +99,11 @@ package MarwaanHotelSystem <<Node>> {
     Booking -- Payment
     Booking --> Request
 
-    Customer -- Room
-    (Customer, Room) . Booking
+    Room -up- Customer
+    (Customer, Room) .right. Booking
 
-    Guest -- Room
-    (Guest, Room) . Booking
+    Guest -down- Room
+    (Guest, Room) ... Booking
     Shift -right-* Schedule
 
     enum RoomType {
@@ -106,7 +124,8 @@ package MarwaanHotelSystem <<Node>> {
         CleaningStaff
         Reception
     }
-    note left of BedType
-        2 double-sized beds
+    note left of BedType::Doubles
+    2 double-sized beds
     end note
-    @enduml
+}
+@enduml
