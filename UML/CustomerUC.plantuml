@@ -1,4 +1,4 @@
-@startuml test
+@startuml CustomerUC
 
 :customer: as actor
 
