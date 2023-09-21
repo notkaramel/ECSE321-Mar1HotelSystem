@@ -1,7 +1,16 @@
 @startuml CustomerUC
 
-:customer: as actor
+'Actor
+:Customer: as actor
 
-(First use case)
+'Use cases
+(Book a room) as UC1
+(Second use case) as UC2
+
+'Associations
+actor --> UC1: label test
+UC1 --> UC2
+
+
 
 @enduml
