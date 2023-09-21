@@ -1,0 +1,7 @@
+@startuml test
+
+:customer: as actor
+
+(First use case)
+
+@enduml
