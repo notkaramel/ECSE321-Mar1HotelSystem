@@ -5,7 +5,7 @@
 
 'Use cases
 (Book a room) as UC1
-(Second use case) as UC2
+(Receive a room) as UC2
 
 'Associations
 actor --> UC1: label test
