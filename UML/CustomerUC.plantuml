@@ -1,16 +1,20 @@
 @startuml CustomerUC
+left to right direction
 
 'Actor
 :Customer: as actor
+:randomBOI: as actor2
 
 'Use cases
 (Book a room) as UC1
 (Receive a room) as UC2
+(testing) as UC3
 
 'Associations
 actor --> UC1: label test
-UC1 --> UC2
-
+UC1 --> UC2: boi
+actor2 --> UC3
+actor2 --> UC1
 
 
 @enduml
