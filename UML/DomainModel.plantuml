@@ -102,7 +102,7 @@ package MHS <<Rectangle>> {
 
     Manager --> Shift
 
-    Booking -- Payment
+    Booking --> Payment
     Booking --> Request
 
     Room -up- Customer
