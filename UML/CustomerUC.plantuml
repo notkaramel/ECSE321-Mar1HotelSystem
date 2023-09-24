@@ -2,19 +2,23 @@
 left to right direction
 
 'Actor
-:Customer: as actor
-:randomBOI: as actor2
+:Customer: as customer
+:Employee: as employee
 
 'Use cases
 (Book a room) as UC1
-(Receive a room) as UC2
-(testing) as UC3
+(View a booked room) as UC2
+(Request amenities) as UC3
+(Cancel a room) as UC4
 
 'Associations
-actor --> UC1: label test
-UC1 --> UC2: boi
-actor2 --> UC3
-actor2 --> UC1
+customer --> UC1
+customer --> UC2
+customer --> UC3
+customer --> UC4
+UC3 --> employee
+UC4 --> employee
+
 
 
 @enduml
