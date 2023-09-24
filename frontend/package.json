@@ -1,0 +1,14 @@
+{
+  "name": "mhsfrontend",
+  "version": "0.0.1-alpha",
+  "description": "The frontend webpage of Marwaan's Hotel System",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "frontend"
+  ],
+  "author": "Group 5 of ECSE 321 - F23",
+  "license": "MIT"
+}
