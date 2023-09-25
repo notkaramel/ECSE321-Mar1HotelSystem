@@ -14,8 +14,8 @@ displays the price of each room (along with a picture of said room?) and a short
 4. The customer/guest selects the room he wants by clicking on the name(/picture) of the room.
 
 **Alternative/Exceptional steps**
-2. 
-   1. The system times out.
+
+2. 1. The system times out.
        1. The system displays a timeout error message along with an "ok" button.
        2. The customer presses the "ok" button and returns to step 1.
    2. The customer/guest selects a check-in date after the check-out date.
