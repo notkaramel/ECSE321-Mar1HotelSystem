@@ -1,3 +1,3 @@
-Customer stories:
+Customer story:
 
 1) 
