@@ -6,10 +6,11 @@ left to right direction
 :Employee: as employee
 
 'Use cases
-(Book a room) as UC1
-(View a booked room) as UC2
+(Book room) as UC1
+(View booked room) as UC2
 (Request amenities) as UC3
-(Cancel a room) as UC4
+(Cancel room) as UC4
+(Fulfil request) as UC5
 
 'Associations
 customer --> UC1
@@ -17,7 +18,8 @@ customer --> UC2
 customer --> UC3
 customer --> UC4
 UC3 --> employee
-UC4 --> employee
+employee --> UC5
+
 
 
 
