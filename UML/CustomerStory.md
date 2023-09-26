@@ -24,14 +24,16 @@ it is a customer instead of a guest), and 2 buttons: "confirm" and "cancel".
 
 **Alternative/Exceptional steps**
 
-2. 1.  The system times out.
-       1. The system displays a timeout error message along with an "ok" button.
-       2. The customer presses the "ok" button and returns to step 1.
-2. 2.  The customer/guest selects a check-in date after the check-out date.
-       1. The system displays an error stating: "The check-in date cannot be after the check-out date" along with an 
-        "ok" button.
-       2. The customer presses the "ok" button and returns to step 1.
-4. 1.  The system times out.
-       1. The system displays a timeout error message along with an "ok" button.
-       2. The customer presses the "ok" button and returns to step 3, letting the system
+2.1. The system times out.
+1. The system displays a timeout error message along with an "ok" button.
+2. The customer presses the "ok" button and returns to step 1.
+
+2.2. The customer/guest selects a check-in date after the check-out date.
+1. The system displays an error stating: "The check-in date cannot be after the check-out date" along with an "ok" 
+button.
+2. The customer presses the "ok" button and returns to step 1.
+
+4.1. The system times out.
+1. The system displays a timeout error message along with an "ok" button.
+2. The customer presses the "ok" button and returns to step 3, letting the system
        refresh the list of available rooms.
