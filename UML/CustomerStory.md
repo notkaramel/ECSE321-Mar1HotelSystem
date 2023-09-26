@@ -9,17 +9,29 @@ the check-out date and the amount of customer/guests respectively. At the bottom
 a "confirm" button.
 2. The customer/guest selects the check-in date, the check-out date, and enters the total amount of customers/guests
 using the room. Once the customer/guest validates the entered info, he clicks the "confirm" button.
-3. The system displays a list of rooms number available between the dates and the number of customers/guests entered. It also
-displays the price of each room (along with a picture of said room?) and a short description for the room.
+3. The system displays a list of rooms number available between the dates and the number of customers/guests entered.
+It also displays a button tittled: "change information" at the bottom of the page.
+It also displays the price of each room (along with a picture of said room?) and a short description for the room.
 4. The customer/guest selects the room he wants by clicking on the name(/picture) of the room.
+5. The system checks if the room is still available, then displays the room number, the room type, the room description 
+(picture?), and the price. There are also 2 button at the end: "confirm" and "cancel".
+6. The customer/guest clicks "confirm" to confirm the choice of room.
+7. The system displays the payment panel with a text box for the credit card number, the email (automatically filled if
+it is a customer instead of a guest), and 2 buttons: "confirm" and "cancel".
+8. The customer/guest fills out the email and credit card number and clicks on "confirm" to confirm their booking.
+9. The system books the room to the associated customer/guest via the email address.
+
 
 **Alternative/Exceptional steps**
 
-2. 1. The system times out.
-       1. The system displays a timeout error message along with an "ok" button.
-       2. The customer presses the "ok" button and returns to step 1.
-   2. The customer/guest selects a check-in date after the check-out date.
-      1. The system displays an error stating: "The check-in date cannot be after the check-out date" along with an 
-         "ok" button.
-      2. The customer presses the "ok" button and returns to step 1.
-
+2.1 The system times out.
+    1. The system displays a timeout error message along with an "ok" button.
+    2. The customer presses the "ok" button and returns to step 1.
+2.2 The customer/guest selects a check-in date after the check-out date.
+   1. The system displays an error stating: "The check-in date cannot be after the check-out date" along with an 
+      "ok" button.
+   2. The customer presses the "ok" button and returns to step 1.
+4.1 The system times out.
+      1. The system displays a timeout error message along with an "ok" button.
+      2. The customer presses the "ok" button and returns to step 3, letting the system
+      refresh the list of available rooms.
