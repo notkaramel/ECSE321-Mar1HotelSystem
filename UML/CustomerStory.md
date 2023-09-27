@@ -1,4 +1,4 @@
-**Customer stories**
+**Customer story**
 
 **Requirement:** The MHS system shall allow a customer with or without and account to book a specific room type and pay
 for their room booking.
@@ -55,6 +55,21 @@ rooms.
 button.
 2. The customer/guest clicks the "ok" button and returns to step 7 with the credit card number field cleared.
 
-8.2.
+8.2. The email address entered by the customer/guest is invalid.
+1. The system displays the error message stating: "The entered email address is erroneous" along with an "ok"
+   button.
+2. The customer/guest clicks the "ok" button and returns to step 7 with the email address field cleared.
 
-8.3.
+8.3. Both the email address and the credit card number entered by the customer/guest is invalid.
+1. The system displays the error message stating: "Multiple fields are erroneous" along with an "ok"
+   button.
+2. The customer/guest clicks the "ok" button and returns to step 7 with the email address and the credit card number 
+fields cleared.
+
+8.4. The customer/guest clicks the "cancel" button
+1. The system returns the customer/guest to step 7.
+
+9.1. The system times out.
+1. The system displays a timeout error message along with an "ok" button.
+2. The customer/guest presses the "ok" button and returns to step 3, letting the system refresh the list of available
+   rooms.
