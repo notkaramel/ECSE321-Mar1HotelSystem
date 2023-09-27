@@ -1,0 +1,105 @@
+@startuml MHS
+title Marwaan's Hotel System
+skinparam linetype ortho
+top to bottom direction
+
+package MHS <<Rectangle>> {
+    Class User {
+        firstName
+        lastName
+        email
+    }
+
+    Class Account {
+        password
+    }
+
+    Class Employee {
+        type : EmployeeType
+    }
+
+    Class Manager {
+    }
+
+    Class Customer {
+    }
+
+    ' Associations of users
+    User <|-- Account
+    Account <|-- Employee
+    Account <|-- Customer
+    Account <|-- Manager
+
+    ' Employees and their shifts/schedule
+    Class Shift {
+        date
+        startTime
+        endTime
+    }
+
+    Class Schedule
+
+    Employee "1" -right-> "*" Shift
+    Shift "1" -down-* "1..*" Schedule
+
+    ' Room, Booking, Request, Payment 
+    Class Room {
+        type : RoomType
+        bed : BedType
+        isAvailable : boolean
+        pricePerNight : integer
+        maxCapacity : integer
+    }
+
+    Class Hotel {
+        openingHour
+        closingHour
+    }
+
+    Room "70" -up-* "1" Hotel
+
+    Class Booking {
+        # bookingId
+    }
+
+    Booking "1" -left-> "1..*" Room
+    Booking "1" -right-> "1" User
+
+    Class Service {
+        description : string
+    }
+
+    Service "1" -down-> "1" Employee
+    Service "1" -up-> "1" Booking
+
+    Class Payment {
+        amount
+        paymentId
+    }
+
+    Booking "1" -up-> "1" Payment
+
+    together {
+        top to bottom direction
+        enum RoomType <<enum>> {
+            Suite
+            Deluxe
+            Luxury
+            Regular
+        }
+
+        enum BedType <<enum>> {
+            King
+            Queen
+            Doubles
+        }
+
+        enum EmployeeType <<enum>> {
+            KitchenStaff
+            CleaningStaff
+            Reception
+        }
+
+    }
+}
+@enduml
