@@ -15,7 +15,7 @@ package MHS <<Rectangle>> {
     }
 
     Class Employee {
-        type : EmployeeType
+        EmployeeType : EmployeeType
     }
 
     Class Manager {
@@ -25,7 +25,7 @@ package MHS <<Rectangle>> {
     }
 
     ' Associations of users
-    User <|-- Account
+    User    <|-- Account
     Account <|-- Employee
     Account <|-- Customer
     Account <|-- Manager
@@ -37,9 +37,10 @@ package MHS <<Rectangle>> {
         endTime
     }
 
+    Shift "*" -left-> "1" Employee
+
     Class Schedule
 
-    Employee "1" -right-> "*" Shift
     Shift "1" -down-* "1..*" Schedule
 
     ' Room, Booking, Request, Payment 
@@ -51,26 +52,21 @@ package MHS <<Rectangle>> {
         maxCapacity : integer
     }
 
-    Class Hotel {
-        openingHour
-        closingHour
-    }
-
-    Room "70" -up-* "1" Hotel
+    Room "70" -left-* "1" Hotel
 
     Class Booking {
         # bookingId
     }
 
-    Booking "1" -left-> "1..*" Room
+    Booking "1" -left-> "1" Room
     Booking "1" -right-> "1" User
 
-    Class Service {
+    Class Request {
         description : string
     }
 
-    Service "1" -down-> "1" Employee
-    Service "1" -up-> "1" Booking
+    Request "1" -down-> "1" Employee
+    Request "1" -up-> "1" Booking
 
     Class Payment {
         amount
@@ -79,6 +75,33 @@ package MHS <<Rectangle>> {
 
     Booking "1" -up-> "1" Payment
 
+    ' Hotel, Hotel Hours of Operations
+
+    Class Hotel {
+    }
+
+    Hotel "1" -left-> "1" HotelSchedule
+
+    Class HotelSchedule {
+        year
+    }
+
+    Class OperatingHours {
+        day : DayOfWeek
+        openingHour
+        closingHour
+    }
+
+    Class CustomHours {
+        date
+        openingHour
+        closingHour
+    }
+
+    HotelSchedule "1" -down-> "365" CustomHours
+    HotelSchedule "1" -up-> "7" OperatingHours
+
+    
     together {
         top to bottom direction
         enum RoomType <<enum>> {
@@ -100,6 +123,15 @@ package MHS <<Rectangle>> {
             Reception
         }
 
+        enum DayOfWeek <<enum>> {
+            Monday
+            Tuesday
+            Wednesday
+            Thursday
+            Friday
+            Saturday
+            Sunday
+        }
     }
 }
 @enduml
