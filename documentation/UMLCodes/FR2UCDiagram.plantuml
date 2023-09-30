@@ -1,0 +1,28 @@
+@startuml CustomerUC
+'The MHS system shall allow a customer with or without an account to book a
+'specific room type and pay for their room booking
+
+left to right direction
+
+'Actor
+:Customer: as customer
+:Employee: as employee
+:Manager: as manager
+:Guest: as guest
+
+'Use cases
+(Book room) as UC1
+(View room options) as UC2
+(Pay for room) as UC3
+(See booking details) as UC4
+
+'Associations
+customer --> UC2
+UC2 -right.> UC1: extend
+UC1 -right-> UC3
+UC3 -right-> UC4
+guest --> UC2
+UC4 --> manager
+UC4 --> employee
+
+@enduml
