@@ -8,6 +8,7 @@ package MHS <<Rectangle>> {
         firstName
         lastName
         email
+        phone : int
     }
 
     Class Account {
@@ -15,7 +16,7 @@ package MHS <<Rectangle>> {
     }
 
     Class Employee {
-        EmployeeType : EmployeeType
+        hoursWorked : int
     }
 
     Class Manager {
@@ -32,9 +33,9 @@ package MHS <<Rectangle>> {
 
     ' Employees and their shifts/schedule
     Class Shift {
-        date
-        startTime
-        endTime
+        date : date
+        startTime : int
+        endTime : int
     }
 
     Shift "*" -left-> "1" Employee
@@ -48,8 +49,8 @@ package MHS <<Rectangle>> {
         type : RoomType
         bed : BedType
         isAvailable : boolean
-        pricePerNight : integer
-        maxCapacity : integer
+        pricePerNight : int
+        maxCapacity : int
     }
 
     Room "70" -left-* "1" Hotel
@@ -69,8 +70,8 @@ package MHS <<Rectangle>> {
     Request "1" -up-> "1" Booking
 
     Class Payment {
-        amount
-        paymentId
+        amount : int
+        # paymentId 
     }
 
     Booking "1" -up-> "1" Payment
@@ -83,19 +84,19 @@ package MHS <<Rectangle>> {
     Hotel "1" -left-> "1" HotelSchedule
 
     Class HotelSchedule {
-        year
+        year : int
     }
 
     Class OperatingHours {
         day : DayOfWeek
-        openingHour
-        closingHour
+        openingHour : int
+        closingHour : int
     }
 
     Class CustomHours {
-        date
-        openingHour
-        closingHour
+        date : date
+        openingHour : int
+        closingHour : int
     }
 
     HotelSchedule "1" -down-> "365" CustomHours
@@ -115,12 +116,6 @@ package MHS <<Rectangle>> {
             King
             Queen
             Doubles
-        }
-
-        enum EmployeeType <<enum>> {
-            KitchenStaff
-            CleaningStaff
-            Reception
         }
 
         enum DayOfWeek <<enum>> {
