@@ -57,6 +57,7 @@ PASSWORD= # your postgresql password
 │       │   │   └── MarwaanHotelSystemApplication.java # Main app
 │       │   └── resources
 │       │       ├── application.properties # App configuration 
+│       │       ├── .env # Database variables 
 │       │       ├── static
 │       │       └── templates
 │       └── test/java/ca/mcgill/ecse321/MarwaanHotelSystem
