@@ -8,15 +8,15 @@ public class Booking {
 
     public Booking(String bookingId, Payment payment, User user, Room room) {
         this.bookingId = bookingId;
-        if (payment == null || payment == false) {
+        if (setPayment(payment) == false) {
             throw new RuntimeException("Need an payment class to be instatiated; need a payment");
         }
 
-        if (user == null || user == false) {
+        if (setUser(user) == false) {
             throw new RuntimeException("Need an user class to be instatiated; need a user");
         }
 
-        if (room == null || room == false) {
+        if (setRoom(room) == false) {
             throw new RuntimeException("Need an room class to be instatiated; need a room");
         }
     }

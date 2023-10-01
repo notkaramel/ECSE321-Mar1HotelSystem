@@ -16,7 +16,7 @@ public class Shift {
         this.startTime = startTime;
         this.endTime = endTime;
         this.schedules = new ArrayList<Schedule>();
-        if (employee == null || employee == false) {
+        if (setEmployee(employee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
 

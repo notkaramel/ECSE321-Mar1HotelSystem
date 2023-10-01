@@ -5,7 +5,7 @@ public class Hotel {
     private HotelSchedule hotelSchedule;
 
     public Hotel(HotelSchedule hotelSchedule) {
-        if (hotelSchedule == null || hotelSchedule == false) {
+        if (setHotelSchedule(hotelSchedule) == false) {
             throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
         }
     }

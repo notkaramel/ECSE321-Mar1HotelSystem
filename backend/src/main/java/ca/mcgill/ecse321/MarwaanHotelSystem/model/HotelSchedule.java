@@ -13,11 +13,11 @@ public class HotelSchedule {
         this.year = year;
         this.customHoursList = new ArrayList<CustomHours>();
         this.operatingHoursList = new ArrayList<OperatingHours>();
-        if (customHours == null || customHours == false) {
+        if (setCustomHours(customHoursList) == false) {
             throw new RuntimeException("Need an customHours class to be instatiated; need an custom hours");
         }
 
-        if (operatingHours == null || operatingHours == false) {
+        if (setOperatingHours(operatingHours) == false) {
             throw new RuntimeException("Need an operatingHours class to be instatiated; need a operating hours");
         }
 

@@ -7,11 +7,11 @@ public class Request {
 
     public Request(String description, Employee employee, Booking booking) {
         this.description = description;
-        if (employee == null || employee == false) {
+        if (setEmployee(employee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
 
-        if (booking == null || booking == false) {
+        if (setBooking(booking) == false) {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
         }
 
