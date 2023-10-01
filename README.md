@@ -11,6 +11,23 @@ git clone https://github.com/McGill-ECSE321-Fall2023/project-group-05.git
 git clone git@github.com:McGill-ECSE321-Fall2023/project-group-05.git
 ```
 
+- In the `backend/src/main/resources/` folder, add a `.env` file with the following fields:
+```env
+USERNAME=
+PORT=
+HOST=
+DATABASE=
+PASSWORD=
+```
+- For example, the default setting from the tutorial:
+```env
+USERNAME=postgres
+PORT=5432
+HOST=localhost
+DATABASE=event_registration # it should be your hotel system database
+PASSWORD= # your postgresql password
+```
+
 ## The developer team
 | Name | Program - Year | GitHub Profile |
 | ---- | ------- | ----- |
