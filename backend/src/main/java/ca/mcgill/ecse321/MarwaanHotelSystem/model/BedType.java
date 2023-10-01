@@ -2,42 +2,23 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 public class BedType{
     
-    private String queen;
-    private String king;
-    private String doubles;
 
-    public BedType(String queen, String king, String doubles){
-        this.queen = queen;
-        this.king = king;
-        this.doubles = doubles;
+    public enum BedType {Queen, King, Doubles};
+        
+    private BedType bedType;
+
+    public BedType(BedType bedType){
+        this.bedType = bedType;
     }
 
     //Getters
-    public String getQueen(){
-            return this.queen;
-        }
-
-    public String getKing(){
-            return this.king;
-        }
-
-    public String getDouble(){
-            return this.doubles;
-        }
+    public BedType getBedType{
+        return this.bedType;
+    }
 
     //Setters
-    public boolean setQueen(String queen){
-        this.queen = queen;
-        return true;
-    }
-
-    public boolean setKing(String king){
-        this.king = king;
-        return true;
-    }
-
-    public boolean setDouble(String doubles){
-        this.doubles = doubles;
+   public boolean setBedType(BedType bedType){
+        this.bedType = bedType;
         return true;
     }
 
