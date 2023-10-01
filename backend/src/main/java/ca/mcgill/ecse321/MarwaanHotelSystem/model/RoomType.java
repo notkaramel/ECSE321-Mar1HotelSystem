@@ -2,21 +2,21 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 public class RoomType {
 
-    public enum RoomType {Suite, Deluxe, Regular};
+    public enum RoomTypes {Suite, Deluxe, Regular};
         
-    private RoomType roomType;
+    private RoomTypes roomType;
 
-    public RoomType(RoomType roomType){
+    public RoomType(RoomTypes roomType){
         this.roomType = roomType;
     }
 
     //Getters
-    public RoomType getRoomType{
+    public RoomTypes getRoomType(){
         return this.roomType;
     }
 
     //Setters
-   public boolean setRoomType(RoomType roomType){
+   public boolean setRoomType(RoomTypes roomType){
         this.roomType = roomType;
         return true;
     }

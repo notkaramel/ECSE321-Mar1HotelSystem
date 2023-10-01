@@ -9,7 +9,7 @@ public class HotelSchedule {
     private List<CustomHours> customHoursList;
     private List<OperatingHours> operatingHoursList;
 
-    public HotelSchedule(int year, OperatingHours... operatingHours, CustomHours... customHoursList) {
+    public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
         this.year = year;
         this.customHoursList = new ArrayList<CustomHours>();
         this.operatingHoursList = new ArrayList<OperatingHours>();
@@ -17,7 +17,7 @@ public class HotelSchedule {
             throw new RuntimeException("Need an customHours class to be instatiated; need an custom hours");
         }
 
-        if (setOperatingHours(operatingHours) == false) {
+        if (setOperatingHours(operatingHoursList) == false) {
             throw new RuntimeException("Need an operatingHours class to be instatiated; need a operating hours");
         }
 
@@ -28,14 +28,6 @@ public class HotelSchedule {
         return this.year;
     }
 
-    public CustomHours getCustomHours() {
-        return this.customHours;
-    }
-
-    public OperatingHours getOperatingHours() {
-        return this.operatingHours;
-    }
-
     // Setters
     public boolean setYear(int year) {
         this.year = year;
@@ -44,7 +36,7 @@ public class HotelSchedule {
 
     // 7 association
     public List<OperatingHours> getOperatingHours() {
-        List<OperatingHours> newOperatingHours = Collections.unmodifiableList(this.operatingHours);
+        List<OperatingHours> newOperatingHours = Collections.unmodifiableList(this.operatingHoursList);
         return newOperatingHours;
     }
 
@@ -73,14 +65,14 @@ public class HotelSchedule {
                 || theOperatingHoursList.size() != requiredNumberOfOperatingHours()) {
             return false;
         }
-        this.operatingHours.clear();
-        this.operatingHours.addAll(theOperatingHoursList);
+        this.operatingHoursList.clear();
+        this.operatingHoursList.addAll(theOperatingHoursList);
         return true;
     }
 
     // 365 association to CustomHour
     public List<CustomHours> getCustomHours() {
-        List<CustomHours> newCustomHours = Collections.unmodifiableList(this.customHours);
+        List<CustomHours> newCustomHours = Collections.unmodifiableList(this.customHoursList);
         return newCustomHours;
     }
 
@@ -109,14 +101,14 @@ public class HotelSchedule {
                 || theCustomHoursList.size() != requiredNumberOfCustomHours()) {
             return false;
         }
-        this.customHours.clear();
-        this.customHours.addAll(theCustomHoursList);
+        this.customHoursList.clear();
+        this.customHoursList.addAll(theCustomHoursList);
         return true;
     }
 
     public void delete() {
-        this.operatingHours = null;
-        this.customHours = null;
+        this.operatingHoursList = null;
+        this.customHoursList = null;
     }
 
 }
