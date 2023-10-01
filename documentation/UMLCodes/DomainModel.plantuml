@@ -33,7 +33,7 @@ package MHS <<Rectangle>> {
 
     ' Employees and their shifts/schedule
     Class Shift {
-        date : date
+        date : Date
         startTime : int
         endTime : int
     }
@@ -42,7 +42,7 @@ package MHS <<Rectangle>> {
 
     Class Schedule
 
-    Shift "1" -down-* "1..*" Schedule
+    Shift "1..*" -down-* "1" Schedule
 
     ' Room, Booking, Request, Payment 
     Class Room {
@@ -63,7 +63,7 @@ package MHS <<Rectangle>> {
     Booking "1" -right-> "1" User
 
     Class Request {
-        description : string
+        description
     }
 
     Request "1" -down-> "1" Employee
@@ -94,7 +94,7 @@ package MHS <<Rectangle>> {
     }
 
     Class CustomHours {
-        date : date
+        date : Date
         openingHour : int
         closingHour : int
     }
