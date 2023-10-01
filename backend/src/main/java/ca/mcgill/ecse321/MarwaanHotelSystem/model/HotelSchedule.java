@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HotelSchedule {
@@ -46,15 +48,15 @@ public class HotelSchedule {
         return newOperatingHours;
     }
 
-    public static int requiredNumberOfOperatingHours(){
+    public static int requiredNumberOfOperatingHours() {
         return 7;
     }
 
-    public static int minimumdNumberOfOperatingHours(){
+    public static int minimumdNumberOfOperatingHours() {
         return 7;
     }
 
-    public static int maximumNumberOfOperatingHours(){
+    public static int maximumNumberOfOperatingHours() {
         return 7;
     }
 
@@ -82,16 +84,16 @@ public class HotelSchedule {
         return newCustomHours;
     }
 
-    public static int requiredNumberOfCustomHours(){
-        return 365
+    public static int requiredNumberOfCustomHours() {
+        return 365;
     }
 
-    public static int minimumdNumberOfCustomHours(){
-        return 365
+    public static int minimumdNumberOfCustomHours() {
+        return 365;
     }
 
-    public static int maximumNumberOfCustomHours(){
-        return 365
+    public static int maximumNumberOfCustomHours() {
+        return 365;
     }
 
     public boolean setCustomHours(CustomHours... newCustomHours) {
