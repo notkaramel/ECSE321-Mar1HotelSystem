@@ -1,4 +1,4 @@
-import java.util.*;
+package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 public class Payment{
     // Defining variables

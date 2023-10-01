@@ -1,4 +1,6 @@
-public BedType{
+package ca.mcgill.ecse321.MarwaanHotelSystem.model;
+
+public class BedType{
     
     private String queen;
     private String king;
@@ -42,7 +44,4 @@ public BedType{
     public void delete(){
         
     }
-
-
-
 }
