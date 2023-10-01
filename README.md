@@ -52,8 +52,9 @@ PASSWORD= # your postgresql password
 │   ├── HELP.md
 │   ├── settings.gradle
 │   └── src
-│       ├── main/java/ca/mcgill/ecse321/MarwaanHotelSystem
-│       │   ├── MarwaanHotelSystemApplication.java # Main app
+│       ├── main
+│       │   ├── java/ca/mcgill/ecse321/MarwaanHotelSystem
+│       │   │   └── MarwaanHotelSystemApplication.java # Main app
 │       │   └── resources
 │       │       ├── application.properties # App configuration 
 │       │       ├── static
