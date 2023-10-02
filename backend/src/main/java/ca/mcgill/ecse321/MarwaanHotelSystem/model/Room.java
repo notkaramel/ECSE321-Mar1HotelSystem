@@ -8,8 +8,8 @@ public class Room {
     boolean isAvailable;
     int pricePerNight;
     int maxCapacity;
-
-    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity){
+    private Hotel hotel;
+    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel){
         this.roomType = roomType;
         this.bedType = bedType;
         this.isAvailable = isAvailable;
@@ -42,6 +42,29 @@ public class Room {
         return true;
     }
 
+    public boolean setHotel(Hotel hotel){
+        if(hotel == null){
+            return false;
+        }
+        if(hotel.getNumberOfRooms() >= Hotel.maximumNumberOfRooms()){
+            return false;
+        }
+
+        Hotel existingHotel = this.hotel;
+        this.hotel = hotel;
+        if(existingHotel != null && existingHotel.equals(hotel) == false){
+            if(existingHotel.removeRoom(this) == false){
+                this.hotel = existingHotel;
+                return false;
+            }
+
+        }
+
+        this.hotel.addRoom(this);
+        return true;
+        
+    }
+
     // Getters
     public RoomType getRoomType() {
         return this.roomType;
@@ -63,4 +86,14 @@ public class Room {
         return this.maxCapacity;
     }
 
+    public Hotel getHotel(){
+        return this.hotel;
+    }
+    public void delete(){
+        Hotel hotel = this.hotel;
+        this.hotel = null;
+        if(hotel != null){
+        hotel.removeRoom(this);
+        }
+    }
 }
