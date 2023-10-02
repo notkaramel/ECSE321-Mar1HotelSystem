@@ -41,9 +41,9 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model {
 
     Shift "*" -down-> "1" Employee
 
-    Class Schedule
+    ' Class Schedule
 
-    Shift "1..*" -down-* "1" Schedule
+    ' Shift "1..*" -down-* "1" Schedule
 
     ' Room, Booking, Request, Payment
     Class Room {
