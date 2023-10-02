@@ -12,7 +12,8 @@ public class Shift {
     private Employee employee;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public Shift(Employee employee, Date date, int startTime, int endTime, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+    public Shift(Employee employee, Date date, int startTime, int endTime,
+            MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -20,9 +21,9 @@ public class Shift {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
 
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
             throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
-          }
+        }
 
     }
 
@@ -69,41 +70,35 @@ public class Shift {
         }
     }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
-    {
-      return marwaanHotelSystemApplication;
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
+        return marwaanHotelSystemApplication;
     }
-   
-    protected void clear_marwaanHotelSystemApplication()
-    {
-      marwaanHotelSystemApplication = null;
+
+    protected void clear_marwaanHotelSystemApplication() {
+        marwaanHotelSystemApplication = null;
     }
-   
-   
-    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
-    {
-      if (marwaanHotelSystemApplication == null)
-      {
-        return false;
-      }
-  
-      MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-      this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-      if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
-      {
-        existingMarwaanHotelSystemApplication.removeShift(this);
-        return false;
-      }
-      marwaanHotelSystemApplication.addShift(this);
-      return true;
+
+    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+        if (marwaanHotelSystemApplication == null) {
+            return false;
+        }
+
+        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        if (existingMarwaanHotelSystemApplication != null
+                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
+            existingMarwaanHotelSystemApplication.removeShift(this);
+            return false;
+        }
+        marwaanHotelSystemApplication.addShift(this);
+        return true;
     }
 
     public void delete() {
         MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
         this.marwaanHotelSystemApplication = null;
-        if(placeholderMarwaanHotelSystemApplication != null)
-        {
-          placeholderMarwaanHotelSystemApplication.removeShift(this);
+        if (placeholderMarwaanHotelSystemApplication != null) {
+            placeholderMarwaanHotelSystemApplication.removeShift(this);
         }
         this.employee = null;
     }

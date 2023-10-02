@@ -6,9 +6,9 @@ public class Account extends User {
 
     // Defining Variables
     private String password;
-   
 
-    public Account(String firstName, String lastName, String email, int phoneNumber, String password, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+    public Account(String firstName, String lastName, String email, int phoneNumber, String password,
+            MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         super(firstName, lastName, email, phoneNumber, marwaanHotelSystemApplication);
         this.password = password;
     }
@@ -21,8 +21,6 @@ public class Account extends User {
     public String getPassword() {
         return this.password;
     }
-
-   
 
     public void delete() {
         super.delete();

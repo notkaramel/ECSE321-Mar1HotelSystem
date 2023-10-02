@@ -13,15 +13,16 @@ public class Room {
     private Hotel hotel;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel, MarwaanHotelSystemApplication marwaanHotelSystemApplication){
+    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
+            Hotel hotel, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.roomType = roomType;
         this.bedType = bedType;
         this.isAvailable = isAvailable;
         this.pricePerNight = pricePerNight;
         this.maxCapacity = maxCapacity;
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
             throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
-          }
+        }
 
     }
 
@@ -50,18 +51,18 @@ public class Room {
         return true;
     }
 
-    public boolean setHotel(Hotel hotel){
-        if(hotel == null){
+    public boolean setHotel(Hotel hotel) {
+        if (hotel == null) {
             return false;
         }
-        if(hotel.getNumberOfRooms() >= Hotel.maximumNumberOfRooms()){
+        if (hotel.getNumberOfRooms() >= Hotel.maximumNumberOfRooms()) {
             return false;
         }
 
         Hotel existingHotel = this.hotel;
         this.hotel = hotel;
-        if(existingHotel != null && existingHotel.equals(hotel) == false){
-            if(existingHotel.removeRoom(this) == false){
+        if (existingHotel != null && existingHotel.equals(hotel) == false) {
+            if (existingHotel.removeRoom(this) == false) {
                 this.hotel = existingHotel;
                 return false;
             }
@@ -70,7 +71,7 @@ public class Room {
 
         this.hotel.addRoom(this);
         return true;
-        
+
     }
 
     // Getters
@@ -94,50 +95,44 @@ public class Room {
         return this.maxCapacity;
     }
 
-    public Hotel getHotel(){
+    public Hotel getHotel() {
         return this.hotel;
     }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
-    {
-      return marwaanHotelSystemApplication;
-    }
-   
-    protected void clear_marwaanHotelSystemApplication()
-    {
-      marwaanHotelSystemApplication = null;
-    }
-   
-   
-    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
-    {
-      if (marwaanHotelSystemApplication == null)
-      {
-        return false;
-      }
-  
-      MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-      this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-      if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
-      {
-        existingMarwaanHotelSystemApplication.removeRoom(this);
-        return false;
-      }
-      marwaanHotelSystemApplication.addRoom(this);
-      return true;
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
+        return marwaanHotelSystemApplication;
     }
 
-    public void delete(){
+    protected void clear_marwaanHotelSystemApplication() {
+        marwaanHotelSystemApplication = null;
+    }
+
+    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+        if (marwaanHotelSystemApplication == null) {
+            return false;
+        }
+
+        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        if (existingMarwaanHotelSystemApplication != null
+                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
+            existingMarwaanHotelSystemApplication.removeRoom(this);
+            return false;
+        }
+        marwaanHotelSystemApplication.addRoom(this);
+        return true;
+    }
+
+    public void delete() {
         Hotel hotel = this.hotel;
         this.hotel = null;
-        if(hotel != null){
-        hotel.removeRoom(this);
+        if (hotel != null) {
+            hotel.removeRoom(this);
         }
         MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
         this.marwaanHotelSystemApplication = null;
-        if(placeholderMarwaanHotelSystemApplication != null)
-        {
-        placeholderMarwaanHotelSystemApplication.removeRoom(this);
+        if (placeholderMarwaanHotelSystemApplication != null) {
+            placeholderMarwaanHotelSystemApplication.removeRoom(this);
         }
     }
 }

@@ -8,7 +8,8 @@ public class Request {
     private Booking booking;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public Request(String description, Employee employee, Booking booking, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+    public Request(String description, Employee employee, Booking booking,
+            MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.description = description;
         if (setEmployee(employee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
@@ -18,9 +19,9 @@ public class Request {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
         }
 
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
             throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
-          }
+        }
 
     }
 
@@ -61,42 +62,36 @@ public class Request {
         }
     }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
-  {
-    return marwaanHotelSystemApplication;
-  }
- 
-  protected void clear_marwaanHotelSystemApplication()
-  {
-    marwaanHotelSystemApplication = null;
-  }
- 
- 
-  public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
-  {
-    if (marwaanHotelSystemApplication == null)
-    {
-      return false;
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
+        return marwaanHotelSystemApplication;
     }
 
-    MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-    this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-    if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
-    {
-      existingMarwaanHotelSystemApplication.removeRequest(this);
-      return false;
+    protected void clear_marwaanHotelSystemApplication() {
+        marwaanHotelSystemApplication = null;
     }
-    marwaanHotelSystemApplication.addRequest(this);
-    return true;
-  }
+
+    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+        if (marwaanHotelSystemApplication == null) {
+            return false;
+        }
+
+        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        if (existingMarwaanHotelSystemApplication != null
+                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
+            existingMarwaanHotelSystemApplication.removeRequest(this);
+            return false;
+        }
+        marwaanHotelSystemApplication.addRequest(this);
+        return true;
+    }
 
     public void delete() {
 
         MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
         this.marwaanHotelSystemApplication = null;
-        if(placeholderMarwaanHotelSystemApplication != null)
-        {
-        placeholderMarwaanHotelSystemApplication.removeRequest(this);
+        if (placeholderMarwaanHotelSystemApplication != null) {
+            placeholderMarwaanHotelSystemApplication.removeRequest(this);
         }
 
         this.employee = null;
