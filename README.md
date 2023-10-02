@@ -35,8 +35,9 @@ git clone git@github.com:McGill-ECSE321-Fall2023/project-group-05.git
 │   ├── HELP.md
 │   ├── settings.gradle
 │   └── src
-│       ├── main/java/ca/mcgill/ecse321/MarwaanHotelSystem
-│       │   ├── MarwaanHotelSystemApplication.java # Main app
+│       ├── main
+│       │   ├── java/ca/mcgill/ecse321/MarwaanHotelSystem
+│       │   │   └── MarwaanHotelSystemApplication.java # Main app
 │       │   └── resources
 │       │       ├── application.properties # App configuration 
 │       │       ├── static
