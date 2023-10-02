@@ -3,16 +3,24 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+
 public class Hotel {
 
     private HotelSchedule hotelSchedule;
     private List<Room> rooms;
+    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public Hotel(HotelSchedule hotelSchedule) {
+    public Hotel(HotelSchedule hotelSchedule, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         rooms = new ArrayList<Room>();
         if (setHotelSchedule(hotelSchedule) == false) {
             throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
         }
+
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+          }
+
     }
 
     // Getters
@@ -108,6 +116,35 @@ public class Hotel {
         return true;
      }
 
+     public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
+  {
+    return marwaanHotelSystemApplication;
+  }
+ 
+  protected void clear_marwaanHotelSystemApplication()
+  {
+    marwaanHotelSystemApplication = null;
+  }
+ 
+ 
+  public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
+  {
+    if (marwaanHotelSystemApplication == null)
+    {
+      return false;
+    }
+
+    MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+    this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+    if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
+    {
+      existingMarwaanHotelSystemApplication.removeHotel(this);
+      return false;
+    }
+    marwaanHotelSystemApplication.addHotel(this);
+    return true;
+  }
+
 
     public void delete() {
         this.hotelSchedule = null;
@@ -115,7 +152,13 @@ public class Hotel {
             Room room = this.rooms.get(this.rooms.size()-1);
             room.delete();
             this.rooms.remove(room);
-}
+            }
+            MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+            this.marwaanHotelSystemApplication = null;
+            if(placeholderMarwaanHotelSystemApplication != null)
+            {
+            placeholderMarwaanHotelSystemApplication.removeHotel(this);
+            }
     }
 
 }

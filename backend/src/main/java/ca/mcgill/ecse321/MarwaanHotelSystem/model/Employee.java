@@ -1,13 +1,15 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
+import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+
 public class Employee extends Account {
 
     // Defining Variables
     int hoursWorked;
 
     public Employee(String firstName, String lastName, String email, int phoneNumber, String password,
-            int hoursWorked) {
-        super(firstName, lastName, email, phoneNumber, password);
+            int hoursWorked, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+        super(firstName, lastName, email, phoneNumber, password, marwaanHotelSystemApplication);
         this.hoursWorked = hoursWorked;
     }
 

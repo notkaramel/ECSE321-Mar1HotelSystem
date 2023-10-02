@@ -1,22 +1,28 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+
+import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 
 public class Shift {
 
-    private String date;
-    private String startTime;
-    private String endTime;
+    private Date date;
+    private int startTime;
+    private int endTime;
     private Employee employee;
+    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public Shift(Employee employee, String date, String startTime, String endTime) {
+    public Shift(Employee employee, Date date, int startTime, int endTime, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         if (setEmployee(employee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
+
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+          }
 
     }
 
@@ -25,31 +31,31 @@ public class Shift {
         return this.employee;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return this.date;
     }
 
-    public String getStartTime() {
+    public int getStartTime() {
         return this.startTime;
     }
 
-    public String getEndTime() {
+    public int getEndTime() {
         return this.endTime;
     }
 
     // Setters
 
-    public boolean setDate(String date) {
+    public boolean setDate(Date date) {
         this.date = date;
         return true;
     }
 
-    public boolean setStartTime(String startTime) {
+    public boolean setStartTime(int startTime) {
         this.startTime = startTime;
         return true;
     }
 
-    public boolean setEndTime(String endTime) {
+    public boolean setEndTime(int endTime) {
         this.endTime = endTime;
         return true;
     }
@@ -63,7 +69,42 @@ public class Shift {
         }
     }
 
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
+    {
+      return marwaanHotelSystemApplication;
+    }
+   
+    protected void clear_marwaanHotelSystemApplication()
+    {
+      marwaanHotelSystemApplication = null;
+    }
+   
+   
+    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
+    {
+      if (marwaanHotelSystemApplication == null)
+      {
+        return false;
+      }
+  
+      MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+      this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+      if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
+      {
+        existingMarwaanHotelSystemApplication.removeShift(this);
+        return false;
+      }
+      marwaanHotelSystemApplication.addShift(this);
+      return true;
+    }
+
     public void delete() {
+        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = null;
+        if(placeholderMarwaanHotelSystemApplication != null)
+        {
+          placeholderMarwaanHotelSystemApplication.removeShift(this);
+        }
         this.employee = null;
     }
 }

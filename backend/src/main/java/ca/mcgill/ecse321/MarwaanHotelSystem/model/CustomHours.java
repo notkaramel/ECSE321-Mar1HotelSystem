@@ -2,16 +2,24 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 import java.util.Date;
 
+import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+
 public class CustomHours {
     // Defining variables
     private Date date;
     private int openingHour;
     private int closingHour;
+    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public CustomHours(Date date, int openingHour, int closingHour) {
+    public CustomHours(Date date, int openingHour, int closingHour, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.date = date;
         this.openingHour = openingHour;
         this.closingHour = closingHour;
+
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+          }
+
     }
 
     // Getters
@@ -43,8 +51,43 @@ public class CustomHours {
         return true;
     }
 
-    public void delete() {
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
+  {
+    return marwaanHotelSystemApplication;
+  }
+ 
+  protected void clear_marwaanHotelSystemApplication()
+  {
+    marwaanHotelSystemApplication = null;
+  }
+ 
+ 
+  public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
+  {
+    if (marwaanHotelSystemApplication == null)
+    {
+      return false;
+    }
 
+    MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+    this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+    if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
+    {
+      existingMarwaanHotelSystemApplication.removeCustomHours(this);
+      return false;
+    }
+    marwaanHotelSystemApplication.addCustomHours(this);
+    return true;
+  }
+
+    public void delete() {
+        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = null;
+        if(placeholderMarwaanHotelSystemApplication != null)
+        {
+          placeholderMarwaanHotelSystemApplication.removeCustomHours(this);
+        }
+        
     }
 
 }

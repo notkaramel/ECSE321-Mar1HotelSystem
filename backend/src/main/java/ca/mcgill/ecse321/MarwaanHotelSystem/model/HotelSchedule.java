@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+
 public class HotelSchedule {
     private int year;
     private List<CustomHours> customHoursList;
     private List<OperatingHours> operatingHoursList;
+    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
+    public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.year = year;
         this.customHoursList = new ArrayList<CustomHours>();
         this.operatingHoursList = new ArrayList<OperatingHours>();
@@ -20,6 +23,10 @@ public class HotelSchedule {
         if (setOperatingHours(operatingHoursList) == false) {
             throw new RuntimeException("Need an operatingHours class to be instatiated; need a operating hours");
         }
+
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+          }
 
     }
 
@@ -106,7 +113,43 @@ public class HotelSchedule {
         return true;
     }
 
+
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
+  {
+    return marwaanHotelSystemApplication;
+  }
+ 
+  protected void clear_marwaanHotelSystemApplication()
+  {
+    marwaanHotelSystemApplication = null;
+  }
+ 
+ 
+  public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
+  {
+    if (marwaanHotelSystemApplication == null)
+    {
+      return false;
+    }
+
+    MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+    this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+    if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
+    {
+      existingMarwaanHotelSystemApplication.removeHotelSchedule(this);
+      return false;
+    }
+    marwaanHotelSystemApplication.addHotelSchedule(this);
+    return true;
+  }
+
     public void delete() {
+        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = null;
+        if(placeholderMarwaanHotelSystemApplication != null)
+        {
+        placeholderMarwaanHotelSystemApplication.removeHotelSchedule(this);
+        }
         this.operatingHoursList = null;
         this.customHoursList = null;
     }

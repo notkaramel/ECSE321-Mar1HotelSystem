@@ -1,12 +1,15 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
+import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+
 public class Booking {
     private String bookingId;
     private Payment payment;
     private User user;
     private Room room;
+    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public Booking(String bookingId, Payment payment, User user, Room room) {
+    public Booking(String bookingId, Payment payment, User user, Room room, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.bookingId = bookingId;
         if (setPayment(payment) == false) {
             throw new RuntimeException("Need an payment class to be instatiated; need a payment");
@@ -19,6 +22,9 @@ public class Booking {
         if (setRoom(room) == false) {
             throw new RuntimeException("Need an room class to be instatiated; need a room");
         }
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+          }
     }
 
     // Getters
@@ -71,7 +77,42 @@ public class Booking {
         }
     }
 
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
+  {
+    return marwaanHotelSystemApplication;
+  }
+ 
+  protected void clear_marwaanHotelSystemApplication()
+  {
+    marwaanHotelSystemApplication = null;
+  }
+ 
+ 
+  public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
+  {
+    if (marwaanHotelSystemApplication == null)
+    {
+      return false;
+    }
+
+    MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+    this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+    if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
+    {
+      existingMarwaanHotelSystemApplication.removeBooking(this);
+      return false;
+    }
+    marwaanHotelSystemApplication.addBooking(this);
+    return true;
+  }
+
     public void delete() {
+        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = null;
+        if(placeholderMarwaanHotelSystemApplication != null)
+        {
+        placeholderMarwaanHotelSystemApplication.removeBooking(this);
+        }
         this.payment = null;
         this.user = null;
         this.room = null;

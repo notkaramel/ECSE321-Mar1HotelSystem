@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
+import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+
 public class Room {
 
     // Defining Variables
@@ -9,12 +11,18 @@ public class Room {
     int pricePerNight;
     int maxCapacity;
     private Hotel hotel;
-    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel){
+    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
+
+    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel, MarwaanHotelSystemApplication marwaanHotelSystemApplication){
         this.roomType = roomType;
         this.bedType = bedType;
         this.isAvailable = isAvailable;
         this.pricePerNight = pricePerNight;
         this.maxCapacity = maxCapacity;
+        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false){
+            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+          }
+
     }
 
     public boolean setRoomType(RoomType roomType) {
@@ -89,11 +97,47 @@ public class Room {
     public Hotel getHotel(){
         return this.hotel;
     }
+
+    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication()
+    {
+      return marwaanHotelSystemApplication;
+    }
+   
+    protected void clear_marwaanHotelSystemApplication()
+    {
+      marwaanHotelSystemApplication = null;
+    }
+   
+   
+    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication)
+    {
+      if (marwaanHotelSystemApplication == null)
+      {
+        return false;
+      }
+  
+      MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+      this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+      if (existingMarwaanHotelSystemApplication != null && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication))
+      {
+        existingMarwaanHotelSystemApplication.removeRoom(this);
+        return false;
+      }
+      marwaanHotelSystemApplication.addRoom(this);
+      return true;
+    }
+
     public void delete(){
         Hotel hotel = this.hotel;
         this.hotel = null;
         if(hotel != null){
         hotel.removeRoom(this);
+        }
+        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = null;
+        if(placeholderMarwaanHotelSystemApplication != null)
+        {
+        placeholderMarwaanHotelSystemApplication.removeRoom(this);
         }
     }
 }
