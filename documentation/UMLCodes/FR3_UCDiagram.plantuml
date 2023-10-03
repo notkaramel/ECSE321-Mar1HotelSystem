@@ -4,8 +4,8 @@ left to right direction
 :Customer: as c
 
 package MHS {
-    (Delete Account)
     (Create Account)
+    (Delete Account)
 }
 
 c --> (Create Account)
