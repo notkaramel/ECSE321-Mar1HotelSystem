@@ -1,0 +1,14 @@
+@startuml FR3
+title FR3: The MHS shall allow a customer to create and delete their account.
+left to right direction
+:Customer: as c
+
+package MHS {
+    (Delete Account)
+    (Create Account)
+}
+
+c --> (Create Account)
+c --> (Delete Account)
+
+@enduml
