@@ -122,7 +122,5 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model {
             Saturday
             Sunday
         }
-    
-
 }
 @enduml
