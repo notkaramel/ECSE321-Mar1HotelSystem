@@ -1,36 +1,34 @@
 @startuml CustomerUC
-'title FR2 - The MHS system shall allow a customer with or without an account to book a
-'specific room type and pay for their room booking
+title
+FR2 - The MHS system shall allow a customer with or without an account
+to book a specific room type and pay for their room booking
+end title
 
 left to right direction
 
 'Actor
 :Customer: as customer
-:Employee: as employee
-:Manager: as manager
 :Guest: as guest
 
 'Use cases
 package MHS {
     (Book room) as UC1
-    (View room options) as UC2
+    (Select room) as UC2
     (Pay for room) as UC3
-    (See booking details) as UC4
+    (Enter personal information) as UC4
     (Log in) as UC5
     (Enter credentials) as UC6
-    (Invalid login information error) as UC7
+    (Enter room criteria) as UC7
 }
 
 'Associations
-customer --> UC5
+customer --> UC1
 UC2 -right.> UC1: <<includes>>
-UC3 -left.> UC1: <<includes>>
-UC4 -left.> UC3: <<includes>>
-guest --> UC6
-employee -up-> UC4
-manager -up-> UC4
-UC7 -left.> UC5: <<extends>>
-UC5 -.> UC1: <<includes>>
-UC6 -.> UC1: <<includes>>
+UC3 -up.> UC1: <<includes>>
+guest --> UC1
+UC4 -up.> UC1: <<includes>>
+UC5 -left.> UC1: <<extends>>
+UC6 -up.> UC5: <<includes>>
+UC7 -up.> UC2: <<includes>>
 
 @enduml
