@@ -11,18 +11,26 @@ left to right direction
 :Guest: as guest
 
 'Use cases
-(Book room) as UC1
-(View room options) as UC2
-(Pay for room) as UC3
-(See booking details) as UC4
+package MHS {
+    (Book room) as UC1
+    (View room options) as UC2
+    (Pay for room) as UC3
+    (See booking details) as UC4
+    (Log in) as UC5
+    (Enter credentials) as UC6
+    (Invalid login information error) as UC7
+}
 
 'Associations
-customer --> UC2
-UC2 -right.> UC1: extend
-UC1 -right-> UC3
-UC3 -right-> UC4
-guest --> UC2
+customer --> UC5
+UC2 -right.> UC1: <<includes>>
+UC3 -left.> UC1: <<includes>>
+UC4 -left.> UC3: <<includes>>
+guest --> UC6
 UC4 --> manager
 UC4 --> employee
+UC7 -left.> UC5: <<extends>>
+UC5 -.> UC1: <<includes>>
+UC6 -.> UC1: <<includes>>
 
 @enduml
