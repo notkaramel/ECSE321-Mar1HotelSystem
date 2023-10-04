@@ -1,0 +1,16 @@
+@startuml FR10
+title FR10: The MHS shall allow the user to change their account email and password by himself.
+left to right direction
+:Customer: as c
+
+package MHS {
+    (Login to Account)
+    (Update Password)
+    (Update email)
+}
+
+c --> (Login to Account)
+(Login to Account) --> (Update Password)
+(Login to Account) --> (Update email)
+
+@enduml
