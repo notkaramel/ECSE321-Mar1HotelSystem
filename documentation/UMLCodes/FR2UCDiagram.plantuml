@@ -1,5 +1,5 @@
 @startuml CustomerUC
-'The MHS system shall allow a customer with or without an account to book a
+'title FR2 - The MHS system shall allow a customer with or without an account to book a
 'specific room type and pay for their room booking
 
 left to right direction
