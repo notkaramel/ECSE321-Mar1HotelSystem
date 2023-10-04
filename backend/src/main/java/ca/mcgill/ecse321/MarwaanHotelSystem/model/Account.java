@@ -2,7 +2,7 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 
-public class Account extends User {
+public abstract class Account extends User {
 
     // Defining Variables
     private String password;
