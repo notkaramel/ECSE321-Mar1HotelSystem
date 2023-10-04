@@ -27,8 +27,8 @@ UC2 -right.> UC1: <<includes>>
 UC3 -left.> UC1: <<includes>>
 UC4 -left.> UC3: <<includes>>
 guest --> UC6
-UC4 --> manager
-UC4 --> employee
+employee -up-> UC4
+manager -up-> UC4
 UC7 -left.> UC5: <<extends>>
 UC5 -.> UC1: <<includes>>
 UC6 -.> UC1: <<includes>>
