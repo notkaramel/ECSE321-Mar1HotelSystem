@@ -7,12 +7,15 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
+@RestController
 @SpringBootApplication
 public class Mar1HotelSystemApplication {
 
@@ -27,6 +30,13 @@ public class Mar1HotelSystemApplication {
 	private List<Shift> shifts;
 	private List<Room> rooms;
 
+	// ----- CRUD -----
+	@RequestMapping("/")
+	public String greeting() {
+		return "Hello world!";
+	}
+	// ----- end of CRUD -----
+	
 	public Mar1HotelSystemApplication() {
 		users = new ArrayList<User>();
 		requests = new ArrayList<Request>();
