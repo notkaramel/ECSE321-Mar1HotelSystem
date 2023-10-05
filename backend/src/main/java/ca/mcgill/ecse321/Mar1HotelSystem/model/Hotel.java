@@ -1,3 +1,4 @@
+// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import java.util.ArrayList;
@@ -21,11 +22,13 @@ public class Hotel {
     }
 
     // Getters
+    // Method to get hotelSchedule, returns hotelSchedule
     public HotelSchedule getHotelSchedule() {
         return this.hotelSchedule;
     }
 
     // Setters
+    // Method to set hotelSchedule, returns true if hotelSchedule set
     public boolean setHotelSchedule(HotelSchedule hotelSchedule) {
         if (hotelSchedule != null) {
             this.hotelSchedule = hotelSchedule;
@@ -35,7 +38,7 @@ public class Hotel {
         }
     }
 
-    // For Composition
+    // Methods for Composition with Room
     public Room getRoom(int index) {
         Room room = this.rooms.get(index);
         return room;

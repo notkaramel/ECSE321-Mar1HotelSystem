@@ -1,8 +1,11 @@
+// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 @Entity
 public class Room {
@@ -10,7 +13,11 @@ public class Room {
     // Defining Variables
     @Id
     private int roomId;
+
+    @Enumerated(EnumType.STRING)
     RoomType roomType;
+
+    @Enumerated(EnumType.STRING)
     BedType bedType;
     boolean isAvailable;
     int pricePerNight;

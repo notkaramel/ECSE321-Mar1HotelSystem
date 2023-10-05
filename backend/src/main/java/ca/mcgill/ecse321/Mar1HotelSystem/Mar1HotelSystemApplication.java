@@ -1,3 +1,4 @@
+// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem;
 
 import org.springframework.boot.SpringApplication;

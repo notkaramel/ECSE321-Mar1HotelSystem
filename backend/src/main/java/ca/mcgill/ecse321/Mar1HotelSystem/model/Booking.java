@@ -1,3 +1,4 @@
+// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.Entity;
@@ -58,11 +59,13 @@ public class Booking {
     }
 
     // Setters
+    // Method to set bookingId, returns true if bookingId set
     public boolean setBookingId(int bookingId) {
         this.bookingId = bookingId;
         return true;
     }
 
+    // Method to set payment, returns true if payment set
     public boolean setPayment(Payment payment) {
         if (payment != null) {
             this.payment = payment;
@@ -72,6 +75,7 @@ public class Booking {
         }
     }
 
+    // Method to set user, returns true if user set
     public boolean setUser(User user) {
         if (user != null) {
             this.user = user;
@@ -81,6 +85,7 @@ public class Booking {
         }
     }
 
+    // Method to set room, returns true if room set
     public boolean setRoom(Room room) {
         if (room != null) {
             this.room = room;

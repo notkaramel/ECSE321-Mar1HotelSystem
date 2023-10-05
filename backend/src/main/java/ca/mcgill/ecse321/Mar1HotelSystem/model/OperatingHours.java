@@ -1,10 +1,14 @@
+// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 public class OperatingHours {
     // Defining variables
     @Id
+    @Enumerated(EnumType.STRING)
     private DayOfWeek day;
     private int openingHour;
     private int closingHour;

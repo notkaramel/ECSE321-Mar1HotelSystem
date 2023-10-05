@@ -1,3 +1,4 @@
+// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.Entity;
@@ -12,14 +13,16 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int requestId;
     private String description;
-    private Employee employee;
+    private boolean isFufilled;
     @OneToOne
+    private Service service;
     private Booking booking;
 
-    public Request(String description, Employee employee, Booking booking) {
+    public Request(String description, Employee employee, Booking booking, boolean isFufilled) {
         this.description = description;
-        if (setEmployee(employee) == false) {
-            throw new RuntimeException("Need an employee class to be instatiated; need an employee");
+        this.isFufilled = isFufilled;
+        if (setService(service) == false) {
+            throw new RuntimeException("Need an service class to be instatiated; need an service");
         }
 
         if (setBooking(booking) == false) {
@@ -32,8 +35,12 @@ public class Request {
         return this.description;
     }
 
-    public Employee getEmployee() {
-        return this.employee;
+    public Boolean getIsFufilled() {
+        return this.isFufilled;
+    }
+
+    public Service getService() {
+        return this.service;
     }
 
     public Booking getBooking() {
@@ -46,9 +53,14 @@ public class Request {
         return true;
     }
 
-    public boolean setEmployee(Employee employee) {
-        if (employee != null) {
-            this.employee = employee;
+    public boolean setIsFufilled(boolean isFufilled) {
+        this.isFufilled = isFufilled;
+        return true;
+    }
+
+    public boolean setService(Service service) {
+        if (service != null) {
+            this.service = service;
             return true;
         } else {
             return false;
@@ -65,7 +77,6 @@ public class Request {
     }
 
     public void delete() {
-        this.employee = null;
         this.booking = null;
     }
 }
