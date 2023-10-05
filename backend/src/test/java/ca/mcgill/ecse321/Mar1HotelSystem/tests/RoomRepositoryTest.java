@@ -47,7 +47,7 @@ public class RoomRepositoryTest {
         room = roomRepository.save(room);
         //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
         int id = room.getRoomId;
-
+        //=-=-=-=-=-=- Assertions-=-=-=-=-=-=//
         assertNotNull(id);
         assertEquals(roomType, room.getRoomType);
         assertEquals(bedType, room.getBedType);
