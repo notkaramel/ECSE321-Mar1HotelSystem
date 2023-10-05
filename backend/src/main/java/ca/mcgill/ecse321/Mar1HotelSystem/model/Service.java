@@ -1,34 +1,27 @@
-// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
-@Entity
-public class Request {
+public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int requestId;
-    private String description;
-    private boolean isFufilled;
+   @OneToOne
+    private Employee assignee;
     @OneToOne
-    private Service service;
-    private Booking booking;
+    private Request request;
     private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
-    public Request(String description, boolean isFufilled, Service service, Booking booking,
+    public Service(Employee assignee, Request request,
             Mar1HotelSystemApplication mar1HotelSystemApplication) {
-        this.description = description;
-        this.isFufilled = isFufilled;
-        if (setService(service) == false) {
-            throw new RuntimeException("Need an service class to be instatiated; need an service");
+        if (setEmployee(assignee) == false) {
+            throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
 
-        if (setBooking(booking) == false) {
+        if (setBooking(request) == false) {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
         }
 
@@ -39,45 +32,29 @@ public class Request {
     }
 
     // Getters
-    public String getDescription() {
-        return this.description;
+   
+    public Employee getAssignee() {
+        return this.assignee;
     }
 
-    public Boolean getIsFufilled() {
-        return this.isFufilled;
-    }
-
-    public Service getService() {
-        return this.service;
-    }
-
-    public Booking getBooking() {
-        return this.booking;
+    public Request getRequest() {
+        return this.request;
     }
 
     // Setters
-    public boolean setDescription(String description) {
-        this.description = description;
-        return true;
-    }
 
-    public boolean setIsFufilled(boolean isFufilled) {
-        this.isFufilled = isFufilled;
-        return true;
-    }
-
-    public boolean setService(Service service) {
-        if (service != null) {
-            this.service = service;
+    public boolean setEmployee(Employee assignee) {
+        if (assignee != null) {
+            this.assignee = assignee;
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean setBooking(Booking booking) {
-        if (booking != null) {
-            this.booking = booking;
+    public boolean setBooking(Request request) {
+        if (request != null) {
+            this.request = request;
             return true;
         } else {
             return false;
@@ -101,10 +78,10 @@ public class Request {
         this.mar1HotelSystemApplication = mar1HotelSystemApplication;
         if (existingMar1HotelSystemApplication != null
                 && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
-            existingMar1HotelSystemApplication.removeRequest(this);
+            existingMar1HotelSystemApplication.removeService(this);
             return false;
         }
-        mar1HotelSystemApplication.addRequest(this);
+        mar1HotelSystemApplication.addService(this);
         return true;
     }
 
@@ -113,10 +90,10 @@ public class Request {
         Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
         this.mar1HotelSystemApplication = null;
         if (placeholderMar1HotelSystemApplication != null) {
-            placeholderMar1HotelSystemApplication.removeRequest(this);
+            placeholderMar1HotelSystemApplication.removeService(this);
         }
 
-        this.service = null;
-        this.booking = null;
+        this.assignee = null;
+        this.request = null;
     }
 }

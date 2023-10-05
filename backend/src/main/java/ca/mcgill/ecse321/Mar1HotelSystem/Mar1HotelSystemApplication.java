@@ -19,6 +19,7 @@ public class Mar1HotelSystemApplication {
 
 	private List<User> users;
 	private List<Request> requests;
+	private List<Service> services;
 	private List<Booking> bookings;
 	private List<Payment> payments;
 	private List<HotelSchedule> hotelSchedules;
@@ -757,6 +758,97 @@ public class Mar1HotelSystemApplication {
 		}
 	}
 
+
+	// Service
+	public Service getService(int index) {
+		Service service = services.get(index);
+		return service;
+	}
+
+	public List<Service> getServices() {
+		List<Service> newServices = Collections.unmodifiableList(services);
+		return newServices;
+	}
+
+	public int numberOfServices() {
+		return services.size();
+	}
+
+	public boolean hasServices() {
+		boolean has = services.size() > 0;
+		return has;
+	}
+
+	public int indexOfService(Service service) {
+		return services.indexOf(service);
+	}
+
+	public static int minimumNumberOfServices() {
+		return 0;
+	}
+
+	public Service addService(Employee assignee, Request request) {
+		return new Service(assignee, request, this);
+	}
+
+	public boolean addService(Service service) {
+		if (services.contains(service)) {
+			return false;
+		}
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = service.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			service.setMar1HotelSystemApplication(this);
+
+		} else {
+			services.add(service);
+
+		}
+		return true;
+	}
+
+	public boolean removeService(Service service) {
+		if (!this.equals(service.getMar1HotelSystemApplication())) {
+			services.remove(service);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addServiceAt(Service service, int index) {
+
+		if (addService(service)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfServices()) {
+				index = numberOfServices() - 1;
+			}
+			services.remove(service);
+			services.add(index, service);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addOrMoveServiceAt(Service service, int index) {
+		if (services.contains(service)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfServices()) {
+				index = numberOfServices() - 1;
+			}
+			services.remove(service);
+			services.add(index, service);
+			return true;
+		} else {
+			return addServiceAt(service, index);
+		}
+	}
+
+
 	// Request
 	public Request getRequest(int index) {
 		Request request = requests.get(index);
@@ -785,8 +877,8 @@ public class Mar1HotelSystemApplication {
 		return 0;
 	}
 
-	public Request addRequest(String Description, Employee employee, Booking booking) {
-		return new Request(Description, employee, booking, this);
+	public Request addRequest(String Description, boolean isFufilled, Service service, Booking booking) {
+		return new Request(Description, isFufilled, service, booking, this);
 	}
 
 	public boolean addRequest(Request request) {
@@ -947,6 +1039,12 @@ public class Mar1HotelSystemApplication {
 			Request request = requests.get(requests.size() - 1);
 			request.delete();
 			requests.remove(request);
+		}
+
+		while (services.size() > 0) {
+			Service service = services.get(services.size() - 1);
+			service.delete();
+			services.remove(service);
 		}
 
 		while (bookings.size() > 0) {
