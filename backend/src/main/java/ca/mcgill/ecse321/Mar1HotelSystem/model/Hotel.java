@@ -1,27 +1,28 @@
-package ca.mcgill.ecse321.MarwaanHotelSystem.model;
+package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
+
 @Entity
 public class Hotel {
 
     @OneToOne
     private HotelSchedule hotelSchedule;
     private List<Room> rooms;
-    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
+    private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
-    public Hotel(HotelSchedule hotelSchedule, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+    public Hotel(HotelSchedule hotelSchedule, Mar1HotelSystemApplication mar1HotelSystemApplication) {
         rooms = new ArrayList<Room>();
         if (setHotelSchedule(hotelSchedule) == false) {
             throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
         }
 
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+        if (setMar1HotelSystemApplication(mar1HotelSystemApplication) == false) {
+            throw new RuntimeException("Unable to create account due to mar1HotelSystemApplication");
         }
 
     }
@@ -119,27 +120,27 @@ public class Hotel {
         return true;
     }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
-        return marwaanHotelSystemApplication;
+    public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
+        return mar1HotelSystemApplication;
     }
 
-    protected void clear_marwaanHotelSystemApplication() {
-        marwaanHotelSystemApplication = null;
+    protected void clear_mar1HotelSystemApplication() {
+        mar1HotelSystemApplication = null;
     }
 
-    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
-        if (marwaanHotelSystemApplication == null) {
+    public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
+        if (mar1HotelSystemApplication == null) {
             return false;
         }
 
-        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        if (existingMarwaanHotelSystemApplication != null
-                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
-            existingMarwaanHotelSystemApplication.removeHotel(this);
+        Mar1HotelSystemApplication existingMar1HotelSystemApplication = this.mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = mar1HotelSystemApplication;
+        if (existingMar1HotelSystemApplication != null
+                && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
+            existingMar1HotelSystemApplication.removeHotel(this);
             return false;
         }
-        marwaanHotelSystemApplication.addHotel(this);
+        mar1HotelSystemApplication.addHotel(this);
         return true;
     }
 
@@ -150,10 +151,10 @@ public class Hotel {
             room.delete();
             this.rooms.remove(room);
         }
-        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = null;
-        if (placeholderMarwaanHotelSystemApplication != null) {
-            placeholderMarwaanHotelSystemApplication.removeHotel(this);
+        Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = null;
+        if (placeholderMar1HotelSystemApplication != null) {
+            placeholderMar1HotelSystemApplication.removeHotel(this);
         }
     }
 

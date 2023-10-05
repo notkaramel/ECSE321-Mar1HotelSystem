@@ -1,16 +1,17 @@
-package ca.mcgill.ecse321.MarwaanHotelSystem.model;
+package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+
 @Entity
 public class Booking {
     @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int bookingId;
     @OneToOne
     private Payment payment;
@@ -18,11 +19,12 @@ public class Booking {
     private User user;
     @ManyToOne
     private Room room;
-    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
+    private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
-    // Booking constructor requiring bookingId, payment, user, room and marwaanHotelSystemApplication
+    // Booking constructor requiring bookingId, payment, user, room and
+    // mar1HotelSystemApplication
     public Booking(int bookingId, Payment payment, User user, Room room,
-            MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+            Mar1HotelSystemApplication mar1HotelSystemApplication) {
         this.bookingId = bookingId;
         if (setPayment(payment) == false) {
             throw new RuntimeException("Need an payment class to be instatiated; need a payment");
@@ -35,15 +37,15 @@ public class Booking {
         if (setRoom(room) == false) {
             throw new RuntimeException("Need an room class to be instatiated; need a room");
         }
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+        if (setMar1HotelSystemApplication(mar1HotelSystemApplication) == false) {
+            throw new RuntimeException("Unable to create account due to mar1HotelSystemApplication");
         }
     }
 
     // Getters
     // Method getting bookingId, returns bookingId
     public int getBookingId() {
-        return this.bookingId; 
+        return this.bookingId;
     }
 
     // Method getting payment, returns payment
@@ -62,7 +64,7 @@ public class Booking {
     }
 
     // Setters
-    public boolean setBookingId(int bookingId) { 
+    public boolean setBookingId(int bookingId) {
         this.bookingId = bookingId;
         return true;
     }
@@ -94,35 +96,35 @@ public class Booking {
         }
     }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
-        return marwaanHotelSystemApplication;
+    public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
+        return mar1HotelSystemApplication;
     }
 
-    protected void clear_marwaanHotelSystemApplication() {
-        marwaanHotelSystemApplication = null;
+    protected void clear_mar1HotelSystemApplication() {
+        mar1HotelSystemApplication = null;
     }
 
-    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
-        if (marwaanHotelSystemApplication == null) {
+    public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
+        if (mar1HotelSystemApplication == null) {
             return false;
         }
 
-        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        if (existingMarwaanHotelSystemApplication != null
-                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
-            existingMarwaanHotelSystemApplication.removeBooking(this);
+        Mar1HotelSystemApplication existingMar1HotelSystemApplication = this.mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = mar1HotelSystemApplication;
+        if (existingMar1HotelSystemApplication != null
+                && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
+            existingMar1HotelSystemApplication.removeBooking(this);
             return false;
         }
-        marwaanHotelSystemApplication.addBooking(this);
+        mar1HotelSystemApplication.addBooking(this);
         return true;
     }
 
     public void delete() {
-        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = null;
-        if (placeholderMarwaanHotelSystemApplication != null) {
-            placeholderMarwaanHotelSystemApplication.removeBooking(this);
+        Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = null;
+        if (placeholderMar1HotelSystemApplication != null) {
+            placeholderMar1HotelSystemApplication.removeBooking(this);
         }
         this.payment = null;
         this.user = null;

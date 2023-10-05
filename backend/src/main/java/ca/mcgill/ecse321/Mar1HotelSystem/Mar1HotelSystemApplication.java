@@ -1,5 +1,4 @@
-package ca.mcgill.ecse321.MarwaanHotelSystem;
-
+package ca.mcgill.ecse321.Mar1HotelSystem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,13 +8,13 @@ import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import ca.mcgill.ecse321.MarwaanHotelSystem.model.*;
-import ca.mcgill.ecse321.MarwaanHotelSystem.model.Room.BedType;
-import ca.mcgill.ecse321.MarwaanHotelSystem.model.Room.RoomType;
-import ca.mcgill.ecse321.MarwaanHotelSystem.model.OperatingHours.DayOfWeek;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
 @SpringBootApplication
-public class MarwaanHotelSystemApplication {
+public class Mar1HotelSystemApplication {
 
 	private List<User> users;
 	private List<Request> requests;
@@ -28,7 +27,7 @@ public class MarwaanHotelSystemApplication {
 	private List<Shift> shifts;
 	private List<Room> rooms;
 
-	public MarwaanHotelSystemApplication() {
+	public Mar1HotelSystemApplication() {
 		users = new ArrayList<User>();
 		requests = new ArrayList<Request>();
 		bookings = new ArrayList<Booking>();
@@ -76,11 +75,11 @@ public class MarwaanHotelSystemApplication {
 		if (rooms.contains(room)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = room.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			room.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = room.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			room.setMar1HotelSystemApplication(this);
 
 		} else {
 			rooms.add(room);
@@ -90,7 +89,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeRoom(Room room) {
-		if (!this.equals(room.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(room.getMar1HotelSystemApplication())) {
 			rooms.remove(room);
 			return true;
 		}
@@ -165,11 +164,11 @@ public class MarwaanHotelSystemApplication {
 		if (shifts.contains(shift)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = shift.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			shift.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = shift.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			shift.setMar1HotelSystemApplication(this);
 
 		} else {
 			shifts.add(shift);
@@ -179,7 +178,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeShift(Shift shift) {
-		if (!this.equals(shift.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(shift.getMar1HotelSystemApplication())) {
 			shifts.remove(shift);
 			return true;
 		}
@@ -254,11 +253,11 @@ public class MarwaanHotelSystemApplication {
 		if (hotels.contains(hotel)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = hotel.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			hotel.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = hotel.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			hotel.setMar1HotelSystemApplication(this);
 
 		} else {
 			hotels.add(hotel);
@@ -268,7 +267,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeHotel(Hotel hotel) {
-		if (!this.equals(hotel.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(hotel.getMar1HotelSystemApplication())) {
 			hotels.remove(hotel);
 			return true;
 		}
@@ -343,12 +342,12 @@ public class MarwaanHotelSystemApplication {
 		if (customHourses.contains(customHours)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = customHours
-				.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			customHours.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = customHours
+				.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			customHours.setMar1HotelSystemApplication(this);
 
 		} else {
 			customHourses.add(customHours);
@@ -358,7 +357,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeCustomHours(CustomHours customHours) {
-		if (!this.equals(customHours.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(customHours.getMar1HotelSystemApplication())) {
 			customHourses.remove(customHours);
 			return true;
 		}
@@ -433,12 +432,12 @@ public class MarwaanHotelSystemApplication {
 		if (operatingHourses.contains(operatingHours)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = operatingHours
-				.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			operatingHours.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = operatingHours
+				.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			operatingHours.setMar1HotelSystemApplication(this);
 
 		} else {
 			operatingHourses.add(operatingHours);
@@ -448,7 +447,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeOperatingHours(OperatingHours operatingHours) {
-		if (!this.equals(operatingHours.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(operatingHours.getMar1HotelSystemApplication())) {
 			operatingHourses.remove(operatingHours);
 			return true;
 		}
@@ -523,12 +522,12 @@ public class MarwaanHotelSystemApplication {
 		if (hotelSchedules.contains(hotelSchedule)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = hotelSchedule
-				.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			hotelSchedule.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = hotelSchedule
+				.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			hotelSchedule.setMar1HotelSystemApplication(this);
 
 		} else {
 			hotelSchedules.add(hotelSchedule);
@@ -538,7 +537,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeHotelSchedule(HotelSchedule hotelSchedule) {
-		if (!this.equals(hotelSchedule.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(hotelSchedule.getMar1HotelSystemApplication())) {
 			hotelSchedules.remove(hotelSchedule);
 			return true;
 		}
@@ -613,12 +612,12 @@ public class MarwaanHotelSystemApplication {
 		if (payments.contains(payment)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = payment
-				.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			payment.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = payment
+				.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			payment.setMar1HotelSystemApplication(this);
 
 		} else {
 			payments.add(payment);
@@ -628,7 +627,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removePayment(Payment payment) {
-		if (!this.equals(payment.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(payment.getMar1HotelSystemApplication())) {
 			payments.remove(payment);
 			return true;
 		}
@@ -703,12 +702,12 @@ public class MarwaanHotelSystemApplication {
 		if (bookings.contains(booking)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = booking
-				.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			booking.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = booking
+				.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			booking.setMar1HotelSystemApplication(this);
 
 		} else {
 			bookings.add(booking);
@@ -718,7 +717,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeBooking(Booking booking) {
-		if (!this.equals(booking.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(booking.getMar1HotelSystemApplication())) {
 			bookings.remove(booking);
 			return true;
 		}
@@ -793,12 +792,12 @@ public class MarwaanHotelSystemApplication {
 		if (requests.contains(request)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = request
-				.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			request.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = request
+				.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			request.setMar1HotelSystemApplication(this);
 
 		} else {
 			requests.add(request);
@@ -808,7 +807,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeRequest(Request request) {
-		if (!this.equals(request.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(request.getMar1HotelSystemApplication())) {
 			requests.remove(request);
 			return true;
 		}
@@ -883,11 +882,11 @@ public class MarwaanHotelSystemApplication {
 		if (users.contains(user)) {
 			return false;
 		}
-		MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = user.getMarwaanHotelSystemApplication();
-		boolean isNewMarwaanHotelSystemApplication = existingMarwaanHotelSystemApplication != null
-				&& !this.equals(existingMarwaanHotelSystemApplication);
-		if (isNewMarwaanHotelSystemApplication) {
-			user.setMarwaanHotelSystemApplication(this);
+		Mar1HotelSystemApplication existingMar1HotelSystemApplication = user.getMar1HotelSystemApplication();
+		boolean isNewMar1HotelSystemApplication = existingMar1HotelSystemApplication != null
+				&& !this.equals(existingMar1HotelSystemApplication);
+		if (isNewMar1HotelSystemApplication) {
+			user.setMar1HotelSystemApplication(this);
 
 		} else {
 			users.add(user);
@@ -897,7 +896,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public boolean removeUser(User user) {
-		if (!this.equals(user.getMarwaanHotelSystemApplication())) {
+		if (!this.equals(user.getMar1HotelSystemApplication())) {
 			users.remove(user);
 			return true;
 		}
@@ -998,7 +997,7 @@ public class MarwaanHotelSystemApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(MarwaanHotelSystemApplication.class, args);
+		SpringApplication.run(Mar1HotelSystemApplication.class, args);
 	}
 
 }

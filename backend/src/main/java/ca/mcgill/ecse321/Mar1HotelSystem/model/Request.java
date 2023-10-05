@@ -1,6 +1,6 @@
-package ca.mcgill.ecse321.MarwaanHotelSystem.model;
+package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,10 +16,10 @@ public class Request {
     private Employee employee;
     @OneToOne
     private Booking booking;
-    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
+    private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
     public Request(String description, Employee employee, Booking booking,
-            MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+            Mar1HotelSystemApplication mar1HotelSystemApplication) {
         this.description = description;
         if (setEmployee(employee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
@@ -29,8 +29,8 @@ public class Request {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
         }
 
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+        if (setMar1HotelSystemApplication(mar1HotelSystemApplication) == false) {
+            throw new RuntimeException("Unable to create account due to mar1HotelSystemApplication");
         }
 
     }
@@ -72,36 +72,36 @@ public class Request {
         }
     }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
-        return marwaanHotelSystemApplication;
+    public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
+        return mar1HotelSystemApplication;
     }
 
-    protected void clear_marwaanHotelSystemApplication() {
-        marwaanHotelSystemApplication = null;
+    protected void clear_mar1HotelSystemApplication() {
+        mar1HotelSystemApplication = null;
     }
 
-    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
-        if (marwaanHotelSystemApplication == null) {
+    public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
+        if (mar1HotelSystemApplication == null) {
             return false;
         }
 
-        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        if (existingMarwaanHotelSystemApplication != null
-                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
-            existingMarwaanHotelSystemApplication.removeRequest(this);
+        Mar1HotelSystemApplication existingMar1HotelSystemApplication = this.mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = mar1HotelSystemApplication;
+        if (existingMar1HotelSystemApplication != null
+                && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
+            existingMar1HotelSystemApplication.removeRequest(this);
             return false;
         }
-        marwaanHotelSystemApplication.addRequest(this);
+        mar1HotelSystemApplication.addRequest(this);
         return true;
     }
 
     public void delete() {
 
-        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = null;
-        if (placeholderMarwaanHotelSystemApplication != null) {
-            placeholderMarwaanHotelSystemApplication.removeRequest(this);
+        Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = null;
+        if (placeholderMar1HotelSystemApplication != null) {
+            placeholderMar1HotelSystemApplication.removeRequest(this);
         }
 
         this.employee = null;

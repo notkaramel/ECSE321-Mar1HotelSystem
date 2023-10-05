@@ -1,11 +1,12 @@
-package ca.mcgill.ecse321.MarwaanHotelSystem.model;
+package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+
 @Entity
 public class HotelSchedule {
     private int year;
@@ -13,10 +14,10 @@ public class HotelSchedule {
     private List<CustomHours> customHoursList;
     @OneToMany
     private List<OperatingHours> operatingHoursList;
-    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
+    private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
     public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList,
-            MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+            Mar1HotelSystemApplication mar1HotelSystemApplication) {
         this.year = year;
         this.customHoursList = new ArrayList<CustomHours>();
         this.operatingHoursList = new ArrayList<OperatingHours>();
@@ -28,8 +29,8 @@ public class HotelSchedule {
             throw new RuntimeException("Need an operatingHours class to be instatiated; need a operating hours");
         }
 
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
+        if (setMar1HotelSystemApplication(mar1HotelSystemApplication) == false) {
+            throw new RuntimeException("Unable to create account due to mar1HotelSystemApplication");
         }
 
     }
@@ -117,35 +118,35 @@ public class HotelSchedule {
         return true;
     }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
-        return marwaanHotelSystemApplication;
+    public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
+        return mar1HotelSystemApplication;
     }
 
-    protected void clear_marwaanHotelSystemApplication() {
-        marwaanHotelSystemApplication = null;
+    protected void clear_mar1HotelSystemApplication() {
+        mar1HotelSystemApplication = null;
     }
 
-    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
-        if (marwaanHotelSystemApplication == null) {
+    public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
+        if (mar1HotelSystemApplication == null) {
             return false;
         }
 
-        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        if (existingMarwaanHotelSystemApplication != null
-                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
-            existingMarwaanHotelSystemApplication.removeHotelSchedule(this);
+        Mar1HotelSystemApplication existingMar1HotelSystemApplication = this.mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = mar1HotelSystemApplication;
+        if (existingMar1HotelSystemApplication != null
+                && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
+            existingMar1HotelSystemApplication.removeHotelSchedule(this);
             return false;
         }
-        marwaanHotelSystemApplication.addHotelSchedule(this);
+        mar1HotelSystemApplication.addHotelSchedule(this);
         return true;
     }
 
     public void delete() {
-        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = null;
-        if (placeholderMarwaanHotelSystemApplication != null) {
-            placeholderMarwaanHotelSystemApplication.removeHotelSchedule(this);
+        Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
+        this.mar1HotelSystemApplication = null;
+        if (placeholderMar1HotelSystemApplication != null) {
+            placeholderMar1HotelSystemApplication.removeHotelSchedule(this);
         }
         this.operatingHoursList = null;
         this.customHoursList = null;
