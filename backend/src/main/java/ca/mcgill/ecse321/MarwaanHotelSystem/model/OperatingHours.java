@@ -29,67 +29,64 @@ public class OperatingHours {
   // Getters
   public DayOfWeek getDayOfWeek() {
     return this.day;
-  }
+}
 
-  public int getOpeningHour() {
+public int getOpeningHour() {
     return this.openingHour;
-  }
+}
 
-  public int getClosingHour() {
+public int getClosingHour() {
     return this.closingHour;
-  }
+}
 
-  // Setters
-  public boolean setDayOfWeek(DayOfWeek day) {
+// Setters
+public boolean setDayOfWeek(DayOfWeek day) {
     this.day = day;
     return true;
-  }
+}
 
-  public boolean setOpeningHour(int openingHour) {
+public boolean setOpeningHour(int openingHour) {
     this.openingHour = openingHour;
     return true;
-  }
+}
 
-  public boolean setClosingHour(int closingHour) {
+public boolean setClosingHour(int closingHour) {
     this.closingHour = closingHour;
     return true;
-  }
+}
 
-  public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
+public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
     return marwaanHotelSystemApplication;
-  }
+}
 
-  protected void clear_marwaanHotelSystemApplication() {
+protected void clear_marwaanHotelSystemApplication() {
     marwaanHotelSystemApplication = null;
-  }
+}
 
-
-    
-
-    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
-        if (marwaanHotelSystemApplication == null) {
-            return false;
-        }
-
-        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        if (existingMarwaanHotelSystemApplication != null
-                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
-            existingMarwaanHotelSystemApplication.removeOperatingHours(this);
-            return false;
-        }
-        marwaanHotelSystemApplication.addOperatingHours(this);
-        return true;
+public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+    if (marwaanHotelSystemApplication == null) {
+        return false;
     }
 
-    public void delete() {
-        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
-        this.marwaanHotelSystemApplication = null;
-        if (placeholderMarwaanHotelSystemApplication != null) {
-            placeholderMarwaanHotelSystemApplication.removeOperatingHours(this);
-        }
-
+    MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+    this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+    if (existingMarwaanHotelSystemApplication != null
+            && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
+        existingMarwaanHotelSystemApplication.removeOperatingHours(this);
+        return false;
     }
+    marwaanHotelSystemApplication.addOperatingHours(this);
+    return true;
+}
+
+public void delete() {
+    MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+    this.marwaanHotelSystemApplication = null;
+    if (placeholderMarwaanHotelSystemApplication != null) {
+        placeholderMarwaanHotelSystemApplication.removeOperatingHours(this);
+    }
+
+}
 
 
 }
