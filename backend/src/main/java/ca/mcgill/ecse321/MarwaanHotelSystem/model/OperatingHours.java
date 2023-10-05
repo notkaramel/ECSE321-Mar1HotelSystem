@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
+
+
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 
 public class OperatingHours {
@@ -17,6 +19,11 @@ public class OperatingHours {
     if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
       throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
     }
+  }
+
+  // Enum
+  public enum DayOfWeek {
+    Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
   }
 
   // Getters
