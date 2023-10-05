@@ -25,12 +25,13 @@ public class Room {
     @ManyToOne
     private Hotel hotel;
 
-    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel) {
+    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel, int id) {
         this.roomType = roomType;
         this.bedType = bedType;
         this.isAvailable = isAvailable;
         this.pricePerNight = pricePerNight;
         this.maxCapacity = maxCapacity;
+        this.id = id;
     }
 
     // BedType enum
