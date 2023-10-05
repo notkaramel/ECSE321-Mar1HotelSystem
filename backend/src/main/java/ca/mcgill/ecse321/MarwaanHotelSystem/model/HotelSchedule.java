@@ -3,13 +3,15 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 @Entity
 public class HotelSchedule {
     private int year;
+    @OneToMany
     private List<CustomHours> customHoursList;
+    @OneToMany
     private List<OperatingHours> operatingHoursList;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 

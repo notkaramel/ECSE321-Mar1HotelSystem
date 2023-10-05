@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Room {
@@ -15,6 +16,7 @@ public class Room {
     boolean isAvailable;
     int pricePerNight;
     int maxCapacity;
+    @ManyToOne
     private Hotel hotel;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
