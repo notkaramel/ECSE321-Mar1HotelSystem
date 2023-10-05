@@ -12,14 +12,10 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.repository.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.repository.HotelRepository;
 import org.springframework.boot.test.context.SpringBootTest;
-/**
- * This a test class that to test the Room Repo 
- * 
- * @author Mokhtari, Bilar
- */
+
 @SpringBootTest
 public class RoomRepositoryTest {
     @Autowired

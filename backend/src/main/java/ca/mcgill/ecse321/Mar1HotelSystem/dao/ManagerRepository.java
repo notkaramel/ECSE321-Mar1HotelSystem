@@ -3,5 +3,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 
 public interface ManagerRepository extends CrudRepository<Manager, String>{
-    Manager findManagerByEmail(String email);
+    public Manager findManagerByEmail(String email);
 }

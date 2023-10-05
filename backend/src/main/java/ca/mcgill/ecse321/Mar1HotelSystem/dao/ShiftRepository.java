@@ -3,5 +3,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
 
 public interface ShiftRepository extends CrudRepository<Shift, String>{
-    Shift findShiftByShiftId(int shiftId);
+    public Shift findShiftByShiftId(int shiftId);
 }

@@ -3,5 +3,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 
 public interface OperatingHoursRepository extends CrudRepository<OperatingHours, String>{
-    OperatingHours getOperatingHours();
+    public OperatingHours getOperatingHours();
 }
