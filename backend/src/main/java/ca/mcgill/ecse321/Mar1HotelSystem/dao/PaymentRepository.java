@@ -3,5 +3,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 
 public interface PaymentRepository extends CrudRepository<Payment, String>{
-    Payment findPaymentByPaymentID(int paymentID);
+    Payment findPaymentByPaymentId(int paymentId);
 }
