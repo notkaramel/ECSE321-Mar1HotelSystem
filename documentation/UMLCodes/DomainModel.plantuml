@@ -6,14 +6,14 @@ top to bottom direction
 
 package ca.mcgill.ecse321.Mar1HotelSystem.model {
     Class User {
-        firstName
-        lastName
-        email
-        phone : int
+        firstName : str
+        lastName : str
+        # email : str
+        # phone : int
     }
 
     abstract Class Account <<abstract>> {
-        password
+        password : str
     }
     together {
         Class Employee {
@@ -54,21 +54,21 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
     Room "70" -up-* "1" Hotel
 
     Class Booking {
-        # bookingId
+        # bookingId : str
     }
 
     Booking "1..*" -left[#green]-> "1" Room
     Booking "1" -right[#green]-> "1" User
 
     Class Request {
-        description
+        description : str
+        isFulfilled : boolean
     }
 
     Request "*" -up-> "1" Booking
 
     Class Service {
         assignee : Employee
-        isCompleted : boolean
     }
 
     Service "1" -up[#blue]-> "1" Request
@@ -76,7 +76,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
 
     Class Payment {
         amount : int
-        # paymentId
+        # paymentId : str
     }
 
     Booking "1" -up-> "1" Payment
