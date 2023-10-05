@@ -1,0 +1,13 @@
+1. The manager shall access the system to manage shifts.
+2. Depending on the requirement, the manager shall either initiate the "Set Employee Shifts" or "Modify Existing Shifts" function.
+3. For new shifts, the system shall provide the manager with the "Set Start and End Times" interface.
+4. The manager shall input the start and end times for the employee's shift.
+5. Upon confirming the set or modified times, the system shall store the shift details.
+6. The system shall automatically notify the concerned employee about their shift details.
+7. The manager shall view the shift details using the "View Current Shifts" function.
+8. If needed, the manager shall generate a report on the set or modified shifts using the "Generate Shift Reports" function.
+Alternate/Exception Scenarios:
+6a. The system encounters an error while notifying the employee.
+6a1. The manager is alerted about the failed notification and may need to notify the employee manually or retry the system notification.
+4b. The manager sets a shift time that overlaps with another scheduled activity or previously set shift.
+4b1. The system shall alert the manager about the overlap, prompting a revision of the times.
