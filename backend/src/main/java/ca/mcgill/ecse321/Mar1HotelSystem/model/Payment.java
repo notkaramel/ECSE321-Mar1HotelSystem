@@ -16,6 +16,7 @@ public class Payment {
     private int paymentId;
     private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
+     // HotelSchedule constructor requiring amount, paymentId, and mar1HotelSystemApplication
     public Payment(int amount, int paymentId, Mar1HotelSystemApplication mar1HotelSystemApplication) {
         this.amount = amount;
         this.paymentId = paymentId;
@@ -25,25 +26,31 @@ public class Payment {
     }
 
     // Getters
+    // Method to get amount, returns amount
     public int getAmount() {
         return this.amount;
     }
 
+    // Method to get paymentId, returns paymentId
     public int getPaymentId() {
         return this.paymentId;
     }
 
     // Setters
+    // Method to set amount, returns true if amount set
     public boolean setAmount(int amount) {
         this.amount = amount;
         return true;
     }
 
+    // Method to set payment, returns true if payment set
     public boolean setPaymentId(int paymentId) {
         this.paymentId = paymentId;
         return true;
     }
 
+
+    // Methods for composition with Mar1HotelSystemApplication
     public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
         return mar1HotelSystemApplication;
     }

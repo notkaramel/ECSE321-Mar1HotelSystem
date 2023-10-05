@@ -20,6 +20,7 @@ public class Request {
     private Booking booking;
     private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
+    // Request constructor requiring description, isFufilled, service, booking and mar1HotelSystemApplication
     public Request(String description, boolean isFufilled, Service service, Booking booking,
             Mar1HotelSystemApplication mar1HotelSystemApplication) {
         this.description = description;
@@ -39,33 +40,40 @@ public class Request {
     }
 
     // Getters
+    // Method to get description, returns description
     public String getDescription() {
         return this.description;
     }
 
+    // Method to get isFufilled, returns isFufilled
     public Boolean getIsFufilled() {
         return this.isFufilled;
     }
 
+    // Method to get service, returns service
     public Service getService() {
         return this.service;
     }
 
+    // Method to get booking, returns booking
     public Booking getBooking() {
         return this.booking;
     }
 
     // Setters
+    // Method to set description, returns true if description set
     public boolean setDescription(String description) {
         this.description = description;
         return true;
     }
 
+    // Method to set isFufilled, returns true if isFufilled set
     public boolean setIsFufilled(boolean isFufilled) {
         this.isFufilled = isFufilled;
         return true;
     }
 
+    // Method to set service, returns true if service set
     public boolean setService(Service service) {
         if (service != null) {
             this.service = service;
@@ -75,6 +83,7 @@ public class Request {
         }
     }
 
+    // Method to set booking, returns true if booking set
     public boolean setBooking(Booking booking) {
         if (booking != null) {
             this.booking = booking;
@@ -84,6 +93,7 @@ public class Request {
         }
     }
 
+    // Methods for composition of Mar1HotelSystemApplication
     public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
         return mar1HotelSystemApplication;
     }
@@ -108,6 +118,7 @@ public class Request {
         return true;
     }
 
+    // Method to delete
     public void delete() {
 
         Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;

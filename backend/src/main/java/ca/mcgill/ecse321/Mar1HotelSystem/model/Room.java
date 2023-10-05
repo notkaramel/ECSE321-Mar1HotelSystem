@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
@@ -25,6 +26,7 @@ public class Room {
     private Hotel hotel;
     private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
+    // Room constructor requiring roomType, beType, isAvailable, pricePerNight, maxCapacity, hotel and mar1HotelSystemApplication
     public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
             Hotel hotel, Mar1HotelSystemApplication mar1HotelSystemApplication) {
         this.roomType = roomType;
@@ -38,14 +40,18 @@ public class Room {
 
     }
 
+    // BedType enum
     public enum BedType {
         Queen, King, Doubles
     }
 
+    // RoomType enum
     public enum RoomType {
         Suite, Deluxe, Regular
     }
 
+    // Setters
+    
     public boolean setRoomType(RoomType roomType) {
         this.roomType = roomType;
         return true;
