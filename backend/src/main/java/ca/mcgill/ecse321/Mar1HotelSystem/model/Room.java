@@ -25,6 +25,7 @@ public class Room {
     @ManyToOne
     private Hotel hotel;
 
+    // 
     public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel) {
         this.roomType = roomType;
         this.bedType = bedType;

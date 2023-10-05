@@ -18,6 +18,7 @@ public class Request {
     private Service service;
     private Booking booking;
 
+    // 
     public Request(String description, Employee employee, Booking booking, boolean isFufilled) {
         this.description = description;
         this.isFufilled = isFufilled;
