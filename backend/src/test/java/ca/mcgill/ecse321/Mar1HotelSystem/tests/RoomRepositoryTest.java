@@ -41,21 +41,21 @@ public class RoomRepositoryTest {
         boolean isAvailable = true;
         int pricePerNight = 200;
         int maxCapacity = 2;
-        int id 
+        int id = 1
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
-        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, 1);
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, id);
         //=-=-=-=-=-=- Save object -=-=-=-=-=-=//
         room = roomRepository.save(room);
         //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
-        int id = room.id
+        int id = room.id;
         //=-=-=-=-=-=- Assertions-=-=-=-=-=-=//
         assertNotNull(id);
-        assertEquals(roomType, room.getRoomType);
-        assertEquals(bedType, room.getBedType);
-        assertEquals(isAvailable, room.getIsAvailable);
-        assertEquals(pricePerNight, room.getPricePerNight);
-        assertEquals(maxCapacity, room.getMaxCapacity);
-        assertEquals(hotel, room.getHotel);
+        assertEquals(roomType, room.getRoomType());
+        assertEquals(bedType, room.getBedType());
+        assertEquals(isAvailable, room.getIsAvailable());
+        assertEquals(pricePerNight, room.getPricePerNight());
+        assertEquals(maxCapacity, room.getMaxCapacity());
+        assertEquals(hotel, room.getHotel());
     }
     
 }
