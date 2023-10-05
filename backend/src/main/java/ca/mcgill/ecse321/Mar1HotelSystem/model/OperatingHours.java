@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 public class OperatingHours {
     // Defining variables
     @Id
+    @Enumerated(EnumType.STRING)
     private DayOfWeek day;
     private int openingHour;
     private int closingHour;

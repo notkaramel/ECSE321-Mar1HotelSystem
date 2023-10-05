@@ -9,7 +9,7 @@ import jakarta.persistence.OneToOne;
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-   @OneToOne
+    @OneToOne
     private Employee assignee;
     @OneToOne
     private Request request;

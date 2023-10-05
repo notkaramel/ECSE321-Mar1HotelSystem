@@ -12,7 +12,11 @@ public class Room {
     // Defining Variables
     @Id
     private int roomId;
+
+    @Enumerated(EnumType.STRING)
     RoomType roomType;
+
+    @Enumerated(EnumType.STRING)
     BedType bedType;
     boolean isAvailable;
     int pricePerNight;
