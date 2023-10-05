@@ -9,3 +9,4 @@ backend/.gradle
 
 # Personnal ignore
 /UML_ZiXu_Liu/
+backend/src/main/ressources/application.properties
