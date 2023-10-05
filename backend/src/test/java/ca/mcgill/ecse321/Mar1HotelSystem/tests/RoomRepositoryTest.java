@@ -3,17 +3,19 @@ package ca.mcgill.ecse321.Mar1HotelSystem.tests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.*;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
-import ca.mcgill.ecse321.Mar1HotelSystem.repository.RoomRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.repository.HotelRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.*;
+
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -30,10 +32,23 @@ public class RoomRepositoryTest {
         roomRepository.deleteAll();
         hotelRepository.deleteAll();
     }
+
     @Test
     public void testPersistAndLoadRoom() {
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
-        Hotel hotel = new Hotel();
+        Date date = new Date();
+        CustomHours customHours = new CustomHours(date, 8, 20);
+        OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
+        // List<CustomHours> customHoursArray = new LinkedList<CustomHours>();
+        // List<OperatingHours> operatingHoursArray = new LinkedList<OperatingHours>();
+        // customHoursArray.add(customHours);
+        // operatingHoursArray.add(operatingHours);
+        CustomHours[] customHoursArray = new CustomHours[1];
+        OperatingHours[] operatingHoursArray = new OperatingHours[1];
+        customHoursArray[0] = customHours;
+        operatingHoursArray[0] = operatingHours;
+        HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
+        Hotel hotel = new Hotel(hotelSchedule);
         hotel = hotelRepository.save(hotel);
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         RoomType roomType = RoomType.Suite;
@@ -41,15 +56,15 @@ public class RoomRepositoryTest {
         boolean isAvailable = true;
         int pricePerNight = 200;
         int maxCapacity = 2;
-        int id = 1
+        int roomId = 1;
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
-        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, id);
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, roomId);
         //=-=-=-=-=-=- Save object -=-=-=-=-=-=//
         room = roomRepository.save(room);
         //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
-        int id = room.id;
+        
         //=-=-=-=-=-=- Assertions-=-=-=-=-=-=//
-        assertNotNull(id);
+        assertNotNull(room);
         assertEquals(roomType, room.getRoomType());
         assertEquals(bedType, room.getBedType());
         assertEquals(isAvailable, room.getIsAvailable());
@@ -57,5 +72,5 @@ public class RoomRepositoryTest {
         assertEquals(maxCapacity, room.getMaxCapacity());
         assertEquals(hotel, room.getHotel());
     }
-    
+
 }
