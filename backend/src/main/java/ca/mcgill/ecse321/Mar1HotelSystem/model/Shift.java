@@ -1,7 +1,6 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -20,21 +19,14 @@ public class Shift {
     private int endTime;
     @ManyToOne
     private Employee employee;
-    private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
-    public Shift(Employee employee, Date date, int startTime, int endTime,
-            Mar1HotelSystemApplication mar1HotelSystemApplication) {
+    public Shift(Employee employee, Date date, int startTime, int endTime) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         if (setEmployee(employee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
-
-        if (setMar1HotelSystemApplication(mar1HotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to mar1HotelSystemApplication");
-        }
-
     }
 
     // Getters
@@ -80,36 +72,6 @@ public class Shift {
         }
     }
 
-    public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
-        return mar1HotelSystemApplication;
-    }
-
-    protected void clear_mar1HotelSystemApplication() {
-        mar1HotelSystemApplication = null;
-    }
-
-    public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
-        if (mar1HotelSystemApplication == null) {
-            return false;
-        }
-
-        Mar1HotelSystemApplication existingMar1HotelSystemApplication = this.mar1HotelSystemApplication;
-        this.mar1HotelSystemApplication = mar1HotelSystemApplication;
-        if (existingMar1HotelSystemApplication != null
-                && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
-            existingMar1HotelSystemApplication.removeShift(this);
-            return false;
-        }
-        mar1HotelSystemApplication.addShift(this);
-        return true;
-    }
-
     public void delete() {
-        Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
-        this.mar1HotelSystemApplication = null;
-        if (placeholderMar1HotelSystemApplication != null) {
-            placeholderMar1HotelSystemApplication.removeShift(this);
-        }
-        this.employee = null;
     }
 }

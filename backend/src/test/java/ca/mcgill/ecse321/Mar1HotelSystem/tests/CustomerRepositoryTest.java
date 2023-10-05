@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.Mar1HotelSystem.tests
+package ca.mcgill.ecse321.Mar1HotelSystem.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,7 +16,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomerRepository;
  *
  * @Author Liu, ZiXu
  */
-@SprintBootTest
+@SpringBootTest
 public class CustomerRepositoryTest {
     //Setting up the customer repository
     @Autowired
@@ -31,11 +31,11 @@ public class CustomerRepositoryTest {
     @Test
     public void testPersistAndLoadCustomer() {
         //Creation of a customer
-        String firstName = 'Bob';
-        String lastName = 'Lennon';
-        String email = 'boblennon@gmail.com';
-        int phoneNumber = 5146697031;
-        String password = 'IamBob';
+        String firstName = "Bob";
+        String lastName = "Lennon";
+        String email = "boblennon@gmail.com";
+        int phoneNumber = 514;
+        String password = "IamBob";
         Customer customer = new Customer(firstName, lastName, email, phoneNumber, password);
 
         //Adding the customer to the persistence layer
