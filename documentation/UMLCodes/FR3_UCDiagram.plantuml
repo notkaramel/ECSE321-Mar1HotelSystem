@@ -1,5 +1,5 @@
-@startuml FR3
-title FR3: The MHS shall allow a customer to create and delete their account.
+@startuml FR3_UCDiagram
+title FR3: The MHS shall allow customers to create and delete their account.
 ' left to right direction
 ' skinparam Linetype ortho
 :Customer: as c
@@ -19,11 +19,12 @@ node MHS {
     cca .down.> (Add Account to MHS) : includes
     (Click "Delete Account") as dca
     dca .> (Confirm Delete Account) : includes
+    (Confirm Delete Account) ..> (Delete Account from MHS) : includes
 }
 
 c -right-> ca
 ca .right.> inPersonalInfo : includes
-inPersonalInfo ...> cca : includes
+inPersonalInfo ..> cca : includes
 c --> da
 da ..> login : includes
 AuthSys --> login
