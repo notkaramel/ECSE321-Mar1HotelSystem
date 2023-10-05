@@ -1,3 +1,4 @@
+// Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
@@ -64,11 +65,13 @@ public class Booking {
     }
 
     // Setters
+    // Method to set bookingId, returns true if bookingId set
     public boolean setBookingId(int bookingId) {
         this.bookingId = bookingId;
         return true;
     }
 
+    // Method to set payment, returns true if payment set
     public boolean setPayment(Payment payment) {
         if (payment != null) {
             this.payment = payment;
@@ -78,6 +81,7 @@ public class Booking {
         }
     }
 
+    // Method to set user, returns true if user set
     public boolean setUser(User user) {
         if (user != null) {
             this.user = user;
@@ -87,6 +91,7 @@ public class Booking {
         }
     }
 
+    // Method to set room, returns true if room set
     public boolean setRoom(Room room) {
         if (room != null) {
             this.room = room;
@@ -96,14 +101,18 @@ public class Booking {
         }
     }
 
+    // Method to get Mar1SystemAppliction, returns Mar1SystemAppliction
     public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
         return mar1HotelSystemApplication;
     }
 
+    // Method to clear Mar1SystemAppliction
     protected void clear_mar1HotelSystemApplication() {
         mar1HotelSystemApplication = null;
     }
 
+
+    // Method to set Mar1SystemAppliction, returns true if Mar1SystemAppliction is set, false otherwise
     public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
         if (mar1HotelSystemApplication == null) {
             return false;
