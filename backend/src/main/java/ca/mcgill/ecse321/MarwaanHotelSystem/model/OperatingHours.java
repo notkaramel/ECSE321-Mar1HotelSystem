@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
+
+
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 
 public class OperatingHours {
@@ -9,52 +11,60 @@ public class OperatingHours {
     private int closingHour;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public OperatingHours(DayOfWeek day, int openingHour, int closingHour,
-            MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
-        this.day = day;
-        this.openingHour = openingHour;
-        this.closingHour = closingHour;
-        if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
-        }
+  public OperatingHours(DayOfWeek day, int openingHour, int closingHour,
+      MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+    this.day = day;
+    this.openingHour = openingHour;
+    this.closingHour = closingHour;
+    if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
+      throw new RuntimeException("Unable to create account due to marwaanHotelSystemApplication");
     }
+  }
 
-    // Getters
-    public DayOfWeek getDayOfWeek() {
-        return this.day;
-    }
+  // Enum
+  public enum DayOfWeek {
+    Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+  }
 
-    public int getOpeningHour() {
-        return this.openingHour;
-    }
+  // Getters
+  public DayOfWeek getDayOfWeek() {
+    return this.day;
+  }
 
-    public int getClosingHour() {
-        return this.closingHour;
-    }
+  public int getOpeningHour() {
+    return this.openingHour;
+  }
 
-    // Setters
-    public boolean setDayOfWeek(DayOfWeek day) {
-        this.day = day;
-        return true;
-    }
+  public int getClosingHour() {
+    return this.closingHour;
+  }
 
-    public boolean setOpeningHour(int openingHour) {
-        this.openingHour = openingHour;
-        return true;
-    }
+  // Setters
+  public boolean setDayOfWeek(DayOfWeek day) {
+    this.day = day;
+    return true;
+  }
 
-    public boolean setClosingHour(int closingHour) {
-        this.closingHour = closingHour;
-        return true;
-    }
+  public boolean setOpeningHour(int openingHour) {
+    this.openingHour = openingHour;
+    return true;
+  }
 
-    public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
-        return marwaanHotelSystemApplication;
-    }
+  public boolean setClosingHour(int closingHour) {
+    this.closingHour = closingHour;
+    return true;
+  }
 
-    protected void clear_marwaanHotelSystemApplication() {
-        marwaanHotelSystemApplication = null;
-    }
+  public MarwaanHotelSystemApplication getMarwaanHotelSystemApplication() {
+    return marwaanHotelSystemApplication;
+  }
+
+  protected void clear_marwaanHotelSystemApplication() {
+    marwaanHotelSystemApplication = null;
+  }
+
+
+    
 
     public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         if (marwaanHotelSystemApplication == null) {
@@ -80,5 +90,6 @@ public class OperatingHours {
         }
 
     }
+
 
 }

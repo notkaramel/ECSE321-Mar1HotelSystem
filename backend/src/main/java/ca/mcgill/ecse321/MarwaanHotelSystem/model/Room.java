@@ -26,6 +26,14 @@ public class Room {
 
     }
 
+    public enum BedType {
+        Queen, King, Doubles
+    }
+
+    public enum RoomType {
+        Suite, Deluxe, Regular
+    }
+
     public boolean setRoomType(RoomType roomType) {
         this.roomType = roomType;
         return true;

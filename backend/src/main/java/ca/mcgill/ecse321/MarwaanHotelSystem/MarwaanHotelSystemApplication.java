@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -9,6 +10,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.model.*;
+import ca.mcgill.ecse321.MarwaanHotelSystem.model.Room.BedType;
+import ca.mcgill.ecse321.MarwaanHotelSystem.model.Room.RoomType;
+import ca.mcgill.ecse321.MarwaanHotelSystem.model.OperatingHours.DayOfWeek;
 
 @SpringBootApplication
 public class MarwaanHotelSystemApplication {
