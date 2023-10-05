@@ -5,11 +5,11 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
 
 public class OperatingHours {
-  // Defining variables
-  private DayOfWeek day;
-  private int openingHour;
-  private int closingHour;
-  private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
+    // Defining variables
+    private DayOfWeek day;
+    private int openingHour;
+    private int closingHour;
+    private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
   public OperatingHours(DayOfWeek day, int openingHour, int closingHour,
       MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
@@ -63,29 +63,33 @@ public class OperatingHours {
     marwaanHotelSystemApplication = null;
   }
 
-  public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
-    if (marwaanHotelSystemApplication == null) {
-      return false;
+
+    
+
+    public boolean setMarwaanHotelSystemApplication(MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+        if (marwaanHotelSystemApplication == null) {
+            return false;
+        }
+
+        MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        if (existingMarwaanHotelSystemApplication != null
+                && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
+            existingMarwaanHotelSystemApplication.removeOperatingHours(this);
+            return false;
+        }
+        marwaanHotelSystemApplication.addOperatingHours(this);
+        return true;
     }
 
-    MarwaanHotelSystemApplication existingMarwaanHotelSystemApplication = this.marwaanHotelSystemApplication;
-    this.marwaanHotelSystemApplication = marwaanHotelSystemApplication;
-    if (existingMarwaanHotelSystemApplication != null
-        && !existingMarwaanHotelSystemApplication.equals(marwaanHotelSystemApplication)) {
-      existingMarwaanHotelSystemApplication.removeOperatingHours(this);
-      return false;
-    }
-    marwaanHotelSystemApplication.addOperatingHours(this);
-    return true;
-  }
+    public void delete() {
+        MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
+        this.marwaanHotelSystemApplication = null;
+        if (placeholderMarwaanHotelSystemApplication != null) {
+            placeholderMarwaanHotelSystemApplication.removeOperatingHours(this);
+        }
 
-  public void delete() {
-    MarwaanHotelSystemApplication placeholderMarwaanHotelSystemApplication = marwaanHotelSystemApplication;
-    this.marwaanHotelSystemApplication = null;
-    if (placeholderMarwaanHotelSystemApplication != null) {
-      placeholderMarwaanHotelSystemApplication.removeOperatingHours(this);
     }
 
-  }
 
 }
