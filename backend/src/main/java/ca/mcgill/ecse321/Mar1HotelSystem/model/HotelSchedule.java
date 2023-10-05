@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,10 +13,8 @@ public class HotelSchedule {
     private List<CustomHours> customHoursList;
     @OneToMany
     private List<OperatingHours> operatingHoursList;
-    private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
-    public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList,
-            Mar1HotelSystemApplication mar1HotelSystemApplication) {
+    public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
         this.year = year;
         this.customHoursList = new ArrayList<CustomHours>();
         this.operatingHoursList = new ArrayList<OperatingHours>();
@@ -28,11 +25,6 @@ public class HotelSchedule {
         if (setOperatingHours(operatingHoursList) == false) {
             throw new RuntimeException("Need an operatingHours class to be instatiated; need a operating hours");
         }
-
-        if (setMar1HotelSystemApplication(mar1HotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to mar1HotelSystemApplication");
-        }
-
     }
 
     // Getters
@@ -118,36 +110,8 @@ public class HotelSchedule {
         return true;
     }
 
-    public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
-        return mar1HotelSystemApplication;
-    }
-
-    protected void clear_mar1HotelSystemApplication() {
-        mar1HotelSystemApplication = null;
-    }
-
-    public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
-        if (mar1HotelSystemApplication == null) {
-            return false;
-        }
-
-        Mar1HotelSystemApplication existingMar1HotelSystemApplication = this.mar1HotelSystemApplication;
-        this.mar1HotelSystemApplication = mar1HotelSystemApplication;
-        if (existingMar1HotelSystemApplication != null
-                && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
-            existingMar1HotelSystemApplication.removeHotelSchedule(this);
-            return false;
-        }
-        mar1HotelSystemApplication.addHotelSchedule(this);
-        return true;
-    }
-
+    
     public void delete() {
-        Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
-        this.mar1HotelSystemApplication = null;
-        if (placeholderMar1HotelSystemApplication != null) {
-            placeholderMar1HotelSystemApplication.removeHotelSchedule(this);
-        }
         this.operatingHoursList = null;
         this.customHoursList = null;
     }

@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,18 +12,12 @@ public class Hotel {
     @OneToOne
     private HotelSchedule hotelSchedule;
     private List<Room> rooms;
-    private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
-    public Hotel(HotelSchedule hotelSchedule, Mar1HotelSystemApplication mar1HotelSystemApplication) {
+    public Hotel(HotelSchedule hotelSchedule) {
         rooms = new ArrayList<Room>();
         if (setHotelSchedule(hotelSchedule) == false) {
             throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
         }
-
-        if (setMar1HotelSystemApplication(mar1HotelSystemApplication) == false) {
-            throw new RuntimeException("Unable to create account due to mar1HotelSystemApplication");
-        }
-
     }
 
     // Getters
@@ -120,41 +113,12 @@ public class Hotel {
         return true;
     }
 
-    public Mar1HotelSystemApplication getMar1HotelSystemApplication() {
-        return mar1HotelSystemApplication;
-    }
-
-    protected void clear_mar1HotelSystemApplication() {
-        mar1HotelSystemApplication = null;
-    }
-
-    public boolean setMar1HotelSystemApplication(Mar1HotelSystemApplication mar1HotelSystemApplication) {
-        if (mar1HotelSystemApplication == null) {
-            return false;
-        }
-
-        Mar1HotelSystemApplication existingMar1HotelSystemApplication = this.mar1HotelSystemApplication;
-        this.mar1HotelSystemApplication = mar1HotelSystemApplication;
-        if (existingMar1HotelSystemApplication != null
-                && !existingMar1HotelSystemApplication.equals(mar1HotelSystemApplication)) {
-            existingMar1HotelSystemApplication.removeHotel(this);
-            return false;
-        }
-        mar1HotelSystemApplication.addHotel(this);
-        return true;
-    }
-
     public void delete() {
         this.hotelSchedule = null;
         while (this.rooms.size() > 0) {
             Room room = this.rooms.get(this.rooms.size() - 1);
             room.delete();
             this.rooms.remove(room);
-        }
-        Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
-        this.mar1HotelSystemApplication = null;
-        if (placeholderMar1HotelSystemApplication != null) {
-            placeholderMar1HotelSystemApplication.removeHotel(this);
         }
     }
 
