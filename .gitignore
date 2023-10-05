@@ -1,1 +1,11 @@
+# Ignore .DS_Store files
 .DS_Store
+
+# .idea folder
+.idea
+
+# .gradle folder
+backend/.gradle
+
+# Personnal ignore
+/UML_ZiXu_Liu/
