@@ -3,12 +3,21 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 import java.util.Date;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
+@Entity
 public class Shift {
-
+    @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+    private int shiftId;
     private Date date;
     private int startTime;
     private int endTime;
+    @ManyToOne
     private Employee employee;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 

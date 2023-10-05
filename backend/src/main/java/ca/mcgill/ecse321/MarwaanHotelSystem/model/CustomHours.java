@@ -3,7 +3,8 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 import java.util.Date;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
-
+import jakarta.persistence.Entity;
+@Entity
 public class CustomHours {
   // Defining variables
   private Date date;

@@ -1,14 +1,21 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Payment {
     // Defining variables
     private int amount;
-    private String paymentId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int paymentId;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
-    public Payment(int amount, String paymentId, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
+    public Payment(int amount, int paymentId, MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.amount = amount;
         this.paymentId = paymentId;
         if (setMarwaanHotelSystemApplication(marwaanHotelSystemApplication) == false) {
@@ -21,7 +28,7 @@ public class Payment {
         return this.amount;
     }
 
-    public String getPaymentId() {
+    public int getPaymentId() {
         return this.paymentId;
     }
 
@@ -31,7 +38,7 @@ public class Payment {
         return true;
     }
 
-    public boolean setPaymentId(String paymentId) {
+    public boolean setPaymentId(int paymentId) {
         this.paymentId = paymentId;
         return true;
     }

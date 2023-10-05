@@ -1,10 +1,20 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
+@Entity
 public class Request {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int requestId;
     private String description;
     private Employee employee;
+    @OneToOne
     private Booking booking;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 

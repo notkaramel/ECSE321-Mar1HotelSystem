@@ -1,11 +1,16 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class User {
     // Defining variables
+
     private String firstName;
     private String lastName;
+    @Id
     private String email;
     private int phoneNumber;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;

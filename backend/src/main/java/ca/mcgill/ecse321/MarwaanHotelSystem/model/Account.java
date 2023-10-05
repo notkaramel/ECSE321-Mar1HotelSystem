@@ -1,7 +1,8 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
-
+import jakarta.persistence.Entity;
+@Entity
 public abstract class Account extends User {
 
     // Defining Variables

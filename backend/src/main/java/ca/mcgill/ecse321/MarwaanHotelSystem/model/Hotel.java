@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+@Entity
 public class Hotel {
 
+    @OneToOne
     private HotelSchedule hotelSchedule;
     private List<Room> rooms;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;

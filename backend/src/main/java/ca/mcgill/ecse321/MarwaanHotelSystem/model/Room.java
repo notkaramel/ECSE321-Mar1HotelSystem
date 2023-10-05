@@ -1,10 +1,15 @@
 package ca.mcgill.ecse321.MarwaanHotelSystem.model;
 
 import ca.mcgill.ecse321.MarwaanHotelSystem.MarwaanHotelSystemApplication;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class Room {
 
     // Defining Variables
+    @Id
+    private int roomId;
     RoomType roomType;
     BedType bedType;
     boolean isAvailable;

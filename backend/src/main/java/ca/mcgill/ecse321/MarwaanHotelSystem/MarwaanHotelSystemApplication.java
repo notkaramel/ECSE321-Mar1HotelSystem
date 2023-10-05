@@ -605,7 +605,7 @@ public class MarwaanHotelSystemApplication {
 		return 0;
 	}
 
-	public Payment addPayment(int amount, String paymentId) {
+	public Payment addPayment(int amount, int paymentId) {
 		return new Payment(amount, paymentId, this);
 	}
 
