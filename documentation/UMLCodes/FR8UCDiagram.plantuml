@@ -1,0 +1,27 @@
+@startuml ShiftManagementUC
+
+' Setting the direction of flow
+left to right direction
+
+' Use cases for Shift Management
+(Set Employee Shifts) as UC1
+(Modify Existing Shifts) as UC2
+(View Current Shifts) as UC3
+(Set Start and End Times) as UC4
+(Notify Employee of Shift Changes) as UC5
+(Generate Shift Reports) as UC6
+
+' Actor
+actor "Manager" as manager
+
+'Associations
+manager --> UC1
+UC1 ..> UC4 : includes
+manager --> UC2
+UC2 ..> UC4 : includes
+UC1 ..> UC5 : extends
+UC2 ..> UC5 : extends
+manager --> UC3
+UC3 ..> UC6 : includes
+
+@enduml
