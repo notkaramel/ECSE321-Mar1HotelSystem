@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.Mar1HotelSystem;
+package ca.mcgill.ecse321.Mar1HotelSystem.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

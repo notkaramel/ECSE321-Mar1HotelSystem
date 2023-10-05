@@ -46,6 +46,10 @@ public class Room {
         Suite, Deluxe, Regular
     }
 
+    public int getRoomId{
+        return this.room.id;
+    }
+
     public boolean setRoomType(RoomType roomType) {
         this.roomType = roomType;
         return true;

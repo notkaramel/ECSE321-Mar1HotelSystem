@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.Mar1HotelSystem.Tests;
+package ca.mcgill.ecse321.Mar1HotelSystem.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -32,16 +32,29 @@ public class RoomRepositoryTest {
     }
     @Test
     public void testPersistAndLoadRoom() {
+        //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         Hotel hotel = new Hotel();
         hotel = hotelRepository.save(hotel);
-
+        //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         RoomType roomType = RoomType.Suite;
         BedType bedType = BedType.King;
         boolean isAvailable = true;
         int pricePerNight = 200;
         int maxCapacity = 2;
-
+        //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, null);
+        //=-=-=-=-=-=- Save object -=-=-=-=-=-=//
+        room = roomRepository.save(room);
+        //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
+        int id = room.getRoomId;
+
+        assertNotNull(id);
+        assertEquals(roomType, room.getRoomType);
+        assertEquals(bedType, room.getBedType);
+        assertEquals(isAvailable, room.getIsAvailable);
+        assertEquals(pricePerNight, room.getPricePerNight);
+        assertEquals(maxCapacity, room.getMaxCapacity);
+        assertEquals(hotel, room.getHotel);
     }
     
 }
