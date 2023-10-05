@@ -1,4 +1,4 @@
-@startuml MHS
+@startuml DomainModel
 title Marwaan's Hotel System
 skinparam linetype ortho
 hide methods
@@ -12,18 +12,19 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model {
         phone : int
     }
 
-    Class Account {
+    abstract Class Account <<abstract>> {
         password
     }
+    together {
+        Class Employee {
+            hoursWorked : int
+        }
 
-    Class Employee {
-        hoursWorked : int
-    }
+        Class Manager {
+        }
 
-    Class Manager {
-    }
-
-    Class Customer {
+        Class Customer {
+        }
     }
 
     ' Associations of users
@@ -39,11 +40,7 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model {
         endTime : int
     }
 
-    Shift "*" -down-> "1" Employee
-
-    ' Class Schedule
-
-    ' Shift "1..*" -down-* "1" Schedule
+    Shift "*" -up-> "1" Employee
 
     ' Room, Booking, Request, Payment
     Class Room {
@@ -67,8 +64,15 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model {
         description
     }
 
-    Request "1" -down[#blue]-> "1" Employee
-    Request "1" -up[#blue]-> "1" Booking
+    Request "*" -up-> "1" Booking
+
+    Class Service {
+        assignee : Employee
+        isCompleted : boolean
+    }
+
+    Service "1" -up[#blue]-> "1" Request
+    Service "1" -down[#blue]-> "1" Employee
 
     Class Payment {
         amount : int
@@ -79,9 +83,9 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model {
 
     ' Hotel, Hotel Hours of Operations
 
-    Class Hotel 
+    Class Hotel
 
-    Class HotelSchedule 
+    Class HotelSchedule
 
     Hotel "1" -left-> "1" HotelSchedule
 
@@ -101,26 +105,26 @@ package ca.mcgill.ecse321.MarwaanHotelSystem.model {
     HotelSchedule "1" -up-> "0..365" CustomHours
     HotelSchedule "1" -up-> "7" OperatingHours
 
-        enum RoomType <<enum>> {
-            Suite
-            Deluxe
-            Luxury
-            Regular
-        }
+    enum RoomType <<enum>> {
+        Suite
+        Deluxe
+        Luxury
+        Regular
+    }
 
-        enum BedType <<enum>> {
-            King
-            Queen
-            Doubles
-        }
-        enum DayOfWeek <<enum>> {
-            Monday
-            Tuesday
-            Wednesday
-            Thursday
-            Friday
-            Saturday
-            Sunday
-        }
+    enum BedType <<enum>> {
+        King
+        Queen
+        Doubles
+    }
+    enum DayOfWeek <<enum>> {
+        Monday
+        Tuesday
+        Wednesday
+        Thursday
+        Friday
+        Saturday
+        Sunday
+    }
 }
 @enduml
