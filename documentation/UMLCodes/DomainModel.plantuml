@@ -1,10 +1,10 @@
 @startuml DomainModel
-title Marwaan's Hotel System
+title Mar-1 Hotel System (MHS)
 skinparam linetype ortho
 hide methods
 top to bottom direction
 
-package ca.mcgill.ecse321.MarwaanHotelSystem.model {
+package ca.mcgill.ecse321.Mar1HotelSystem.model {
     Class User {
         firstName
         lastName
