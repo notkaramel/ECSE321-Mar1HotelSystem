@@ -14,7 +14,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomerRepository;
 /**
  * This is the test class for the customer repository.
  *
- * @Author Liu, ZiXu
+ * @author Liu, ZiXu
  */
 @SpringBootTest
 public class CustomerRepositoryTest {
