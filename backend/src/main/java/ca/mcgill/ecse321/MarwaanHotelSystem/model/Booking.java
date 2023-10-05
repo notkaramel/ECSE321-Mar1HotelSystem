@@ -20,6 +20,7 @@ public class Booking {
     private Room room;
     private MarwaanHotelSystemApplication marwaanHotelSystemApplication;
 
+    // Booking constructor requiring bookingId, payment, user, room and marwaanHotelSystemApplication
     public Booking(int bookingId, Payment payment, User user, Room room,
             MarwaanHotelSystemApplication marwaanHotelSystemApplication) {
         this.bookingId = bookingId;
@@ -40,19 +41,22 @@ public class Booking {
     }
 
     // Getters
+    // Method getting bookingId, returns bookingId
     public int getBookingId() {
         return this.bookingId; 
     }
 
-
+    // Method getting payment, returns payment
     public Payment getPayment() {
         return this.payment;
     }
 
+    // Method getting user, returns user
     public User getUser() {
         return this.user;
     }
 
+    // Method getting room, returns room
     public Room getRoom() {
         return this.room;
     }
