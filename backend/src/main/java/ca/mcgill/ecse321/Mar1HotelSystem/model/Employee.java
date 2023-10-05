@@ -1,0 +1,37 @@
+package ca.mcgill.ecse321.Mar1HotelSystem.model;
+
+import ca.mcgill.ecse321.Mar1HotelSystem.Mar1HotelSystemApplication;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Employee extends Account {
+
+    // Defining Variables
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int employeeId;
+    int hoursWorked;
+
+    public Employee(String firstName, String lastName, String email, int phoneNumber, String password,
+            int hoursWorked, Mar1HotelSystemApplication mar1HotelSystemApplication) {
+        super(firstName, lastName, email, phoneNumber, password, mar1HotelSystemApplication);
+        this.hoursWorked = hoursWorked;
+    }
+
+    public boolean setHoursWorked(int hoursWorked) {
+        this.hoursWorked = hoursWorked;
+        return true;
+    }
+
+    public int getHoursWorked() {
+        return this.hoursWorked;
+    }
+
+    public void delete() {
+        super.delete();
+    }
+
+}
