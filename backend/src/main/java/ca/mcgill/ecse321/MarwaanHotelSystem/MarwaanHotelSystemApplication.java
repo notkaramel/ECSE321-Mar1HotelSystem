@@ -691,7 +691,7 @@ public class MarwaanHotelSystemApplication {
 		return 0;
 	}
 
-	public Booking addBooking(String bookingId, Payment payment, User user, Room room) {
+	public Booking addBooking(int bookingId, Payment payment, User user, Room room) {
 		return new Booking(bookingId, payment, user, room, this);
 	}
 
