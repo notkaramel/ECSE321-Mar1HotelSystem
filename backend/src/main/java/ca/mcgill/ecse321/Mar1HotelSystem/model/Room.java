@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 
 @Entity
