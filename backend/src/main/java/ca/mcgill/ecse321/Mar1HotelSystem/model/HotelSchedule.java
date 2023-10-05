@@ -17,6 +17,7 @@ public class HotelSchedule {
     private List<OperatingHours> operatingHoursList;
     private Mar1HotelSystemApplication mar1HotelSystemApplication;
 
+    // HotelSchedule constructor requiring year, list of operatingHours, list of customHours, and mar1HotelSystemApplication
     public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList,
             Mar1HotelSystemApplication mar1HotelSystemApplication) {
         this.year = year;
@@ -37,17 +38,19 @@ public class HotelSchedule {
     }
 
     // Getters
+    // Method to get year, returns year
     public int getYear() {
         return this.year;
     }
 
     // Setters
+    // Method to set year, returns true if year set
     public boolean setYear(int year) {
         this.year = year;
         return true;
     }
 
-    // 7 association
+    // Methods for 1 to 7 associationn between HotelSchedule and OperatingHours
     public List<OperatingHours> getOperatingHours() {
         List<OperatingHours> newOperatingHours = Collections.unmodifiableList(this.operatingHoursList);
         return newOperatingHours;
@@ -83,7 +86,7 @@ public class HotelSchedule {
         return true;
     }
 
-    // 365 association to CustomHour
+    // Methods for 1 to 365 associations between Hotel to CustomHours
     public List<CustomHours> getCustomHours() {
         List<CustomHours> newCustomHours = Collections.unmodifiableList(this.customHoursList);
         return newCustomHours;
@@ -143,6 +146,7 @@ public class HotelSchedule {
         return true;
     }
 
+    // Method to delete
     public void delete() {
         Mar1HotelSystemApplication placeholderMar1HotelSystemApplication = mar1HotelSystemApplication;
         this.mar1HotelSystemApplication = null;
