@@ -12,10 +12,10 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.User;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
-import ca.mcgill.ecse321.Mar1HotelSystem.repository.BookingRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.repository.PaymentRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.repository.UserRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.repository.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.UserRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest 
