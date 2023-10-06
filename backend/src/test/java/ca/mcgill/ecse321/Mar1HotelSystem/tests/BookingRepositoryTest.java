@@ -64,7 +64,7 @@ public class BookingRepositoryTest {
         // Create and Save User Object (Required for Booking)
         int phoneNumber = 438;
         GeneralUser user = new GeneralUser("John", "Wick", "johnwick@email.com", phoneNumber);
-        user = generalUserRepository.save(user);
+        generalUserRepository.save(user);
 
         // Create and Save Hotel Object (Required for Room, which is in turn required
         // for Booking)
@@ -79,17 +79,17 @@ public class BookingRepositoryTest {
         Hotel hotel = new Hotel(hotelSchedule);
 
         // Saving hotel
-        hotel = hotelRepository.save(hotel);
+        hotelRepository.save(hotel);
 
         // Create and Save Room Object (Required for Booking)
         Room room = new Room(RoomType.Suite, BedType.King, true, phoneNumber, phoneNumber, null, bookingId);
-        room = roomRepository.save(room);
+        roomRepository.save(room);
 
         // ------------------
         // Create and Save Booking
         // ------------------
         Booking booking = new Booking(bookingId, payment, user, room);
-        booking = bookingRepository.save(booking);
+        bookingRepository.save(booking);
 
         // Reading the booking
         booking = bookingRepository.findBookingByBookingId(bookingId);
