@@ -12,26 +12,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.*;
+
 import jakarta.transaction.Transactional;
 
 /**
- * This test is for the booking class
+ * This test class is for the BookingRepository CRUD against the database.
  * 
- * @author Mokhtari, Bilar
- * 
+ * @author Bilar Mokhtari (@bmokhtari)
+ * @author Antoine Phan (@notkaramel)
  */
 @SpringBootTest
 public class HotelRepositoryTest {
