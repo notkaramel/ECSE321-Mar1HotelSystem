@@ -1,10 +1,10 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.MappedSuperclass;
 
-@Entity
-public abstract class Account extends User {
+@MappedSuperclass
+public class Account extends User {
 
     // Defining Variables
     private String password;
