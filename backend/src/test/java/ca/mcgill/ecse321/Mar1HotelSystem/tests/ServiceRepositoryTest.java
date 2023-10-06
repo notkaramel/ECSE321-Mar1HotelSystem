@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Date;
 @SpringBootTest
 public class ServiceRepositoryTest {
-    // Setting up the service repository
+    // Setting up the repositories
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
@@ -67,6 +67,7 @@ public class ServiceRepositoryTest {
         int hoursWorked = 10;
         Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
 
+        // Adding to the database
         employeeRepository.save(employee);
 
         // Creating a user
@@ -76,6 +77,7 @@ public class ServiceRepositoryTest {
         int phoneNumberUser = 123;
         GeneralUser user = new GeneralUser(firstNameUser, lastNameUser, emailUser, phoneNumberUser);
 
+        // Adding to the database
         userRepository.save(user);
 
         // Creating a new custom hour
@@ -84,6 +86,7 @@ public class ServiceRepositoryTest {
         int closingHour = 2;
         CustomHours customHours = new CustomHours(dateHour, openingHour, closingHour);
 
+        // Adding to the database
         customHoursRepository.save(customHours);
 
         // Creating a new operating hour
@@ -92,6 +95,7 @@ public class ServiceRepositoryTest {
         int closingHourOperating = 4;
         OperatingHours operatingHours = new OperatingHours(dayOfWeek, openingHourOperating, closingHourOperating);
 
+        // Adding to the database
         operatingHoursRepository.save(operatingHours);
 
         // Creating a new hotel schedule
@@ -100,11 +104,13 @@ public class ServiceRepositoryTest {
         OperatingHours[] operatingHoursList = {operatingHours};
         HotelSchedule hotelSchedule = new HotelSchedule(year, operatingHoursList, customHoursList);
 
+        // Adding to the database
         hotelScheduleRepository.save(hotelSchedule);
 
         // Creating a new hotel
         Hotel hotel = new Hotel(hotelSchedule);
 
+        // Adding to the database
         hotelRepository.save(hotel);
 
         // Creating a new room
@@ -116,17 +122,20 @@ public class ServiceRepositoryTest {
         int maxCapacity = 2;
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
 
+        // Adding to the database
         roomRepository.save(room);
 
         // Creating a new payment
         int amountPayment = 50;
         Payment payment = new Payment(amountPayment);
 
+        // Adding to the database
         paymentRepository.save(payment);
 
         // Creating a new booking
         Booking booking = new Booking(payment, user, room);
 
+        // Adding to the database
         bookingRepository.save(booking);
 
         // Creating a request
@@ -134,6 +143,7 @@ public class ServiceRepositoryTest {
         boolean fulfilled = false;
         Request request = new Request(description, booking, fulfilled);
 
+        // Adding to the database
         requestRepository.save(request);
 
         // Creating a service
@@ -146,6 +156,7 @@ public class ServiceRepositoryTest {
         // Assertions
         service = serviceRepository.findServiceByServiceId(serviceId);
 
+        // Assertions
         assertNotNull(service);
         assertEquals(request.getRequestId(), service.getRequest().getRequestId());
         assertEquals(employee.getEmail(), service.getAssignee().getEmail());
