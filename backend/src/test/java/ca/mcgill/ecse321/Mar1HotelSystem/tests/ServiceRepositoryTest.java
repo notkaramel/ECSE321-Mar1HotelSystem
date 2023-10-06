@@ -113,8 +113,7 @@ public class ServiceRepositoryTest {
         boolean isAvailable = true;
         int pricePerNight = 5;
         int maxCapacity = 2;
-        int idRoom = 10;
-        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, idRoom);
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
 
         roomRepository.save(room);
 
@@ -126,8 +125,7 @@ public class ServiceRepositoryTest {
         paymentRepository.save(payment);
 
         // Creating a new booking
-        int bookingId = 30;
-        Booking booking = new Booking(bookingId, payment, user, room);
+        Booking booking = new Booking(payment, user, room);
 
         bookingRepository.save(booking);
 

@@ -58,7 +58,7 @@ public class RoomRepositoryTest {
         int maxCapacity = 2;
         int roomId = 1;
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
-        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, roomId);
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
         //=-=-=-=-=-=- Save object -=-=-=-=-=-=//
         roomRepository.save(room);
         //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
