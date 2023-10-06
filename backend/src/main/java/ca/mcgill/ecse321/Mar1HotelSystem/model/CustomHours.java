@@ -5,6 +5,14 @@ import java.util.Date;
 
 import jakarta.persistence.*;
 
+/**
+ * The CustomHours class for all custom hours of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
+
 @Entity
 public class CustomHours {
     @Id
@@ -18,7 +26,7 @@ public class CustomHours {
     // Default constructor
     public CustomHours() {
     }
-    
+
     // CustomHours constructor requiring date, openingHour, closingHour
     public CustomHours(Date date, int openingHour, int closingHour) {
         this.date = date;
@@ -37,7 +45,7 @@ public class CustomHours {
         return this.openingHour;
     }
 
-     // Method to get ClosingHour, returns ClosingHour
+    // Method to get ClosingHour, returns ClosingHour
     public int getClosingHour() {
         return this.closingHour;
     }

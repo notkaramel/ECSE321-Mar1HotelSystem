@@ -17,10 +17,16 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.*;
 
+/**
+ * This test class is for the BookingRepository CRUD against the database.
+ * 
+ * @author Bilar Mokhtari (@bmokhtari)
+ * @author Antoine Phan (@notkaramel)
+ * @author ZiXu Liu (@ARandomPi)
+ */
 
 @SpringBootTest
 public class BookingRepositoryTest {
-
     @Autowired
     private BookingRepository bookingRepository;
 
@@ -48,6 +54,13 @@ public class BookingRepositoryTest {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
+        /*
+        Deletion order: from parent to child
+
+        booking -> room -> hotel -> hotel schedule -> custom hours
+                          \-> user                           \-> operating hours
+                          \-> payment
+         */
         bookingRepository.deleteAll();
         roomRepository.deleteAll();
         hotelRepository.deleteAll();
@@ -62,7 +75,6 @@ public class BookingRepositoryTest {
      * This test is for the booking class
      * 
      * @author Mokhtari, Bilar
-     * 
      */
     @Test
     public void testPersistAndLoadBooking() {
@@ -79,11 +91,11 @@ public class BookingRepositoryTest {
         GeneralUser user = new GeneralUser("John", "Wick", "johnwick@email.com", phoneNumber);
         generalUserRepository.save(user);
 
-        // Create and Save Hotel Object (Required for Room, which is in turn required
-        // for Booking)
+        // Create and Save CustomHours and OperatingHours Objects 
         Date date = new Date();
         CustomHours customHours = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
+
         CustomHours[] customHoursArray = new CustomHours[1];
         OperatingHours[] operatingHoursArray = new OperatingHours[1];
         customHoursRepository.save(customHours);
@@ -91,8 +103,10 @@ public class BookingRepositoryTest {
 
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
+
+        // Create and Save HotelSchedule and Hotel Object
         HotelSchedule hotelSchedule = hotelScheduleRepository.findHotelScheduleByYear(2023);
-            hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
+        hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
         hotelScheduleRepository.save(hotelSchedule);
         Hotel hotel = new Hotel(hotelSchedule);
 
@@ -108,7 +122,7 @@ public class BookingRepositoryTest {
         // ------------------
         Booking booking = new Booking(payment, user, room);
         bookingRepository.save(booking);
-         int bookingId = booking.getBookingId();
+        int bookingId = booking.getBookingId();
 
         // Reading the booking
         booking = bookingRepository.findBookingByBookingId(bookingId);
@@ -120,6 +134,5 @@ public class BookingRepositoryTest {
         assertEquals(payment.getAmount(), booking.getPayment().getAmount());
         assertEquals(user.getEmail(), booking.getGeneralUser().getEmail());
         assertEquals(room.getRoomId(), booking.getRoom().getRoomId());
-
     }
 }

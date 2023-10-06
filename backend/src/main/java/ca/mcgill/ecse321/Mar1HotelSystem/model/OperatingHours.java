@@ -3,13 +3,22 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The OperatingHours class for hotel of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ * @author ZiXu Liu (@ARandomPi) - JPA Annotations
+ */
+
 @Entity
 public class OperatingHours {
     // Defining variables
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int operatingHoursId;
-    
+
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
     private int openingHour;

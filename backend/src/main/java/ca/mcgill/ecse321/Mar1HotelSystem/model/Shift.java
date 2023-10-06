@@ -2,24 +2,32 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import java.util.Date;
-
 import jakarta.persistence.*;
+
+/**
+ * The Shift class for all shifts of employees in the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
 
 @Entity
 public class Shift {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int shiftId;
-    
+
     private Date date;
     private int startTime;
     private int endTime;
     @ManyToOne
     private Employee employee;
 
-    public Shift(){
+    public Shift() {
 
     }
+
     // Shift constructor requiring employee, date, startTime, endTime
     public Shift(Employee employee, Date date, int startTime, int endTime) {
         this.date = date;
@@ -86,5 +94,5 @@ public class Shift {
 
     public void delete() {
     }
-    
+
 }

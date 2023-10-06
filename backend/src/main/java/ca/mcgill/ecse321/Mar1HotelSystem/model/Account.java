@@ -3,15 +3,25 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The Account superclass for all registered users of the system (Customer,
+ * Employee, Manager)
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
+
 @Entity
 public class Account extends GeneralUser {
 
     // Defining Variables
     private String password;
 
-    public Account(){
+    public Account() {
         super();
     }
+
     // Account constructor requiring firstName, lastName, email, phoneNumber,
     // password
     public Account(String firstName, String lastName, String email, int phoneNumber, String password) {
@@ -19,7 +29,7 @@ public class Account extends GeneralUser {
         this.password = password;
     }
 
-    // Method to set password, returns true if password succesfully set
+    // Method to set password, returns true if password successfully set
     public boolean setPassword(String password) {
         this.password = password;
         return true;

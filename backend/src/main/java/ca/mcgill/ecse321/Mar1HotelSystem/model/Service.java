@@ -3,16 +3,25 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The Service class for all requests serviced by an employee of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
+
 @Entity
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int serviceId;
-    
+
     @OneToOne
     private Employee assignee;
     @OneToOne
     private Request request;
+
     public Service() {
 
     }

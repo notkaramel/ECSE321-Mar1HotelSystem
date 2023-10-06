@@ -3,20 +3,27 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The GeneralUser class for all visiting guests of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class GeneralUser {
     // Defining variables
-
     @Id
     private String email;
     private String firstName;
     private String lastName;
     private int phoneNumber;
 
-    public GeneralUser(){
-        
+    public GeneralUser() {
+
     }
+
     // Shift constructor requiring firstName, lastName, email, phoneNumber
     public GeneralUser(String firstName, String lastName, String email, int phoneNumber) {
         this.firstName = firstName;
