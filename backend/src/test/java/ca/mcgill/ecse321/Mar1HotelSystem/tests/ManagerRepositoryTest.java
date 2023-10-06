@@ -35,9 +35,9 @@ public class ManagerRepositoryTest {
 		 */
 
         clearDatabase();
-		String firstName = "Lucas";
-		String lastName = "Pacicco";
-		String email = "lucaspacicco@gmail.com";
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@gmail.com";
         int phoneNumber = 111333333;
         String password = "abc";
 		Manager manager = new Manager(firstName, lastName, email, phoneNumber, password);
