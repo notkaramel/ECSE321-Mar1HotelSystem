@@ -48,7 +48,7 @@ public class CustomHoursRepositoryTest {
         CustomHours customHours = new CustomHours(date, openingHour, closingHour);
 
         // Save CustomHours to repository
-        customHours = customHoursRepository.save(customHours);
+        customHoursRepository.save(customHours);
 
         // Retrieve saved CustomHours using the date as search parameter
         customHours = customHoursRepository.findCustomHoursByDate(date);
