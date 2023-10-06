@@ -6,11 +6,12 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Id;
 
 @Entity
 public class Hotel {
-
     @OneToOne
+    @Id
     private HotelSchedule hotelSchedule;
     private List<Room> rooms;
 

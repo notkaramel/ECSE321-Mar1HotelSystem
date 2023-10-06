@@ -3,10 +3,12 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import java.util.Date;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class CustomHours {
     // Defining variables
+    @Id
     private Date date;
     private int openingHour;
     private int closingHour;
