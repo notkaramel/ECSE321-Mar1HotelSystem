@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.Mar1HotelSystem;
+package ca.mcgill.ecse321.Mar1HotelSystem.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,7 +12,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.AccountRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Account;
 
 @SpringBootTest
-public class AccountTest {
+public class AccountRepositoryTest {
     @Autowired
 	private AccountRepository accountRepository;
 
