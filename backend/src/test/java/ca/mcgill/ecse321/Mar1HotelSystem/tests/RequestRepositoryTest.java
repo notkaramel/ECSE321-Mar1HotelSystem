@@ -41,16 +41,16 @@ public class RequestRepositoryTest {
     // Clearing the database after the test
     @AfterEach
     public void clearDatabase() {
+        requestRepository.deleteAll();
+        bookingRepository.deleteAll();
+        paymentRepository.deleteAll();
+        roomRepository.deleteAll();
+        hotelRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
         employeeRepository.deleteAll();
         customHoursRepository.deleteAll();
-        customHoursRepository.deleteAll();
         operatingHoursRepository.deleteAll();
-        hotelScheduleRepository.deleteAll();
-        hotelRepository.deleteAll();
-        roomRepository.deleteAll();
-        paymentRepository.deleteAll();;
-        bookingRepository.deleteAll();
-        requestRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -140,7 +140,7 @@ public class RequestRepositoryTest {
         assertNotNull(request);
         assertEquals(description, request.getDescription());
         assertEquals(fulfilled, request.getIsFufilled());
-        assertEquals(booking, request.getBooking());
+        assertEquals(booking.getBookingId(), request.getBooking().getBookingId());
 
     }
 }
