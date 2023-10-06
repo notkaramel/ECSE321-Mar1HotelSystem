@@ -11,15 +11,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 import jakarta.transaction.Transactional;
-
+/**
+ * This is the test class for the HotelSchedule repository.
+ *
+ * @author Mokhtari, Bilar
+ */
 @SpringBootTest
 public class HotelScheduleRepositoryTest {
     @Autowired
@@ -35,12 +35,16 @@ public class HotelScheduleRepositoryTest {
 
     @BeforeEach
     @AfterEach
+    // Deleting in this particular order from Parent to Child in order to maintain association integrity
     public void clearDatabase(){
         hotelScheduleRepository.deleteAll();
         operatingHoursRepository.deleteAll();
         customHoursRepository.deleteAll();
     }
 
+    // ------------------
+    // Test Methods
+    // ------------------
     @Test
     @Transactional
     public void testPersistAndLoadHotelSchedule(){
@@ -59,10 +63,18 @@ public class HotelScheduleRepositoryTest {
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
+
+        // ------------------
+        // Save HotelSchedule
+        // ------------------
         hotelScheduleRepository.save(hotelSchedule);
         hotelSchedule = hotelScheduleRepository.findHotelScheduleByYear(2023);
 
+        // ------------------
         // Assertions
+        // ------------------
+
+        // Assert the HotelSchedule
         assertNotNull(hotelSchedule);
         assertEquals(2023, hotelSchedule.getYear());
 
