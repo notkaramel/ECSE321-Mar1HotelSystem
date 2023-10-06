@@ -46,6 +46,13 @@ public class RequestRepositoryTest {
     // Clearing the database after the test
     @AfterEach
     public void clearDatabase() {
+        /*
+        Deletion order: from parent to child
+
+        request -> booking -> room -> hotel -> hotel schedule -> custom hours
+                          \-> user                           \-> operating hours
+                          \-> payment
+         */
         requestRepository.deleteAll();
         bookingRepository.deleteAll();
         paymentRepository.deleteAll();

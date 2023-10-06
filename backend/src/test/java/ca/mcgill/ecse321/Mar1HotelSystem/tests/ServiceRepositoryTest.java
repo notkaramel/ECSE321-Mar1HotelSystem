@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Date;
 
 /**
- * This is the test class for the service repository
+ * This is the test class for the service repository.
  *
  * @author ZiXu Liu
  */
@@ -48,6 +48,13 @@ public class ServiceRepositoryTest {
     // Clearing the database after the test
     @AfterEach
     public void clearDatabase() {
+        /*
+        Deletion order: from parent to child
+
+        service -> request -> booking -> room -> hotel -> hotel schedule -> custom hours
+               \-> employee          \-> user                           \-> operating hours
+                                     \-> payment
+         */
         serviceRepository.deleteAll();
         requestRepository.deleteAll();
         bookingRepository.deleteAll();
