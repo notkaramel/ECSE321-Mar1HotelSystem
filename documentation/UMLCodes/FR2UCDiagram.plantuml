@@ -11,7 +11,7 @@ left to right direction
 :Guest: as guest
 
 'Use cases
-package MHS {
+node MHS {
     (Book room) as UC1
     (Select room) as UC2
     (Pay for room) as UC3
