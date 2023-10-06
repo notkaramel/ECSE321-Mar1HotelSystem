@@ -20,9 +20,20 @@ cd project-group-05
 - To build & test our project:
 ```bash
 cd backend
-./gradlew build
+
+# for UNIX-based OS (Linux, macOS, etc.)
+chmod +x gradlew 
+./gradlew build 
+./gradlew build -xtest # Build without testing
+./gradlew test  # Run the tests
+
+# for Windows
+gradlew.bat build # Build + test 
+gradlew.bat build -xtest # Build the project without testing
+gradlew.bat test # Run the tests
 ```
-- Our database is open to the public, so you don't need to configure anything to run the project. However, if you want to run the project locally, you can change the database configuration in `backend/src/main/resources/application.properties`: (replace `YOUR_DATABASE` and `PASSWORD` with your own database name and password)
+
+- Our database is open to the public and pre-configured, so you don't need to configure anything to run the project. However, if you want to run the project locally, you can change the database configuration in `backend/src/main/resources/application.properties`: (replace `YOUR_DATABASE` and `PASSWORD` with your own database name and password)
 ```properties
 server.port = ${PORT:8080}
 
@@ -33,6 +44,14 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/YOUR_DATABASE
 spring.datasource.username=postgres
 spring.datasource.password=PASSWORD
 ```
+
+### Frontend (To Be Implemented)
+- To start
+```bash
+cd frontend
+npm install
+```
+
 ## The developer team
 | Name | Program - Year | GitHub Profile |
 | ---- | ------- | ----- |
