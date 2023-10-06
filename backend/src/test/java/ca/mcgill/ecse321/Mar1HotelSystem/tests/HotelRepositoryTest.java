@@ -49,6 +49,7 @@ public class HotelRepositoryTest {
     public void clearDatabase() {
         roomRepository.deleteAll();
         hotelRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
     }
 
     // ------------------
@@ -90,8 +91,8 @@ public class HotelRepositoryTest {
         // Create and Save Room
         // ------------------
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
-        int roomId = room.getRoomId(); 
         roomRepository.save(room);
+        int roomId = room.getRoomId();
         room = roomRepository.findRoomByRoomId(roomId);
         // Add the saved Room to the saved Hotel
         hotel.addRoom(room);
