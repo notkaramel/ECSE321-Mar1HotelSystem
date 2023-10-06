@@ -28,7 +28,7 @@ public class BookingRepositoryTest {
     private PaymentRepository paymentRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private GeneralUserRepository generalUserRepository;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -41,7 +41,7 @@ public class BookingRepositoryTest {
     public void clearDatabase() {
         bookingRepository.deleteAll();
         paymentRepository.deleteAll();
-        userRepository.deleteAll();
+        generalUserRepository.deleteAll();
         roomRepository.deleteAll();
     }
 
@@ -63,8 +63,8 @@ public class BookingRepositoryTest {
 
         // Create and Save User Object (Required for Booking)
         int phoneNumber = 438;
-        User user = new User("John", "Wick", "johnwick@email.com", phoneNumber);
-        user = userRepository.save(user);
+        GeneralUser user = new GeneralUser("John", "Wick", "johnwick@email.com", phoneNumber);
+        user = generalUserRepository.save(user);
 
         // Create and Save Hotel Object (Required for Room, which is in turn required
         // for Booking)
@@ -99,7 +99,7 @@ public class BookingRepositoryTest {
         // ------------------
         assertNotNull(booking);
         assertEquals(payment, booking.getPayment());
-        assertEquals(user, booking.getUser());
+        assertEquals(user, booking.getGeneralUser());
         assertEquals(room, booking.getRoom());
 
     }

@@ -12,18 +12,18 @@ public class Booking {
     @OneToOne
     private Payment payment;
     @OneToOne
-    private User user;
+    private GeneralUser generalUser;
     @ManyToOne
     private Room room;
 
     // Booking constructor requiring bookingId, payment, user, and room
-    public Booking(int bookingId, Payment payment, User user, Room room) {
+    public Booking(int bookingId, Payment payment, GeneralUser generalUser, Room room) {
         this.bookingId = bookingId;
         if (setPayment(payment) == false) {
             throw new RuntimeException("Need an payment class to be instatiated; need a payment");
         }
 
-        if (setUser(user) == false) {
+        if (setGeneralUser(generalUser) == false) {
             throw new RuntimeException("Need an user class to be instatiated; need a user");
         }
 
@@ -44,8 +44,8 @@ public class Booking {
     }
 
     // Method getting user, returns user
-    public User getUser() {
-        return this.user;
+    public GeneralUser getGeneralUser() {
+        return this.generalUser;
     }
 
     // Method getting room, returns room
@@ -71,9 +71,9 @@ public class Booking {
     }
 
     // Method to set user, returns true if user set
-    public boolean setUser(User user) {
+    public boolean setGeneralUser(GeneralUser user) {
         if (user != null) {
-            this.user = user;
+            this.generalUser = user;
             return true;
         } else {
             return false;
@@ -92,7 +92,7 @@ public class Booking {
 
     public void delete() {
         this.payment = null;
-        this.user = null;
+        this.generalUser = null;
         this.room = null;
     }
 

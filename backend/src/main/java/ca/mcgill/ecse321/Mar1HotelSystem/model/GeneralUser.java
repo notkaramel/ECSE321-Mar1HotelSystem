@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class User {
+public class GeneralUser {
     // Defining variables
 
     @Id
@@ -15,7 +15,7 @@ public class User {
     private int phoneNumber;
 
     // Shift constructor requiring firstName, lastName, email, phoneNumber
-    public User(String firstName, String lastName, String email, int phoneNumber) {
+    public GeneralUser(String firstName, String lastName, String email, int phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
