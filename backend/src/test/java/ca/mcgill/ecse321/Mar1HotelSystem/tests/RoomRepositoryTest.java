@@ -45,10 +45,6 @@ public class RoomRepositoryTest {
         Date date = new Date();
         CustomHours customHours = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
-        // List<CustomHours> customHoursArray = new LinkedList<CustomHours>();
-        // List<OperatingHours> operatingHoursArray = new LinkedList<OperatingHours>();
-        // customHoursArray.add(customHours);
-        // operatingHoursArray.add(operatingHours);
         CustomHours[] customHoursArray = new CustomHours[1];
         OperatingHours[] operatingHoursArray = new OperatingHours[1];
         customHoursArray[0] = customHours;
@@ -57,7 +53,6 @@ public class RoomRepositoryTest {
         hotelScheduleRepository.save(hotelSchedule);
         Hotel hotel = new Hotel(hotelSchedule);
         hotelRepository.save(hotel);
-        // hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
         
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         RoomType roomType = RoomType.Suite;
