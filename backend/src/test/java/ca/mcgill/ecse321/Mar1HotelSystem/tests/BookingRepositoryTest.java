@@ -48,9 +48,9 @@ public class BookingRepositoryTest {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        bookingRepository.deleteAll();
-        hotelScheduleRepository.deleteAll();
         hotelRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
+        bookingRepository.deleteAll();
         roomRepository.deleteAll();
         operatingHoursRepository.deleteAll();
         customHoursRepository.deleteAll();
@@ -92,9 +92,7 @@ public class BookingRepositoryTest {
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = hotelScheduleRepository.findHotelScheduleByYear(2023);
-        if(hotelSchedule == null){
             hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
-        }
         hotelScheduleRepository.save(hotelSchedule);
         Hotel hotel = new Hotel(hotelSchedule);
 

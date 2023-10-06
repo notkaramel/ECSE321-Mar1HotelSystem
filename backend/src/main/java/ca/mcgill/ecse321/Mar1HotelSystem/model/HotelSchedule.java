@@ -9,9 +9,6 @@ import jakarta.persistence.*;
 @Entity
 public class HotelSchedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int hotelScheduleId;
-
     private int year;
 
     @OneToMany
@@ -115,9 +112,9 @@ public class HotelSchedule {
         return true;
     }
 
-    public int getHotelScheduleId(){
-        return this.hotelScheduleId;
-    }
+    // public int getHotelScheduleId(){
+    //     return this.hotelScheduleId;
+    // }
 
     
     public void delete() {
