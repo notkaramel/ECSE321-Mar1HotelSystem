@@ -1,34 +1,31 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int bookingId;
+
     @OneToOne
     private Payment payment;
     @OneToOne
-    private User user;
+    private GeneralUser generalUser;
     @ManyToOne
     private Room room;
+    
+    public Booking(){
 
-    // Booking constructor requiring bookingId, payment, user, room and
-    // mar1HotelSystemApplication
-    public Booking(int bookingId, Payment payment, User user, Room room) {
-        this.bookingId = bookingId;
+    }
+    // Booking constructor requiring bookingId, payment, user, and room
+    public Booking( Payment payment, GeneralUser generalUser, Room room) {
         if (setPayment(payment) == false) {
             throw new RuntimeException("Need an payment class to be instatiated; need a payment");
         }
 
-        if (setUser(user) == false) {
+        if (setGeneralUser(generalUser) == false) {
             throw new RuntimeException("Need an user class to be instatiated; need a user");
         }
 
@@ -49,8 +46,8 @@ public class Booking {
     }
 
     // Method getting user, returns user
-    public User getUser() {
-        return this.user;
+    public GeneralUser getGeneralUser() {
+        return this.generalUser;
     }
 
     // Method getting room, returns room
@@ -76,9 +73,9 @@ public class Booking {
     }
 
     // Method to set user, returns true if user set
-    public boolean setUser(User user) {
+    public boolean setGeneralUser(GeneralUser user) {
         if (user != null) {
-            this.user = user;
+            this.generalUser = user;
             return true;
         } else {
             return false;
@@ -97,7 +94,7 @@ public class Booking {
 
     public void delete() {
         this.payment = null;
-        this.user = null;
+        this.generalUser = null;
         this.room = null;
     }
 

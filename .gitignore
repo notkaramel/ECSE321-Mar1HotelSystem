@@ -9,3 +9,6 @@ backend/.gradle
 
 # Personnal ignore
 /UML_ZiXu_Liu/
+
+# VSCode
+.vscode

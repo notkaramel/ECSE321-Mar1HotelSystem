@@ -4,16 +4,23 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Hotel {
+    @Id
+    private String hotelName = "Mar-1 Hotel";
 
     @OneToOne
     private HotelSchedule hotelSchedule;
+
+    @OneToMany
     private List<Room> rooms;
 
+    // Default constructor
+    public Hotel() {
+    }
+    // Hotel constructor requiring hotelSchedule
     public Hotel(HotelSchedule hotelSchedule) {
         rooms = new ArrayList<Room>();
         if (setHotelSchedule(hotelSchedule) == false) {
@@ -27,6 +34,9 @@ public class Hotel {
         return this.hotelSchedule;
     }
 
+    public String getHotelName(){
+        return this.hotelName;
+    }
     // Setters
     // Method to set hotelSchedule, returns true if hotelSchedule set
     public boolean setHotelSchedule(HotelSchedule hotelSchedule) {

@@ -1,22 +1,23 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Payment {
     // Defining variables
-    private int amount;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int paymentId;
+    
+    private int amount;
 
-    public Payment(int amount, int paymentId) {
+    public Payment(){
+
+    }
+    // Payment constructor requiring amount and paymentId
+    public Payment(int amount) {
         this.amount = amount;
-        this.paymentId = paymentId;
     }
 
     // Getters

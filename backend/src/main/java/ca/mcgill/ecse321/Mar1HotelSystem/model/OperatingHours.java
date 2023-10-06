@@ -1,25 +1,32 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
+import jakarta.persistence.*;
 
+@Entity
 public class OperatingHours {
     // Defining variables
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int operatingHoursId;
+    
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
     private int openingHour;
     private int closingHour;
 
+    // Default constructor
+    public OperatingHours() {
+    }
+
+    // OperatingHours constructor day, openingHour, closingHour
     public OperatingHours(DayOfWeek day, int openingHour, int closingHour) {
         this.day = day;
         this.openingHour = openingHour;
         this.closingHour = closingHour;
     }
 
-    // Enum
+    // Enum DayOfWeek
     public enum DayOfWeek {
         Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
     }

@@ -1,29 +1,27 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int requestId;
+
     private String description;
     private boolean isFufilled;
-    @OneToOne
-    private Service service;
+
+    @ManyToOne
     private Booking booking;
 
-    public Request(String description, Employee employee, Booking booking, boolean isFufilled) {
+    public Request () {
+
+    }
+    // Request constructor requiring description, employee, booking, and isFufilled
+    public Request(String description, Booking booking, boolean isFufilled) {
         this.description = description;
         this.isFufilled = isFufilled;
-        if (setService(service) == false) {
-            throw new RuntimeException("Need an service class to be instatiated; need an service");
-        }
 
         if (setBooking(booking) == false) {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
@@ -39,11 +37,6 @@ public class Request {
     // Method to get isFufilled, returns isFufilled
     public Boolean getIsFufilled() {
         return this.isFufilled;
-    }
-
-    // Method to get service, returns service
-    public Service getService() {
-        return this.service;
     }
 
     // Method to get booking, returns booking
@@ -64,16 +57,6 @@ public class Request {
         return true;
     }
 
-    // Method to set service, returns true if service set
-    public boolean setService(Service service) {
-        if (service != null) {
-            this.service = service;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     // Method to set booking, returns true if booking set
     public boolean setBooking(Booking booking) {
         if (booking != null) {
@@ -82,6 +65,10 @@ public class Request {
         } else {
             return false;
         }
+    }
+
+    public int getRequestId() {
+        return this.requestId;
     }
 
     public void delete() {

@@ -1,16 +1,19 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
-public abstract class Account extends User {
+public class Account extends GeneralUser {
 
     // Defining Variables
     private String password;
 
-    // Account Constructor requiring firstName, lastName, email, phoneNUmber,
-    // password and mar1HotelSystemApplication
+    public Account(){
+        super();
+    }
+    // Account constructor requiring firstName, lastName, email, phoneNumber,
+    // password
     public Account(String firstName, String lastName, String email, int phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber);
         this.password = password;

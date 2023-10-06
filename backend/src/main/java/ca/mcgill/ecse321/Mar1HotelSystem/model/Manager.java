@@ -6,6 +6,11 @@ import jakarta.persistence.Entity;
 @Entity
 public class Manager extends Account {
 
+    public Manager(){
+        super();
+    }
+    // Manager constructor requiring firstName, lastName, email, phoneNUmber,
+    // password
     public Manager(String firstName, String lastName, String email, int phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber, password);
     }

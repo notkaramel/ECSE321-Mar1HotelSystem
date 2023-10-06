@@ -2,31 +2,32 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class HotelSchedule {
+    @Id
     private int year;
+
     @OneToMany
     private List<CustomHours> customHoursList;
     @OneToMany
     private List<OperatingHours> operatingHoursList;
 
+    // Default constructor
+    public HotelSchedule() {
+    }
+    
+    // HotelSchedule constructor requiring year, list of operatingHours, list customHours
     public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
         this.year = year;
-        this.customHoursList = new ArrayList<CustomHours>();
-        this.operatingHoursList = new ArrayList<OperatingHours>();
-        if (setCustomHours(customHoursList) == false) {
-            throw new RuntimeException("Need an customHours class to be instatiated; need an custom hours");
-        }
-
-        if (setOperatingHours(operatingHoursList) == false) {
-            throw new RuntimeException("Need an operatingHours class to be instatiated; need a operating hours");
-        }
+        this.customHoursList = new ArrayList<CustomHours>(Arrays.asList(customHoursList));
+        this.operatingHoursList = new ArrayList<OperatingHours>(Arrays.asList(operatingHoursList));
     }
+    
 
     // Getters
     // Method to get year, returns year
@@ -112,6 +113,10 @@ public class HotelSchedule {
         this.customHoursList.addAll(theCustomHoursList);
         return true;
     }
+
+    // public int getHotelScheduleId(){
+    //     return this.hotelScheduleId;
+    // }
 
     
     public void delete() {

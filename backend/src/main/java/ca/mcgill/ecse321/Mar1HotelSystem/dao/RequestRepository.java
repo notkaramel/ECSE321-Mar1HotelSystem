@@ -3,5 +3,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
 
 public interface RequestRepository extends CrudRepository<Request, String>{
-    Request findRequestByRequestId(int requestId);
+    public Request findRequestByRequestId(int requestId);
 }
