@@ -58,6 +58,10 @@ public class Service {
         }
     }
 
+    public int getServiceId() {
+        return serviceId;
+    }
+
     public void delete() {
         this.assignee = null;
         this.request = null;
