@@ -44,6 +44,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
 
     ' Room, Booking, Request, Payment
     Class Room {
+        # RoomNumber : int
         type : RoomType
         bed : BedType
         isAvailable : boolean
@@ -102,7 +103,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
     }
 
 
-    HotelSchedule "1" -up-> "0..365" CustomHours
+    HotelSchedule "1" -up-> "0..366" CustomHours
     HotelSchedule "1" -up-> "7" OperatingHours
 
     enum RoomType <<enum>> {
