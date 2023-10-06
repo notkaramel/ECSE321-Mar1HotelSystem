@@ -3,6 +3,15 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The Customer class for all customer with account of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ * @author ZiXu Liu (@ARandomPi) - JPA Annotations
+ */
+
 @Entity
 public class Room {
     // Defining Variables
@@ -25,8 +34,9 @@ public class Room {
     // Default constructor
     public Room() {
     }
-    
-    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel) {
+
+    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
+            Hotel hotel) {
         this.roomType = roomType;
         this.bedType = bedType;
         this.isAvailable = isAvailable;
@@ -106,7 +116,7 @@ public class Room {
         return this.roomType;
     }
 
-    public int getRoomId(){
+    public int getRoomId() {
         return this.roomId;
     }
 

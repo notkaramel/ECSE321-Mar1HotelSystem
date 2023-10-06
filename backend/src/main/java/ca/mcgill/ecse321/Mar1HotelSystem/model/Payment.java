@@ -3,18 +3,27 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The Customer class for all customer with account of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
+
 @Entity
 public class Payment {
     // Defining variables
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int paymentId;
-    
+
     private int amount;
 
-    public Payment(){
+    public Payment() {
 
     }
+
     // Payment constructor requiring amount and paymentId
     public Payment(int amount) {
         this.amount = amount;
