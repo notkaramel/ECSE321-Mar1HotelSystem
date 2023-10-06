@@ -3,6 +3,14 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The Customer class for all customer with account of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
+
 @Entity
 public class Request {
     @Id
@@ -15,9 +23,10 @@ public class Request {
     @ManyToOne
     private Booking booking;
 
-    public Request () {
+    public Request() {
 
     }
+
     // Request constructor requiring description, employee, booking, and isFufilled
     public Request(String description, Booking booking, boolean isFufilled) {
         this.description = description;

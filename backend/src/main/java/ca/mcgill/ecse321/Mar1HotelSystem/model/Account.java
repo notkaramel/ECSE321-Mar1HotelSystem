@@ -29,7 +29,7 @@ public class Account extends GeneralUser {
         this.password = password;
     }
 
-    // Method to set password, returns true if password succesfully set
+    // Method to set password, returns true if password successfully set
     public boolean setPassword(String password) {
         this.password = password;
         return true;
