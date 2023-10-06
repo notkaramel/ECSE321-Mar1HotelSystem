@@ -1,27 +1,34 @@
 @startuml ShiftManagementUC
-
-' Setting the direction of flow
-left to right direction
-
-' Use cases for Shift Management
-(Set Employee Shifts) as UC1
-(Modify Existing Shifts) as UC2
-(View Current Shifts) as UC3
-(Set Start and End Times) as UC4
-(Notify Employee of Shift Changes) as UC5
-(Generate Shift Reports) as UC6
+title FR8: The manager shall be able to set and modify shifts for the employees.
 
 ' Actor
-actor "Manager" as manager
+:Manager: as manager
 
-'Associations
-manager --> UC1
-UC1 ..> UC4 : includes
+node MHS {
+    ' Use cases
+    (Set employee shifts) as UC1
+    (Modify existing shifts) as UC2
+    (Enter shift date) as UC3
+    (Enter start and end times) as UC4
+    (Assign employee) as UC5
+    (Press 'Add Shift') as UC6
+    (Press 'Modify Shift') as UC7
+
+    ' Associations
+    left to right direction
+    UC3 .up.> UC1 : includes
+    UC4 .up.> UC1 : includes
+    UC5 .up.> UC1 : includes
+    UC6 .left.> UC1 : includes
+    UC3 ..> UC2 : excludes
+    UC4 ..> UC2 : excludes
+    UC5 ..> UC2 : excludes
+    UC7 .left.> UC2 : includes
+}
+
+
+manager -left-> UC1
 manager --> UC2
-UC2 ..> UC4 : includes
-UC1 ..> UC5 : extends
-UC2 ..> UC5 : extends
-manager --> UC3
-UC3 ..> UC6 : includes
+
 
 @enduml
