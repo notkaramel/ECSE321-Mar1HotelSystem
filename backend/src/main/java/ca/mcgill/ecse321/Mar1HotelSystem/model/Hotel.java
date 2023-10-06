@@ -12,8 +12,9 @@ public class Hotel {
     private String name = "Mar-1 Hotel";
 
     @OneToOne
-    @Id
     private HotelSchedule hotelSchedule;
+
+    @OneToMany
     private List<Room> rooms;
 
     // Hotel constructor requiring hotelSchedule

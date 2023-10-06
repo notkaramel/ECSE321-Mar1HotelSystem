@@ -7,10 +7,8 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 
 public class PaymentRepositoryTest {
     // Setting up the payment repository
@@ -24,7 +22,7 @@ public class PaymentRepositoryTest {
     }
 
     @Test
-    public void testPersistAndReadPayment () {
+    public void testPersistAndReadPayment() {
         // Creating the payment
         int amount = 5;
         int id = 1;

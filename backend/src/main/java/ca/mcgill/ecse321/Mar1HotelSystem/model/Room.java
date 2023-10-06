@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 @Entity
 public class Room {
-
     // Defining Variables
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

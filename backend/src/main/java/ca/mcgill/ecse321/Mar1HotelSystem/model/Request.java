@@ -8,9 +8,11 @@ public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int requestId;
+
     private String description;
     private boolean isFufilled;
-    @OneToOne
+
+    @ManyToOne
     private Booking booking;
 
     // Request constructor requiring description, employee, booking, and isFufilled

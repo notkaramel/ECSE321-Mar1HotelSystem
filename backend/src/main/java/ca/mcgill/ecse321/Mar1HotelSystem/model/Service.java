@@ -7,6 +7,7 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int serviceId;
+    
     @OneToOne
     private Employee assignee;
     @OneToOne

@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 public class OperatingHours {
     // Defining variables
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int operatingHoursId;
+    
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
     private int openingHour;
