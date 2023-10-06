@@ -60,9 +60,9 @@ public class RoomRepositoryTest {
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, roomId);
         //=-=-=-=-=-=- Save object -=-=-=-=-=-=//
-        room = roomRepository.save(room);
+        roomRepository.save(room);
         //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
-        room = roomRepository.findRoomByRoomNumber(roomId);
+        room = roomRepository.findRoomByRoomId(roomId);
         //=-=-=-=-=-=- Assertions-=-=-=-=-=-=//
         assertNotNull(room);
         assertEquals(roomType, room.getRoomType());

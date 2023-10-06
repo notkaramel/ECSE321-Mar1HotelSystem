@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
+
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
@@ -23,22 +25,9 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-// import org.junit.jupiter.api.AfterEach;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-
-// import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
-// import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
-// import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
-// import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
-// import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
-// import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 /**
  * This test is for the booking class
+ * 
  * @author Mokhtari, Bilar
  * 
  */
@@ -49,8 +38,10 @@ public class HotelRepositoryTest {
     private HotelRepository hotelRepository;
 
     @Autowired
-    private RoomRepository roomRepository;
+    private HotelScheduleRepository hotelScheduleRepository;
 
+    @Autowired
+    private RoomRepository roomRepository;
 
     // Clears the database before and after each test
     @BeforeEach
@@ -70,10 +61,11 @@ public class HotelRepositoryTest {
         // =-=-=-=-=-=- Create HotelSchedule object -=-=-=-=-=-=//
 
         Date date = new Date();
-        CustomHours customHours = new CustomHours(date, 8, 20);
+        CustomHours customHours1 = new CustomHours(date, 8, 20);
+        CustomHours customHours2 = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
 
-        CustomHours[] customHoursArray = { customHours };
+        CustomHours[] customHoursArray = { customHours1, customHours2 };
         OperatingHours[] operatingHoursArray = { operatingHours };
 
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
@@ -83,7 +75,9 @@ public class HotelRepositoryTest {
         // Create and Save Hotel
         // ------------------
         Hotel hotel = new Hotel(hotelSchedule);
-        hotel = hotelRepository.save(hotel);
+        hotelScheduleRepository.save(hotelSchedule);
+        hotelRepository.save(hotel);
+        hotel = hotelRepository.findHotelByHotelSchedule(hotelSchedule);
 
         // Create Room parameters
         RoomType roomType = RoomType.Suite;
@@ -97,13 +91,13 @@ public class HotelRepositoryTest {
         // Create and Save Room
         // ------------------
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, roomId);
-        room = roomRepository.save(room);
-
+        roomRepository.save(room);
+        room = roomRepository.findRoomByRoomId(roomId);
         // Add the saved Room to the saved Hotel
         hotel.addRoom(room);
 
         // Retrieve saved Hotel
-        hotel = hotelRepository.findHotelBySchedule(hotelSchedule);
+        hotel = hotelRepository.findHotelByHotelSchedule(hotelSchedule);
 
         // ------------------
         // Assertions
@@ -111,9 +105,7 @@ public class HotelRepositoryTest {
         assertNotNull(hotel);
         assertEquals(hotelSchedule, hotel.getHotelSchedule());
         assertTrue(hotel.hasRooms());
-        assertEquals(room,hotel.getRoom(roomId));
-
-        
+        assertEquals(room, hotel.getRoom(roomId));
 
     }
 }
