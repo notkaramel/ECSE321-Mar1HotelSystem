@@ -19,7 +19,6 @@ public class EmployeeRepositoryTest {
 		 * 
 		 * @author Pacicco, Lucas
          * @author Corbier, Adam
-         * @author Friesen, Emma
 		 * 
 		 */
 
