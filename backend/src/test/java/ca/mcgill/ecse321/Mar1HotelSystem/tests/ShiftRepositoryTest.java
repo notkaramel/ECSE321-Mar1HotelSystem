@@ -37,20 +37,27 @@ public class ShiftRepositoryTest {
 
 	@Test
 	public void testPersistAndLoadShift() {
-		// Create shift
         clearDatabase();
+        // Create employee for shift
 		String firstName = "John";
 		String lastName = "Doe";
 		String email = "johndoe@gmail.com";
         int phoneNumber = 111333333;
         String password = "abc";
         int hoursWorked = 7;
+        // Create employee for shift
         Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
+        // Save employee
         employeeRepository.save(employee);
+        // Create shift
         Date date = new Date();
         int startTime = 1;
         int endTime = 8;
 		Shift shift = new Shift(employee, date, startTime, endTime);
+        shift.setEmployee(employee);
+        shift.setDate(date);
+        shift.setStartTime(startTime);
+        shift.setEndTime(endTime);
 
 		// Save shift
 		shiftRepository.save(shift);
