@@ -54,6 +54,13 @@ public class BookingRepositoryTest {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
+        /*
+        Deletion order: from parent to child
+
+        booking -> room -> hotel -> hotel schedule -> custom hours
+                          \-> user                           \-> operating hours
+                          \-> payment
+         */
         bookingRepository.deleteAll();
         roomRepository.deleteAll();
         hotelRepository.deleteAll();
