@@ -48,14 +48,15 @@ public class BookingRepositoryTest {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        hotelRepository.deleteAll();
-        hotelScheduleRepository.deleteAll();
         bookingRepository.deleteAll();
         roomRepository.deleteAll();
-        operatingHoursRepository.deleteAll();
-        customHoursRepository.deleteAll();
-        generalUserRepository.deleteAll();
+        hotelRepository.deleteAll();
+
         paymentRepository.deleteAll();
+        generalUserRepository.deleteAll();
+        customHoursRepository.deleteAll();
+        operatingHoursRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
     }
 
     /**
