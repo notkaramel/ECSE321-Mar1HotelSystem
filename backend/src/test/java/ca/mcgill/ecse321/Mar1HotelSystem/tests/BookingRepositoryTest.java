@@ -53,9 +53,9 @@ public class BookingRepositoryTest {
         hotelRepository.deleteAll();
         paymentRepository.deleteAll();
         generalUserRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
         customHoursRepository.deleteAll();
         operatingHoursRepository.deleteAll();
-        hotelScheduleRepository.deleteAll();
     }
 
     /**
