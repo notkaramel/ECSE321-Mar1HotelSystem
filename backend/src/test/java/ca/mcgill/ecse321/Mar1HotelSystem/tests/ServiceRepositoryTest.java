@@ -137,16 +137,16 @@ public class ServiceRepositoryTest {
 
         // Creating a service
         Service service = new Service(employee, request);
+        int serviceId = service.getServiceId();
 
         serviceRepository.save(service);
 
         // Assertions
-
-        // TODO: Find a the service in the database
-        //service = serviceRepository.findById();
+        service = serviceRepository.findServiceByServiceId(serviceId);
 
         assertNotNull(service);
         assertEquals(request, service.getRequest());
+        assertEquals(employee, service.getAssignee());
     }
 
 }
