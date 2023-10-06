@@ -13,29 +13,31 @@ public class Service {
     @OneToOne
     private Request request;
 
+    // Service constructor requiring assignee and request
     public Service(Employee assignee, Request request) {
         if (setEmployee(assignee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
 
-        if (setBooking(request) == false) {
+        if (setRequest(request) == false) {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
         }
 
     }
 
     // Getters
-
+    // Method to get assignee, returns assignee
     public Employee getAssignee() {
         return this.assignee;
     }
 
+    // Method to get request, returns request
     public Request getRequest() {
         return this.request;
     }
 
     // Setters
-
+    // Method to set assignee, returns true if assignee set
     public boolean setEmployee(Employee assignee) {
         if (assignee != null) {
             this.assignee = assignee;
@@ -45,7 +47,8 @@ public class Service {
         }
     }
 
-    public boolean setBooking(Request request) {
+    // Method to set request, returns true if request set
+    public boolean setRequest(Request request) {
         if (request != null) {
             this.request = request;
             return true;

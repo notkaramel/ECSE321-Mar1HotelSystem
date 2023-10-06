@@ -13,13 +13,14 @@ public class OperatingHours {
     private int openingHour;
     private int closingHour;
 
+    // OperatingHours constructor day, openingHour, closingHour
     public OperatingHours(DayOfWeek day, int openingHour, int closingHour) {
         this.day = day;
         this.openingHour = openingHour;
         this.closingHour = closingHour;
     }
 
-    // Enum
+    // Enum DayOfWeek
     public enum DayOfWeek {
         Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
     }

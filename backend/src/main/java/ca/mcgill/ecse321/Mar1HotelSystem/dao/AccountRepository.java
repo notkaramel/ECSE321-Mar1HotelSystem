@@ -5,4 +5,5 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Account;
 
 public interface AccountRepository extends CrudRepository<Account, String>{
     Account findAccountByEmail(String email);
+    
 }

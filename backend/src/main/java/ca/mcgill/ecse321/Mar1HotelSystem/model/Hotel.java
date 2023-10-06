@@ -14,6 +14,7 @@ public class Hotel {
     private HotelSchedule hotelSchedule;
     private List<Room> rooms;
 
+    // Hotel constructor requiring hotelSchedule
     public Hotel(HotelSchedule hotelSchedule) {
         rooms = new ArrayList<Room>();
         if (setHotelSchedule(hotelSchedule) == false) {

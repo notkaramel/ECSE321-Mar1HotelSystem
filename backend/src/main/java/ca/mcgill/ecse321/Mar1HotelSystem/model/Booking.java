@@ -20,8 +20,7 @@ public class Booking {
     @ManyToOne
     private Room room;
 
-    // Booking constructor requiring bookingId, payment, user, room and
-    // mar1HotelSystemApplication
+    // Booking constructor requiring bookingId, payment, user, and room
     public Booking(int bookingId, Payment payment, User user, Room room) {
         this.bookingId = bookingId;
         if (setPayment(payment) == false) {
