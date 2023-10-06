@@ -26,18 +26,17 @@ public class HotelScheduleRepositoryTest {
     @Autowired
     private HotelScheduleRepository hotelScheduleRepository;
 
-    @Autowired 
+    @Autowired
     private CustomHoursRepository customHoursRepository;
 
-    @Autowired 
+    @Autowired
     private OperatingHoursRepository operatingHoursRepository;
-
-
 
     @BeforeEach
     @AfterEach
-    // Deleting in this particular order from Parent to Child in order to maintain association integrity
-    public void clearDatabase(){
+    // Deleting in this particular order from Parent to Child in order to maintain
+    // association integrity
+    public void clearDatabase() {
         hotelScheduleRepository.deleteAll();
         operatingHoursRepository.deleteAll();
         customHoursRepository.deleteAll();
@@ -48,7 +47,7 @@ public class HotelScheduleRepositoryTest {
     // ------------------
     @Test
     @Transactional
-    public void testPersistAndLoadHotelSchedule(){
+    public void testPersistAndLoadHotelSchedule() {
         // Create and Save Hotel Object (Required for Room, which is in turn required
         // for Booking)
         Date date = new Date();

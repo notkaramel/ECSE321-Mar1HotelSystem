@@ -5,7 +5,7 @@ import java.util.Date;
 import jakarta.persistence.*;
 
 /**
- * The Customer class for all customer with account of the system.
+ * The Shift class for all shifts of employees in the system.
  * 
  * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
  * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations

@@ -4,7 +4,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 import jakarta.persistence.*;
 
 /**
- * The Customer class for all customer with account of the system.
+ * The Request class for all requestes with a booking in the system.
  * 
  * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
  * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
