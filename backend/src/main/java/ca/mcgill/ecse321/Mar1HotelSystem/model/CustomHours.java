@@ -13,6 +13,7 @@ public class CustomHours {
     private int openingHour;
     private int closingHour;
 
+    // CustomHours constructor requiring date, openingHour, closingHour
     public CustomHours(Date date, int openingHour, int closingHour) {
         this.date = date;
         this.openingHour = openingHour;

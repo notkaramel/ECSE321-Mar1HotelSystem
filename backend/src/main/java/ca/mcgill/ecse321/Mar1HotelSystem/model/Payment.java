@@ -14,6 +14,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int paymentId;
 
+    // Payment constructor requiring amount and paymentId
     public Payment(int amount, int paymentId) {
         this.amount = amount;
         this.paymentId = paymentId;

@@ -16,6 +16,7 @@ public class Shift {
     @ManyToOne
     private Employee employee;
 
+    // Shift constructor requiring employee, date, startTime, endTime
     public Shift(Employee employee, Date date, int startTime, int endTime) {
         this.date = date;
         this.startTime = startTime;
@@ -26,39 +27,46 @@ public class Shift {
     }
 
     // Getters
+    // Method to get employee, returns employee
     public Employee getEmployee() {
         return this.employee;
     }
 
+    // Method to get date, returns date
     public Date getDate() {
         return this.date;
     }
 
+    // Method to get startTime, returns startTime
     public int getStartTime() {
         return this.startTime;
     }
 
+    // Method to get endTime, returns endTime
     public int getEndTime() {
         return this.endTime;
     }
 
     // Setters
-
+    // Method to set date, returns true if date set
     public boolean setDate(Date date) {
         this.date = date;
         return true;
     }
 
+    // Method to set startTime, returns true if startTime set
     public boolean setStartTime(int startTime) {
         this.startTime = startTime;
         return true;
     }
 
+    // Method to set endTime, returns true if endTime set
     public boolean setEndTime(int endTime) {
         this.endTime = endTime;
         return true;
     }
 
+    // Method to set employee, returns true if employee set
     public boolean setEmployee(Employee employee) {
         if (employee != null) {
             this.employee = employee;
