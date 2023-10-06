@@ -13,6 +13,7 @@ public class Employee extends Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int employeeId;
+    
     int hoursWorked;
 
     // Employee constructor requiring requiring firstName, lastName, email, phoneNumber, password and hoursWorked

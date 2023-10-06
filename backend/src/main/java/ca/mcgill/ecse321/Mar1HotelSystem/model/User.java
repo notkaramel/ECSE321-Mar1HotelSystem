@@ -8,10 +8,10 @@ import jakarta.persistence.*;
 public class User {
     // Defining variables
 
-    private String firstName;
-    private String lastName;
     @Id
     private String email;
+    private String firstName;
+    private String lastName;
     private int phoneNumber;
 
     // Shift constructor requiring firstName, lastName, email, phoneNumber

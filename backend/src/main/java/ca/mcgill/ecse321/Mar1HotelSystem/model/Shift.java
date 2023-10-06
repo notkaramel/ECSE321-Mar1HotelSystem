@@ -10,6 +10,7 @@ public class Shift {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int shiftId;
+    
     private Date date;
     private int startTime;
     private int endTime;

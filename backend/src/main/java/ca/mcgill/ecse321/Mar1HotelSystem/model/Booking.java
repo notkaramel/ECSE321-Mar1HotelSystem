@@ -8,6 +8,7 @@ public class Booking {
     @Id
     // @GeneratedValue(strategy = GenerationType.AUTO)
     private int bookingId;
+
     @OneToOne
     private Payment payment;
     @OneToOne

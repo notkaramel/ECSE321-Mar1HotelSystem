@@ -1,13 +1,12 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
+@Entity
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private int serviceId;
     @OneToOne
     private Employee assignee;
     @OneToOne

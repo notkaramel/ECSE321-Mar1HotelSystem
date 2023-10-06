@@ -4,12 +4,13 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Hotel {
+    @Id
+    private String name = "Mar-1 Hotel";
+
     @OneToOne
     @Id
     private HotelSchedule hotelSchedule;

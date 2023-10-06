@@ -1,17 +1,14 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.EnumType;
+import jakarta.persistence.*;
 
 @Entity
 public class Room {
 
     // Defining Variables
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int roomId;
 
     @Enumerated(EnumType.STRING)
@@ -22,6 +19,7 @@ public class Room {
     boolean isAvailable;
     int pricePerNight;
     int maxCapacity;
+
     @ManyToOne
     private Hotel hotel;
 
