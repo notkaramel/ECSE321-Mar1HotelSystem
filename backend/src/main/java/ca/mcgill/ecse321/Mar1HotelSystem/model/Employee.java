@@ -2,7 +2,13 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
-
+/**
+ * The Employee class for all employees in the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
 @Entity
 public class Employee extends Account {    
     int hoursWorked;
