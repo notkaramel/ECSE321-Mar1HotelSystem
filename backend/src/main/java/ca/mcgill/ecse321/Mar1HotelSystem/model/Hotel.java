@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class Hotel {
+    @Id
+    private String name = "Mar-1 Hotel";
 
     @OneToOne
     private HotelSchedule hotelSchedule;

@@ -4,12 +4,13 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class HotelSchedule {
+    @Id
     private int year;
+
     @OneToMany
     private List<CustomHours> customHoursList;
     @OneToMany

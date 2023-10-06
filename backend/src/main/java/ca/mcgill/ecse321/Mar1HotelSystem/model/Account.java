@@ -4,7 +4,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 import jakarta.persistence.Entity;
 
 @Entity
-public abstract class Account extends User {
+public class Account extends User {
 
     // Defining Variables
     private String password;
