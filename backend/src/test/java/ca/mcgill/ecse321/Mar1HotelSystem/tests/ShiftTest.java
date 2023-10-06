@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ShiftRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
@@ -18,9 +19,11 @@ public class ShiftTest {
    
      @Autowired
 	private ShiftRepository shiftRepository;
+    private EmployeeRepository employeeRepository;
 
 	@AfterEach
 	public void clearDatabase() {
+        employeeRepository.deleteAll();
 		shiftRepository.deleteAll();
 	}
 
@@ -44,6 +47,7 @@ public class ShiftTest {
         shift.setEndTime(endTime);
 
 		// Save shift
+        employeeRepository.save(employee);
 		shiftRepository.save(shift);
 
 		// Read shift from database.
