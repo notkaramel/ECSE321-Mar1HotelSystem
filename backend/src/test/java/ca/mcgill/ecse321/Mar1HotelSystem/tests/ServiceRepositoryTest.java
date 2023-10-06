@@ -7,6 +7,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,17 +43,17 @@ public class ServiceRepositoryTest {
     // Clearing the database after the test
     @AfterEach
     public void clearDatabase() {
+        serviceRepository.deleteAll();
+        requestRepository.deleteAll();
+        bookingRepository.deleteAll();
         employeeRepository.deleteAll();
-        customHoursRepository.deleteAll();
+        paymentRepository.deleteAll();
+        roomRepository.deleteAll();
+        hotelRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
         customHoursRepository.deleteAll();
         operatingHoursRepository.deleteAll();
-        hotelScheduleRepository.deleteAll();
-        hotelRepository.deleteAll();
-        roomRepository.deleteAll();
-        paymentRepository.deleteAll();;
-        bookingRepository.deleteAll();
-        requestRepository.deleteAll();
-        serviceRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -137,16 +138,17 @@ public class ServiceRepositoryTest {
 
         // Creating a service
         Service service = new Service(employee, request);
-        int serviceId = service.getServiceId();
 
         serviceRepository.save(service);
+
+        int serviceId = service.getServiceId();
 
         // Assertions
         service = serviceRepository.findServiceByServiceId(serviceId);
 
         assertNotNull(service);
-        assertEquals(request, service.getRequest());
-        assertEquals(employee, service.getAssignee());
+        assertEquals(request.getRequestId(), service.getRequest().getRequestId());
+        assertEquals(employee.getEmail(), service.getAssignee().getEmail());
     }
 
 }
