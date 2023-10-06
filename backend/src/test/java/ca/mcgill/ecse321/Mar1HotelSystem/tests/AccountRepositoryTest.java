@@ -26,9 +26,9 @@ public class AccountRepositoryTest {
 	@Test
 	public void testPersistAndLoadAccount() {
 		// Create account
-		String firstName = "Lucas";
-		String lastName = "Pacicco";
-		String email = "lucaspacicco@gmail.com";
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@gmail.com";
         int phoneNumber = 111333333;
         String password = "abc";
 		Account account = new Account(firstName, lastName, email, phoneNumber, password);

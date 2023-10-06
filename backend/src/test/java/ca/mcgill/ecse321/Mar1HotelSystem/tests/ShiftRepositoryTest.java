@@ -39,9 +39,9 @@ public class ShiftRepositoryTest {
 	public void testPersistAndLoadShift() {
 		// Create shift
         clearDatabase();
-		String firstName = "Lucas";
-		String lastName = "Pacicco";
-		String email = "lucaspacicco@gmail.com";
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@gmail.com";
         int phoneNumber = 111333333;
         String password = "abc";
         int hoursWorked = 7;
