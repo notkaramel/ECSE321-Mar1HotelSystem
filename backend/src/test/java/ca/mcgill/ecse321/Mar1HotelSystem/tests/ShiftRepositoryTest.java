@@ -51,10 +51,6 @@ public class ShiftRepositoryTest {
         int startTime = 1;
         int endTime = 8;
 		Shift shift = new Shift(employee, date, startTime, endTime);
-		// shift.setEmployee(employee);
-        // shift.setDate(date);
-        // shift.setStartTime(startTime);
-        // shift.setEndTime(endTime);
 
 		// Save shift
 		shiftRepository.save(shift);
