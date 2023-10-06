@@ -112,6 +112,10 @@ public class HotelSchedule {
         return true;
     }
 
+    // public int getHotelScheduleId(){
+    //     return this.hotelScheduleId;
+    // }
+
     
     public void delete() {
         this.operatingHoursList = null;

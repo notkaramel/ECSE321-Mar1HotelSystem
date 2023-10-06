@@ -15,6 +15,10 @@ public class OperatingHours {
     private int openingHour;
     private int closingHour;
 
+    // Default constructor
+    public OperatingHours() {
+    }
+
     // OperatingHours constructor day, openingHour, closingHour
     public OperatingHours(DayOfWeek day, int openingHour, int closingHour) {
         this.day = day;
