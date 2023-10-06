@@ -131,7 +131,7 @@ public class ServiceRepositoryTest {
         // Creating a request
         String description = "Need some towels";
         boolean fulfilled = false;
-        Request request = new Request(description, employee, booking, fulfilled);
+        Request request = new Request(description, booking, fulfilled);
 
         requestRepository.save(request);
 
