@@ -18,7 +18,7 @@ public class ServiceRepositoryTest {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private UserRepository userRepository;
+    private GeneralUserRepository userRepository;
     @Autowired
     private CustomHoursRepository customHoursRepository;
     @Autowired
@@ -73,7 +73,7 @@ public class ServiceRepositoryTest {
         String lastNameUser = "Dude";
         String emailUser = "Random@email.com";
         int phoneNumberUser = 123;
-        User user = new User(firstNameUser, lastNameUser, emailUser, phoneNumberUser);
+        GeneralUser user = new GeneralUser(firstNameUser, lastNameUser, emailUser, phoneNumberUser);
 
         userRepository.save(user);
 

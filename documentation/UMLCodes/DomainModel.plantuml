@@ -5,7 +5,7 @@ hide methods
 top to bottom direction
 
 package ca.mcgill.ecse321.Mar1HotelSystem.model {
-    Class User {
+    Class GeneralUser {
         firstName : str
         lastName : str
         # email : str
@@ -28,7 +28,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
     }
 
     ' Associations of users
-    User    <|-- Account
+    GeneralUser    <|-- Account
     Account <|-- Employee
     Account <|-- Customer
     Account <|-- Manager
@@ -58,7 +58,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
     }
 
     Booking "1..*" -left[#green]-> "1" Room
-    Booking "1" -right[#green]-> "1" User
+    Booking "1" -right[#green]-> "1" GeneralUser
 
     Class Request {
         description : str
