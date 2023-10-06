@@ -31,16 +31,16 @@ public class GeneralUserRepositoryTest {
         int phoneNumber = 438;
 
 
-        GeneralUser user = new GeneralUser(firstName, lastName, email, phoneNumber);
-        generalUserRepository.save(user);
-        String userId = user.getEmail();
+        GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
+        generalUserRepository.save(generalUser);
+        String userId = generalUser.getEmail();
 
-        user = generalUserRepository.findGeneralUserByEmail(userId);
+        generalUser = generalUserRepository.findGeneralUserByEmail(userId);
 
-        assertNotNull(user);
-        assertEquals(firstName, user.getFirstName());
-        assertEquals(lastName, user.getLastName());
-        assertEquals(email, user.getEmail());
-        assertEquals(phoneNumber, user.getPhoneNumber());
+        assertNotNull(generalUser);
+        assertEquals(firstName, generalUser.getFirstName());
+        assertEquals(lastName, generalUser.getLastName());
+        assertEquals(email, generalUser.getEmail());
+        assertEquals(phoneNumber, generalUser.getPhoneNumber());
     }
 }
