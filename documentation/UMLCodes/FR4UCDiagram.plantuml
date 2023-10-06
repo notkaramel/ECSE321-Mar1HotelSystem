@@ -1,33 +1,46 @@
 @startuml CustomerUC
 'FR4 - The MHS shall allow a customer with an account to make specific requests regarding their room
-
-title FR4 - The MHS shall allow customers with an account to make requests regarding their room.
+title FR4 - Customers shall make requests regarding their room at the time of booking.
 'Use cases
-
 node MHS {
 (Add request to booking) as UC0
 (Book room) as UC1
 (Select room) as UC2
+(Add room criteria) as UC3
+(No rooms available with given criteria message) as UC4
 (Login) as UC5
-(Pay) as UC11
+(Enter account credentials) as UC6
+(Click submit) as UC7
+(Verify login credentials) as UC8
+(Invalid credentials message) as UC9
+(Valid credentials message) as UC10
+(Payment) as UC11
+(Enter payment information) as UC12
+(Click pay) as UC13
+(Verify payment information) as UC14
+(Invalid payment information message) as UC15
+(Successful payment message) as UC16
 (Write special request) as UC17
-
 left to right direction
-
 'Associations
-UC0 <-.- UC1  : includes
+UC0 <-.- UC1 : includes
 UC1 <-.- UC2 : includes
 UC1 <-.- UC17 : extends
+UC2 <-.- UC3 : includes
+UC3 <-.- UC4 : extends
 UC1 <-.- UC5 : includes
+UC5 <-.- UC6 : includes
+UC5 <-.- UC7 : includes
 UC1 <-.- UC11 : includes
+UC11 <-.- UC13 : includes
+UC11 <-.- UC12 : includes
+UC13 <-.- UC14 : includes
+UC14 <-left.- UC15 : extends
+UC14 <-right.- UC16 : includes
+UC8 <-left.- UC9 : extends
+UC8 <-right.- UC10 : includes
+UC7 <-.- UC8 : includes
 }
 Customer --> UC0
-paymentAuthenticator --> UC11 : includes
-LoginAuthenticator --> UC5 : includes
-
-
-
-
-
-
-@enduml
+paymentAuthenticator --> UC14 : includes
+LoginAuthenticator --> UC8 : includes
