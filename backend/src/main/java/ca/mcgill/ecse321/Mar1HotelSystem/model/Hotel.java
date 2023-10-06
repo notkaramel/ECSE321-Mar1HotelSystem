@@ -6,6 +6,13 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
+/**
+ * The Hotel class for the one-and-only hotel in the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
 @Entity
 public class Hotel {
     @Id
@@ -20,6 +27,7 @@ public class Hotel {
     // Default constructor
     public Hotel() {
     }
+
     // Hotel constructor requiring hotelSchedule
     public Hotel(HotelSchedule hotelSchedule) {
         rooms = new ArrayList<Room>();
@@ -34,9 +42,10 @@ public class Hotel {
         return this.hotelSchedule;
     }
 
-    public String getHotelName(){
+    public String getHotelName() {
         return this.hotelName;
     }
+
     // Setters
     // Method to set hotelSchedule, returns true if hotelSchedule set
     public boolean setHotelSchedule(HotelSchedule hotelSchedule) {

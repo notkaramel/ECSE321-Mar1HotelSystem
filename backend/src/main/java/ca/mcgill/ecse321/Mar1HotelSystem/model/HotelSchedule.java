@@ -7,11 +7,18 @@ import java.util.Collections;
 import java.util.List;
 import jakarta.persistence.*;
 
+/**
+ * The HotelSchedule class for the yearly schedule of the hotel.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
+
 @Entity
 public class HotelSchedule {
     @Id
     private int year;
-
     @OneToMany
     private List<CustomHours> customHoursList;
     @OneToMany
@@ -20,14 +27,14 @@ public class HotelSchedule {
     // Default constructor
     public HotelSchedule() {
     }
-    
-    // HotelSchedule constructor requiring year, list of operatingHours, list customHours
+
+    // HotelSchedule constructor requiring year, list of operatingHours, list
+    // customHours
     public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
         this.year = year;
         this.customHoursList = new ArrayList<CustomHours>(Arrays.asList(customHoursList));
         this.operatingHoursList = new ArrayList<OperatingHours>(Arrays.asList(operatingHoursList));
     }
-    
 
     // Getters
     // Method to get year, returns year
@@ -115,10 +122,9 @@ public class HotelSchedule {
     }
 
     // public int getHotelScheduleId(){
-    //     return this.hotelScheduleId;
+    // return this.hotelScheduleId;
     // }
 
-    
     public void delete() {
         this.operatingHoursList = null;
         this.customHoursList = null;
