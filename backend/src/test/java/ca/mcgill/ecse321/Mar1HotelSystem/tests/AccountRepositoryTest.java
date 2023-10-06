@@ -9,17 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.AccountRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Account;
 
+/**
+ * This test is for the Employee class
+ *
+ * @author Lucas Pacicco (@Lucaspac5)
+ * @author Emma Friesen (@emma-friesen)
+ *
+ */
 @SpringBootTest
 public class AccountRepositoryTest {
-
-	/**
-	 * This test is for the Employee class
-	 * 
-	 * @author Lucas Pacicco (@Lucaspac5)
-	 * @author Emma Friesen (@emma-friesen)
-	 * 
-	 */
-
 	@Autowired
 	private AccountRepository accountRepository;
 

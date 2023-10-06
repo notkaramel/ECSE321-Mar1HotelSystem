@@ -9,18 +9,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 
+/**
+ * This test is for the Manager class
+ *
+ * @author Lucas Pacicco (@Lucaspac5)
+ *
+ */
 @SpringBootTest
 public class ManagerRepositoryTest {
 
 	// Create manager
-
-	/**
-	 * This test is for the Manager class
-	 * 
-	 * @author Lucas Pacicco (@Lucaspac5)
-	 * 
-	 */
-
 	@Autowired
 	private ManagerRepository managerRepository;
 

@@ -15,6 +15,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 import jakarta.transaction.Transactional;
+
 /**
  * This is the test class for the HotelSchedule repository.
  *

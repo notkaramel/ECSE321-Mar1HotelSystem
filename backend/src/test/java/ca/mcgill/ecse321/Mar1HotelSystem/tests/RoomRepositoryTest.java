@@ -17,6 +17,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 
 import org.springframework.boot.test.context.SpringBootTest;
+
 /**
  * This is the test class for the Room repository.
  *

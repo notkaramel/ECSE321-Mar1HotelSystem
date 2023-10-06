@@ -17,7 +17,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.*;
 
-
+/**
+ * This test is for the booking class
+ *
+ * @author Mokhtari, Bilar
+ *
+ */
 @SpringBootTest
 public class BookingRepositoryTest {
 
@@ -65,12 +70,6 @@ public class BookingRepositoryTest {
         operatingHoursRepository.deleteAll();
     }
 
-    /**
-     * This test is for the booking class
-     * 
-     * @author Mokhtari, Bilar
-     * 
-     */
     @Test
     public void testPersistAndLoadBooking() {
         // ---------------------------
