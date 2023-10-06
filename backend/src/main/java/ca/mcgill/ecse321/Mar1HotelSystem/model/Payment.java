@@ -11,7 +11,9 @@ public class Payment {
     private int paymentId;
     
     private int amount;
+    public Payment(){
 
+    }
     // Payment constructor requiring amount and paymentId
     public Payment(int amount, int paymentId) {
         this.amount = amount;
