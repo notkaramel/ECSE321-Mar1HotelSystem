@@ -32,6 +32,7 @@ public class Room {
         this.isAvailable = isAvailable;
         this.pricePerNight = pricePerNight;
         this.maxCapacity = maxCapacity;
+        this.hotel = hotel;
     }
 
     // BedType enum

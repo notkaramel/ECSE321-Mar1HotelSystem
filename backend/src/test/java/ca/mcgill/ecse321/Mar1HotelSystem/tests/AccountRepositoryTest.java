@@ -24,8 +24,8 @@ public class AccountRepositoryTest {
 	}
 
 	@Test
-	public void testPersistAndLoadPerson() {
-		// Create person.
+	public void testPersistAndLoadAccount() {
+		// Create account
 		String firstName = "Lucas";
 		String lastName = "Pacicco";
 		String email = "lucaspacicco@gmail.com";
@@ -38,13 +38,13 @@ public class AccountRepositoryTest {
         account.setPhoneNumber(phoneNumber);
         account.setPassword(password);
 
-		// Save person
+		// Save account
 		accountRepository.save(account);
 
-		// Read person from database.
+		// Read account from database.
 		account = accountRepository.findAccountByEmail(email);
 
-		// Assert that person is not null and has correct attributes.
+		// Assert that account is not null and has correct attributes.
 		assertNotNull(account);
         assertEquals(firstName, account.getFirstName());
         assertEquals(lastName, account.getLastName());

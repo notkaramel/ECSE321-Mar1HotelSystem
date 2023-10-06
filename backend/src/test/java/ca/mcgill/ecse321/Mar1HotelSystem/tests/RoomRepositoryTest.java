@@ -16,12 +16,17 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.*;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class RoomRepositoryTest {
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private HotelScheduleRepository hotelScheduleRepository;
 
     @Autowired
     private HotelRepository hotelRepository;
@@ -31,6 +36,7 @@ public class RoomRepositoryTest {
     public void clearDatabase() {
         roomRepository.deleteAll();
         hotelRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
     }
 
     @Test
@@ -48,20 +54,24 @@ public class RoomRepositoryTest {
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
+        hotelScheduleRepository.save(hotelSchedule);
         Hotel hotel = new Hotel(hotelSchedule);
         hotelRepository.save(hotel);
+        // hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
+        
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         RoomType roomType = RoomType.Suite;
         BedType bedType = BedType.King;
         boolean isAvailable = true;
         int pricePerNight = 200;
         int maxCapacity = 2;
-        int roomId = 1;
+        
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
         //=-=-=-=-=-=- Save object -=-=-=-=-=-=//
         roomRepository.save(room);
         //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
+        int roomId = room.getRoomId();
         room = roomRepository.findRoomByRoomId(roomId);
         //=-=-=-=-=-=- Assertions-=-=-=-=-=-=//
         assertNotNull(room);
@@ -70,7 +80,7 @@ public class RoomRepositoryTest {
         assertEquals(isAvailable, room.getIsAvailable());
         assertEquals(pricePerNight, room.getPricePerNight());
         assertEquals(maxCapacity, room.getMaxCapacity());
-        assertEquals(hotel, room.getHotel());
+        assertEquals(hotel.getHotelName(), room.getHotel().getHotelName());
     }
 
 }

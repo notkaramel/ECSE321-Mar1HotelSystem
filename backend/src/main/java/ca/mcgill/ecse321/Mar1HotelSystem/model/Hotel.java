@@ -34,6 +34,9 @@ public class Hotel {
         return this.hotelSchedule;
     }
 
+    public String getHotelName(){
+        return this.hotelName;
+    }
     // Setters
     // Method to set hotelSchedule, returns true if hotelSchedule set
     public boolean setHotelSchedule(HotelSchedule hotelSchedule) {

@@ -131,22 +131,22 @@ public class ServiceRepositoryTest {
         // Creating a request
         String description = "Need some towels";
         boolean fulfilled = false;
-        Request request = new Request(description, employee, booking, fulfilled);
+        Request request = new Request(description, booking, fulfilled);
 
         requestRepository.save(request);
 
         // Creating a service
         Service service = new Service(employee, request);
+        int serviceId = service.getServiceId();
 
         serviceRepository.save(service);
 
         // Assertions
-
-        // TODO: Find a the service in the database
-        //service = serviceRepository.findById();
+        service = serviceRepository.findServiceByServiceId(serviceId);
 
         assertNotNull(service);
         assertEquals(request, service.getRequest());
+        assertEquals(employee, service.getAssignee());
     }
 
 }
