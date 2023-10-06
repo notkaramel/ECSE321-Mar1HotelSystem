@@ -28,6 +28,7 @@ public class OperatingHoursRepositoryTest {
         operatingHoursRepository.deleteAll();
     }
 
+    // Main test for the operating hours repository
     @Test
     public void testPersistAndLoadOperatingHours () {
         // Creating the operating hours
