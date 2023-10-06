@@ -22,6 +22,10 @@ public class Room {
     @ManyToOne
     private Hotel hotel;
 
+    // Default constructor
+    public Room() {
+    }
+    
     public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel, int id) {
         this.roomType = roomType;
         this.bedType = bedType;

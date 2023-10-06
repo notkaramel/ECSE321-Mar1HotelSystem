@@ -17,6 +17,9 @@ public class Hotel {
     @OneToMany
     private List<Room> rooms;
 
+    // Default constructor
+    public Hotel() {
+    }
     // Hotel constructor requiring hotelSchedule
     public Hotel(HotelSchedule hotelSchedule) {
         rooms = new ArrayList<Room>();
