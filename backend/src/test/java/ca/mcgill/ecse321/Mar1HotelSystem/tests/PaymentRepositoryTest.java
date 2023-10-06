@@ -29,10 +29,11 @@ public class PaymentRepositoryTest {
     public void testPersistAndReadPayment() {
         // Creating the payment
         int amount = 5;
-        Payment payment = new Payment(amount);        int paymentId = payment.getPaymentId();
+        Payment payment = new Payment(amount);        
 
         // Adding the payment to the persistence layer
         paymentRepository.save(payment);
+        int paymentId = payment.getPaymentId();
 
         // Read from the database
         
