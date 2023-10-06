@@ -12,7 +12,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
 
 /**
- * Test for the operating hours
+ * This is the test class for the operating hours repository.
  *
  * @author ZiXu Liu
  */

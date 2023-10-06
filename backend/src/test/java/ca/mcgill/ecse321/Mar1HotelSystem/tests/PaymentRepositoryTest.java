@@ -12,6 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 
+/**
+ * This is the testing class for the payment repository
+ *
+ * @author ZiXu Liu
+ */
 @SpringBootTest
 public class PaymentRepositoryTest {
     // Setting up the payment repository
@@ -25,6 +30,7 @@ public class PaymentRepositoryTest {
         paymentRepository.deleteAll();
     }
 
+    // Main test for the payment repository
     @Test
     public void testPersistAndReadPayment() {
         // Creating the payment
@@ -39,7 +45,7 @@ public class PaymentRepositoryTest {
         
         payment = paymentRepository.findPaymentByPaymentId(paymentId);
 
-        // Asserting the infog
+        // Assertions
         assertNotNull(payment);
         assertEquals(amount, payment.getAmount());
         assertEquals(paymentId, payment.getPaymentId());
