@@ -17,6 +17,9 @@ public class Shift {
     @ManyToOne
     private Employee employee;
 
+    public Shift(){
+
+    }
     // Shift constructor requiring employee, date, startTime, endTime
     public Shift(Employee employee, Date date, int startTime, int endTime) {
         this.date = date;
@@ -77,6 +80,11 @@ public class Shift {
         }
     }
 
+    public int getShiftId() {
+        return this.shiftId;
+    }
+
     public void delete() {
     }
+    
 }
