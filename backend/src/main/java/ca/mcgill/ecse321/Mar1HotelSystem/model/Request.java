@@ -15,15 +15,12 @@ public class Request {
     private String description;
     private boolean isFufilled;
     @OneToOne
-    private Service service;
     private Booking booking;
 
+    // Request constructor requiring description, employee, booking, and isFufilled
     public Request(String description, Employee employee, Booking booking, boolean isFufilled) {
         this.description = description;
         this.isFufilled = isFufilled;
-        if (setService(service) == false) {
-            throw new RuntimeException("Need an service class to be instatiated; need an service");
-        }
 
         if (setBooking(booking) == false) {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
@@ -39,11 +36,6 @@ public class Request {
     // Method to get isFufilled, returns isFufilled
     public Boolean getIsFufilled() {
         return this.isFufilled;
-    }
-
-    // Method to get service, returns service
-    public Service getService() {
-        return this.service;
     }
 
     // Method to get booking, returns booking
@@ -62,16 +54,6 @@ public class Request {
     public boolean setIsFufilled(boolean isFufilled) {
         this.isFufilled = isFufilled;
         return true;
-    }
-
-    // Method to set service, returns true if service set
-    public boolean setService(Service service) {
-        if (service != null) {
-            this.service = service;
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // Method to set booking, returns true if booking set

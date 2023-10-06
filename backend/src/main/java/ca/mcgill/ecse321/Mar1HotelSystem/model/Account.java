@@ -9,8 +9,8 @@ public class Account extends User {
     // Defining Variables
     private String password;
 
-    // Account Constructor requiring firstName, lastName, email, phoneNUmber,
-    // password and mar1HotelSystemApplication
+    // Account constructor requiring firstName, lastName, email, phoneNumber,
+    // password
     public Account(String firstName, String lastName, String email, int phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber);
         this.password = password;

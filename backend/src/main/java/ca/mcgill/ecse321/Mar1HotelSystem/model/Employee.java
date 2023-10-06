@@ -15,8 +15,7 @@ public class Employee extends Account {
     private int employeeId;
     int hoursWorked;
 
-    // Employee constructor requiring requiring firstName, lastName, email, phoneNumber, password, hoursWorked and
-    // mar1HotelSystemApplication
+    // Employee constructor requiring requiring firstName, lastName, email, phoneNumber, password and hoursWorked
     public Employee(String firstName, String lastName, String email, int phoneNumber, String password,
             int hoursWorked) {
         super(firstName, lastName, email, phoneNumber, password);

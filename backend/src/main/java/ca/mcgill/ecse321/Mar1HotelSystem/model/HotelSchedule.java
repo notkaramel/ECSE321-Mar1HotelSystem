@@ -17,6 +17,7 @@ public class HotelSchedule {
     @OneToMany
     private List<OperatingHours> operatingHoursList;
 
+    // HotelSchedule constructor requiring year, list of operatingHours, list customHours
     public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
         this.year = year;
         this.customHoursList = new ArrayList<CustomHours>();
