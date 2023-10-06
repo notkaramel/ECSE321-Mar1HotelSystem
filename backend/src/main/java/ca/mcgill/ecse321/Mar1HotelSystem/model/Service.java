@@ -13,6 +13,9 @@ public class Service {
     private Employee assignee;
     @OneToOne
     private Request request;
+    public Service() {
+
+    }
 
     // Service constructor requiring assignee and request
     public Service(Employee assignee, Request request) {

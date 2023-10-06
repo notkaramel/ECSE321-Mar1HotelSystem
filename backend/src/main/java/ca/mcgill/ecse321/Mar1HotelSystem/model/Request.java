@@ -15,6 +15,9 @@ public class Request {
     @ManyToOne
     private Booking booking;
 
+    public Request () {
+
+    }
     // Request constructor requiring description, employee, booking, and isFufilled
     public Request(String description, Booking booking, boolean isFufilled) {
         this.description = description;
