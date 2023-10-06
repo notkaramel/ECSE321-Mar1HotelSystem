@@ -12,10 +12,12 @@ public class Payment {
     
     private int amount;
 
+    public Payment(){
+
+    }
     // Payment constructor requiring amount and paymentId
-    public Payment(int amount, int paymentId) {
+    public Payment(int amount) {
         this.amount = amount;
-        this.paymentId = paymentId;
     }
 
     // Getters

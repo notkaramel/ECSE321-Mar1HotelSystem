@@ -26,13 +26,12 @@ public class Room {
     public Room() {
     }
     
-    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel, int id) {
+    public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity, Hotel hotel) {
         this.roomType = roomType;
         this.bedType = bedType;
         this.isAvailable = isAvailable;
         this.pricePerNight = pricePerNight;
         this.maxCapacity = maxCapacity;
-        this.roomId = id;
     }
 
     // BedType enum
@@ -104,6 +103,10 @@ public class Room {
     // Method to get roomType, returns roomType
     public RoomType getRoomType() {
         return this.roomType;
+    }
+
+    public int getRoomId(){
+        return this.roomId;
     }
 
     // Method to get bedType, returns bedType

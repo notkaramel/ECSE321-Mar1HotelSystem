@@ -36,13 +36,26 @@ public class BookingRepositoryTest {
     @Autowired
     private HotelRepository hotelRepository;
 
+    @Autowired
+    private HotelScheduleRepository hotelScheduleRepository;
+
+    @Autowired
+    private CustomHoursRepository customHoursRepository;
+
+    @Autowired
+    private OperatingHoursRepository operatingHoursRepository;
+
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
         bookingRepository.deleteAll();
-        paymentRepository.deleteAll();
-        generalUserRepository.deleteAll();
+        hotelScheduleRepository.deleteAll();
+        hotelRepository.deleteAll();
         roomRepository.deleteAll();
+        operatingHoursRepository.deleteAll();
+        customHoursRepository.deleteAll();
+        generalUserRepository.deleteAll();
+        paymentRepository.deleteAll();
     }
 
     /**
@@ -58,8 +71,8 @@ public class BookingRepositoryTest {
         // ---------------------------
 
         // Create Payment Object for Booking
-        int bookingId = 1;
-        Payment payment = new Payment(500, 0);
+        Payment payment = new Payment(500);
+        paymentRepository.save(payment);
 
         // Create and Save User Object (Required for Booking)
         int phoneNumber = 438;
@@ -73,22 +86,28 @@ public class BookingRepositoryTest {
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
         CustomHours[] customHoursArray = new CustomHours[1];
         OperatingHours[] operatingHoursArray = new OperatingHours[1];
+        customHoursRepository.save(customHours);
+        operatingHoursRepository.save(operatingHours);
+
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
+        hotelScheduleRepository.save(hotelSchedule);
         Hotel hotel = new Hotel(hotelSchedule);
 
         // Saving hotel
         hotelRepository.save(hotel);
 
         // Create and Save Room Object (Required for Booking)
-        Room room = new Room(RoomType.Suite, BedType.King, true, phoneNumber, phoneNumber, null, bookingId);
+        Room room = new Room(RoomType.Suite, BedType.King, true, phoneNumber, phoneNumber, hotel);
         roomRepository.save(room);
 
         // ------------------
         // Create and Save Booking
         // ------------------
-        Booking booking = new Booking(bookingId, payment, user, room);
+        Booking booking = new Booking(payment, user, room);
+        int bookingId = booking.getBookingId();
+        System.out.println(bookingId);
         bookingRepository.save(booking);
 
         // Reading the booking
@@ -98,9 +117,9 @@ public class BookingRepositoryTest {
         // Assertions
         // ------------------
         assertNotNull(booking);
-        assertEquals(payment, booking.getPayment());
-        assertEquals(user, booking.getGeneralUser());
-        assertEquals(room, booking.getRoom());
+        assertEquals(payment.getAmount(), booking.getPayment().getAmount());
+        assertEquals(user.getEmail(), booking.getGeneralUser().getEmail());
+        assertEquals(room.getRoomId(), booking.getRoom().getRoomId());
 
     }
 }

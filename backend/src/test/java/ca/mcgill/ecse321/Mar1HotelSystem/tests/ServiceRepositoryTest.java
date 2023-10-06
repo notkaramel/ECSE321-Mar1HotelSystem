@@ -113,21 +113,18 @@ public class ServiceRepositoryTest {
         boolean isAvailable = true;
         int pricePerNight = 5;
         int maxCapacity = 2;
-        int idRoom = 10;
-        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, idRoom);
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
 
         roomRepository.save(room);
 
         // Creating a new payment
         int amountPayment = 50;
-        int idPayment = 15;
-        Payment payment = new Payment(amountPayment, idPayment);
+        Payment payment = new Payment(amountPayment);
 
         paymentRepository.save(payment);
 
         // Creating a new booking
-        int bookingId = 30;
-        Booking booking = new Booking(bookingId, payment, user, room);
+        Booking booking = new Booking(payment, user, room);
 
         bookingRepository.save(booking);
 

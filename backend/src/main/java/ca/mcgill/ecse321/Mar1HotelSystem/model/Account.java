@@ -9,6 +9,9 @@ public class Account extends GeneralUser {
     // Defining Variables
     private String password;
 
+    public Account(){
+        super();
+    }
     // Account constructor requiring firstName, lastName, email, phoneNumber,
     // password
     public Account(String firstName, String lastName, String email, int phoneNumber, String password) {
