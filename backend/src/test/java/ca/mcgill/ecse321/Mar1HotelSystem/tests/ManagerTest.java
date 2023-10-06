@@ -24,6 +24,7 @@ public class ManagerTest {
 	@Test
 	public void testPersistAndLoadManager() {
 		// Create manager
+        clearDatabase();
 		String firstName = "Lucas";
 		String lastName = "Pacicco";
 		String email = "lucaspacicco@gmail.com";
@@ -49,6 +50,7 @@ public class ManagerTest {
 		assertEquals(email, manager.getEmail());
 		assertEquals(phoneNumber, manager.getPhoneNumber());
 		assertEquals(password, manager.getPassword());
+        clearDatabase();
 	}
 }
 
