@@ -7,6 +7,10 @@ import jakarta.persistence.*;
 public class Employee extends Account {    
     int hoursWorked;
 
+    // Default constructor
+    public Employee() {
+        super(null, null, null, 0, null);
+    }
     // Employee constructor requiring requiring firstName, lastName, email, phoneNumber, password and hoursWorked
     public Employee(String firstName, String lastName, String email, int phoneNumber, String password,
             int hoursWorked) {
