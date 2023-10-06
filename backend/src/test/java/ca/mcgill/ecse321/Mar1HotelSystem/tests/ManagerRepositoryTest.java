@@ -14,6 +14,15 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 @SpringBootTest
 public class ManagerRepositoryTest {
 
+	// Create manager
+
+		 /**
+		 * This test is for the Manager class
+		 * 
+		 * @author Pacicco, Lucas
+		 * 
+		 */
+
     @Autowired
 	private ManagerRepository managerRepository;
 
@@ -25,15 +34,8 @@ public class ManagerRepositoryTest {
 
 	@Test
 	public void testPersistAndLoadManager() {
-		// Create manager
-
-		 /**
-		 * This test is for the Manager class
-		 * 
-		 * @author Pacicco, Lucas
-		 * 
-		 */
-
+		
+		// Create Manager
         clearDatabase();
 		String firstName = "John";
 		String lastName = "Doe";
