@@ -5,5 +5,4 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 
 public interface EmployeeRepository extends CrudRepository<Employee, String> {
     public Employee findEmployeeByEmail(String email);
-    public Employee findEmployeeById(int id);
 }

@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Entity
 public class Hotel {
     @Id
-    private String name = "Mar-1 Hotel";
+    private String hotelName = "Mar-1 Hotel";
 
     @OneToOne
     private HotelSchedule hotelSchedule;
