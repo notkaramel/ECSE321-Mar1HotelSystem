@@ -84,13 +84,13 @@ public class HotelRepositoryTest {
         BedType bedType = BedType.King;
         boolean isAvailable = true;
         int pricePerNight = 200;
-        int maxCapacity = 2;
-        int roomId = 1;
+        int maxCapacity = 2; 
 
         // ------------------
         // Create and Save Room
         // ------------------
-        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel, roomId);
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
+        int roomId = room.getRoomId(); 
         roomRepository.save(room);
         room = roomRepository.findRoomByRoomId(roomId);
         // Add the saved Room to the saved Hotel

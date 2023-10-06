@@ -13,7 +13,9 @@ public class GeneralUser {
     private String firstName;
     private String lastName;
     private int phoneNumber;
-
+    public GeneralUser(){
+        
+    }
     // Shift constructor requiring firstName, lastName, email, phoneNumber
     public GeneralUser(String firstName, String lastName, String email, int phoneNumber) {
         this.firstName = firstName;
