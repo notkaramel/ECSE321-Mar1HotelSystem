@@ -11,10 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
+
 /**
  * Test class for the GeneralUser repository.
  * 
- * @author Mokhtari, Bilar
+ * @author Bilar Mokhtari 
  */
 @SpringBootTest
 public class GeneralUserRepositoryTest {
@@ -25,13 +26,13 @@ public class GeneralUserRepositoryTest {
     @AfterEach
 
     // Clear the database before and after each test
-    public void clearDatabase(){
+    public void clearDatabase() {
         generalUserRepository.deleteAll();
     }
 
     @Test
-    public void testPersistAndReadGeneralUser(){
-        //Creating variables necessary for user to test our repository
+    public void testPersistAndReadGeneralUser() {
+        // Creating variables necessary for user to test our repository
         String firstName = "John";
         String lastName = "Wick";
         String email = "johnwick@mail.com";
@@ -42,7 +43,7 @@ public class GeneralUserRepositoryTest {
         generalUserRepository.save(generalUser);
         String userId = generalUser.getEmail();
 
-        //Testing read
+        // Testing read
         generalUser = generalUserRepository.findGeneralUserByEmail(userId);
 
         // Assertions

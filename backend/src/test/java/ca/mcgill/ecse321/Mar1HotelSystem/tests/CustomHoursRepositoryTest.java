@@ -14,9 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 /**
- * This test is for the CustomHours class
- * @author Mokhtari, Bilar
+ * This test class is for the CustomHoursRepository DAO.
  * 
+ * @author Bilar Mokhtari (@bmokhtari)
+ * @author Antoine Phan (@notkaramel)
  */
 @SpringBootTest
 public class CustomHoursRepositoryTest {
