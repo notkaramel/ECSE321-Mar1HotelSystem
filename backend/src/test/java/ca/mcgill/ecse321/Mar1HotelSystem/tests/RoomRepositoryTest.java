@@ -29,8 +29,8 @@ public class RoomRepositoryTest {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        hotelRepository.deleteAll();
         roomRepository.deleteAll();
+        hotelRepository.deleteAll();
     }
 
     @Test
@@ -49,7 +49,7 @@ public class RoomRepositoryTest {
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
         Hotel hotel = new Hotel(hotelSchedule);
-        hotel = hotelRepository.save(hotel);
+        hotelRepository.save(hotel);
         //=-=-=-=-=-=- Create object -=-=-=-=-=-=//
         RoomType roomType = RoomType.Suite;
         BedType bedType = BedType.King;
