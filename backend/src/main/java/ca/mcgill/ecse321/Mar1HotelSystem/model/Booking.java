@@ -3,6 +3,14 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import jakarta.persistence.*;
 
+/**
+ * The Booking class for all bookings of the system.
+ * 
+ * @author Lucas Pacicco (@Lucaspac5) - Boilerplate Code
+ * @author Bilar Mokhtari (@bmokhtari) - JPA Annotations
+ * @author Antoine Phan (@notkaramel) - JPA Annotations
+ */
+
 @Entity
 public class Booking {
     @Id
@@ -15,12 +23,14 @@ public class Booking {
     private GeneralUser generalUser;
     @ManyToOne
     private Room room;
-    
-    public Booking(){
+
+    // Default constructor
+    public Booking() {
 
     }
+
     // Booking constructor requiring bookingId, payment, user, and room
-    public Booking( Payment payment, GeneralUser generalUser, Room room) {
+    public Booking(Payment payment, GeneralUser generalUser, Room room) {
         if (setPayment(payment) == false) {
             throw new RuntimeException("Need an payment class to be instatiated; need a payment");
         }
