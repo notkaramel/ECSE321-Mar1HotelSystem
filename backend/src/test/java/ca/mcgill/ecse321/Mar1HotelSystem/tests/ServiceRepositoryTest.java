@@ -119,8 +119,7 @@ public class ServiceRepositoryTest {
 
         // Creating a new payment
         int amountPayment = 50;
-        int idPayment = 15;
-        Payment payment = new Payment(amountPayment, idPayment);
+        Payment payment = new Payment(amountPayment);
 
         paymentRepository.save(payment);
 

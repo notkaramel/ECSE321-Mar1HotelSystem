@@ -39,6 +39,12 @@ public class BookingRepositoryTest {
     @Autowired
     private HotelScheduleRepository hotelScheduleRepository;
 
+    @Autowired
+    private CustomHoursRepository customHoursRepository;
+
+    @Autowired
+    private OperatingHoursRepository operatingHoursRepository;
+
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
@@ -46,6 +52,8 @@ public class BookingRepositoryTest {
         hotelScheduleRepository.deleteAll();
         hotelRepository.deleteAll();
         roomRepository.deleteAll();
+        operatingHoursRepository.deleteAll();
+        customHoursRepository.deleteAll();
         generalUserRepository.deleteAll();
         paymentRepository.deleteAll();
     }
@@ -63,7 +71,7 @@ public class BookingRepositoryTest {
         // ---------------------------
 
         // Create Payment Object for Booking
-        Payment payment = new Payment(500, 0);
+        Payment payment = new Payment(500);
         paymentRepository.save(payment);
 
         // Create and Save User Object (Required for Booking)
@@ -78,6 +86,9 @@ public class BookingRepositoryTest {
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
         CustomHours[] customHoursArray = new CustomHours[1];
         OperatingHours[] operatingHoursArray = new OperatingHours[1];
+        customHoursRepository.save(customHours);
+        operatingHoursRepository.save(operatingHours);
+
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);

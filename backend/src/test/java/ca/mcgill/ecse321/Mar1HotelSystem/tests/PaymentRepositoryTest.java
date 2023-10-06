@@ -29,19 +29,18 @@ public class PaymentRepositoryTest {
     public void testPersistAndReadPayment() {
         // Creating the payment
         int amount = 5;
-        int id = 1;
-        Payment payment = new Payment(amount, id);
+        Payment payment = new Payment(amount);        int paymentId = payment.getPaymentId();
 
         // Adding the payment to the persistence layer
         paymentRepository.save(payment);
 
         // Read from the database
         
-        payment = paymentRepository.findPaymentByPaymentId(id);
+        payment = paymentRepository.findPaymentByPaymentId(paymentId);
 
         // Asserting the infog
         assertNotNull(payment);
         assertEquals(amount, payment.getAmount());
-        assertEquals(id, payment.getPaymentId());
+        assertEquals(paymentId, payment.getPaymentId());
     }
 }
