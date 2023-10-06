@@ -18,6 +18,8 @@ public class EmployeeRepositoryTest {
 		 * This test is for the Employee class
 		 * 
 		 * @author Pacicco, Lucas
+         * @author Corbier, Adam
+         * @author Friesen, Emma
 		 * 
 		 */
 
@@ -32,20 +34,12 @@ public class EmployeeRepositoryTest {
 
 	@Test
 	public void testPersistAndLoadEmployee() {
-		// Create employee
-
-		 /**
-		 * This test is for the Employee class
-		 * 
-		 * @author Pacicco, Lucas
-		 * 
-		 */
 
         clearDatabase();
         // Create Employee
-		String firstName = "Lucas";
-		String lastName = "Pacicco";
-		String email = "lucaspacicco@gmail.com";
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@gmail.com";
         int phoneNumber = 111333333;
         String password = "abc";
         int hoursWorked = 8;
