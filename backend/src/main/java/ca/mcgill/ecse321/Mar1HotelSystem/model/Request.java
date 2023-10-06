@@ -64,6 +64,10 @@ public class Request {
         }
     }
 
+    public int getRequestId() {
+        return this.requestId;
+    }
+
     public void delete() {
         this.booking = null;
     }
