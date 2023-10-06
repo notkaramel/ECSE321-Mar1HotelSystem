@@ -13,7 +13,7 @@ import jakarta.persistence.*;
  */
 
 @Entity
-public class Account extends GeneralUser {
+public abstract class Account extends GeneralUser {
 
     // Defining Variables
     private String password;
