@@ -12,7 +12,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 
 @SpringBootTest
-public class ManagerTest {
+public class ManagerRepositoryTest {
 
     @Autowired
 	private ManagerRepository managerRepository;
@@ -26,6 +26,14 @@ public class ManagerTest {
 	@Test
 	public void testPersistAndLoadManager() {
 		// Create manager
+
+		 /**
+		 * This test is for the Manager class
+		 * 
+		 * @author Pacicco, Lucas
+		 * 
+		 */
+
         clearDatabase();
 		String firstName = "Lucas";
 		String lastName = "Pacicco";

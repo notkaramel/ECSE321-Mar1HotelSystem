@@ -16,8 +16,13 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
 
 @SpringBootTest
-public class ShiftTest {
-   
+public class ShiftRepositoryTest {
+    /**
+     * This test is for the Shift class
+     * 
+     * @author Pacicco, Lucas
+     * 
+     */
     @Autowired
 	private ShiftRepository shiftRepository;
     @Autowired
