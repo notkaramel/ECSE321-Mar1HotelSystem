@@ -1,6 +1,6 @@
 # Mar-1 Hotel System - MHS
 
-Welcome to Fall 2023 ECSE 321's Group 05 repository!
+Welcome to Fall 2023 ECSE 321's Group 05 repository! Please check our [wiki](https://github.com/McGill-ECSE321-Fall2023/project-group-05/wiki) for more information about our project.
 
 ## Getting started
 - Clone the project
@@ -33,7 +33,7 @@ gradlew.bat build -xtest # Build the project without testing
 gradlew.bat test # Run the tests
 ```
 
-- Our database is open to the public and pre-configured, so you don't need to configure anything to run the project. However, if you want to run the project locally, you can change the database configuration in `backend/src/main/resources/application.properties`: (replace `YOUR_DATABASE` and `PASSWORD` with your own database name and password)
+- Our database is [open to the public and pre-configured](https://github.com/McGill-ECSE321-Fall2023/project-group-05/wiki/0.-Developer-Guide#database-privacy-concerns), so you don't need to configure anything to run the project. However, if you want to run the project locally, you can change the database configuration in `backend/src/main/resources/application.properties`: (replace `YOUR_DATABASE` and `PASSWORD` with your own database name and password)
 ```properties
 server.port = ${PORT:8080}
 
@@ -51,16 +51,6 @@ spring.datasource.password=PASSWORD
 cd frontend
 npm install
 ```
-
-## The developer team
-| Name | Program - Year | GitHub Profile |
-| ---- | ------- | ----- |
-| Adam Corbier | Computer Eng. - U2 | [Ad2Am2](https://github.com/Ad2Am2) |
-| Antoine Phan | Electrical Eng. - U2 | [notkaramel](https://github.com/notkaramel) | 
-| Bilar Mohktari | Software Eng. - U2 | [bmokhtari](https://github.com/bmokhtari) |
-| Emma Friesen | Chemical Eng. - U4 | [emma-friesen](https://github.com/emma-friesen) |
-| Lucas Pacicco | Eletrical Eng. - U3 | [Lucaspac5](https://github.com/Lucaspac5) |
-| Zi Xu Liu | Computer Eng. - U2 | [ARandomPi](https://github.com/ARandomPi) |
 
 ## Project structure
 ```bash
