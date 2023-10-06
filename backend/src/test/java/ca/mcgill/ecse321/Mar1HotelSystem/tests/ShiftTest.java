@@ -17,8 +17,9 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
 @SpringBootTest
 public class ShiftTest {
    
-     @Autowired
+    @Autowired
 	private ShiftRepository shiftRepository;
+    @Autowired
     private EmployeeRepository employeeRepository;
 
 	@AfterEach
@@ -29,7 +30,8 @@ public class ShiftTest {
 
 	@Test
 	public void testPersistAndLoadShift() {
-		// Create shift.
+		// Create shift
+        clearDatabase();
 		String firstName = "Lucas";
 		String lastName = "Pacicco";
 		String email = "lucaspacicco@gmail.com";
@@ -60,6 +62,9 @@ public class ShiftTest {
         assertEquals(date, shift.getDate());
 		assertEquals(startTime, shift.getStartTime());
 		assertEquals(endTime, shift.getEndTime());
+        clearDatabase();
+
+        
 	}
 
 }
