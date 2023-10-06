@@ -18,43 +18,43 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 @SpringBootTest
 public class ManagerRepositoryTest {
 
-	// Create manager
-	@Autowired
-	private ManagerRepository managerRepository;
+    // Create manager
+    @Autowired
+    private ManagerRepository managerRepository;
 
-	// Clear database before and after test
-	@BeforeEach
-	@AfterEach
-	public void clearDatabase() {
-		managerRepository.deleteAll();
-	}
+    // Clear database before and after test
+    @BeforeEach
+    @AfterEach
+    public void clearDatabase() {
+        managerRepository.deleteAll();
+    }
 
-	@Test
-	public void testPersistAndLoadManager() {
+    @Test
+    public void testPersistAndLoadManager() {
 
-		// Create Manager
-		clearDatabase();
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@gmail.com";
-		int phoneNumber = 111333333;
-		String password = "abc";
-		Manager manager = new Manager(firstName, lastName, email, phoneNumber, password);
+        // Create Manager
+        clearDatabase();
+        String firstName = "John";
+        String lastName = "Doe";
+        String email = "johndoe@gmail.com";
+        int phoneNumber = 111333333;
+        String password = "abc";
+        Manager manager = new Manager(firstName, lastName, email, phoneNumber, password);
 
-		// Save manager
-		managerRepository.save(manager);
+        // Save manager
+        managerRepository.save(manager);
 
-		// Read manager from database
-		manager = managerRepository.findManagerByEmail(email);
+        // Read manager from database
+        manager = managerRepository.findManagerByEmail(email);
 
-		// Assert that manager is not null and has correct attributes.
-		assertNotNull(manager);
-		assertEquals(firstName, manager.getFirstName());
-		assertEquals(lastName, manager.getLastName());
-		assertEquals(email, manager.getEmail());
-		assertEquals(phoneNumber, manager.getPhoneNumber());
-		assertEquals(password, manager.getPassword());
-		clearDatabase();
-	}
+        // Assert that manager is not null and has correct attributes.
+        assertNotNull(manager);
+        assertEquals(firstName, manager.getFirstName());
+        assertEquals(lastName, manager.getLastName());
+        assertEquals(email, manager.getEmail());
+        assertEquals(phoneNumber, manager.getPhoneNumber());
+        assertEquals(password, manager.getPassword());
+        clearDatabase();
+    }
 
 }

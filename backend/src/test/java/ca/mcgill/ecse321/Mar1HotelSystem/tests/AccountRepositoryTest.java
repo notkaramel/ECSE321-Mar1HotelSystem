@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.tests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.AfterEach;
@@ -18,38 +19,38 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Account;
  */
 @SpringBootTest
 public class AccountRepositoryTest {
-	@Autowired
-	private AccountRepository accountRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
-	// Clear database before and after test
-	@BeforeEach
-	@AfterEach
-	public void clearDatabase() {
-		accountRepository.deleteAll();
-	}
+    // Clear database before and after test
+    @BeforeEach
+    @AfterEach
+    public void clearDatabase() {
+        accountRepository.deleteAll();
+    }
 
-	@Test
-	public void testPersistAndLoadAccount() {
-		// Create account
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@gmail.com";
-		int phoneNumber = 111333333;
-		String password = "abc";
-		Account account = new Account(firstName, lastName, email, phoneNumber, password);
+    @Test
+    public void testPersistAndLoadAccount() {
+        // Create account
+        String firstName = "John";
+        String lastName = "Doe";
+        String email = "johndoe@gmail.com";
+        int phoneNumber = 111333333;
+        String password = "abc";
+        Account account = new Account(firstName, lastName, email, phoneNumber, password);
 
-		// Save account
-		accountRepository.save(account);
+        // Save account
+        accountRepository.save(account);
 
-		// Read account from database.
-		account = accountRepository.findAccountByEmail(email);
+        // Read account from database.
+        account = accountRepository.findAccountByEmail(email);
 
-		// Assert that account is not null and has correct attributes.
-		assertNotNull(account);
-		assertEquals(firstName, account.getFirstName());
-		assertEquals(lastName, account.getLastName());
-		assertEquals(email, account.getEmail());
-		assertEquals(phoneNumber, account.getPhoneNumber());
-		assertEquals(password, account.getPassword());
-	}
+        // Assert that account is not null and has correct attributes.
+        assertNotNull(account);
+        assertEquals(firstName, account.getFirstName());
+        assertEquals(lastName, account.getLastName());
+        assertEquals(email, account.getEmail());
+        assertEquals(phoneNumber, account.getPhoneNumber());
+        assertEquals(password, account.getPassword());
+    }
 }
