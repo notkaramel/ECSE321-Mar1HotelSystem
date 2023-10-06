@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Date;
 
 /**
- * This is the test class for the service repository
+ * This is the test class for the service repository.
  *
  * @author ZiXu Liu
  */
