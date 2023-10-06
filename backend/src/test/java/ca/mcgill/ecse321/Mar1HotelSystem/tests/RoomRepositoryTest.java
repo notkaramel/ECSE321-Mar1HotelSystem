@@ -15,8 +15,10 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.*;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,6 +30,12 @@ public class RoomRepositoryTest {
     @Autowired
     private HotelScheduleRepository hotelScheduleRepository;
 
+    @Autowired 
+    private CustomHoursRepository customHoursRepository;
+
+    @Autowired 
+    private OperatingHoursRepository operatingHoursRepository;
+
     @Autowired
     private HotelRepository hotelRepository;
 
@@ -37,6 +45,8 @@ public class RoomRepositoryTest {
         roomRepository.deleteAll();
         hotelRepository.deleteAll();
         hotelScheduleRepository.deleteAll();
+        operatingHoursRepository.deleteAll();
+        customHoursRepository.deleteAll();
     }
 
     @Test
@@ -47,6 +57,11 @@ public class RoomRepositoryTest {
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
         CustomHours[] customHoursArray = new CustomHours[1];
         OperatingHours[] operatingHoursArray = new OperatingHours[1];
+        customHoursRepository.save(customHours);
+        customHours = customHoursRepository.findCustomHoursByDate(date);
+        operatingHoursRepository.save(operatingHours);
+        operatingHours = operatingHoursRepository.findOperatingHoursByOpeningHour(8);
+
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);

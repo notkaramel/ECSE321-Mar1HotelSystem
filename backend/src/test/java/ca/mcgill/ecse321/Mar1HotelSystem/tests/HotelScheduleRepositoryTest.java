@@ -44,6 +44,8 @@ public class HotelScheduleRepositoryTest {
     @Test
     @Transactional
     public void testPersistAndLoadHotelSchedule(){
+        // Create and Save Hotel Object (Required for Room, which is in turn required
+        // for Booking)
         Date date = new Date();
         CustomHours customHours = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
@@ -69,8 +71,8 @@ public class HotelScheduleRepositoryTest {
         assertEquals(1, hotelSchedule.getOperatingHours().size());
 
         // Validate CustomHours details
-        CustomHours retrievedCustomHour1 = hotelSchedule.getCustomHours().get(0);
-        assertEquals(date, retrievedCustomHour1.getDate());
+        CustomHours retrievedCustomHour = hotelSchedule.getCustomHours().get(0);
+        assertEquals(date, retrievedCustomHour.getDate());
 
         // Validate OperatingHours details
         OperatingHours retrievedOperatingHour = hotelSchedule.getOperatingHours().get(0);

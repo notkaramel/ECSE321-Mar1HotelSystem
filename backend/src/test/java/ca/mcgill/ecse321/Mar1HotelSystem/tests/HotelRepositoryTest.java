@@ -12,10 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
-
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
@@ -35,6 +36,12 @@ import jakarta.transaction.Transactional;
 @SpringBootTest
 public class HotelRepositoryTest {
 
+    @Autowired 
+    private CustomHoursRepository customHoursRepository;
+
+    @Autowired 
+    private OperatingHoursRepository operatingHoursRepository;
+
     @Autowired
     private HotelRepository hotelRepository;
 
@@ -51,6 +58,8 @@ public class HotelRepositoryTest {
         roomRepository.deleteAll();
         hotelRepository.deleteAll();
         hotelScheduleRepository.deleteAll();
+        operatingHoursRepository.deleteAll();
+        customHoursRepository.deleteAll();
     }
 
     // ------------------
@@ -62,15 +71,18 @@ public class HotelRepositoryTest {
     public void testPersistAndLoadHotel() {
 
         // =-=-=-=-=-=- Create HotelSchedule object -=-=-=-=-=-=//
-
         Date date = new Date();
-        CustomHours customHours1 = new CustomHours(date, 8, 20);
-        CustomHours customHours2 = new CustomHours(date, 8, 20);
+        CustomHours customHours = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
+        CustomHours[] customHoursArray = new CustomHours[1];
+        OperatingHours[] operatingHoursArray = new OperatingHours[1];
+        customHoursRepository.save(customHours);
+        customHours = customHoursRepository.findCustomHoursByDate(date);
+        operatingHoursRepository.save(operatingHours);
+        operatingHours = operatingHoursRepository.findOperatingHoursByOpeningHour(8);
 
-        CustomHours[] customHoursArray = { customHours1, customHours2 };
-        OperatingHours[] operatingHoursArray = { operatingHours };
-
+        customHoursArray[0] = customHours;
+        operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
         // --------------------------------//
 
