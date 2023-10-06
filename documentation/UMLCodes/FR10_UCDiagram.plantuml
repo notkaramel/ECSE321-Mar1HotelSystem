@@ -23,21 +23,21 @@ package MHS {
 
 }
 
-a --> (Verify login credentials)
-(Verify login credentials) -left.-> (Invalid credentials error message): extends
-(Verify login credentials) -right.-> (Valid credentials message): includes
-(Verify login credentials) -.-> (Click submit login credentials): includes
-(Click submit login credentials) -.-> (Login): includes
-(Login) -left.-> (Enter account credentials): includes
-(Login) -.-> (Verify updated email credentials): includes
-(Login) -.-> (Verify updated password credentials): includes
-(Verify updated email credentials) -left.-> (Invalid updated email credentials error message): extends
-(Verify updated email credentials) -right.-> (Valid updated email credentials message): includes
-(Verify updated email credentials) -.-> (Click submit updated credentials): includes
-(Verify updated password credentials) -left.-> (Invalid updated password credentials error message): extends
-(Verify updated password credentials) -right.-> (Valid updated password credentials message): includes
-(Verify updated password credentials) -.-> (Click submit updated credentials): includes
-(Click submit updated credentials) -.-> (User credentials updated): includes
+(Verify login credentials) <-- a
+(Invalid credentials error message)<-.right- (Verify login credentials): extends
+(Valid credentials message) <-.left- (Verify login credentials): includes
+(Click submit login credentials) <-.- (Verify login credentials): includes
+(Login) <-.- (Click submit login credentials): includes
+(Enter account credentials) <-.- (Login): includes
+(Verify updated email credentials) <-.- (Login): includes
+(Verify updated password credentials) <-.- (Login): includes
+(Invalid updated email credentials error message) <-.right- (Verify updated email credentials): extends
+(Valid updated email credentials message) <-.left- (Verify updated email credentials): includes
+(Click submit updated credentials) <-.- (Verify updated email credentials): includes
+(Invalid updated password credentials error message) <-.right- (Verify updated password credentials): extends
+(Valid updated password credentials message) <-.left- (Verify updated password credentials): includes
+(Click submit updated credentials) <-.- (Verify updated password credentials): includes
+(User credentials updated) <-.- (Click submit updated credentials): includes
 u --> (User credentials updated)
 
 
