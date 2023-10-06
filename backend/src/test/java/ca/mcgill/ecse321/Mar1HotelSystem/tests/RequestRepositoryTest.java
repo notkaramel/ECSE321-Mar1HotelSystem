@@ -13,6 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
 
+/**
+ * This is the test class for the request repository.
+ *
+ * @author ZiXu Liu
+ */
 @SpringBootTest
 public class RequestRepositoryTest {
     // Setting up the service repository
@@ -53,8 +58,9 @@ public class RequestRepositoryTest {
         userRepository.deleteAll();
     }
 
+    // Main test for the request repository
     @Test
-    public void testPersistAndReadRequests () {
+    public void testPersistAndReadRequest() {
         // Creating an employee
         String firstName = "Just";
         String lastName = "Pi";
@@ -64,6 +70,7 @@ public class RequestRepositoryTest {
         int hoursWorked = 8;
         Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
 
+        // Adding to the database
         employeeRepository.save(employee);
 
         // Creating a user
@@ -73,6 +80,7 @@ public class RequestRepositoryTest {
         int phoneNumberUser = 124;
         GeneralUser user = new GeneralUser(firstNameUser, lastNameUser, emailUser, phoneNumberUser);
 
+        // Adding to the database
         userRepository.save(user);
 
         // Creating a new custom hour
@@ -81,6 +89,7 @@ public class RequestRepositoryTest {
         int closingHour = 6;
         CustomHours customHours = new CustomHours(dateHour, openingHour, closingHour);
 
+        // Adding to the database
         customHoursRepository.save(customHours);
 
         // Creating a new operating hour
@@ -89,6 +98,7 @@ public class RequestRepositoryTest {
         int closingHourOperating = 8;
         OperatingHours operatingHours = new OperatingHours(dayOfWeek, openingHourOperating, closingHourOperating);
 
+        // Adding to the database
         operatingHoursRepository.save(operatingHours);
 
         // Creating a new hotel schedule
@@ -97,11 +107,13 @@ public class RequestRepositoryTest {
         OperatingHours[] operatingHoursList = {operatingHours};
         HotelSchedule hotelSchedule = new HotelSchedule(year, operatingHoursList, customHoursList);
 
+        // Adding to the database
         hotelScheduleRepository.save(hotelSchedule);
 
         // Creating a new hotel
         Hotel hotel = new Hotel(hotelSchedule);
 
+        // Adding to the database
         hotelRepository.save(hotel);
 
         // Creating a new room
@@ -113,17 +125,20 @@ public class RequestRepositoryTest {
         int maxCapacity = 1;
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
 
+        // Adding to the database
         roomRepository.save(room);
 
         // Creating a new payment
         int amountPayment = 2;
         Payment payment = new Payment(amountPayment);
 
+        // Adding to the database
         paymentRepository.save(payment);
 
         // Creating a new booking
         Booking booking = new Booking(payment, user, room);
 
+        // Adding to the database
         bookingRepository.save(booking);
 
         // Creating a request
@@ -131,6 +146,7 @@ public class RequestRepositoryTest {
         boolean fulfilled = false;
         Request request = new Request(description, booking, fulfilled);
 
+        // Adding to the database
         requestRepository.save(request);
         int id = request.getRequestId();
 

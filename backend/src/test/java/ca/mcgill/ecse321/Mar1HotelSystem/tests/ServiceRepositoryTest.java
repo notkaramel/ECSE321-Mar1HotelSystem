@@ -13,6 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+
+/**
+ * This is the test class for the service repository
+ *
+ * @author ZiXu Liu
+ */
 @SpringBootTest
 public class ServiceRepositoryTest {
     // Setting up the repositories
@@ -56,6 +62,7 @@ public class ServiceRepositoryTest {
         userRepository.deleteAll();
     }
 
+    // Main test for the service repository
     @Test
     public void testPersistAndReadService() {
         // Creating an employee
