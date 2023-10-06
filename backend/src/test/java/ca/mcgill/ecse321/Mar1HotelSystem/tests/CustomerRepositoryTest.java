@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,11 +48,11 @@ public class CustomerRepositoryTest {
 
         //Assert that the customer is not null and that the registered data are correct
         assertNotNull(customer);
-        // assertEquals(firstName, customer.getFirstName());
-        // assertEquals(lastName, customer.getLastName());
-        // assertEquals(email, customer.getEmail());
-        // assertEquals(phoneNumber, customer.getPhoneNumber());
-        // assertEquals(password, customer.getPassword());
+        assertEquals(firstName, customer.getFirstName());
+        assertEquals(lastName, customer.getLastName());
+        assertEquals(email, customer.getEmail());
+        assertEquals(phoneNumber, customer.getPhoneNumber());
+        assertEquals(password, customer.getPassword());
     }
 
 }

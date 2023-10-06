@@ -5,9 +5,12 @@ import jakarta.persistence.Entity;
 
 @Entity
 public class Customer extends Account {
+    // Default constructor
+    public Customer() {
+        super(null, null, null, 0, null);
+    }
 
-    // Customer constructor requiring firstName, lastName, email, phoneNumber,
-    // password
+    // Customer constructor requiring firstName, lastName, email, phoneNumber, password
     public Customer(String firstName, String lastName, String email, int phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber, password);
     }
