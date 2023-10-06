@@ -1,7 +1,6 @@
 @startuml FR3_UCDiagram
 title FR3: The MHS shall allow customers to create and delete their account.
-' left to right direction
-' skinparam Linetype ortho
+
 :Customer: as c
 :Authentication System: as AuthSys
 
@@ -10,25 +9,30 @@ node MHS {
     (Create Account) as ca
     (Delete Account) as da
     (Input Personal Information) as inPersonalInfo
-    inPersonalInfo ..> (Input firstName) : includes
-    inPersonalInfo ..> (Input lastName) : includes
-    inPersonalInfo ..> (Input email) : includes
-    inPersonalInfo ..> (Input password) : includes
-    (Log In) as login
     (Click "Create Account") as cca
-    cca .down.> (Add Account to MHS) : includes
+    (Login) as login
     (Click "Delete Account") as dca
-    dca .> (Confirm Delete Account) : includes
-    (Confirm Delete Account) ..> (Delete Account from MHS) : includes
+    
+    inPersonalInfo <.. (Input first name) : includes
+    inPersonalInfo <.. (Input last name) : includes
+    inPersonalInfo <.. (Input email) : includes
+    inPersonalInfo <.. (Input password) : includes
+    ca <.. inPersonalInfo : includes
+    ca <.. cca : includes
+    cca <.. (Verify personal information) : includes
+    
+    (Verify personal information) <.. (Show valid email & password message) : includes
+    (Verify personal information) <.. (Show invalud credentials error message) : extends
+    
+    da <.. login : includes
+    da <.. dca : includes
 }
 
-c -right-> ca
-ca .right.> inPersonalInfo : includes
-inPersonalInfo ..> cca : includes
+c --> ca
 c --> da
-da ..> login : includes
+
 AuthSys --> login
-login ..> dca : includes
+AuthSys --> (Verify personal information)
 
 
 @enduml
