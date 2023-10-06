@@ -29,8 +29,8 @@ public class RoomRepositoryTest {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        roomRepository.deleteAll();
         hotelRepository.deleteAll();
+        roomRepository.deleteAll();
     }
 
     @Test
