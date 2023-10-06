@@ -13,6 +13,7 @@ public class GeneralUser {
     private String firstName;
     private String lastName;
     private int phoneNumber;
+
     public GeneralUser(){
         
     }

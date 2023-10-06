@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,11 +12,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 
 @SpringBootTest
-public class ManagerTest {
+public class ManagerRepositoryTest {
 
     @Autowired
 	private ManagerRepository managerRepository;
 
+    @BeforeEach
 	@AfterEach
 	public void clearDatabase() {
 		managerRepository.deleteAll();
@@ -24,6 +26,14 @@ public class ManagerTest {
 	@Test
 	public void testPersistAndLoadManager() {
 		// Create manager
+
+		 /**
+		 * This test is for the Manager class
+		 * 
+		 * @author Pacicco, Lucas
+		 * 
+		 */
+
         clearDatabase();
 		String firstName = "Lucas";
 		String lastName = "Pacicco";
