@@ -42,6 +42,7 @@ public class EmployeeRepositoryTest {
 		 */
 
         clearDatabase();
+        // Create Employee
 		String firstName = "Lucas";
 		String lastName = "Pacicco";
 		String email = "lucaspacicco@gmail.com";

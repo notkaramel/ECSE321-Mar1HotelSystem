@@ -52,7 +52,7 @@ public class ManagerRepositoryTest {
 		// Save manager
 		managerRepository.save(manager);
 
-		// Read manager from database.
+		// Read manager from database
 		manager = managerRepository.findManagerByEmail(email);
 
 		// Assert that manager is not null and has correct attributes.
