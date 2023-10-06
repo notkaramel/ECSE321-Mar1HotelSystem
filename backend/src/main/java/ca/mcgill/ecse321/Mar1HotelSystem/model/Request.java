@@ -16,7 +16,7 @@ public class Request {
     private Booking booking;
 
     // Request constructor requiring description, employee, booking, and isFufilled
-    public Request(String description, Employee employee, Booking booking, boolean isFufilled) {
+    public Request(String description, Booking booking, boolean isFufilled) {
         this.description = description;
         this.isFufilled = isFufilled;
 
