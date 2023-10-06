@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.tests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -20,61 +21,62 @@ public class ShiftRepositoryTest {
     /**
      * This test is for the Shift class
      * 
-     * @author Pacicco, Lucas
+     * @author Lucas Pacicco (@Lucaspac5)
      * 
      */
     @Autowired
-	private ShiftRepository shiftRepository;
+    private ShiftRepository shiftRepository;
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    // Clear database before and after test
     @BeforeEach
-	@AfterEach
-	public void clearDatabase() {
-		shiftRepository.deleteAll();
+    @AfterEach
+    /*
+     * Deletion order: from parent to child
+     * shift -> employee
+     */
+    public void clearDatabase() {
+        shiftRepository.deleteAll();
         employeeRepository.deleteAll();
-	}
+    }
 
-	@Test
-	public void testPersistAndLoadShift() {
+    @Test
+    public void testPersistAndLoadShift() {
         clearDatabase();
         // Create employee for shift
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String lastName = "Doe";
+        String email = "johndoe@gmail.com";
         int phoneNumber = 111333333;
         String password = "abc";
         int hoursWorked = 7;
-        // Create employee for shift
         Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
+
         // Save employee
         employeeRepository.save(employee);
+
         // Create shift
         Date date = new Date();
         int startTime = 1;
         int endTime = 8;
-		Shift shift = new Shift(employee, date, startTime, endTime);
-        shift.setEmployee(employee);
-        shift.setDate(date);
-        shift.setStartTime(startTime);
-        shift.setEndTime(endTime);
+        Shift shift = new Shift(employee, date, startTime, endTime);
 
-		// Save shift
-		shiftRepository.save(shift);
+        // Save shift
+        shiftRepository.save(shift);
 
-		// Read shift from database.
+        // Read shift from database.
         int shiftId = shift.getShiftId();
-		shift = shiftRepository.findShiftByShiftId(shiftId);
+        shift = shiftRepository.findShiftByShiftId(shiftId);
 
-		// Assert that shift is not null and has correct attributes.
-		assertNotNull(shift);
+        // Assert that shift is not null and has correct attributes.
+        assertNotNull(shift);
         assertEquals(employee.getEmail(), shift.getEmployee().getEmail());
         assertEquals(date, shift.getDate());
-		assertEquals(startTime, shift.getStartTime());
-		assertEquals(endTime, shift.getEndTime());
+        assertEquals(startTime, shift.getStartTime());
+        assertEquals(endTime, shift.getEndTime());
         clearDatabase();
 
-        
-	}
+    }
 
 }

@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.tests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -16,17 +17,18 @@ public class ManagerRepositoryTest {
 
 	// Create manager
 
-		 /**
-		 * This test is for the Manager class
-		 * 
-		 * @author Pacicco, Lucas
-		 * 
-		 */
+	/**
+	 * This test is for the Manager class
+	 * 
+	 * @author Lucas Pacicco (@Lucaspac5)
+	 * 
+	 */
 
-    @Autowired
+	@Autowired
 	private ManagerRepository managerRepository;
 
-    @BeforeEach
+	// Clear database before and after test
+	@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
 		managerRepository.deleteAll();
@@ -34,20 +36,15 @@ public class ManagerRepositoryTest {
 
 	@Test
 	public void testPersistAndLoadManager() {
-		
+
 		// Create Manager
-        clearDatabase();
+		clearDatabase();
 		String firstName = "John";
 		String lastName = "Doe";
 		String email = "johndoe@gmail.com";
-        int phoneNumber = 111333333;
-        String password = "abc";
+		int phoneNumber = 111333333;
+		String password = "abc";
 		Manager manager = new Manager(firstName, lastName, email, phoneNumber, password);
-		manager.setFistName(firstName);
-        manager.setLastName(lastName);
-        manager.setEmail(email);
-        manager.setPhoneNumber(phoneNumber);
-        manager.setPassword(password);
 
 		// Save manager
 		managerRepository.save(manager);
@@ -57,12 +54,11 @@ public class ManagerRepositoryTest {
 
 		// Assert that manager is not null and has correct attributes.
 		assertNotNull(manager);
-        assertEquals(firstName, manager.getFirstName());
-        assertEquals(lastName, manager.getLastName());
+		assertEquals(firstName, manager.getFirstName());
+		assertEquals(lastName, manager.getLastName());
 		assertEquals(email, manager.getEmail());
 		assertEquals(phoneNumber, manager.getPhoneNumber());
 		assertEquals(password, manager.getPassword());
-        clearDatabase();
+		clearDatabase();
 	}
 }
-

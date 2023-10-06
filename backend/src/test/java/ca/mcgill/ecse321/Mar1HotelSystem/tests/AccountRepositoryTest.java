@@ -14,9 +14,19 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Account;
 
 @SpringBootTest
 public class AccountRepositoryTest {
-    @Autowired
+
+	/**
+	 * This test is for the Employee class
+	 * 
+	 * @author Lucas Pacicco (@Lucaspac5)
+	 * @author Emma Friesen (@emma-friesen)
+	 * 
+	 */
+
+	@Autowired
 	private AccountRepository accountRepository;
 
+	// Clear database before and after test
 	@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
@@ -29,14 +39,9 @@ public class AccountRepositoryTest {
 		String firstName = "John";
 		String lastName = "Doe";
 		String email = "johndoe@gmail.com";
-        int phoneNumber = 111333333;
-        String password = "abc";
+		int phoneNumber = 111333333;
+		String password = "abc";
 		Account account = new Account(firstName, lastName, email, phoneNumber, password);
-		account.setFistName(firstName);
-        account.setLastName(lastName);
-        account.setEmail(email);
-        account.setPhoneNumber(phoneNumber);
-        account.setPassword(password);
 
 		// Save account
 		accountRepository.save(account);
@@ -46,8 +51,8 @@ public class AccountRepositoryTest {
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(account);
-        assertEquals(firstName, account.getFirstName());
-        assertEquals(lastName, account.getLastName());
+		assertEquals(firstName, account.getFirstName());
+		assertEquals(lastName, account.getLastName());
 		assertEquals(email, account.getEmail());
 		assertEquals(phoneNumber, account.getPhoneNumber());
 		assertEquals(password, account.getPassword());
