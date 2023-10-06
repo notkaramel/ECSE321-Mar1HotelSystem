@@ -59,7 +59,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
     }
 
     Booking "1..*" -left[#green]-> "1" Room
-    Booking "1" -right[#green]-> "1" GeneralUser
+    Booking "0..*" -right[#green]-> "1" GeneralUser
 
     Class Request {
         description : str
@@ -69,11 +69,11 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
     Request "*" -up-> "1" Booking
 
     Class Service {
-        assignee : Employee
+
     }
 
     Service "1" -up[#blue]-> "1" Request
-    Service "1" -down[#blue]-> "1" Employee
+    Service "0..*" -down[#blue]-> "1" Employee
 
     Class Payment {
         amount : int
