@@ -62,7 +62,7 @@ public class RoomRepositoryTest {
         //=-=-=-=-=-=- Save object -=-=-=-=-=-=//
         room = roomRepository.save(room);
         //=-=-=-=-=-=- Read object -=-=-=-=-=-=//
-        
+        room = roomRepository.findRoomByRoomNumber(roomId);
         //=-=-=-=-=-=- Assertions-=-=-=-=-=-=//
         assertNotNull(room);
         assertEquals(roomType, room.getRoomType());
