@@ -1,34 +1,44 @@
 @startuml CustomerUC
-title
-FR2 - The MHS system shall allow a customer with or without an account
-to book a specific room type and pay for their room booking
-end title
-
-left to right direction
-
-'Actor
-:Customer: as customer
-:Guest: as guest
-
+'FR4 - The MHS shall allow a customer with an account to make specific requests regarding their room
+title FR2 - The MHS shall allow a customer with or without an account to book a specific room type and pay for their room booking.
 'Use cases
 node MHS {
-    (Book room) as UC1
-    (Select room) as UC2
-    (Pay for room) as UC3
-    (Enter personal information) as UC4
-    (Log in) as UC5
-    (Enter credentials) as UC6
-    (Enter room criteria) as UC7
-}
-
+(Book room) as UC1
+(Select room) as UC2
+(Add room criteria) as UC3
+(No such rooms available) as UC4
+(Login) as UC5
+(Enter account credentials) as UC6
+(Click submit) as UC7
+(Verify login credentials) as UC8
+(Invalid credentials message) as UC9
+(Valid credentials message) as UC10
+(Payment) as UC11
+(Enter payment information) as UC12
+(Click pay) as UC13
+(Verify payment information) as UC14
+(Invalid payment information message) as UC15
+(Successful payment message) as UC16
+(Write special request) as UC17
+left to right direction
 'Associations
-customer --> UC1
-UC2 -right.> UC1: <<includes>>
-UC3 -up.> UC1: <<includes>>
-guest --> UC1
-UC4 -up.> UC1: <<includes>>
-UC5 -left.> UC1: <<extends>>
-UC6 -up.> UC5: <<includes>>
-UC7 -up.> UC2: <<includes>>
-
-@enduml
+UC1 <.- UC2 : includes
+UC1 <.- UC17 : extends
+UC2 <.- UC3 : includes
+UC3 <.- UC4 : extends
+UC1 <.- UC5 : includes
+UC5 <.- UC6 : includes
+UC5 <.- UC7 : includes
+UC1 <.- UC11 : includes
+UC11 <.- UC13 : includes
+UC11 <.- UC12 : includes
+UC13 <.- UC14 : includes
+UC14 <-left. UC15 : extends
+UC14 <-right. UC16 : includes
+UC8 <-left. UC9 : extends
+UC8 <-right. UC10 : includes
+UC7 <-. UC8 : includes
+}
+Customer --> UC1
+paymentAuthenticator --> UC14
+LoginAuthenticator --> UC8
