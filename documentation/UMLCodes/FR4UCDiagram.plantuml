@@ -1,46 +1,31 @@
 @startuml CustomerUC
 'FR4 - The MHS shall allow a customer with an account to make specific requests regarding their room
-title FR4 - Customers shall make requests regarding their room at the time of booking.
+title FR4 - The MHS shall allow customers with an account to make requests regarding their room at any time before the end of their stay, \n and customers without an account to make requests at the time of booking.
 'Use cases
 node MHS {
-(Add request to booking) as UC0
-(Book room) as UC1
-(Select room) as UC2
-(Add room criteria) as UC3
-(No rooms available with given criteria message) as UC4
-(Login) as UC5
-(Enter account credentials) as UC6
-(Click submit) as UC7
-(Verify login credentials) as UC8
-(Invalid credentials message) as UC9
-(Valid credentials message) as UC10
-(Payment) as UC11
-(Enter payment information) as UC12
-(Click pay) as UC13
-(Verify payment information) as UC14
-(Invalid payment information message) as UC15
-(Successful payment message) as UC16
-(Write special request) as UC17
+(Add request while booking) as UC0_0
+(Book room) as UC0_1
+(Write special request) as UC0_2
+(Add request after booking) as UC1_0
+(Log in to account) as UC1_1
+(Write special request) as UC1_2
+(Navigate to booking) as UC1_3
+(Request an additional service) as UC1_4
+(Confirm addition of request) as UC1_5
+
 left to right direction
 'Associations
-UC0 <-.- UC1 : includes
-UC1 <-.- UC2 : includes
-UC1 <-.- UC17 : extends
-UC2 <-.- UC3 : includes
-UC3 <-.- UC4 : extends
-UC1 <-.- UC5 : includes
-UC5 <-.- UC6 : includes
-UC5 <-.- UC7 : includes
-UC1 <-.- UC11 : includes
-UC11 <-.- UC13 : includes
-UC11 <-.- UC12 : includes
-UC13 <-.- UC14 : includes
-UC14 <-left.- UC15 : extends
-UC14 <-right.- UC16 : includes
-UC8 <-left.- UC9 : extends
-UC8 <-right.- UC10 : includes
-UC7 <-.- UC8 : includes
+UC0_0 <-.- UC0_1 : extends
+UC0_0 <-.- UC0_2 : includes
+UC1_3 <-.- UC1_1 : includes
+UC1_0 <-.- UC1_3: includes
+UC1_3 <-.- UC1_4: extends
+UC1_4 <-.- UC1_2 : includes
+UC1_4 <-.- UC1_5 : extends
+
+
+
 }
-Customer --> UC0
-paymentAuthenticator --> UC14 : includes
-LoginAuthenticator --> UC8 : includes
+Guest --> UC0_0
+Customer --> UC0_0
+Customer --> UC1_0
