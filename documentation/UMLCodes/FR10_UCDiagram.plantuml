@@ -1,0 +1,44 @@
+@startuml FR10
+title FR10: The MHS shall allow the user to change their account email and password by themselves.
+left to right direction
+:LoginAuthenticator: as a
+:User: as u
+
+package MHS {
+    (Verify login credentials)
+    (Login)
+    (Enter account credentials)
+    (Verify login credentials)
+    (Invalid credentials error message)
+    (Valid credentials message)
+    (Verify updated email credentials)
+    (Verify updated password credentials)
+    (Click submit login credentials)
+    (Click submit updated credentials)
+    (Invalid updated email credentials error message)
+    (Valid updated email credentials message)
+    (Invalid updated password credentials error message)
+    (Valid updated password credentials message)
+    (User credentials updated)
+
+}
+
+(Verify login credentials) <-- a
+(Invalid credentials error message)<-.right- (Verify login credentials): extends
+(Valid credentials message) <-.left- (Verify login credentials): includes
+(Click submit login credentials) <-.- (Verify login credentials): includes
+(Login) <-.- (Click submit login credentials): includes
+(Enter account credentials) <-.- (Login): includes
+(Verify updated email credentials) <-.- (Login): includes
+(Verify updated password credentials) <-.- (Login): includes
+(Invalid updated email credentials error message) <-.right- (Verify updated email credentials): extends
+(Valid updated email credentials message) <-.left- (Verify updated email credentials): includes
+(Click submit updated credentials) <-.- (Verify updated email credentials): includes
+(Invalid updated password credentials error message) <-.right- (Verify updated password credentials): extends
+(Valid updated password credentials message) <-.left- (Verify updated password credentials): includes
+(Click submit updated credentials) <-.- (Verify updated password credentials): includes
+(User credentials updated) <-.- (Click submit updated credentials): includes
+u --> (User credentials updated)
+
+
+@enduml

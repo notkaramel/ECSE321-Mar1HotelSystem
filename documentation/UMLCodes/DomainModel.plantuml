@@ -1,0 +1,131 @@
+@startuml DomainModel
+title Mar-1 Hotel System (MHS)
+skinparam linetype ortho
+hide methods
+top to bottom direction
+
+package ca.mcgill.ecse321.Mar1HotelSystem.model {
+    Class GeneralUser {
+        firstName : str
+        lastName : str
+        # email : str
+        # phone : int
+    }
+
+    abstract Class Account <<abstract>> {
+        password : str
+    }
+    together {
+        Class Employee {
+            hoursWorked : int
+        }
+
+        Class Manager {
+        }
+
+        Class Customer {
+        }
+    }
+
+    ' Associations of users
+    GeneralUser    <|-- Account
+    Account <|-- Employee
+    Account <|-- Customer
+    Account <|-- Manager
+
+    ' Employees and their shifts/schedule
+    Class Shift {
+        date : Date
+        startTime : int
+        endTime : int
+    }
+
+    Shift "*" -up-> "1" Employee
+
+    ' Room, Booking, Request, Payment
+    Class Room {
+        # RoomNumber : int
+        type : RoomType
+        bed : BedType
+        isAvailable : boolean
+        pricePerNight : int
+        maxCapacity : int
+    }
+
+    Room "70" -up-* "1" Hotel
+
+    Class Booking {
+        # bookingId : str
+    }
+
+    Booking "1..*" -left[#green]-> "1" Room
+    Booking "0..*" -right[#green]-> "1" GeneralUser
+
+    Class Request {
+        description : str
+        isFulfilled : boolean
+    }
+
+    Request "*" -up-> "1" Booking
+
+    Class Service {
+
+    }
+
+    Service "1" -up[#blue]-> "1" Request
+    Service "0..*" -down[#blue]-> "1" Employee
+
+    Class Payment {
+        amount : int
+        # paymentId : str
+    }
+
+    Booking "1" -up-> "1" Payment
+
+    ' Hotel, Hotel Hours of Operations
+
+    Class Hotel
+
+    Class HotelSchedule
+
+    Hotel "1" -left-> "1" HotelSchedule
+
+    Class OperatingHours {
+        day : DayOfWeek
+        openingHour : int
+        closingHour : int
+    }
+
+    Class CustomHours {
+        date : Date
+        openingHour : int
+        closingHour : int
+    }
+
+
+    HotelSchedule "1" -up-> "0..366" CustomHours
+    HotelSchedule "1" -up-> "7" OperatingHours
+
+    enum RoomType <<enum>> {
+        Suite
+        Deluxe
+        Luxury
+        Regular
+    }
+
+    enum BedType <<enum>> {
+        King
+        Queen
+        Doubles
+    }
+    enum DayOfWeek <<enum>> {
+        Monday
+        Tuesday
+        Wednesday
+        Thursday
+        Friday
+        Saturday
+        Sunday
+    }
+}
+@enduml
