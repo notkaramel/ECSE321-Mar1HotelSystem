@@ -25,19 +25,19 @@ package MHS {
 
 (Verify login credentials) <-- a
 (Invalid credentials error message)<-.right- (Verify login credentials): extends
-(Valid credentials message) <-.left- (Verify login credentials): includes
-(Click submit login credentials) <-.- (Verify login credentials): includes
-(Login) <-.- (Click submit login credentials): includes
-(Enter account credentials) <-.- (Login): includes
+(Valid credentials message) <.left. (Verify login credentials): includes
+(Click submit login credentials) <.- (Verify login credentials): includes
+(Login) <.up- (Click submit login credentials): includes
+(Enter account credentials) <.. (Login): includes
 (Verify updated email credentials) <-.- (Login): includes
 (Verify updated password credentials) <-.- (Login): includes
-(Invalid updated email credentials error message) <-.right- (Verify updated email credentials): extends
+(Invalid updated email credentials error message) <-.down- (Verify updated email credentials): extends
 (Valid updated email credentials message) <-.left- (Verify updated email credentials): includes
 (Click submit updated credentials) <-.- (Verify updated email credentials): includes
 (Invalid updated password credentials error message) <-.right- (Verify updated password credentials): extends
 (Valid updated password credentials message) <-.left- (Verify updated password credentials): includes
 (Click submit updated credentials) <-.- (Verify updated password credentials): includes
-(User credentials updated) <-.- (Click submit updated credentials): includes
+(User credentials updated) <- (Click submit updated credentials): includes
 u --> (User credentials updated)
 
 
