@@ -17,7 +17,7 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int serviceId;
 
-    @OneToOne
+    @ManyToOne
     private Employee assignee;
     @OneToOne
     private Request request;
