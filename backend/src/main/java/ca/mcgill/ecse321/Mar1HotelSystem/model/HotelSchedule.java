@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 import jakarta.persistence.*;
 
 /**
@@ -95,39 +96,38 @@ public class HotelSchedule {
         return 365;
     }
 
-    public static int minimumdNumberOfCustomHours() {
-        return 365;
+    public static int minimumNumberOfCustomHours() {
+        return 0;
     }
 
     public static int maximumNumberOfCustomHours() {
-        return 365;
+        return 366;
     }
 
     public boolean setCustomHours(CustomHours... newCustomHours) {
-        ArrayList<CustomHours> theCustomHoursList = new ArrayList<CustomHours>();
-
+        boolean wasSet = false;
+        ArrayList<CustomHours> verifiedCustomHours = new ArrayList<CustomHours>();
         for (CustomHours aCustomHour : newCustomHours) {
-            if (theCustomHoursList.contains(aCustomHour)) {
+            if (verifiedCustomHours.contains(aCustomHour)) {
                 continue;
             }
-            theCustomHoursList.add(aCustomHour);
+            verifiedCustomHours.add(aCustomHour);
         }
-        if (theCustomHoursList.size() != newCustomHours.length
-                || theCustomHoursList.size() != requiredNumberOfCustomHours()) {
-            return false;
+
+        if (verifiedCustomHours.size() != newCustomHours.length
+                || verifiedCustomHours.size() > maximumNumberOfCustomHours()) {
+            return wasSet;
         }
-        this.customHoursList.clear();
-        this.customHoursList.addAll(theCustomHoursList);
-        return true;
+
+        customHoursList.clear();
+        customHoursList.addAll(verifiedCustomHours);
+        wasSet = true;
+        return wasSet;
     }
 
-    // public int getHotelScheduleId(){
-    // return this.hotelScheduleId;
-    // }
-
     public void delete() {
-        this.operatingHoursList = null;
-        this.customHoursList = null;
+        operatingHoursList.clear();
+        this.customHoursList.clear();
     }
 
 }
