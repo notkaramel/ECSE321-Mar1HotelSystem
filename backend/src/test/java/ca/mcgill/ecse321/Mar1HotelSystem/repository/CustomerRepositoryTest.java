@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.Mar1HotelSystem.tests;
+package ca.mcgill.ecse321.Mar1HotelSystem.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 
 /**
  * This is the test class for the customer repository.

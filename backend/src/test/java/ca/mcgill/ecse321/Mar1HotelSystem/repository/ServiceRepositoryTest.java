@@ -1,11 +1,11 @@
-package ca.mcgill.ecse321.Mar1HotelSystem.tests;
+package ca.mcgill.ecse321.Mar1HotelSystem.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
