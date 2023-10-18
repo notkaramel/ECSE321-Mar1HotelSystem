@@ -20,13 +20,6 @@ public class EmployeeDto extends AccountDto {
     public int getHoursWorked() {
         return this.hoursWorked;
     }
-    
-    // SETTERS 
-    // Method to set hoursWorked, returns true if hoursWorked set
-    public boolean setHoursWorked(int hoursWorked) {
-        this.hoursWorked = hoursWorked;
-        return true;
-    }
 
     
 }

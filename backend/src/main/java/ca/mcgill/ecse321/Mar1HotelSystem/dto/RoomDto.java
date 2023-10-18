@@ -1,6 +1,4 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
-
 
 public class RoomDto {
     
@@ -71,61 +69,6 @@ public class RoomDto {
     // Method to get hotel, returns hotel
     public HotelDto getHotel() {
         return this.hotel;
-    }
-
-    // SETTERS 
-    // Method to set roomType, returns true if roomType set
-    public boolean setRoomType(RoomTypeDto roomType) {
-        this.roomType = roomType;
-        return true;
-    }
-
-    // Method to set bedType, returns true if bedType set
-    public boolean setBedType(BedTypeDto bedType) {
-        this.bedType = bedType;
-        return true;
-    }
-
-    // Method to set isAvailable, returns true if isAvailable set
-    public boolean setIsAvailable(Boolean isAvailable) {
-        this.isAvailable = isAvailable;
-        return true;
-    }
-
-    // Method to set pricePerNight, returns true if pricePerNight set
-    public boolean setPricePerNight(int pricePerNight) {
-        this.pricePerNight = pricePerNight;
-        return true;
-    }
-
-    // Method to set maxCapacity, returns true if macCapacity set
-    public boolean setMaxCapacity(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
-        return true;
-    }
-
-    // Method to set hotel, returns true if hotel set
-    public boolean setHotel(HotelDto hotel) {
-        if (hotel == null) {
-            return false;
-        }
-        if (hotel.getNumberOfRooms() >= Hotel.maximumNumberOfRooms()) {
-            return false;
-        }
-
-        HotelDto existingHotel = this.hotel;
-        this.hotel = hotel;
-        if (existingHotel != null && existingHotel.equals(hotel) == false) {
-            if (existingHotel.removeRoom(this) == false) {
-                this.hotel = existingHotel;
-                return false;
-            }
-
-        }
-
-        this.hotel.addRoom(this);
-        return true;
-
     }
 
 }

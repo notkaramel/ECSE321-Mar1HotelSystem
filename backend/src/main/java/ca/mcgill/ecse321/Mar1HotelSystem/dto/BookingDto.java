@@ -48,41 +48,4 @@ public class BookingDto {
         return this.room;
     }
 
-    // SETTERS
-    // Method to set bookingId, returns true if bookingId set
-    public boolean setBookingId(int bookingId) {
-        this.bookingId = bookingId;
-        return true;
-    }
-
-    // Method to set payment, returns true if payment set
-    public boolean setPayment(PaymentDto payment) {
-        if (payment != null) {
-            this.payment = payment;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Method to set user, returns true if user set
-    public boolean setGeneralUser(GeneralUserDto user) {
-        if (user != null) {
-            this.generalUser = user;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Method to set room, returns true if room set
-    public boolean setRoom(RoomDto room) {
-        if (room != null) {
-            this.room = room;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

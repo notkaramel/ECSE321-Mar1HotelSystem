@@ -24,16 +24,4 @@ public class PaymentDto {
         return this.paymentId;
     }
 
-    // SETTERS
-    // Method to set amount, returns true if amount set
-    public boolean setAmount(int amount) {
-        this.amount = amount;
-        return true;
-    }
-
-    // Method to set payment, returns true if payment set
-    public boolean setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
-        return true;
-    }
 }

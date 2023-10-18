@@ -50,15 +50,4 @@ public class HotelDto {
         return this.rooms.size();
     }
 
-    // SETTERS 
-    // Method to set hotelSchedule, returns true if hotelSchedule set
-    public boolean setHotelSchedule(HotelScheduleDto hotelSchedule) {
-        if (hotelSchedule != null) {
-            this.hotelSchedule = hotelSchedule;
-            return true;
-        } else {
-            return false;
-        }
-    }
- 
 }

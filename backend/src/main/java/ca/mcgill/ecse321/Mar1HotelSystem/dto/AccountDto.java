@@ -21,9 +21,4 @@ public class AccountDto extends GeneralUserDto {
         return true;
     }
 
-    // SETTERS
-    public String getPassword() {
-        return this.password;
-    }
-
 }

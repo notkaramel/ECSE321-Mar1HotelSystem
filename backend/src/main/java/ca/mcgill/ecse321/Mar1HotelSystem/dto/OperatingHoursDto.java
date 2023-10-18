@@ -41,23 +41,4 @@ public class OperatingHoursDto{
         return this.closingHour;
     }
 
-    // SETTERS
-    // Method to set dayOfWeek, returns true if dayOfWeek set
-    public boolean setDayOfWeek(DayOfWeekDto day) {
-        this.day = day;
-        return true;
-    }
-
-    // Method to set openingHour, returns true if openingHour set
-    public boolean setOpeningHour(int openingHour) {
-        this.openingHour = openingHour;
-        return true;
-    }
-
-    // Method to set closingHour, returns true if closingHour set
-    public boolean setClosingHour(int closingHour) {
-        this.closingHour = closingHour;
-        return true;
-    }
-
 }

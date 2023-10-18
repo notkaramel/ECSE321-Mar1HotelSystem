@@ -51,34 +51,5 @@ public class ShiftDto {
         return this.shiftId;
     }
 
-    // SETTERS
-    // Method to set date, returns true if date set
-    public boolean setDate(Date date) {
-        this.date = date;
-        return true;
-    }
-
-    // Method to set startTime, returns true if startTime set
-    public boolean setStartTime(int startTime) {
-        this.startTime = startTime;
-        return true;
-    }
-
-    // Method to set endTime, returns true if endTime set
-    public boolean setEndTime(int endTime) {
-        this.endTime = endTime;
-        return true;
-    }
-
-    // Method to set employee, returns true if employee set
-    public boolean setEmployee(EmployeeDto employee) {
-        if (employee != null) {
-            this.employee = employee;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }
 

@@ -38,25 +38,4 @@ public class ServiceDto {
         return serviceId;
     }
 
-    // SETTERS 
-    // Method to set assignee, returns true if assignee set
-    public boolean setEmployee(EmployeeDto assignee) {
-        if (assignee != null) {
-            this.assignee = assignee;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Method to set request, returns true if request set
-    public boolean setRequest(RequestDto request) {
-        if (request != null) {
-            this.request = request;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }
