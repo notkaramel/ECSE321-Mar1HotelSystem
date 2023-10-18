@@ -7,7 +7,7 @@ public class AccountDto extends GeneralUserDto {
 
     // CONSTRUCTORS
     public AccountDto() { 
-        super()
+        super();
     }
 
     public AccountDto(String firstName, String lastName, String email, int phoneNumber, String password) {

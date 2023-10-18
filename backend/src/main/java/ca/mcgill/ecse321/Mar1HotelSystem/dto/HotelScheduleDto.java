@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.List;
 

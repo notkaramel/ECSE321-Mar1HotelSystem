@@ -1,4 +1,6 @@
-package ca.mcgill.ecse321.Mar1HotelSystem.model;
+package ca.mcgill.ecse321.Mar1HotelSystem.dto;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
+
 
 public class RequestDto {
     

@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.Mar1HotelSystem.model;
+package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 public class ManagerDto extends AccountDto {
     

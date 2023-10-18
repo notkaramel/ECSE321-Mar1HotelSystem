@@ -1,7 +1,10 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 
 public class HotelDto {
     
