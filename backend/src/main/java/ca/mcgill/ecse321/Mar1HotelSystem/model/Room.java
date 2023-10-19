@@ -107,7 +107,11 @@ public class Room {
 
         this.hotel.addRoom(this);
         return true;
+    }
 
+    public boolean setRoomId(int roomId) {
+        this.roomId = roomId;
+        return true;
     }
 
     // Getters

@@ -6,13 +6,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 import jakarta.transaction.Transactional;
 
 @Service
 public class RoomService {
     @Autowired
     RoomRepository roomRepository;
+
+    @Transactional
+    public Room createRoom(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
+            Hotel hotel) {
+        Room room = new Room();
+        room.setRoomType(roomType);
+        room.setBedType(bedType);
+        room.setIsAvailable(isAvailable);
+        room.setPricePerNight(pricePerNight);
+        room.setMaxCapacity(maxCapacity);
+        room.setHotel(hotel);
+        roomRepository.save(room);
+        room.setRoomId(room.getRoomId());
+        return room;
+    }
+
+    @Transactional
+    public Room getRoomById(int roomId) {
+        Room room = roomRepository.findRoomByRoomId(roomId);
+        return room;
+    }
+
+    @Transactional
+    public Room getRoomByRoomType(RoomType roomType) {
+        Room room = roomRepository.findRoomByRoomType(roomType);
+        return room;
+    }
+
+    @Transactional
+    public boolean deleteRoom(int roomId) {
+        Room room = roomRepository.findRoomByRoomId(roomId);
+        if (room == null) {
+            return false;
+        }
+        roomRepository.delete(room);
+        return true;
+    }
 
     @Transactional
     public List<Room> getAllRooms() {
