@@ -13,6 +13,8 @@ public class ServiceDto {
 
     // Service constructor requiring assignee and request
     public ServiceDto(EmployeeDto assignee, RequestDto request) {
+        this.assignee = assignee;
+        this.request = request;
 
     }
 

@@ -15,6 +15,7 @@ public class RequestDto {
     // Request constructor requiring description, employee, booking, and isFufilled
     public RequestDto(String description, BookingDto booking, boolean isFufilled) {
         this.description = description;
+        this.booking = booking;
         this.isFufilled = isFufilled;
     }
 

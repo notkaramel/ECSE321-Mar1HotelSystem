@@ -13,17 +13,9 @@ public class BookingDto {
     }
 
     public BookingDto(PaymentDto payment, GeneralUserDto generalUser, RoomDto room) {
-        if (setPayment(payment) == false) {
-            throw new RuntimeException("Need an payment class to be instatiated; need a payment");
-        }
-
-        if (setGeneralUser(generalUser) == false) {
-            throw new RuntimeException("Need an user class to be instatiated; need a user");
-        }
-
-        if (setRoom(room) == false) {
-            throw new RuntimeException("Need an room class to be instatiated; need a room");
-        }
+        this.payment = payment;
+        this.generalUser = generalUser;
+        this.room = room;
     }
 
 

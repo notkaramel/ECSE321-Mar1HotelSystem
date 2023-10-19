@@ -17,6 +17,7 @@ public class ShiftDto {
 
     // Shift constructor requiring employee, date, startTime, endTime
     public ShiftDto(EmployeeDto employee, Date date, int startTime, int endTime) {
+        this.employee = employee;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
