@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
  * This Service class is for the Customer entity, not customer service ~
  * 
  * @author Antoine Phan (@notkaramel)
+ * @author Lucas Pacicco (@Lucaspac5)
+ * 
  */
 @Service
 public class CustomerService {
@@ -23,4 +25,25 @@ public class CustomerService {
     public List<Customer> getAllCustomers() {
         return ServiceUtils.toList(customerRepository.findAll());
     }
+
+    @Transactional
+    public Customer getCustomer(String email) {
+        Customer customer = customerRepository.findCustomerByEmail(email);
+        return customer;
+    }
+
+    @Transactional
+    public Customer createCustomers(String firstName, String lastName, String email, int phoneNumber, String password) {
+        Customer customer = new Customer(firstName, lastName, email, phoneNumber, password);
+        customerRepository.save(customer);
+        return customer;
+    }
+
+    @Transactional
+    public Customer deleteCustomer(String email) {
+        Customer customer = customerRepository.findCustomerByEmail(email);
+        customerRepository.delete(customer);
+        return customer;
+    }
+
 }
