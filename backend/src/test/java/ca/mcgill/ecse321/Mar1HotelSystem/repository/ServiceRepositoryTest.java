@@ -160,19 +160,19 @@ public class ServiceRepositoryTest {
         requestRepository.save(request);
 
         // Creating a service
-        Service service = new Service(employee, request);
+        Assignment assignment = new Assignment(employee, request);
 
-        serviceRepository.save(service);
+        serviceRepository.save(assignment);
 
-        int serviceId = service.getServiceId();
-
-        // Assertions
-        service = serviceRepository.findServiceByServiceId(serviceId);
+        int serviceId = assignment.getAssignmentId();
 
         // Assertions
-        assertNotNull(service);
-        assertEquals(request.getRequestId(), service.getRequest().getRequestId());
-        assertEquals(employee.getEmail(), service.getAssignee().getEmail());
+        assignment = serviceRepository.findServiceByAssignmentId(serviceId);
+
+        // Assertions
+        assertNotNull(assignment);
+        assertEquals(request.getRequestId(), assignment.getRequest().getRequestId());
+        assertEquals(employee.getEmail(), assignment.getAssignee().getEmail());
     }
 
 }

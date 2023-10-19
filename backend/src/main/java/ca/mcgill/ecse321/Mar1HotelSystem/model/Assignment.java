@@ -12,22 +12,22 @@ import jakarta.persistence.*;
  */
 
 @Entity
-public class Service {
+public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceId;
+    private int assignmentId;
 
     @ManyToOne
     private Employee assignee;
     @OneToOne
     private Request request;
 
-    public Service() {
+    public Assignment() {
 
     }
 
     // Service constructor requiring assignee and request
-    public Service(Employee assignee, Request request) {
+    public Assignment(Employee assignee, Request request) {
         if (setEmployee(assignee) == false) {
             throw new RuntimeException("Need an employee class to be instatiated; need an employee");
         }
@@ -70,8 +70,8 @@ public class Service {
         }
     }
 
-    public int getServiceId() {
-        return serviceId;
+    public int getAssignmentId() {
+        return assignmentId;
     }
 
     public void delete() {
