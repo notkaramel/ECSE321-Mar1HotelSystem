@@ -20,9 +20,6 @@ public class HotelDto {
     // Hotel constructor requiring hotelSchedule
     public HotelDto(HotelScheduleDto hotelSchedule) {
         rooms = new ArrayList<Room>();
-        if (setHotelSchedule(hotelSchedule) == false) {
-            throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
-        }
     }
 
     // GETTERS
@@ -36,10 +33,10 @@ public class HotelDto {
     }
 
     // Methods for Composition with Room
-    public RoomDto getRoom(int index) {
-        RoomDto room = this.rooms.get(index);
-        return room;
-    }
+    // public RoomDto getRoom(int index) {
+    //     RoomDto room = this.rooms.get(index);
+    //     return room;
+    // }
 
     public List<RoomDto> getRooms() {
         List<RoomDto> room = new ArrayList<RoomDto>();

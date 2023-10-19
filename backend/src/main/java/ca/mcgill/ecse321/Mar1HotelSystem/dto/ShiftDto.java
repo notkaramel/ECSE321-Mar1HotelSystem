@@ -20,10 +20,6 @@ public class ShiftDto {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
-        
-        if (setEmployee(employee) == false) {
-            throw new RuntimeException("Need an employee class to be instatiated; need an employee");
-        }
     }
 
     // GETTERS 

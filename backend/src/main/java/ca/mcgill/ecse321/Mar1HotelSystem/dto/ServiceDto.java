@@ -13,13 +13,6 @@ public class ServiceDto {
 
     // Service constructor requiring assignee and request
     public ServiceDto(EmployeeDto assignee, RequestDto request) {
-        if (setEmployee(assignee) == false) {
-            throw new RuntimeException("Need an employee class to be instatiated; need an employee");
-        }
-
-        if (setRequest(request) == false) {
-            throw new RuntimeException("Need an booking class to be instatiated; need a booking");
-        }
 
     }
 

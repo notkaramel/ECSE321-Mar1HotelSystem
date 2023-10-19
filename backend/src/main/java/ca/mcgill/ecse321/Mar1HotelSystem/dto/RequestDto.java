@@ -16,10 +16,6 @@ public class RequestDto {
     public RequestDto(String description, BookingDto booking, boolean isFufilled) {
         this.description = description;
         this.isFufilled = isFufilled;
-
-        if (setBooking(booking) == false) {
-            throw new RuntimeException("Need an booking class to be instatiated; need a booking");
-        }
     }
 
     // GETTERS 
