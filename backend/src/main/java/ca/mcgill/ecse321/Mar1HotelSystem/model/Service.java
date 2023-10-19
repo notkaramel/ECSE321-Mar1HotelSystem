@@ -49,6 +49,10 @@ public class Service {
         return this.request;
     }
 
+    public int getServiceId() {
+        return serviceId;
+    }
+
     // Setters
     // Method to set assignee, returns true if assignee set
     public boolean setEmployee(Employee assignee) {
@@ -70,8 +74,12 @@ public class Service {
         }
     }
 
-    public int getServiceId() {
-        return serviceId;
+    public boolean setServiceId(int serviceId) {
+        if (serviceId < 0) {
+            return false;
+        }
+        this.serviceId = serviceId;
+        return true;
     }
 
     public void delete() {
