@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 public class ServiceDto {
+    
     // VARIABLES
     private int serviceId;
     private EmployeeDto assignee;

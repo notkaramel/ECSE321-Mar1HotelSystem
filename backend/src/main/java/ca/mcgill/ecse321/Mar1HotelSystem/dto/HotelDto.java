@@ -18,6 +18,7 @@ public class HotelDto {
 
     // Hotel constructor requiring hotelSchedule
     public HotelDto(HotelScheduleDto hotelSchedule) {
+        this.hotelSchedule = hotelSchedule;
         rooms = new ArrayList<Room>();
     }
 
