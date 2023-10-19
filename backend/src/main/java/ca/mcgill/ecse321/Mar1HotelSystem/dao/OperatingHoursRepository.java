@@ -25,4 +25,12 @@ public interface OperatingHoursRepository extends CrudRepository<OperatingHours,
      * @return the corresponding OperatingHours object
      */
     public OperatingHours findOperatingHoursByOpeningHour(int openingHour);
+
+    /**
+     * Find an OperatingHours object by its DayOfWeek
+     * 
+     * @param day
+     * @return the corresponding OperatingHours object
+     */
+    public OperatingHours findOperatingHoursByDay(OperatingHours.DayOfWeek day);
 }
