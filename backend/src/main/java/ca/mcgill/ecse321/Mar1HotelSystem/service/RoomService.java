@@ -28,7 +28,6 @@ public class RoomService {
         room.setMaxCapacity(maxCapacity);
         room.setHotel(hotel);
         roomRepository.save(room);
-        room.setRoomId(room.getRoomId());
         return room;
     }
 

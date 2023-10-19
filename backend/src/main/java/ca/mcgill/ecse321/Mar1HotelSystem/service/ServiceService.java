@@ -34,7 +34,6 @@ public class ServiceService {
         service.setEmployee(assignee);
         service.setRequest(request);
         serviceRepository.save(service);
-        service.setServiceId(service.getServiceId());
         return service;
     }
 

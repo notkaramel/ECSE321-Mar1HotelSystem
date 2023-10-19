@@ -23,8 +23,6 @@ public class PaymentService {
         Payment newPayment = new Payment();
         newPayment.setAmount(amount);
         paymentRepository.save(newPayment);
-        // Note: I think this might work, knowing that the paymentId is auto-generated once saved
-        newPayment.setPaymentId(newPayment.getPaymentId());
         return newPayment;
     }
 
