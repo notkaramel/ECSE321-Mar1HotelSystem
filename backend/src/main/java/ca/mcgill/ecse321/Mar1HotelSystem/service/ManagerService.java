@@ -43,10 +43,13 @@ public class ManagerService {
     }
 
     @Transactional
-    public Manager deleteManager(String email) {
+    public boolean deleteManager(String email) {
         Manager manager = managerRepository.findManagerByEmail(email);
+        if(manager == null){
+            return false;
+        }
         managerRepository.delete(manager);
-        return manager;
+        return true;
     }
 
     

@@ -34,16 +34,19 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee createEmployees(String firstName, String lastName, String email, int phoneNumber, String password, int hoursWorked) {
+    public Employee createEmployee(String firstName, String lastName, String email, int phoneNumber, String password, int hoursWorked) {
         Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
         employeeRepository.save(employee);
         return employee;
     }
 
     @Transactional
-    public Employee deleteEmployee(String email) {
+    public boolean deleteEmployee(String email) {
         Employee employee = employeeRepository.findEmployeeByEmail(email);
+        if(employee == null){
+            return false;
+        }
         employeeRepository.delete(employee);
-        return employee;
+        return true;
     }
 }

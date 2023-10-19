@@ -33,17 +33,20 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer createCustomers(String firstName, String lastName, String email, int phoneNumber, String password) {
+    public Customer createCustomer(String firstName, String lastName, String email, int phoneNumber, String password) {
         Customer customer = new Customer(firstName, lastName, email, phoneNumber, password);
         customerRepository.save(customer);
         return customer;
     }
 
     @Transactional
-    public Customer deleteCustomer(String email) {
+    public boolean deleteCustomer(String email) {
         Customer customer = customerRepository.findCustomerByEmail(email);
+        if(customer == null){
+            return false;
+        }
         customerRepository.delete(customer);
-        return customer;
+        return true;
     }
 
 }
