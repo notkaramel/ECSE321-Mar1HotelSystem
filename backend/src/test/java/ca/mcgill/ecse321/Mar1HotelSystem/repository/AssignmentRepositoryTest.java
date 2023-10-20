@@ -19,7 +19,7 @@ import java.util.Date;
  * @author ZiXu Liu
  */
 @SpringBootTest
-public class ServiceRepositoryTest {
+public class AssignmentRepositoryTest {
     // Setting up the repositories
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -42,7 +42,7 @@ public class ServiceRepositoryTest {
     @Autowired
     private RequestRepository requestRepository;
     @Autowired
-    private ServiceRepository serviceRepository;
+    private AssignmentRepository serviceRepository;
 
 
     // Clearing the database after the test
@@ -167,7 +167,7 @@ public class ServiceRepositoryTest {
         int serviceId = assignment.getAssignmentId();
 
         // Assertions
-        assignment = serviceRepository.findServiceByAssignmentId(serviceId);
+        assignment = serviceRepository.findAssignmentByAssignmentId(serviceId);
 
         // Assertions
         assertNotNull(assignment);

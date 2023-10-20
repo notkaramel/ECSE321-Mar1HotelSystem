@@ -8,12 +8,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Assignment;
  * 
  * @author Antoine Phan (@notkaramel)
  */
-public interface ServiceRepository extends CrudRepository<Assignment, Integer> {
+public interface AssignmentRepository extends CrudRepository<Assignment, Integer> {
     /**
      * Find a Service object by its serviceId.
      * 
      * @param assignmentId
      * @return the corresponding Service object
      */
-    public Assignment findServiceByAssignmentId(int assignmentId);
+    public Assignment findAssignmentByAssignmentId(int assignmentId);
 }
