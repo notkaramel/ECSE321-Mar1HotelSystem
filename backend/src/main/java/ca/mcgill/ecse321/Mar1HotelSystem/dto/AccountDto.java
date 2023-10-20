@@ -6,7 +6,7 @@ public class AccountDto extends GeneralUserDto {
     private String password;
 
     // CONSTRUCTORS
-    public AccountDto() { 
+    public AccountDto(){ 
         super();
     }
 
