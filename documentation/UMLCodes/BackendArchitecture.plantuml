@@ -1,0 +1,72 @@
+@startuml BackendArchitecture
+title "Mar1 Hotel System (MHS) Backend Architecture"
+' Using PlantUML Deployment Diagram
+rectangle Backend as "Backend Layer" {
+
+    database DB as "Database" #Yellow {
+    }
+
+    node DAO as "Data Access Object (DAO)"
+
+    package DM as "Domain Model" {
+        file DM_C as "Classes"
+        hexagon DM_JPA as "JPA"
+        DM_C -0 DM_JPA
+    }
+
+    package Service as "Service Layer" {
+        note as SN
+        "Service Classes & Methods"
+        end note
+    }
+
+    package Controller as "Controller Layer" {
+        note as CN
+        "Controller Endpoints"
+        end note
+    }
+    node DTO as "Data Transfer Object (DTO)"
+    
+    ' Relationships
+    DAO -left-> DB 
+    DB -right-> DAO
+
+    DM -left-> DAO 
+
+    Service -up-> DAO : "uses"
+    DAO -down-> Service : "returns data"
+
+    Controller -> Service
+    Service -- DTO : "returns"
+    DTO --> Controller
+}
+
+rectangle Frontend as "Client/Frontend Layer" {
+    node UI as "User Interface" {
+        card VueJS #LightGreen [
+            VueJS
+            ---
+            HTML | CSS | JS
+        ]
+    }
+}
+
+node HTTPRequest [
+    <b> HTTP Request
+    ---
+    GET | POST /endpoint
+]
+
+node HTTPResponse [
+    <b> HTTP Response
+    ---
+    200 | 404 | 500
+]
+Frontend -left- HTTPRequest
+HTTPRequest -left-> Backend
+Backend -right- HTTPResponse
+HTTPResponse -right-> Frontend
+ 
+skinparam Linetype ortho
+
+@enduml
