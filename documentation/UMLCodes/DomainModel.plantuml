@@ -68,12 +68,12 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model {
 
     Request "*" -up-> "1" Booking
 
-    Class Service {
+    Class Assignment {
 
     }
 
-    Service "1" -up[#blue]-> "1" Request
-    Service "0..*" -down[#blue]-> "1" Employee
+    Assignment "1" -up[#blue]-> "1" Request
+    Assignment "0..*" -down[#blue]-> "1" Employee
 
     Class Payment {
         amount : int
