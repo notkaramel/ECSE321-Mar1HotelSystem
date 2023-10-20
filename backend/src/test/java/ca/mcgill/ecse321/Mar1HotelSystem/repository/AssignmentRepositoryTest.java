@@ -42,7 +42,7 @@ public class AssignmentRepositoryTest {
     @Autowired
     private RequestRepository requestRepository;
     @Autowired
-    private AssignmentRepository serviceRepository;
+    private AssignmentRepository assignmentRepository;
 
 
     // Clearing the database after the test
@@ -55,7 +55,7 @@ public class AssignmentRepositoryTest {
                \-> employee          \-> user                           \-> operating hours
                                      \-> payment
          */
-        serviceRepository.deleteAll();
+        assignmentRepository.deleteAll();
         requestRepository.deleteAll();
         bookingRepository.deleteAll();
         employeeRepository.deleteAll();
@@ -68,9 +68,9 @@ public class AssignmentRepositoryTest {
         userRepository.deleteAll();
     }
 
-    // Main test for the service repository
+    // Main test for the Assignment repository
     @Test
-    public void testPersistAndReadService() {
+    public void testPersistAndReadAssignment() {
         // Creating an employee
         String firstName = "Candice";
         String lastName = "Evergreen";
@@ -162,12 +162,12 @@ public class AssignmentRepositoryTest {
         // Creating a service
         Assignment assignment = new Assignment(employee, request);
 
-        serviceRepository.save(assignment);
+        assignmentRepository.save(assignment);
 
         int serviceId = assignment.getAssignmentId();
 
         // Assertions
-        assignment = serviceRepository.findAssignmentByAssignmentId(serviceId);
+        assignment = assignmentRepository.findAssignmentByAssignmentId(serviceId);
 
         // Assertions
         assertNotNull(assignment);
