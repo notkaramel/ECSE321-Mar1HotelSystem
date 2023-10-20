@@ -52,10 +52,15 @@ public class RequestService {
     }
 
     @Transactional
-    public Request deleteRequestById(int requestId) {
+    public boolean deleteRequestById(int requestId) {
         Request request = requestRepository.findRequestByRequestId(requestId);
+        try {
+            requestRepository.delete(request);
+        } catch (Exception e) {
+            return false;
+        }
         requestRepository.delete(request);
-        return request;
+        return true;
     }
 
     @Transactional

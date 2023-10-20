@@ -132,4 +132,14 @@ public class ScheduleService {
         return hotelScheduleRepository.findHotelScheduleByYear(year);
     }
 
+    @Transactional
+    public boolean deleteHotelSchedule(int year) {
+        HotelSchedule toBeDeletedHS = hotelScheduleRepository.findHotelScheduleByYear(year);
+        if (toBeDeletedHS == null) {
+            return false;
+        }
+        hotelScheduleRepository.delete(toBeDeletedHS);
+        return true;
+    }
+
 }
