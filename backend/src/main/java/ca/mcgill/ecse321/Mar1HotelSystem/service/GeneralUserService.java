@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import jakarta.transaction.Transactional;
 
 /**
@@ -45,7 +44,7 @@ public class GeneralUserService {
     @Transactional
     public boolean deleteGeneralUser(String email) {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
-        if(generalUser == null){
+        if (generalUser == null) {
             return false;
         }
         generalUserRepository.delete(generalUser);

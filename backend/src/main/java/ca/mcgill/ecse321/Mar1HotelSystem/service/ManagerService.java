@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 
 /**
  * Serivce class for all use cases of a manager
@@ -45,12 +44,11 @@ public class ManagerService {
     @Transactional
     public boolean deleteManager(String email) {
         Manager manager = managerRepository.findManagerByEmail(email);
-        if(manager == null){
+        if (manager == null) {
             return false;
         }
         managerRepository.delete(manager);
         return true;
     }
 
-    
 }

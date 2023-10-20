@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import jakarta.transaction.Transactional;
 
 /**
@@ -34,7 +33,8 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee createEmployee(String firstName, String lastName, String email, int phoneNumber, String password, int hoursWorked) {
+    public Employee createEmployee(String firstName, String lastName, String email, int phoneNumber, String password,
+            int hoursWorked) {
         Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
         employeeRepository.save(employee);
         return employee;
@@ -43,7 +43,7 @@ public class EmployeeService {
     @Transactional
     public boolean deleteEmployee(String email) {
         Employee employee = employeeRepository.findEmployeeByEmail(email);
-        if(employee == null){
+        if (employee == null) {
             return false;
         }
         employeeRepository.delete(employee);
