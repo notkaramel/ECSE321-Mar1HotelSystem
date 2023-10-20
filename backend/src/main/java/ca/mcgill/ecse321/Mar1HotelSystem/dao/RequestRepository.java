@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dao;
 
 import org.springframework.data.repository.CrudRepository;
+
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
 
 /**
@@ -16,4 +18,12 @@ public interface RequestRepository extends CrudRepository<Request, String> {
      * @return the corresponding Request object
      */
     public Request findRequestByRequestId(int requestId);
+
+    /**
+     * Find the Request by its booking.
+     * 
+     * @param booking
+     * @return the corresponding Request object
+     */
+    public Request findRequestByBooking(Booking booking);
 }
