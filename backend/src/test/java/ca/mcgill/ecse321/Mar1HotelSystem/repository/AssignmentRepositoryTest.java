@@ -19,7 +19,7 @@ import java.util.Date;
  * @author ZiXu Liu
  */
 @SpringBootTest
-public class ServiceRepositoryTest {
+public class AssignmentRepositoryTest {
     // Setting up the repositories
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -42,7 +42,7 @@ public class ServiceRepositoryTest {
     @Autowired
     private RequestRepository requestRepository;
     @Autowired
-    private ServiceRepository serviceRepository;
+    private AssignmentRepository assignmentRepository;
 
 
     // Clearing the database after the test
@@ -55,7 +55,7 @@ public class ServiceRepositoryTest {
                \-> employee          \-> user                           \-> operating hours
                                      \-> payment
          */
-        serviceRepository.deleteAll();
+        assignmentRepository.deleteAll();
         requestRepository.deleteAll();
         bookingRepository.deleteAll();
         employeeRepository.deleteAll();
@@ -68,9 +68,9 @@ public class ServiceRepositoryTest {
         userRepository.deleteAll();
     }
 
-    // Main test for the service repository
+    // Main test for the Assignment repository
     @Test
-    public void testPersistAndReadService() {
+    public void testPersistAndReadAssignment() {
         // Creating an employee
         String firstName = "Candice";
         String lastName = "Evergreen";
@@ -160,19 +160,19 @@ public class ServiceRepositoryTest {
         requestRepository.save(request);
 
         // Creating a service
-        Service service = new Service(employee, request);
+        Assignment assignment = new Assignment(employee, request);
 
-        serviceRepository.save(service);
+        assignmentRepository.save(assignment);
 
-        int serviceId = service.getServiceId();
-
-        // Assertions
-        service = serviceRepository.findServiceByServiceId(serviceId);
+        int serviceId = assignment.getAssignmentId();
 
         // Assertions
-        assertNotNull(service);
-        assertEquals(request.getRequestId(), service.getRequest().getRequestId());
-        assertEquals(employee.getEmail(), service.getAssignee().getEmail());
+        assignment = assignmentRepository.findAssignmentByAssignmentId(serviceId);
+
+        // Assertions
+        assertNotNull(assignment);
+        assertEquals(request.getRequestId(), assignment.getRequest().getRequestId());
+        assertEquals(employee.getEmail(), assignment.getAssignee().getEmail());
     }
 
 }
