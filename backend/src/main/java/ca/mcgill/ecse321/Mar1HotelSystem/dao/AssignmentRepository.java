@@ -1,19 +1,19 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dao;
 
 import org.springframework.data.repository.CrudRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Service;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Assignment;
 
 /**
  * The CRUD Repository Interface to store and retrieve all Service objects.
  * 
  * @author Antoine Phan (@notkaramel)
  */
-public interface ServiceRepository extends CrudRepository<Service, Integer> {
+public interface AssignmentRepository extends CrudRepository<Assignment, Integer> {
     /**
      * Find a Service object by its serviceId.
      * 
-     * @param serviceId
+     * @param assignmentId
      * @return the corresponding Service object
      */
-    public Service findServiceByServiceId(int serviceId);
+    public Assignment findAssignmentByAssignmentId(int assignmentId);
 }
