@@ -56,6 +56,10 @@ public class OperatingHours {
         return this.closingHour;
     }
 
+    public int getOperatingHoursId() {
+        return this.operatingHoursId;
+    }
+
     // Setters
     // Method to set dayOfWeek, returns true if dayOfWeek set
     public boolean setDayOfWeek(DayOfWeek day) {

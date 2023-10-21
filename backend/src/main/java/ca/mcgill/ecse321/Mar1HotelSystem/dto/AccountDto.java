@@ -4,6 +4,7 @@ public class AccountDto extends GeneralUserDto {
     
     // VARIABLES
     private String password;
+    // Note: Not sure if we should send the password to the front end
 
     // CONSTRUCTORS
     public AccountDto(){ 
@@ -21,4 +22,7 @@ public class AccountDto extends GeneralUserDto {
         return true;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
 }

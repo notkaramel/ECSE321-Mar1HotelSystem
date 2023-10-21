@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 public class OperatingHoursDto{
     
     // VARIABLES
-    private int operatingHoursId;
+    // private int operatingHoursId;
     private DayOfWeekDto day;
     private int openingHour;
     private int closingHour;

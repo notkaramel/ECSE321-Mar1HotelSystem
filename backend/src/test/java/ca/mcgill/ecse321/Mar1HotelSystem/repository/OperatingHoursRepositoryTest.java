@@ -41,7 +41,7 @@ public class OperatingHoursRepositoryTest {
         operatingHoursRepository.save(operatingHours);
 
         // Read from the database
-        operatingHours = operatingHoursRepository.findOperatingHoursByOpeningHour(openingHours);
+        operatingHours = operatingHoursRepository.findOperatingHoursByOperatingHoursId(operatingHours.getOperatingHoursId());
 
         // Assertions
         assertNotNull(operatingHours);
