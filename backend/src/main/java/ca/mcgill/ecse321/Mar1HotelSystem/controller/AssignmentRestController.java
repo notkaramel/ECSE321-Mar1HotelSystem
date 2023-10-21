@@ -3,13 +3,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.service.RequestService;
+import ca.mcgill.ecse321.Mar1HotelSystem.service.AssignmentService;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class RequestRestController {
+public class AssignmentRestController {
     
     @Autowired
-	private RequestService service;
+	private AssignmentService service;
 
 }

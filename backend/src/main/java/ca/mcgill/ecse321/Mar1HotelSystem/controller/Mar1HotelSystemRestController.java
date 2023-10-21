@@ -8,8 +8,4 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @RestController
 public class Mar1HotelSystemRestController {
-
-	@Autowired
-	private Mar1HotelSystemService service;
-
 }
