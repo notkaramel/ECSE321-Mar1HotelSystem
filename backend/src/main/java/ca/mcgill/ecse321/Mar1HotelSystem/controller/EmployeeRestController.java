@@ -4,7 +4,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.EmployeeService;
-
+/**
+ * The controller that handles /employee endpoint requests
+ * Required functionality:
+ * - Create an employee
+ * - Return an employee (as DTO)
+ * - Return all employees (as DTOs)
+ * - etc.
+ * 
+ * @author Lucas Paccico @Lucaspac5
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class EmployeeRestController {
