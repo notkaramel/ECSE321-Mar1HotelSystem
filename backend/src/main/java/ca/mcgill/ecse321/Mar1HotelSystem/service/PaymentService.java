@@ -8,19 +8,28 @@ import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.transaction.Transactional;
-
 /**
- * This Service class is for the Customer entity, not customer service ~
+ * Service class/methods for the Payment features
  * 
  * @author Antoine Phan (@notkaramel)
- * @author Lucas Pacicco (@Lucaspac5)
- * 
  */
-
 @Service
 public class PaymentService {
     @Autowired
     PaymentRepository paymentRepository;
+
+    @Transactional
+    public Payment createPayment(int amount) {
+        Payment newPayment = new Payment();
+        newPayment.setAmount(amount);
+        paymentRepository.save(newPayment);
+        return newPayment;
+    }
+
+    @Transactional
+    public Payment getPaymentById(int paymentId) {
+        return paymentRepository.findPaymentByPaymentId(paymentId);
+    }
 
     @Transactional
     public List<Payment> getAllPayments() {
@@ -28,22 +37,13 @@ public class PaymentService {
     }
 
     @Transactional
-    public Payment getPayment(int paymentId) {
+    public boolean deletePaymentById(int paymentId) {
         Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
-        return payment;
-    }
-
-    @Transactional
-    public Payment createPayment(int amount) {
-        Payment payment = new Payment(amount);
-        paymentRepository.save(payment);
-        return payment;
-    }
-
-    @Transactional
-    public Payment deletePayment(int paymentId) {
-        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
-        paymentRepository.delete(payment);
-        return payment;
+        try {
+            paymentRepository.delete(payment);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
