@@ -140,10 +140,11 @@ public class ScheduleService {
     @Transactional
     public boolean deleteHotelSchedule(int year) {
         HotelSchedule toBeDeletedHS = hotelScheduleRepository.findHotelScheduleByYear(year);
-        if (toBeDeletedHS == null) {
+        try {
+            hotelScheduleRepository.delete(toBeDeletedHS);
+        } catch (Exception e) {
             return false;
         }
-        hotelScheduleRepository.delete(toBeDeletedHS);
         return true;
     }
 

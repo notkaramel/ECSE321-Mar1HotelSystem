@@ -42,10 +42,11 @@ public class CustomerService {
     @Transactional
     public boolean deleteCustomer(String email) {
         Customer customer = customerRepository.findCustomerByEmail(email);
-        if(customer == null){
+        try {
+            customerRepository.delete(customer);
+        } catch (Exception e) {
             return false;
         }
-        customerRepository.delete(customer);
         return true;
     }
 

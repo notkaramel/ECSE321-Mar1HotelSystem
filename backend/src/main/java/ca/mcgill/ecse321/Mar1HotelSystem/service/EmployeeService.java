@@ -43,10 +43,11 @@ public class EmployeeService {
     @Transactional
     public boolean deleteEmployee(String email) {
         Employee employee = employeeRepository.findEmployeeByEmail(email);
-        if (employee == null) {
+        try {
+            employeeRepository.delete(employee);
+        } catch (Exception e) {
             return false;
         }
-        employeeRepository.delete(employee);
         return true;
     }
 }

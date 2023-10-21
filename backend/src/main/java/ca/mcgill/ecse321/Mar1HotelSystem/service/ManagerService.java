@@ -44,10 +44,11 @@ public class ManagerService {
     @Transactional
     public boolean deleteManager(String email) {
         Manager manager = managerRepository.findManagerByEmail(email);
-        if (manager == null) {
+        try {
+            managerRepository.delete(manager);
+        } catch (Exception e) {
             return false;
         }
-        managerRepository.delete(manager);
         return true;
     }
 

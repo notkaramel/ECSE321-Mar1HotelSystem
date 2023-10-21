@@ -47,10 +47,11 @@ public class AssignmentService {
     @Transactional
     public boolean deleteAssignment(int assignmentId) {
         Assignment assignment = assignmentRepository.findAssignmentByAssignmentId(assignmentId);
-        if (assignment == null) {
+        try {
+            assignmentRepository.delete(assignment);
+        } catch (Exception e) {
             return false;
         }
-        assignmentRepository.delete(assignment);
         return true;
     }
 

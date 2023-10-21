@@ -45,10 +45,11 @@ public class RoomService {
     @Transactional
     public boolean deleteRoom(int roomId) {
         Room room = roomRepository.findRoomByRoomId(roomId);
-        if (room == null) {
+        try {
+            roomRepository.delete(room);
+        } catch (Exception e) {
             return false;
         }
-        roomRepository.delete(room);
         return true;
     }
 

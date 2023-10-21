@@ -44,10 +44,11 @@ public class GeneralUserService {
     @Transactional
     public boolean deleteGeneralUser(String email) {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
-        if (generalUser == null) {
+        try {
+            generalUserRepository.delete(generalUser);
+        } catch (Exception e) {
             return false;
         }
-        generalUserRepository.delete(generalUser);
         return true;
     }
 }
