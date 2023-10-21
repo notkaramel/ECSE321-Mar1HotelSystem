@@ -10,7 +10,11 @@ import ca.mcgill.ecse321.Mar1HotelSystem.service.EmployeeService;
  * - Create an employee
  * - Return an employee (as DTO)
  * - Return all employees (as DTOs)
+ * - Display their schedule (as DTO)
  * - etc.
+ * DTOs might used:
+ * - EmployeeDto
+ * - ShiftDto
  * 
  * @author Lucas Paccico @Lucaspac5
  */
