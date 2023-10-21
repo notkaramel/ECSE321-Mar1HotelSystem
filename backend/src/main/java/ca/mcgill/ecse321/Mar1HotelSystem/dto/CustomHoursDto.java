@@ -1,13 +1,13 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 
 public class CustomHoursDto {
     // VARIABLES
-    private int customHoursId;
-    private java.util.Date date;
+    // private int customHoursId;
+    private Date date;
     private int openingHour;
     private int closingHour;
 
@@ -24,8 +24,8 @@ public class CustomHoursDto {
 
     // GETTERS
     // Method to get date, returns date
-    public java.util.Date getDate() {
-        return  this.date;
+    public Date getDate() {
+        return this.date;
     }
 
     // Method to get OpeningHour, returns OpeningHour
