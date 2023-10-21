@@ -16,4 +16,12 @@ public interface RoomRepository extends CrudRepository<Room, Integer> {
      * @return the corresponding Room object
      */
     public Room findRoomByRoomId(int roomId);
+
+    /**
+     * Find a Room object by roomType attribute.
+     * 
+     * @param roomType
+     * @return the corresponding Room object
+     */
+    public Room findRoomByRoomType(Room.RoomType roomType);
 }
