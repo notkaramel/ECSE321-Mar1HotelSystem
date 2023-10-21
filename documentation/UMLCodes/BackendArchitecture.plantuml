@@ -1,72 +1,75 @@
 @startuml BackendArchitecture
-title "Mar1 Hotel System (MHS) Backend Architecture"
+title "Mar-1 Hotel System (MHS) Backend Architecture"
 ' Using PlantUML Deployment Diagram
 rectangle Backend as "Backend Layer" {
+    together {
 
-    database DB as "Database" #Yellow {
+        package DM as "Domain Model" {
+            file DM_C as "Classes" {
+                card "JPA annotation" #LightBlue
+            }
+        }
+        node DAO as "Data Access Object (DAO)"
+        database DB as "Database" #Yellow
+
+
+        DM --right-> DAO
+        DAO --> DB
+        DB --> DAO
+
+        package Service as "Service Layer" {
+            note as SN
+            Business Methods that tries
+            to obtain data from the database
+            using DAO.
+            Return <b>Object</b> to Controller
+            end note
+        }
+        DAO -up-> Service : "returns data as Object"
+        Service --> DAO : "uses"
     }
-
-    node DAO as "Data Access Object (DAO)"
-
-    package DM as "Domain Model" {
-        file DM_C as "Classes"
-        hexagon DM_JPA as "JPA"
-        DM_C -0 DM_JPA
-    }
-
-    package Service as "Service Layer" {
-        note as SN
-        "Service Classes & Methods"
-        end note
-    }
-
-    package Controller as "Controller Layer" {
+    package Controller as "Controller Layer: /endpoint" {
         note as CN
-        "Controller Endpoints"
+        Controls Endpoints
+        > recieves HTTP Request (GET, POST)
+        > calls Service Layer: Business Methods
+        - convert Object to DTO
+        < returns data as HTTP Response
         end note
-    }
-    node DTO as "Data Transfer Object (DTO)"
-    
-    ' Relationships
-    DAO -left-> DB 
-    DB -right-> DAO
 
-    DM -left-> DAO 
+        node DTO as "Data Transfer Object (DTO)" {
+            card "Somewhat similar to Classes" #LightBlue
+        }
 
-    Service -up-> DAO : "uses"
-    DAO -down-> Service : "returns data"
+    } 
 
-    Controller -> Service
-    Service -- DTO : "returns"
-    DTO --> Controller
+    Service -up[#blue,bold]-> DTO : (2) converts Object to
+    Service <-up[#blue,bold]- Controller : (1) calls service methods
 }
 
-rectangle Frontend as "Client/Frontend Layer" {
-    node UI as "User Interface" {
+rectangle Frontend as "Client Layer" {
+    node UI as "Frontend UI" {
         card VueJS #LightGreen [
-            VueJS
-            ---
-            HTML | CSS | JS
+        VueJS
+        ---
+        HTML | CSS | JS
         ]
     }
+
 }
+Controller --up[#blue,bold]-> Frontend : (3) HTTP Response
+Controller <-[#red]- Frontend : HTTP Request
+' Controller --- HR
+' HR -left-> Frontend
 
-node HTTPRequest [
-    <b> HTTP Request
-    ---
-    GET | POST /endpoint
-]
 
-node HTTPResponse [
-    <b> HTTP Response
-    ---
-    200 | 404 | 500
-]
-Frontend -left- HTTPRequest
-HTTPRequest -left-> Backend
-Backend -right- HTTPResponse
-HTTPResponse -right-> Frontend
- 
+
+' node HTTPResponse [
+' <b> HTTP Response
+' ---
+' 200 | 404 | 500
+' ]
+
 skinparam Linetype ortho
 
 @enduml
