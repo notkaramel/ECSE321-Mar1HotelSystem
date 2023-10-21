@@ -74,11 +74,6 @@ public class ScheduleService {
     }
 
     @Transactional
-    public OperatingHours getOperatingHoursByOpeningHour(int openingHour) {
-        return operatingHoursRepository.findOperatingHoursByOpeningHour(openingHour);
-    }
-
-    @Transactional
     public List<OperatingHours> getAllOperatingHours() {
         return ServiceUtils.toList(operatingHoursRepository.findAll());
     }
@@ -108,6 +103,16 @@ public class ScheduleService {
     @Transactional
     public List<CustomHours> getAllCustomHours() {
         return ServiceUtils.toList(customHoursRepository.findAll());
+    }
+
+    @Transactional
+    public boolean deleteCustomHours(Date date) {
+        CustomHours toBeDeletedCH = customHoursRepository.findCustomHoursByDate(date);
+        if (toBeDeletedCH == null) {
+            return false;
+        }
+        customHoursRepository.delete(toBeDeletedCH);
+        return true;
     }
 
     // Hotel Schedule Service Methods

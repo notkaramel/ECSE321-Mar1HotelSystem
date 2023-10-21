@@ -39,11 +39,8 @@ public class RequestService {
     }
 
     @Transactional
-    public Request updateRequestDescriptionByBooking(Booking booking, String requestDescription) {
-        Request request = requestRepository.findRequestByBooking(booking);
-        request.setDescription(requestDescription);
-        requestRepository.save(request);
-        return request;
+    public List<Request> getRequestsByBooking(Booking booking) {
+        return ServiceUtils.toList(requestRepository.findRequestsByBooking(booking));
     }
 
     @Transactional

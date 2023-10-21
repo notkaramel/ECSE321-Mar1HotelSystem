@@ -58,7 +58,7 @@ public class HotelScheduleRepositoryTest {
         customHoursRepository.save(customHours);
         customHours = customHoursRepository.findCustomHoursByDate(date);
         operatingHoursRepository.save(operatingHours);
-        operatingHours = operatingHoursRepository.findOperatingHoursByOpeningHour(8);
+        operatingHours = operatingHoursRepository.findOperatingHoursByOperatingHoursId(operatingHours.getOperatingHoursId());
 
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;

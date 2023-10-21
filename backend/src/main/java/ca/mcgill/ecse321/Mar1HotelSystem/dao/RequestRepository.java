@@ -25,5 +25,5 @@ public interface RequestRepository extends CrudRepository<Request, String> {
      * @param booking
      * @return the corresponding Request object
      */
-    public Request findRequestByBooking(Booking booking);
+    public Iterable<Request> findRequestsByBooking(Booking booking);
 }

@@ -38,9 +38,8 @@ public class RoomService {
     }
 
     @Transactional
-    public Room getRoomByRoomType(RoomType roomType) {
-        Room room = roomRepository.findRoomByRoomType(roomType);
-        return room;
+    public List<Room> getRoomsByRoomType(RoomType roomType) {
+        return ServiceUtils.toList(roomRepository.findRoomsByRoomType(roomType));
     }
 
     @Transactional
