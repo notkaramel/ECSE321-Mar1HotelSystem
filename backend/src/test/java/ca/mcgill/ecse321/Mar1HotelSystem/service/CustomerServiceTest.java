@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,5 +19,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 public class CustomerServiceTest {
+
+
 }
