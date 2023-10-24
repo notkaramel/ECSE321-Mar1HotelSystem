@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
@@ -60,6 +58,25 @@ public class CustomerServiceTest {
             customers.add(customer);
             return customers;
         });
+    }
+
+    @Test
+    public void testCreateCustomer() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        try {
+            customerService.createCustomer(
+                    "Josh",
+                    "Deb",
+                    CUSTOMER_KEY,
+                    1234567890,
+                    "TestPassword"
+            );
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+        Customer customer = customerService.getCustomer(CUSTOMER_KEY);
+        assertNotNull(customer);
+        assertEquals(CUSTOMER_KEY, customer.getEmail());
     }
 
 
