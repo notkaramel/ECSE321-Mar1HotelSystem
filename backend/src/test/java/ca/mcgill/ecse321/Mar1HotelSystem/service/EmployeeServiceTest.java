@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
@@ -28,25 +26,212 @@ public class EmployeeServiceTest {
     private EmployeeService employeeService;
 
     private static final String EMPLOYEE_KEY = "TestEmployee";
+    private static final String NONEXISTING_KEY = "NotAnEmployee";
 
     @BeforeEach
     public void setMockOutput() {
         lenient().when(employeeDao.findEmployeeByEmail(anyString())).thenAnswer((invocation) -> {
             if (invocation.getArgument(0).equals(EMPLOYEE_KEY)) {
-                Employee employee = new Employee();
-                employee.setEmail(EMPLOYEE_KEY);
-                return employee;
+                return new Employee(
+                        "TestFirstName",
+                        "TestLastName",
+                        EMPLOYEE_KEY,
+                        1234567890,
+                        "TestPassword",
+                        0
+                );
             } else {
                 return null;
             }
         });
         lenient().when(employeeDao.findAll()).thenAnswer((invocation) -> {
             ArrayList<Employee> employees = new ArrayList<>();
-            Employee employee = new Employee();
-            employee.setEmail(EMPLOYEE_KEY);
+            Employee employee = new Employee(
+                    "TestFirstName",
+                    "TestLastName",
+                    EMPLOYEE_KEY,
+                    1234567890,
+                    "TestPassword",
+                    0
+            );
             employees.add(employee);
             return employees;
         });
     }
+
+    @Test
+    public void testCreateEmployee() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "Dolan",
+                    "Duck",
+                    EMPLOYEE_KEY,
+                    1234567891,
+                    "password123",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+        assertNotNull(employee);
+        assertEquals(EMPLOYEE_KEY, employee.getEmail());
+    }
+
+    @Test
+    public void testCreateEmployeeNull() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    null,
+                    null,
+                    null,
+                    1234567891,
+                    null,
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's first name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateEmployeeEmpty() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "",
+                    "",
+                    "",
+                    1234567891,
+                    "",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's first name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateEmployeeFirstNameSpaces() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    " ",
+                    " ",
+                    " ",
+                    1234567891,
+                    " ",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's first name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateEmployeeLastNameSpaces() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    " ",
+                    " ",
+                    1234567891,
+                    " ",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's last name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateEmployeeEmailSpaces() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi",
+                    " ",
+                    1234567891,
+                    " ",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's email cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateEmployeeEmailNotValid() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi",
+                    "boi",
+                    1234567891,
+                    " ",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's email is not valid!", error);
+    }
+
+    @Test
+    public void testCreateEmployeePasswordSpaces() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi",
+                    "boi",
+                    1234567891,
+                    " ",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's password cannot be empty!", error);
+    }
+
 
 }
