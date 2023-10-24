@@ -79,5 +79,26 @@ public class CustomerServiceTest {
         assertEquals(CUSTOMER_KEY, customer.getEmail());
     }
 
+    @Test
+    public void testCreateCustomerEmpty() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        try {
+            customerService.createCustomer(
+                    "",
+                    "",
+                    "",
+                    0,
+                    ""
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check error
+        assertEquals("Customer email cannot be empty!", error);
+        // check no change in memory
+        assertEquals(0, customerService.getAllCustomers().size());
+    }
+
 
 }
