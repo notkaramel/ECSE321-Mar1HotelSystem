@@ -190,7 +190,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testCreateEmployeeEmailNotValid() {
+    public void testCreateEmployeeEmailNoA() {
         assertEquals(0, employeeService.getAllEmployees().size());
         String error = null;
         Employee employee = null;
@@ -199,6 +199,28 @@ public class EmployeeServiceTest {
                     "boi",
                     "boi",
                     "boi",
+                    1234567891,
+                    " ",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(employee);
+        // check error
+        assertEquals("Person's email is not valid!", error);
+    }
+
+    @Test
+    public void testCreateEmployeeEmailNoPeriod() {
+        assertEquals(0, employeeService.getAllEmployees().size());
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi",
+                    "boi@boi",
                     1234567891,
                     " ",
                     0
