@@ -186,7 +186,7 @@ public class GeneralUserServiceTest {
         int phoneNumber = 0;
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber;
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
