@@ -48,7 +48,7 @@ public class GeneralUserServiceTest {
     @InjectMocks
     private GeneralUserService generalUserService;
 
-    private static final String GENERALUSER_KEY = "TestGeneralUserEmail";
+    private static final String GENERALUSER_KEY = "joe@gmail.com";
 
     @BeforeEach
     public void setMockOutput() {
