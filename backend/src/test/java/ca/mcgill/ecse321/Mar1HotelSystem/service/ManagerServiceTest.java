@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +39,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
-//@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class ManagerServiceTest {
     @Mock
     private ManagerRepository managerDao;
@@ -46,11 +47,11 @@ public class ManagerServiceTest {
     @InjectMocks
     private ManagerService managerService;
 
-    private static final String MANAGER_KEY = "TestManagerEmail";
+    private static final String MANAGER_KEY = "joe@gmail.com";
 
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(managerDao.findManagerByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+        lenient().when(managerDao.findManagerByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(MANAGER_KEY)) {
                 Manager manager = new Manager();
                 manager.setEmail(MANAGER_KEY);
@@ -68,7 +69,7 @@ public class ManagerServiceTest {
         String firstName = "Joe";
         String lastName = "Doe";
 		String email = MANAGER_KEY;
-        int phoneNumber = 1234567891;
+        int phoneNumber = 123;
         String password = "worked";
 		Manager manager = null;
 		try {
@@ -261,7 +262,7 @@ public class ManagerServiceTest {
 	}
 
     @Test
-	public void testGetExistingManager()) {
+	public void testGetExistingManager() {
 		assertEquals(MANAGER_KEY, managerService.getManager(MANAGER_KEY).getEmail());
 	}
 
