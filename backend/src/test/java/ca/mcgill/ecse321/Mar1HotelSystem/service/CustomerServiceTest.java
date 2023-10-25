@@ -63,8 +63,9 @@ public class CustomerServiceTest {
     @Test
     public void testCreateCustomer() {
         assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
         try {
-            customerService.createCustomer(
+            customer = customerService.createCustomer(
                     "Josh",
                     "Deb",
                     CUSTOMER_KEY,
@@ -74,7 +75,6 @@ public class CustomerServiceTest {
         } catch (IllegalArgumentException e) {
             fail();
         }
-        Customer customer = customerService.getCustomer(CUSTOMER_KEY);
         assertNotNull(customer);
         assertEquals(CUSTOMER_KEY, customer.getEmail());
     }
@@ -83,8 +83,9 @@ public class CustomerServiceTest {
     public void testCreateCustomerEmpty() {
         assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
+        Customer customer = null;
         try {
-            customerService.createCustomer(
+            customer = customerService.createCustomer(
                     "",
                     "",
                     "",
@@ -94,11 +95,163 @@ public class CustomerServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check null
+        assertNull(customer);
         // check error
         assertEquals("Customer email cannot be empty!", error);
-        // check no change in memory
-        assertEquals(0, customerService.getAllCustomers().size());
     }
 
+    @Test
+    public void testCreateCustomerNull() {
+            assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    null,
+                    null,
+                    null,
+                    0,
+                    null
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("Customer's first name cannot be empty!", error);
+    }
 
+    @Test
+    public void testCreateCustomerFirstNameSpaces() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    " ",
+                    "Deb",
+                    CUSTOMER_KEY,
+                    1234567890,
+                    "TestPassword"
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("Customer's first name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateCustomerLastNameSpaces() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    "Josh",
+                    " ",
+                    CUSTOMER_KEY,
+                    1234567890,
+                    "TestPassword"
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("Customer's last name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateCustomerEmailSpaces() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    "Josh",
+                    "Deb",
+                    " ",
+                    1234567890,
+                    "TestPassword"
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("Customer's email cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateCustomerEmailNoA() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    "Josh",
+                    "Deb",
+                    "joshdebmcgill.ca",
+                    1234567890,
+                    "TestPassword"
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("Customer's email is not valid!", error);
+    }
+
+    @Test
+    public void testCreateCustomerEmailNoPeriod() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    "Josh",
+                    "Deb",
+                    "joshdeb@mcgillca",
+                    1234567890,
+                    "TestPassword"
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("Customer's email is not valid!", error);
+    }
+
+    @Test
+    public void testCreateCustomerEmailPasswordSpaces() {
+        assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    "Josh",
+                    "Deb",
+                    CUSTOMER_KEY,
+                    1234567890,
+                    " "
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("Customer's password cannot be empty!", error);
+    }
 }

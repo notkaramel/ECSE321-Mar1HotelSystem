@@ -25,7 +25,7 @@ public class EmployeeServiceTest {
     @InjectMocks
     private EmployeeService employeeService;
 
-    private static final String EMPLOYEE_KEY = "TestEmployee";
+    private static final String EMPLOYEE_KEY = "TestEmployee@mail.mcgill.ca";
     private static final String NONEXISTING_KEY = "NotAnEmployee";
 
     @BeforeEach
@@ -135,7 +135,7 @@ public class EmployeeServiceTest {
             employee = employeeService.createEmployee(
                     " ",
                     "doot",
-                    "doot@gmail.com",
+                    EMPLOYEE_KEY,
                     1234567891,
                     " ",
                     0
@@ -158,7 +158,7 @@ public class EmployeeServiceTest {
             employee = employeeService.createEmployee(
                     "boi",
                     "",
-                    "boi@boi.com",
+                    EMPLOYEE_KEY,
                     1234567891,
                     " ",
                     0
@@ -250,7 +250,7 @@ public class EmployeeServiceTest {
             employee = employeeService.createEmployee(
                     "boi",
                     "boi",
-                    "boi@gmail.com",
+                    EMPLOYEE_KEY,
                     1234567891,
                     "",
                     0
