@@ -96,6 +96,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check error
         assertNull(employee);
         // check error
         assertEquals("Person's first name cannot be empty!", error);
@@ -118,6 +119,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check error
         assertNull(employee);
         // check error
         assertEquals("Person's first name cannot be empty!", error);
@@ -140,6 +142,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check error
         assertNull(employee);
         // check error
         assertEquals("Person's first name cannot be empty!", error);
@@ -186,6 +189,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check error
         assertNull(employee);
         // check error
         assertEquals("Person's email cannot be empty!", error);
@@ -208,6 +212,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check error
         assertNull(employee);
         // check error
         assertEquals("Person's email is not valid!", error);
@@ -230,6 +235,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check error
         assertNull(employee);
         // check error
         assertEquals("Person's email is not valid!", error);
@@ -252,6 +258,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check error
         assertNull(employee);
         // check error
         assertEquals("Person's password cannot be empty!", error);
