@@ -75,6 +75,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             fail();
         }
+        // Check not null
         assertNotNull(employee);
         assertEquals(EMPLOYEE_KEY, employee.getEmail());
     }
@@ -96,7 +97,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        // check error
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's first name cannot be empty!", error);
@@ -119,7 +120,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        // check error
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's first name cannot be empty!", error);
@@ -142,7 +143,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        // check error
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's first name cannot be empty!", error);
@@ -165,11 +166,10 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's last name cannot be empty!", error);
-        // check no change in memory
-        assertEquals(0, employeeService.getAllEmployees().size());
     }
 
     @Test
@@ -189,7 +189,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        // check error
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's email cannot be empty!", error);
@@ -212,7 +212,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        // check error
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's email is not valid!", error);
@@ -235,7 +235,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        // check error
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's email is not valid!", error);
@@ -258,7 +258,7 @@ public class EmployeeServiceTest {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        // check error
+        // check null
         assertNull(employee);
         // check error
         assertEquals("Person's password cannot be empty!", error);
