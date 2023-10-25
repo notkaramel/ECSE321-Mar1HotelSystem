@@ -71,10 +71,9 @@ public class GeneralUserServiceTest {
         String lastName = "Doe";
 		String email = GENERALUSER_KEY;
         int phoneNumber = 1234567891;
-        String password = "worked";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -90,10 +89,9 @@ public class GeneralUserServiceTest {
         String lastName = null;
 		String email = null;
         int phoneNumber = 0;
-        String password = null;
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			
 			error = e.getMessage();
@@ -110,10 +108,9 @@ public class GeneralUserServiceTest {
         String lastName = "";
 		String email = "";
         int phoneNumber = 0;
-        String password = "";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			
 			error = e.getMessage();
@@ -130,10 +127,9 @@ public class GeneralUserServiceTest {
         String lastName = "Doe";
 		String email = GENERALUSER_KEY;
         int phoneNumber = 1234567891;
-        String password = "worked";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -150,10 +146,9 @@ public class GeneralUserServiceTest {
         String lastName = "";
 		String email = GENERALUSER_KEY;
         int phoneNumber = 1234567891;
-        String password = "worked";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -170,10 +165,9 @@ public class GeneralUserServiceTest {
         String lastName = "Doe";
 		String email = "";
         int phoneNumber = 1234567891;
-        String password = "worked";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -190,10 +184,9 @@ public class GeneralUserServiceTest {
         String lastName = "Doe";
 		String email = GENERALUSER_KEY;
         int phoneNumber = 0;
-        String password = "worked";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber;
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -202,25 +195,6 @@ public class GeneralUserServiceTest {
 		assertEquals("GeneralUser phone number cannot be empty!", error);
 	}
 
-    @Test
-	public void testCreateGeneralUserPasswordSpace() {
-		assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = GENERALUSER_KEY;
-        int phoneNumber = 1234567891;
-        String password = "";
-		GeneralUser generalUser = null;
-		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-		}
-		assertNull(generalUser);
-		assertEquals("GeneralUser password cannot be empty!", error);
-	}
 
     @Test
 	public void testCreateGeneralUserEmailMissingAt() {
@@ -230,10 +204,9 @@ public class GeneralUserServiceTest {
         String lastName = "Doe";
 		String email = "joegmail.com";
         int phoneNumber = 1234567891;
-        String password = "";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -250,10 +223,9 @@ public class GeneralUserServiceTest {
         String lastName = "Doe";
 		String email = "joe@gmailcom";
         int phoneNumber = 1234567891;
-        String password = "";
 		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber, password);
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -263,7 +235,7 @@ public class GeneralUserServiceTest {
 	}
 
     @Test
-	public void testGetExistingGeneralUser()) {
+	public void testGetExistingGeneralUser() {
 		assertEquals(GENERALUSER_KEY, generalUserService.getGeneralUser(GENERALUSER_KEY).getEmail());
 	}
 
