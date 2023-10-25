@@ -131,8 +131,8 @@ public class EmployeeServiceTest {
         try {
             employee = employeeService.createEmployee(
                     " ",
-                    " ",
-                    " ",
+                    "doot",
+                    "doot@gmail.com",
                     1234567891,
                     " ",
                     0
@@ -153,8 +153,8 @@ public class EmployeeServiceTest {
         try {
             employee = employeeService.createEmployee(
                     "boi",
-                    " ",
-                    " ",
+                    "",
+                    "boi@boi.com",
                     1234567891,
                     " ",
                     0
@@ -165,6 +165,8 @@ public class EmployeeServiceTest {
         assertNull(employee);
         // check error
         assertEquals("Person's last name cannot be empty!", error);
+        // check no change in memory
+        assertEquals(0, employeeService.getAllEmployees().size());
     }
 
     @Test
@@ -176,7 +178,7 @@ public class EmployeeServiceTest {
             employee = employeeService.createEmployee(
                     "boi",
                     "boi",
-                    " ",
+                    "",
                     1234567891,
                     " ",
                     0
@@ -242,9 +244,9 @@ public class EmployeeServiceTest {
             employee = employeeService.createEmployee(
                     "boi",
                     "boi",
-                    "boi",
+                    "boi@gmail.com",
                     1234567891,
-                    " ",
+                    "",
                     0
             );
         } catch (IllegalArgumentException e) {
