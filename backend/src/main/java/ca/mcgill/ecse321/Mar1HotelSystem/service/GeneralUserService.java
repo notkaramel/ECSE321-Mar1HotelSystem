@@ -35,7 +35,7 @@ public class GeneralUserService {
     }
 
     @Transactional
-    public GeneralUser createGeneralUser(String firstName, String lastName, String email, int phoneNumber) {
+    public GeneralUser createGeneralUser(String firstName, String lastName, String email, long phoneNumber) {
         GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
         generalUserRepository.save(generalUser);
         return generalUser;
