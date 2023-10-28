@@ -32,7 +32,7 @@ public class RoomService {
     }
 
     @Transactional
-    public Room getRoomById(int roomId) {
+    public Room getRoomByRoomId(int roomId) {
         Room room = roomRepository.findRoomByRoomId(roomId);
         return room;
     }
