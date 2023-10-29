@@ -28,9 +28,7 @@ public class PaymentServiceTest {
     public void testCreatePayment() {
         Payment payment = new Payment(100);
         when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
-
         Payment createdPayment = paymentService.createPayment(100);
-
         assertNotNull(createdPayment);
         assertEquals(100, createdPayment.getAmount());
     }
@@ -49,7 +47,7 @@ public class PaymentServiceTest {
 @Test
 public void testDeletePaymentById() {
     Payment payment = new Payment(100);
-    payment.setPaymentId(1); // Assuming that your Payment object has a setPaymentId method
+    payment.setPaymentId(1); 
     when(paymentRepository.findPaymentByPaymentId(anyInt())).thenReturn(payment);
     doNothing().when(paymentRepository).delete(any(Payment.class));
     boolean isDeleted = paymentService.deletePaymentById(1);
