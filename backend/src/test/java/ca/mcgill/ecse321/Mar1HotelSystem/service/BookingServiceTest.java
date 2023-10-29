@@ -118,7 +118,7 @@ public class BookingServiceTest {
         assertEquals(2, bookings.size());
     }
     /*
-     * Test to make sure there are no bookings when none have been made.
+     * Test to make sure there are no bookings stored in the system when none have been made.
      */
     @Test
     public void testGetAllBookingsEmpty() {
