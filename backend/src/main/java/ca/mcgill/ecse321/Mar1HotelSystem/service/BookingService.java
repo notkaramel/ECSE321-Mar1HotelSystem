@@ -26,10 +26,12 @@ public class BookingService {
      */
     @Transactional
     public Booking createBooking(Payment payment, GeneralUser generalUser, Room room) {
-        if (bookingRepository.findBookingByBookingId(booking.getBookingId()) != null) {
-            return null;  // Booking with this ID already exists.
-        }
-        return bookingRepository.save(booking);
+        Booking booking = new Booking();
+        booking.setPayment(payment);
+        booking.setGeneralUser(generalUser);
+        booking.setRoom(room);
+        bookingRepository.save(booking);
+        return booking;
     }
 
     /**
@@ -46,7 +48,7 @@ public class BookingService {
      */
     @Transactional
     public boolean deleteBooking(int bookingId) {
-        Booking booking = getBookingById(bookingId);
+        Booking booking = bookingRepository.findBookingByBookingId(bookingId);
         try {
             bookingRepository.delete(booking);
         } catch (Exception e) {
