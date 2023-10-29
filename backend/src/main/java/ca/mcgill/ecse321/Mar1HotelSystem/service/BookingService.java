@@ -6,9 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
 /**
  * Service class to manage Booking Entities
+ * 
+ * @author Bilar Mokhtari
  */
 @Service
 public class BookingService {
@@ -20,7 +25,7 @@ public class BookingService {
      * Service method to create and save a new booking..
      */
     @Transactional
-    public Booking createBooking(Booking booking) {
+    public Booking createBooking(Payment payment, GeneralUser generalUser, Room room) {
         if (bookingRepository.findBookingByBookingId(booking.getBookingId()) != null) {
             return null;  // Booking with this ID already exists.
         }
@@ -37,11 +42,19 @@ public class BookingService {
 
     /**
      * Service method to delete a booking.
+     * @return 
      */
     @Transactional
-    public void deleteBooking(int bookingId) {
-        bookingRepository.deleteById(bookingId);
-    }
+    public boolean deleteBooking(int bookingId) {
+        Booking booking = getBookingById(bookingId);
+        try {
+            bookingRepository.delete(booking);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    };
+    
 
     /**
      * Service method to retrieve a booking by ID.
