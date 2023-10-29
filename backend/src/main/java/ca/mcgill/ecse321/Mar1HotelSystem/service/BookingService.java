@@ -22,7 +22,7 @@ public class BookingService {
     BookingRepository bookingRepository;
 
     /**
-     * Service method to create and save a new booking..
+     * Service method to create and save a new booking.
      */
     @Transactional
     public Booking createBooking(Payment payment, GeneralUser generalUser, Room room) {
@@ -43,8 +43,7 @@ public class BookingService {
     }
 
     /**
-     * Service method to delete a booking.
-     * @return 
+     * Service method to delete a booking. 
      */
     @Transactional
     public boolean deleteBooking(int bookingId) {
