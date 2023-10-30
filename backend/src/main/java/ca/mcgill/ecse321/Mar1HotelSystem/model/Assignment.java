@@ -74,6 +74,12 @@ public class Assignment {
         return assignmentId;
     }
 
+    public void setAssignmentID(int assignmentId) {
+        this.assignmentId = assignmentId;
+        //TODO check that it is unique
+    }
+
+
     public void delete() {
         this.assignee = null;
         this.request = null;
