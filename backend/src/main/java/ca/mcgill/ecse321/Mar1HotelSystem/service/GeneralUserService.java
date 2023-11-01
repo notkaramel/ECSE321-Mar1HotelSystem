@@ -9,6 +9,9 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import jakarta.transaction.Transactional;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 /**
  * Service class is for the GeneralUser (Guest).
  * It addresses all use cases of a Guest.
@@ -36,6 +39,13 @@ public class GeneralUserService {
 
     @Transactional
     public GeneralUser createGeneralUser(String firstName, String lastName, String email, int phoneNumber) {
+        String emailTrimmed = email.trim();
+        Pattern pattern = Pattern.compile("^(.+)@(.+).((com)|(ca))$");
+        Matcher matcher = pattern.matcher(emailTrimmed);
+        if (!matcher.find()) {
+            throw new IllegalArgumentException("Invalid email address"); // Need to change this to a more specific
+                                                                         // exception
+        }
         GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
         generalUserRepository.save(generalUser);
         return generalUser;
