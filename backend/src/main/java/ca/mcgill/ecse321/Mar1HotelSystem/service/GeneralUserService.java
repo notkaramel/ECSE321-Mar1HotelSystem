@@ -33,20 +33,34 @@ public class GeneralUserService {
 
     @Transactional
     public GeneralUser getGeneralUser(String email) {
-        GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
-        return generalUser;
+        String emailTrimmed = email.trim();
+        return generalUserRepository.findGeneralUserByEmail(emailTrimmed);
     }
 
     @Transactional
     public GeneralUser createGeneralUser(String firstName, String lastName, String email, int phoneNumber) {
+        // Check if firstName is empty
+        String firstNameTrimmed = firstName.trim();
+        if (firstNameTrimmed.isEmpty()) {
+            throw new IllegalArgumentException("The first name cannot be empty!");
+        }
+        // Check if lastName is empty
+        String lastNameTrimmed = lastName.trim();
+        if (lastNameTrimmed.isEmpty()) {
+            throw new IllegalArgumentException("The last name cannot be empty!");
+        }
+        // Check if email is empty
         String emailTrimmed = email.trim();
-        Pattern pattern = Pattern.compile("^(.+)@(.+).((com)|(ca))$");
+        if (emailTrimmed.isEmpty()) {
+            throw new IllegalArgumentException("The email cannot be empty!");
+        }
+        // Check if email is valid
+        Pattern pattern = Pattern.compile("^(\\S+)@(\\S+).((com)|(ca))$");
         Matcher matcher = pattern.matcher(emailTrimmed);
         if (!matcher.find()) {
-            throw new IllegalArgumentException("Invalid email address"); // Need to change this to a more specific
-                                                                         // exception
+            throw new IllegalArgumentException("The email is invalid!");
         }
-        GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
+        GeneralUser generalUser = new GeneralUser(firstNameTrimmed, lastNameTrimmed, emailTrimmed, phoneNumber);
         generalUserRepository.save(generalUser);
         return generalUser;
     }
