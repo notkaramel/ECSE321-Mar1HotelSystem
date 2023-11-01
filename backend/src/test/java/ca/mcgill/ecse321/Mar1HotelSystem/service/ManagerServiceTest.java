@@ -99,7 +99,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The first name cannot be empty!", error);
+		assertEquals("Inputs invaild null", error);
 	}
 
     @Test
@@ -119,7 +119,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The first name cannot be empty!", error);
+		assertEquals("One or more fields are empty", error);
 	}
 
     @Test
@@ -139,7 +139,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The first name cannot be empty!", error);
+		assertEquals("One or more fields are empty", error);
 	}
 
     @Test
@@ -159,7 +159,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The last name cannot be empty!", error);
+		assertEquals("One or more fields are empty", error);
 	}
 
     @Test
@@ -179,7 +179,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The email cannot be empty!", error);
+		assertEquals("One or more fields are empty", error);
 	}
 
 	// To check with the rest of the team if we need to test a phone number of 0
@@ -220,7 +220,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The password cannot be empty!", error);
+		assertEquals("One or more fields are empty", error);
 	}
 
     @Test
@@ -231,7 +231,7 @@ public class ManagerServiceTest {
         String lastName = "Doe";
 		String email = "joegmail.com";
         int phoneNumber = 1234567891;
-        String password = "";
+        String password = "Pass";
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
@@ -240,7 +240,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The email is invalid!", error);
+		assertEquals("Invalid Email", error);
 	}
 
     @Test
@@ -251,7 +251,7 @@ public class ManagerServiceTest {
         String lastName = "Doe";
 		String email = "joe@gmailcom";
         int phoneNumber = 1234567891;
-        String password = "";
+        String password = "Pass";
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
@@ -260,7 +260,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("The email is invalid!", error);
+		assertEquals("Invalid Email", error);
 	}
 
     @Test
