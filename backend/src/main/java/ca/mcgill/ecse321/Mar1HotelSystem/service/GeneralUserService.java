@@ -53,7 +53,7 @@ public class GeneralUserService {
         }
         // Check if email is valid
         String emailTrimmed = email.trim();
-        Pattern pattern = Pattern.compile("^(\\S+)@(\\S+).((com)|(ca))$");
+        Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
         Matcher matcher = pattern.matcher(emailTrimmed);
         if (!matcher.find()) {
             throw new IllegalArgumentException("The email is invalid!");
