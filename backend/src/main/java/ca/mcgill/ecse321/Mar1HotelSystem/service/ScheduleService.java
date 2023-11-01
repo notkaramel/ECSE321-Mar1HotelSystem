@@ -74,7 +74,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public List<OperatingHours> gs() {
+    public List<OperatingHours> getAllOperatingHours() {
         return ServiceUtils.toList(operatingHoursRepository.findAll());
     }
 

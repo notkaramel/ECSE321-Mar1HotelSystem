@@ -59,7 +59,6 @@ public class Mar1HotelSystemServiceTest {
         lenient().when(hotelDao.findHotelByHotelName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(NAME_KEY)) {
                 Hotel hotel = new Hotel();
-                hotelService.getHotel(NAME_KEY);
                 return hotel;
             } else {
                 return null;

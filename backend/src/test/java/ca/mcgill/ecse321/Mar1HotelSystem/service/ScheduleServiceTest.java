@@ -121,26 +121,6 @@ public class ScheduleServiceTest {
         assertEquals(closingHour, operatingHours.getClosingHour());
     }
 
-    /* 
-    @Test
-    public void testCreateOperatingHoursEmpty() {
-        OperatingHours operatingHours = null;
-
-        DayOfWeek day = null;
-        Integer openingHour = null; 
-        Integer closingHour = null; 
-
-        try {
-            operatingHours = scheduleService.createOperatingHours(day, openingHour, closingHour);
-            
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-        
-        assertNull(operatingHours);
-    }
-    */
-
     @Test
     public void testUpdateOperatingHours() {
 
@@ -168,32 +148,6 @@ public class ScheduleServiceTest {
         assertEquals(updatedClosingHour, updatedOperatingHours.getClosingHour());
     }
 
-    /* 
-    @Test
-    public void testUpdateOperatingHoursEmpty() {
-        String error = null;
-        OperatingHours initialOperatingHours = null;
-        OperatingHours updatedOperatingHours = null;
-
-        DayOfWeek day = DayOfWeek.Friday;
-        Integer initialOpeningHour = 8;
-        Integer initialClosingHour = 21; 
-
-        Integer updatedOpeningHour = null;
-        Integer updatedClosingHour = null; 
-
-        try {
-            initialOperatingHours = scheduleService.createOperatingHours(day, initialOpeningHour, initialClosingHour);
-            updatedOperatingHours = scheduleService.updateOperatingHours(day, updatedOpeningHour, updatedClosingHour);
-            
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-
-        assertNull(updatedOperatingHours);
-    }
-    */
-
     @Test
     public void testGetOperatingHoursByDay() {
 
@@ -216,28 +170,6 @@ public class ScheduleServiceTest {
         assertEquals(openingHour, retrievedHours.getOpeningHour());
         assertEquals(closingHour, retrievedHours.getClosingHour());
     }
-
-    /* 
-    @Test
-    public void testGetOperatingHoursEmpty() {
-
-        OperatingHours operatingHours = null;
-
-        DayOfWeek day = null;
-        Integer openingHour = null; 
-        Integer closingHour = null; 
-
-        try {
-            operatingHours = scheduleService.createOperatingHours(day, openingHour, closingHour);
-            operatingHours = scheduleService.getOperatingHoursByDay(day);
-            
-        } catch (IllegalArgumentException e) {
-            fail();
-        }
-
-        assertNull(operatingHours);
-    }
-    */
 
     @Test
     public void testGetAllOperatingHoursByDay() {
@@ -270,7 +202,7 @@ public class ScheduleServiceTest {
             operatingHoursM = scheduleService.createOperatingHours(dayM, openingHourM, closingHourM);
             operatingHoursT = scheduleService.createOperatingHours(dayT, openingHourT, closingHourT);
             operatingHoursW = scheduleService.createOperatingHours(dayW, openingHourW, closingHourW);
-            allOperatingHours = scheduleService.gs();
+            allOperatingHours = scheduleService.getAllOperatingHours();
 
         } catch (IllegalArgumentException e) {
             fail();
@@ -307,26 +239,6 @@ public class ScheduleServiceTest {
         assertEquals(openingHour, customHours.getOpeningHour());
         assertEquals(closingHour, customHours.getClosingHour());
     }
-
-    /* 
-    @Test
-    public void testCreateCustomHoursEmpty() {
-        String error = null;
-        CustomHours customHours = null;
-
-        Date date = null;
-        Integer openingHour = null; 
-        Integer closingHour = null; 
-
-        try {
-            customHours = scheduleService.createCustomHours(date, openingHour, closingHour);
-            
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        };
-        assertNull(customHours);
-    }
-    */
     
     @Test
     public void testUpdateCustomHours() {
@@ -358,34 +270,6 @@ public class ScheduleServiceTest {
         assertEquals(updatedClosingHour, updatedCustomHours.getClosingHour());
     }
 
-    /* 
-    @Test
-    public void testUpdateCustomHoursEmpty() {
-        String error = null;
-        CustomHours initialCustomHours = null;
-        CustomHours updatedCustomHours = null;
-
-
-        Date date = null;
-
-        Integer initialOpeningHour = 8; 
-        Integer initialClosingHour = 21;
-        Integer updatedOpeningHour = null; 
-        Integer updatedClosingHour = null; 
-
-
-        try {
-            initialCustomHours = scheduleService.createCustomHours(date, initialOpeningHour, initialClosingHour);
-            updatedCustomHours = scheduleService.updateCustomHours(date, updatedOpeningHour, updatedClosingHour);
-            
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-
-        assertNull(updatedCustomHours);
-    }
-    */
-
     @Test
     public void testGetCustomHoursByDate() {
         CustomHours customHours = null;
@@ -411,29 +295,6 @@ public class ScheduleServiceTest {
         assertEquals(openingHour, retrievedHours.getOpeningHour());
         assertEquals(closingHour, retrievedHours.getClosingHour());
     }
-
-    /* 
-    @Test
-    public void testGetCustomHoursByDateEmpty() {
-        String error = null;
-        CustomHours customHours = null;
-
-        Date date = null;
-        Integer openingHour = null; 
-        Integer closingHour = null; 
-
-        try {
-            customHours = scheduleService.createCustomHours(date, openingHour, closingHour);
-            customHours = scheduleService.getCustomHoursByDate(date);
-            
-        } catch (IllegalArgumentException e) {
-            fail();
-        };
-        assertNotNull(customHours);
-        assertEquals(openingHour, customHours.getOpeningHour());
-        assertEquals(closingHour, customHours.getClosingHour());
-    }
-    */
 
     @Test
     public void testDeleteCustomHours() {
