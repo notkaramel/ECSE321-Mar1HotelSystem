@@ -256,4 +256,13 @@ public class CustomerServiceTest {
         // check error
         assertEquals("The password cannot be empty!", error);
     }
+    @Test
+    public void testGetExistingGeneralUser() {
+        assertEquals(CUSTOMER_KEY, customerService.getCustomer(CUSTOMER_KEY).getEmail());
+    }
+
+    @Test
+    public void testGetNonExistingPerson() {
+        assertNull(customerService.getCustomer("NotACustomer"));
+    }
 }

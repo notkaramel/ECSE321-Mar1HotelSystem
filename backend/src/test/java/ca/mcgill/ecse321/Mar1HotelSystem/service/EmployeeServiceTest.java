@@ -267,5 +267,13 @@ public class EmployeeServiceTest {
         assertEquals("The password cannot be empty!", error);
     }
 
+    @Test
+    public void testGetExistingGeneralUser() {
+        assertEquals(EMPLOYEE_KEY, employeeService.getEmployee(EMPLOYEE_KEY).getEmail());
+    }
 
+    @Test
+    public void testGetNonExistingPerson() {
+        assertNull(employeeService.getEmployee("NotAnEmployee"));
+    }
 }
