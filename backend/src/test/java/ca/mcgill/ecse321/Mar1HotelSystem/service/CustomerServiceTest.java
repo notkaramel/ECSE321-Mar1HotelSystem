@@ -21,6 +21,11 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
+/**
+ * Service tests for the Customer class.
+ *
+ * @author Liu, ZiXu
+ */
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
     @Mock
@@ -32,6 +37,9 @@ public class CustomerServiceTest {
     private static final String CUSTOMER_KEY = "TestEmail";
     private static final String NONEXISTING_KEY = "NotACustomer";
 
+    /**
+     * Set mock customer output before each test.
+     */
     @BeforeEach
     public void setMockOutput() {
         lenient().when(customerDao.findCustomerByEmail(anyString())).thenAnswer((invocation) -> {
@@ -62,6 +70,9 @@ public class CustomerServiceTest {
         });
     }
 
+    /**
+     * Test creating a customer.
+     */
     @Test
     public void testCreateCustomer() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -75,12 +86,16 @@ public class CustomerServiceTest {
                     "TestPassword"
             );
         } catch (IllegalArgumentException e) {
+            // Check that no error occurred
             fail();
         }
         assertNotNull(customer);
         assertEquals(CUSTOMER_KEY, customer.getEmail());
     }
 
+    /**
+     * Test creating a customer with empty strings.
+     */
     @Test
     public void testCreateCustomerEmpty() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -103,6 +118,9 @@ public class CustomerServiceTest {
         assertEquals("The first name cannot be empty!", error);
     }
 
+    /**
+     * Test creating a customer with nulls.
+     */
     @Test
     public void testCreateCustomerNull() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -125,6 +143,9 @@ public class CustomerServiceTest {
         assertEquals("The first name cannot be empty!", error);
     }
 
+    /**
+     * Test creating a customer with a first name that is an empty string.
+     */
     @Test
     public void testCreateCustomerFirstNameSpaces() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -147,6 +168,9 @@ public class CustomerServiceTest {
         assertEquals("The first name cannot be empty!", error);
     }
 
+    /**
+     * Test creating a customer with a last name that is an empty string.
+     */
     @Test
     public void testCreateCustomerLastNameSpaces() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -169,6 +193,9 @@ public class CustomerServiceTest {
         assertEquals("The last name cannot be empty!", error);
     }
 
+    /**
+     * Test creating a customer with an email that is an empty string.
+     */
     @Test
     public void testCreateCustomerEmailSpaces() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -191,6 +218,9 @@ public class CustomerServiceTest {
         assertEquals("The email cannot be empty!", error);
     }
 
+    /**
+     * Test creating a customer with an email without "@".
+     */
     @Test
     public void testCreateCustomerEmailNoA() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -213,6 +243,9 @@ public class CustomerServiceTest {
         assertEquals("The email is invalid!", error);
     }
 
+    /**
+     * Test creating a customer with an email without ".".
+     */
     @Test
     public void testCreateCustomerEmailNoPeriod() {
         //assertEquals(0, customerService.getAllCustomers().size());
@@ -235,8 +268,11 @@ public class CustomerServiceTest {
         assertEquals("The email is invalid!", error);
     }
 
+    /**
+     * Test creating a customer with a password that is an empty string.
+     */
     @Test
-    public void testCreateCustomerEmailPasswordSpaces() {
+    public void testCreateCustomerPasswordSpaces() {
         //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
@@ -256,13 +292,20 @@ public class CustomerServiceTest {
         // check error
         assertEquals("The password cannot be empty!", error);
     }
+
+    /**
+     * Test retrieving a customer.
+     */
     @Test
     public void testGetExistingGeneralUser() {
         assertEquals(CUSTOMER_KEY, customerService.getCustomer(CUSTOMER_KEY).getEmail());
     }
 
+    /**
+     * Test retrieving a non-existing customer.
+     */
     @Test
     public void testGetNonExistingPerson() {
-        assertNull(customerService.getCustomer("NotACustomer"));
+        assertNull(customerService.getCustomer(NONEXISTING_KEY));
     }
 }
