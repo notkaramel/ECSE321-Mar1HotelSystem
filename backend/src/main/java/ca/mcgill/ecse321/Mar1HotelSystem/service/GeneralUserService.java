@@ -47,7 +47,7 @@ public class GeneralUserService {
      * @author ZiXu Liu (@ARandomPi)
      */
     @Transactional
-    public GeneralUser createGeneralUser(String firstName, String lastName, String email, int phoneNumber) {
+    public GeneralUser createGeneralUser(String firstName, String lastName, String email, long phoneNumber) {
         // Check if firstName is empty
         if (firstName == null || firstName.trim().isEmpty()) {
             throw new IllegalArgumentException("The first name cannot be empty!");
