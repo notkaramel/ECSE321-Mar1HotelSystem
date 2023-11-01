@@ -7,6 +7,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,6 +45,7 @@ public class RequestRepositoryTest {
 
 
     // Clearing the database after the test
+    @BeforeEach
     @AfterEach
     public void clearDatabase() {
         /*
