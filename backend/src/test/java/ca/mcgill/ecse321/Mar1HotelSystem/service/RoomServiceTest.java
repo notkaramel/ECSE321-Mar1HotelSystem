@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
@@ -86,10 +85,33 @@ public class RoomServiceTest {
                 default -> null;
             };
         });
+
+        lenient().when(roomRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            ArrayList<Room> rooms = new ArrayList<Room>();
+            rooms.add(roomSuite1);
+            rooms.add(roomSuite2);
+            rooms.add(roomDeluxe3);
+            rooms.add(roomDeluxe4);
+            rooms.add(roomRegular5);
+            rooms.add(roomRegular6);
+            return rooms;
+        });
     }
+
 
     @Test
     public void testGetAllRooms() {
+        ArrayList<Room> rooms = new ArrayList<Room>();
+        try {
+            rooms = (ArrayList<Room>) roomService.getAllRooms();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        assertEquals(6, rooms.size());
+    }
+
+    @Test
+    public void testGetAllRoomsByRoomType() {
         ArrayList<Room> rooms = new ArrayList<Room>();
         try {
             rooms = (ArrayList<Room>) roomService.getRoomsByRoomType(RoomType.Deluxe);
