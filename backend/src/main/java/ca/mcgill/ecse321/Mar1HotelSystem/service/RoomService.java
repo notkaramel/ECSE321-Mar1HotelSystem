@@ -57,4 +57,17 @@ public class RoomService {
     public List<Room> getAllRooms() {
         return ServiceUtils.toList(roomRepository.findAll());
     }
+
+    @Transactional
+    public boolean setRoomAvailability(int roomId, boolean availability) {
+        Room room = roomRepository.findRoomByRoomId(roomId);
+        try {
+            room.setIsAvailable(availability);
+            roomRepository.save(room);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 }
