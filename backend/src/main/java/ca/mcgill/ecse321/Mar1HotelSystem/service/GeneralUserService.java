@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
  * 
  * @author Antoine Phan (@notkaramel)
  * @author Lucas Pacicco (@Lucaspac5)
- * 
+ * @author ZiXu Liu (@ARandomPi)
  */
 
 @Service
@@ -37,6 +37,15 @@ public class GeneralUserService {
         return generalUserRepository.findGeneralUserByEmail(emailTrimmed);
     }
 
+    /**
+     * Creates a GeneralUser with the given parameters.
+     * @param firstName The first name of the GeneralUser.
+     * @param lastName The last name of the GeneralUser.
+     * @param email The email of the GeneralUser.
+     * @param phoneNumber The phone number of the GeneralUser.
+     * @return The created GeneralUser.
+     * @author ZiXu Liu (@ARandomPi)
+     */
     @Transactional
     public GeneralUser createGeneralUser(String firstName, String lastName, String email, int phoneNumber) {
         // Check if firstName is empty
@@ -58,6 +67,7 @@ public class GeneralUserService {
         if (!matcher.find()) {
             throw new IllegalArgumentException("The email is invalid!");
         }
+        // Create, save and return the GeneralUser
         GeneralUser generalUser = new GeneralUser(firstName.trim(), lastName.trim(), emailTrimmed, phoneNumber);
         generalUserRepository.save(generalUser);
         return generalUser;
