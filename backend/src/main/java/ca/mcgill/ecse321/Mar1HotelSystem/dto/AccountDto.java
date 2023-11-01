@@ -11,7 +11,7 @@ public class AccountDto extends GeneralUserDto {
         super();
     }
 
-    public AccountDto(String firstName, String lastName, String email, int phoneNumber, String password) {
+    public AccountDto(String firstName, String lastName, String email, long phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber);
         this.password = password;
     }

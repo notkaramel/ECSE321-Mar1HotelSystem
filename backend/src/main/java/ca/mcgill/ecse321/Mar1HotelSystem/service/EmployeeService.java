@@ -36,7 +36,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee createEmployee(String firstName, String lastName, String email, int phoneNumber, String password,
+    public Employee createEmployee(String firstName, String lastName, String email, long phoneNumber, String password,
             int hoursWorked) {
         // Check if firstName is empty
         if (firstName == null || firstName.trim().isEmpty()) {
@@ -65,6 +65,22 @@ public class EmployeeService {
         Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
         employeeRepository.save(employee);
         return employee;
+    }
+
+    @Transactional
+    public boolean updateEmployeeFirstName(String newFirstName, String email) {
+        	Employee employee = employeeRepository.findEmployeeByEmail(email);
+            // Check if firstName is empty
+            if (newFirstName == null || newFirstName.trim().isEmpty()) {
+                throw new IllegalArgumentException("The first name cannot be empty!");
+            }
+        	try {
+        		employee.setFistName(newFirstName.trim());
+                employeeRepository.save(employee);
+        	} catch (Exception e) {
+        		return false;
+        	}
+        	return true;
     }
 
     @Transactional

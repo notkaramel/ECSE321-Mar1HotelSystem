@@ -8,7 +8,7 @@ public class ManagerDto extends AccountDto {
     }
 
     // Manager constructor requiring firstName, lastName, email, phoneNUmber, password
-    public ManagerDto(String firstName, String lastName, String email, int phoneNumber, String password) {
+    public ManagerDto(String firstName, String lastName, String email, long phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber, password);
     }
 

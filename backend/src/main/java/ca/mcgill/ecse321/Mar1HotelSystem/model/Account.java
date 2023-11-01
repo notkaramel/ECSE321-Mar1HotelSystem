@@ -24,7 +24,7 @@ public abstract class Account extends GeneralUser {
 
     // Account constructor requiring firstName, lastName, email, phoneNumber,
     // password
-    public Account(String firstName, String lastName, String email, int phoneNumber, String password) {
+    public Account(String firstName, String lastName, String email, long phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber);
         this.password = password;
     }

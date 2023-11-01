@@ -36,7 +36,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer createCustomer(String firstName, String lastName, String email, int phoneNumber, String password) {
+    public Customer createCustomer(String firstName, String lastName, String email, long phoneNumber, String password) {
         // Check if firstName is empty
         if (firstName == null || firstName.trim().isEmpty()) {
             throw new IllegalArgumentException("The first name cannot be empty!");
