@@ -69,7 +69,7 @@ public class EmployeeService {
 
     @Transactional
     public boolean updateEmployeeFirstName(String newFirstName, String email) {
-        	Employee employee = employeeRepository.findEmployeeByEmail(email);
+        	Employee employee = getEmployee(email);
             // Check if firstName is empty
             if (newFirstName == null || newFirstName.trim().isEmpty()) {
                 throw new IllegalArgumentException("The first name cannot be empty!");

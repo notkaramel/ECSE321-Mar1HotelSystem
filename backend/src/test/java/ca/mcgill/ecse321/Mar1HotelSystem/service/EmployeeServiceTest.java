@@ -306,7 +306,7 @@ public class EmployeeServiceTest {
      * Test retrieving an employee.
      */
     @Test
-    public void testGetExistingGeneralUser() {
+    public void testGetExistingEmployee() {
         assertEquals(EMPLOYEE_KEY, employeeService.getEmployee(EMPLOYEE_KEY).getEmail());
     }
 
@@ -314,7 +314,30 @@ public class EmployeeServiceTest {
      * Test retrieving a non-existing customer.
      */
     @Test
-    public void testGetNonExistingPerson() {
+    public void testGetNonExistingEmployee() {
         assertNull(employeeService.getEmployee(NONEXISTING_KEY));
+    }
+
+    @Test
+    public void testUpdateEmployeeFirstName() {
+    	String newFirstName = "Dolan";
+    	Employee employee = new Employee();
+        boolean checkFirstName = false;
+    	try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi2",
+                    "pain@gmail.com",
+                    1234567891,
+                    "doot",
+                    0
+            );
+    		checkFirstName = employeeService.updateEmployeeFirstName(newFirstName, "pain@gmail.com");
+    	} catch (IllegalArgumentException e) {
+    		fail();
+    	}
+    	// Check not null
+    	assertTrue(checkFirstName);
+    	assertEquals(newFirstName, employee.getFirstName());
     }
 }
