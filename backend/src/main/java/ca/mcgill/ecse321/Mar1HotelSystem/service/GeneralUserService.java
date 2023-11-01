@@ -40,27 +40,25 @@ public class GeneralUserService {
     @Transactional
     public GeneralUser createGeneralUser(String firstName, String lastName, String email, int phoneNumber) {
         // Check if firstName is empty
-        String firstNameTrimmed = firstName.trim();
-        if (firstNameTrimmed.isEmpty()) {
+        if (firstName == null || firstName.trim().isEmpty()) {
             throw new IllegalArgumentException("The first name cannot be empty!");
         }
         // Check if lastName is empty
-        String lastNameTrimmed = lastName.trim();
-        if (lastNameTrimmed.isEmpty()) {
+        if (lastName == null || lastName.trim().isEmpty()) {
             throw new IllegalArgumentException("The last name cannot be empty!");
         }
         // Check if email is empty
-        String emailTrimmed = email.trim();
-        if (emailTrimmed.isEmpty()) {
+        if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("The email cannot be empty!");
         }
         // Check if email is valid
+        String emailTrimmed = email.trim();
         Pattern pattern = Pattern.compile("^(\\S+)@(\\S+).((com)|(ca))$");
         Matcher matcher = pattern.matcher(emailTrimmed);
         if (!matcher.find()) {
             throw new IllegalArgumentException("The email is invalid!");
         }
-        GeneralUser generalUser = new GeneralUser(firstNameTrimmed, lastNameTrimmed, emailTrimmed, phoneNumber);
+        GeneralUser generalUser = new GeneralUser(firstName.trim(), lastName.trim(), emailTrimmed, phoneNumber);
         generalUserRepository.save(generalUser);
         return generalUser;
     }
