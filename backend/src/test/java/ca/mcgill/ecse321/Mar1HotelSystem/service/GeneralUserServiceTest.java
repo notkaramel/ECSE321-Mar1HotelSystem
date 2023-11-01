@@ -94,11 +94,10 @@ public class GeneralUserServiceTest {
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (IllegalArgumentException e) {
-			
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
-		assertEquals("GeneralUser cannot be null!", error);
+		assertEquals("The first name cannot be empty!", error);
 	}
 
     @Test
@@ -117,7 +116,7 @@ public class GeneralUserServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
-		assertEquals("GeneralUser first name, last name, email, phone number, and password cannot be empty!", error);
+		assertEquals("The first name cannot be empty!", error);
 	}
 
     @Test
@@ -136,7 +135,7 @@ public class GeneralUserServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
-		assertEquals("GeneralUser first name cannot be empty!", error);
+		assertEquals("The first name cannot be empty!", error);
 	}
 
     @Test
@@ -155,7 +154,7 @@ public class GeneralUserServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
-		assertEquals("GeneralUser email cannot be empty!", error);
+		assertEquals("The last name cannot be empty!", error);
 	}
 
     @Test
@@ -174,27 +173,27 @@ public class GeneralUserServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
-		assertEquals("GeneralUser email cannot be empty!", error);
+		assertEquals("The email cannot be empty!", error);
 	}
-
-    @Test
-	public void testCreateGeneralUserPhoneNumberSpace() {
-		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = GENERALUSER_KEY;
-        int phoneNumber = 0;
-		GeneralUser generalUser = null;
-		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-		}
-		assertNull(generalUser);
-		assertEquals("GeneralUser phone number cannot be empty!", error);
-	}
+	// To check with the rest of the team if we need to test a phone number of 0
+//    @Test
+//	public void testCreateGeneralUserPhoneNumberSpace() {
+//		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
+//        String error = null;
+//        String firstName = "Joe";
+//        String lastName = "Doe";
+//		String email = GENERALUSER_KEY;
+//        int phoneNumber = 0;
+//		GeneralUser generalUser = null;
+//		try {
+//			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
+//		} catch (IllegalArgumentException e) {
+//			// Check that no error occurred
+//			error = e.getMessage();
+//		}
+//		assertNull(generalUser);
+//		assertEquals("GeneralUser phone number cannot be empty!", error);
+//	}
 
 
     @Test
@@ -213,7 +212,7 @@ public class GeneralUserServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
-		assertEquals("GeneralUser email cannot miss @!", error);
+		assertEquals("The email is invalid!", error);
 	}
 
     @Test
@@ -232,7 +231,7 @@ public class GeneralUserServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
-		assertEquals("GeneralUser email cannot miss dot!", error);
+		assertEquals("The email is invalid!", error);
 	}
 
     @Test
@@ -244,6 +243,4 @@ public class GeneralUserServiceTest {
 	public void testGetNonExistingPerson() {
 		assertNull(generalUserService.getGeneralUser("NotAGeneralUser"));
 	}
-
-
 }

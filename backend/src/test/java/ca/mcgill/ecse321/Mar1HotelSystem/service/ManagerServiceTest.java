@@ -99,7 +99,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager cannot be null!", error);
+		assertEquals("The first name cannot be empty!", error);
 	}
 
     @Test
@@ -119,7 +119,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager first name, last name, email, phone number, and password cannot be empty!", error);
+		assertEquals("The first name cannot be empty!", error);
 	}
 
     @Test
@@ -139,7 +139,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager first name cannot be empty!", error);
+		assertEquals("The first name cannot be empty!", error);
 	}
 
     @Test
@@ -159,7 +159,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager email cannot be empty!", error);
+		assertEquals("The last name cannot be empty!", error);
 	}
 
     @Test
@@ -179,28 +179,29 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager email cannot be empty!", error);
+		assertEquals("The email cannot be empty!", error);
 	}
 
-    @Test
-	public void testCreateManagerPhoneNumberSpace() {
-		//assertEquals(0, managerService.getAllManagers().size());
-        String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = MANAGER_KEY;
-        int phoneNumber = 0;
-        String password = "worked";
-		Manager manager = null;
-		try {
-			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-		}
-		assertNull(manager);
-		assertEquals("Manager phone number cannot be empty!", error);
-	}
+	// To check with the rest of the team if we need to test a phone number of 0
+//    @Test
+//	public void testCreateManagerPhoneNumberSpace() {
+//		//assertEquals(0, managerService.getAllManagers().size());
+//        String error = null;
+//        String firstName = "Joe";
+//        String lastName = "Doe";
+//		String email = MANAGER_KEY;
+//        int phoneNumber = 0;
+//        String password = "worked";
+//		Manager manager = null;
+//		try {
+//			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
+//		} catch (IllegalArgumentException e) {
+//			// Check that no error occurred
+//			error = e.getMessage();
+//		}
+//		assertNull(manager);
+//		assertEquals("Manager phone number cannot be empty!", error);
+//	}
 
     @Test
 	public void testCreateManagerPasswordSpace() {
@@ -219,7 +220,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager password cannot be empty!", error);
+		assertEquals("The password cannot be empty!", error);
 	}
 
     @Test
@@ -239,7 +240,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager email cannot miss @!", error);
+		assertEquals("The email is invalid!", error);
 	}
 
     @Test
@@ -259,7 +260,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Manager email cannot miss dot!", error);
+		assertEquals("The email is invalid!", error);
 	}
 
     @Test

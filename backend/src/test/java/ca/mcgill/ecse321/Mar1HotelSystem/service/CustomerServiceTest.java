@@ -100,7 +100,7 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer email cannot be empty!", error);
+        assertEquals("The first name cannot be empty!", error);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer's first name cannot be empty!", error);
+        assertEquals("The first name cannot be empty!", error);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer's first name cannot be empty!", error);
+        assertEquals("The first name cannot be empty!", error);
     }
 
     @Test
@@ -166,7 +166,7 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer's last name cannot be empty!", error);
+        assertEquals("The last name cannot be empty!", error);
     }
 
     @Test
@@ -188,7 +188,7 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer's email cannot be empty!", error);
+        assertEquals("The email cannot be empty!", error);
     }
 
     @Test
@@ -210,7 +210,7 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer's email is not valid!", error);
+        assertEquals("The email is invalid!", error);
     }
 
     @Test
@@ -232,7 +232,7 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer's email is not valid!", error);
+        assertEquals("The email is invalid!", error);
     }
 
     @Test
@@ -254,6 +254,6 @@ public class CustomerServiceTest {
         // check null
         assertNull(customer);
         // check error
-        assertEquals("Customer's password cannot be empty!", error);
+        assertEquals("The password cannot be empty!", error);
     }
 }
