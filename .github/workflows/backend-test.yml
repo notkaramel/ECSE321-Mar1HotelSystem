@@ -11,9 +11,9 @@ permissions:
 
 jobs:
   prepare-test:
-    runs-on: ubuntu-latest
     env:
       working-directory: ./backend
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK
@@ -25,11 +25,6 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         gradle-version: 8.2.1
-  generalUserServiceTest:
-    runs-on: ubuntu-latest
-    env:
-      working-directory: ./backend
-    steps:
     - name: "Test 1: General User Service"
       run: |
         gradle test --tests GeneralUserServiceTest
