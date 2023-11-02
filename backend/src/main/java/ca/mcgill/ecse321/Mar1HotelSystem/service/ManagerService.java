@@ -24,15 +24,25 @@ public class ManagerService {
     @Autowired
     ManagerRepository managerRepository;
 
-    @Transactional
-    public List<Manager> getAllManagers() {
-        return ServiceUtils.toList(managerRepository.findAll());
-    }
+    // @Transactional
+    // public List<Manager> getAllManagers() {
+    //    List<Manager> managerList = ServiceUtils.toList(managerRepository.findAll());
+    //    if(managerList == null){
+    //         throw new IllegalArgumentException("There are no Managers Found");
+    //     } else {
+    //         return managerList;
+    //     }
+    // }
 
     @Transactional
     public Manager getManager(String email) {
         Manager manager = managerRepository.findManagerByEmail(email);
-        return manager;
+        if(manager == null){
+            throw new IllegalArgumentException("Manager Not Found");
+        } else {
+            return manager;
+        }
+        
     }
 
     @Transactional
@@ -53,7 +63,7 @@ public class ManagerService {
             if(matchFoundAt == false || matchFoundDot == false){
                 throw new IllegalArgumentException("Invalid Email");
             }
-            
+
             Manager manager = new Manager(firstName, lastName, email, phoneNumber, password);
             managerRepository.save(manager);
             return manager;

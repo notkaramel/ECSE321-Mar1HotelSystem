@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
-
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -263,16 +263,139 @@ public class ManagerServiceTest {
 		assertEquals("Invalid Email", error);
 	}
 
+	@Test
+	public void testGetManagerSuccessful() {
+		String error = null;
+        String firstName = "Joe";
+        String lastName = "Doe";
+		String email = "joe@gmail.com";
+        int phoneNumber = 1234567891;
+        String password = "Pass";
+		Manager manager = null;
+		managerService.createManager(firstName, lastName, email, phoneNumber, password);
+		try {
+			manager = managerService.getManager("joe@gmail.com");
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertNotNull(manager);
+		assertEquals("joe@gmail.com", manager.getEmail());
+	}
+
+	@Test
+	public void testGetManagerUnSuccessful() {
+		//assertEquals(0, managerService.getAllManagers().size());
+        String error = null;
+        String firstName = "Joe";
+        String lastName = "Doe";
+		String email = "joe@gmail.com";
+        int phoneNumber = 1234567891;
+        String password = "Pass";
+		Manager manager = null;
+		managerService.createManager(firstName, lastName, email, phoneNumber, password);
+		try {
+			manager = managerService.getManager("jane@gmail.com");
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertNull(manager);
+		assertEquals("Manager Not Found", error);
+	}
+
+	// @Test
+	// public void testGetManagerListSuccessful() {
+	// 	String error = null;
+    //     String firstName = "Joe";
+    //     String lastName = "Doe";
+	// 	String email = "joe@gmail.com";
+    //     int phoneNumber = 1234567891;
+    //     String password = "Pass";
+	// 	List<Manager> managerList = null;
+	// 	managerService.createManager(firstName, lastName, email, phoneNumber, password);
+	// 	 String firstName2 = "Joey";
+    //     String lastName2 = "Doe";
+	// 	String email2 = "joey@gmail.com";
+    //     int phoneNumber2 = 1234567891;
+    //     String password2 = "Pass";	
+	// 	managerService.createManager(firstName2, lastName2, email2, phoneNumber2, password2);
+	// 	try {
+	// 		managerList = managerService.getAllManagers();
+	// 	} catch (IllegalArgumentException e) {
+	// 		// Check that no error occurred
+	// 		error = e.getMessage();
+	// 	}
+	// 	System.out.println(managerList);
+	// 	assertNotNull(managerList);
+	// 	assertEquals("joe@gmail.com", managerList.get(0).getEmail());
+	// 	assertEquals("joey@gmail.com", managerList.get(1).getEmail());
+	// }
+
+	// @Test
+	// public void testGetManagerListUnSuccessfulNull() {
+	// 	//assertEquals(0, managerService.getAllManagers().size());
+	// 	String error = null;
+	// 	List<Manager> managerList = null;
+	// 	try {
+	// 		managerList = managerService.getAllManagers();
+	// 	} catch (IllegalArgumentException e) {
+	// 		// Check that no error occurred
+	// 		error = e.getMessage();
+	// 	}
+	// 	assertNull(managerList);
+	// 	assertEquals("Manager Not Found", error);
+	// }
+
+	// @Test
+	// public void testGetManagerListUnSuccessfulManagerNotInList() {
+	// 	//assertEquals(0, managerService.getAllManagers().size());
+    //     String error = null;
+    //     String firstName = "Joe";
+    //     String lastName = "Doe";
+	// 	String email = "joe@gmail.com";
+    //     int phoneNumber = 1234567891;
+    //     String password = "Pass";
+	// 	List<Manager> managerList = null;
+	// 	managerService.createManager(firstName, lastName, email, phoneNumber, password);
+	// 	 String firstName2 = "Joey";
+    //     String lastName2 = "Doe";
+	// 	String email2 = "joey@gmail.com";
+    //     int phoneNumber2 = 1234567891;
+    //     String password2 = "Pass";	
+	// 	managerService.createManager(firstName2, lastName2, email2, phoneNumber2, password2);
+	// 	try {
+	// 		managerList = managerService.getAllManagers();
+	// 	} catch (IllegalArgumentException e) {
+	// 		// Check that no error occurred
+	// 		error = e.getMessage();
+	// 	}
+	// 	assertNull(managerList);
+	// 	assertEquals("Manager Not Found", error);
+	// }
+
+	@Test
+	public void testDeleteManagerThatExist() {
+		 String error = null;
+        String firstName = "Joe";
+        String lastName = "Doe";
+		String email = "joee@gmail.com";
+        int phoneNumber = 1234567891;
+        String password = "Pass";
+		Boolean manager = null;
+		managerService.createManager(firstName, lastName, email, phoneNumber, password);
+		try {
+			manager = managerService.deleteManager("joee@gmail.com");
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertEquals(true, manager);
+	}
+
     @Test
 	public void testGetExistingManager() {
 		assertEquals(MANAGER_KEY, managerService.getManager(MANAGER_KEY).getEmail());
 	}
-
-	@Test
-	public void testGetNonExistingPerson() {
-		assertNull(managerService.getManager("NotAManager"));
-	}
-
-
-
+	
 }
