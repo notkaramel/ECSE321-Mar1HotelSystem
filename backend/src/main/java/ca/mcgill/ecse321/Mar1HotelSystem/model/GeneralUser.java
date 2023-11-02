@@ -55,7 +55,7 @@ public class GeneralUser {
 
     // Setters
     // Method to set firstName, returns true if firstName set
-    public boolean setFistName(String firstName) {
+    public boolean setFirstName(String firstName) {
         this.firstName = firstName;
         return true;
     }
