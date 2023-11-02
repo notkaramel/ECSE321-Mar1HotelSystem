@@ -1,16 +1,16 @@
-name: Gradle CI - Checking Compile
+name: Gradle CI - Testing
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+  
 
 permissions:
   contents: read
 
 jobs:
-  compile:
+  prepare-test:
     runs-on: ubuntu-latest
     env:
       working-directory: ./backend
@@ -25,7 +25,9 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         gradle-version: 8.2.1
-    - name: Build (excludes test) with Gradle
+    - name: "Test 1: General User Service"
       run: |
-        gradle build -xtest
+        gradle test --tests GeneralUserServiceTest
       working-directory: ${{ env.working-directory }}
+
+# integration test job

@@ -1,0 +1,31 @@
+name: Gradle CI - Checking Compile
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Install Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 8.2.1
+    - name: Compile with Gradle
+      run: |
+        gradle compileJava
+      working-directory: ${{ env.working-directory }}
