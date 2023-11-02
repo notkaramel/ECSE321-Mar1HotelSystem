@@ -48,14 +48,10 @@ public class BookingService {
      * Service method to delete a booking. 
      */
     @Transactional
-    public boolean deleteBooking(int bookingId) {
-        Booking booking = bookingRepository.findBookingByBookingId(bookingId);
-        try {
-            bookingRepository.delete(booking);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public void deleteBooking(int bookingId) {
+        Booking booking = this.getBookingById(bookingId);
+        bookingRepository.delete(booking);
+
     };
     
 
@@ -64,7 +60,11 @@ public class BookingService {
      */
     @Transactional
     public Booking getBookingById(int bookingId) {
-        return bookingRepository.findBookingByBookingId(bookingId);
+        Booking booking = bookingRepository.findBookingByBookingId(bookingId);
+        if(booking == null) {
+            throw new IllegalArgumentException("Booking does not exist.");
+        }
+        return booking;
     }
 
     /**

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.transaction.Transactional;
 /**
@@ -28,7 +29,11 @@ public class PaymentService {
 
     @Transactional
     public Payment getPaymentById(int paymentId) {
-        return paymentRepository.findPaymentByPaymentId(paymentId);
+       Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
+        if(payment == null) {
+            throw new IllegalArgumentException("Booking does not exist.");
+        }
+        return payment;
     }
 
     @Transactional
@@ -37,13 +42,9 @@ public class PaymentService {
     }
 
     @Transactional
-    public boolean deletePaymentById(int paymentId) {
-        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
-        try {
-            paymentRepository.delete(payment);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public void deletePaymentById(int paymentId) {
+        Payment payment = this.getPaymentById(paymentId);
+        paymentRepository.delete(payment);
+        
     }
 }

@@ -90,8 +90,9 @@ public class BookingServiceTest {
         booking.setBookingId(1);
         when(bookingRepository.findBookingByBookingId(booking.getBookingId())).thenReturn(booking);
         doNothing().when(bookingRepository).delete(booking);
-        boolean isDeleted = bookingService.deleteBooking(1);
-        assertTrue(isDeleted);
+        bookingService.deleteBooking(1);
+        List<Booking> bookings = ServiceUtils.toList(bookingService.getAllBookings());
+        assertEquals(0, bookings.size());
     }
     /*
      * Test to see if you can get a booking by its ID.
@@ -124,6 +125,30 @@ public class BookingServiceTest {
         when(bookingRepository.findAll()).thenReturn(List.of());
         List<Booking> bookings = ServiceUtils.toList(bookingService.getAllBookings());
         assertEquals(0, bookings.size());
+    }
+
+    @Test
+    public void testInvalidDeleteBooking() {
+        Booking booking = new Booking();
+        booking.setBookingId(1);
+        when(bookingRepository.findBookingByBookingId(booking.getBookingId())).thenReturn(null);
+        try {
+             bookingService.deleteBooking(1);
+        } catch (Exception e) {
+            assertThrows(IllegalArgumentException.class, () -> bookingService.deleteBooking(1));
+        }
+    }
+
+    @Test
+    public void testInvalidUpdateBooking() {
+        Booking booking = new Booking();
+        booking.setBookingId(1);
+        when(bookingRepository.findBookingByBookingId(booking.getBookingId())).thenReturn(null);
+        try {
+            bookingService.updateBooking(booking);
+        } catch (Exception e) {
+            assertThrows(IllegalArgumentException.class, () -> bookingService.updateBooking(booking));
+        }
     }
 
 
