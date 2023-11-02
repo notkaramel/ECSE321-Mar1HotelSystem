@@ -67,4 +67,14 @@ public void testDeletePaymentById() {
         assertEquals(2, payments.size());
     }
 
+    @Test
+    public void testCreateInvalidPayment() {
+        int paymentId = 0;
+        Payment payment = new Payment();
+        when(paymentRepository.findPaymentByPaymentId(paymentId)).thenReturn(payment);
+        Exception e = assertThrows(RuntimeException.class, () -> paymentService.createPayment(0));
+        assertEquals("Payment with id: " + paymentId + " already exists.", e.getMessage());
+    }
+    
+
 }

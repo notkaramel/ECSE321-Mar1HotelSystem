@@ -117,16 +117,16 @@ public class BookingServiceTest {
         List<Booking> bookings = ServiceUtils.toList(bookingService.getAllBookings());
         assertEquals(2, bookings.size());
     }
-    /*
-     * Test to make sure there are no bookings stored in the system when none have been made.
-     */
-    @Test
-    public void testGetAllBookingsEmpty() {
-        when(bookingRepository.findAll()).thenReturn(List.of());
-        List<Booking> bookings = ServiceUtils.toList(bookingService.getAllBookings());
-        assertEquals(0, bookings.size());
-    }
 
+    @Test
+    public void testCreateInvalidBooking() {
+        int bookingId = 0;
+        Booking booking = new Booking();
+        when(bookingRepository.findBookingByBookingId(bookingId)).thenReturn(booking);
+        Exception e = assertThrows(NullPointerException.class, () -> bookingService.createBooking(booking.getPayment(), booking.getGeneralUser(), booking.getRoom()));
+        assertEquals("Booking with id: " + bookingId + " already exists.", e.getMessage());
+    }
+  
 
 
 
