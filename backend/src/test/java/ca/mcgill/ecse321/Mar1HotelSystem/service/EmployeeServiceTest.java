@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
@@ -68,6 +70,11 @@ public class EmployeeServiceTest {
             employees.add(employee);
             return employees;
         });
+        Answer<?> returnParameterAsAnswer =
+                (InvocationOnMock invocation) -> {
+                    return invocation.getArgument(0);
+                };
+        lenient().when(employeeDao.save(any(Employee.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     /**
@@ -321,23 +328,14 @@ public class EmployeeServiceTest {
     @Test
     public void testUpdateEmployeeFirstName() {
     	String newFirstName = "Dolan";
-    	Employee employee = new Employee();
-        boolean checkFirstName = false;
+    	Employee employee = null;
     	try {
-            employee = employeeService.createEmployee(
-                    "boi",
-                    "boi2",
-                    "pain@gmail.com",
-                    1234567891,
-                    "doot",
-                    0
-            );
-    		checkFirstName = employeeService.updateEmployeeFirstName(newFirstName, "pain@gmail.com");
+    		employee = employeeService.updateEmployeeFirstName(newFirstName, EMPLOYEE_KEY);
     	} catch (IllegalArgumentException e) {
     		fail();
     	}
     	// Check not null
-    	assertTrue(checkFirstName);
+        assertNotNull(employee);
     	assertEquals(newFirstName, employee.getFirstName());
     }
 }

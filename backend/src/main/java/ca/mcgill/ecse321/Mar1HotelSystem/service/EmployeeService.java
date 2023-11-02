@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,19 +69,18 @@ public class EmployeeService {
     }
 
     @Transactional
-    public boolean updateEmployeeFirstName(String newFirstName, String email) {
-        	Employee employee = getEmployee(email);
+    public Employee updateEmployeeFirstName(String newFirstName, String email) {
+
             // Check if firstName is empty
             if (newFirstName == null || newFirstName.trim().isEmpty()) {
                 throw new IllegalArgumentException("The first name cannot be empty!");
             }
-        	try {
-        		employee.setFistName(newFirstName.trim());
-                employeeRepository.save(employee);
-        	} catch (Exception e) {
-        		return false;
-        	}
-        	return true;
+            Employee employee = getEmployee(email);
+            if (employee == null) {
+                return null;
+            }
+            employee.setFirstName(newFirstName);
+            return employeeRepository.save(employee);
     }
 
     @Transactional
