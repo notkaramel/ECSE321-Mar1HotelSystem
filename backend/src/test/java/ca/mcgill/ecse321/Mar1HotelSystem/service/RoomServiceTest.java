@@ -141,7 +141,6 @@ public class RoomServiceTest {
             System.out.println(e.getMessage());
         }
 
-        // when(roomRepository.save(isA(Room.class))).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0));
         assertEquals(RoomType.Deluxe, room.getRoomType());
         assertEquals(Room.BedType.Queen, room.getBedType());
         assertEquals(true, room.getIsAvailable());
