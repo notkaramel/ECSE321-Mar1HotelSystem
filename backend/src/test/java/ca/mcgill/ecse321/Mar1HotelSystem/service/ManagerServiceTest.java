@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import java.util.List;
@@ -373,6 +374,46 @@ public class ManagerServiceTest {
 	// 	assertNull(managerList);
 	// 	assertEquals("Manager Not Found", error);
 	// }
+
+	@Test
+	public void testUpdateManagerThatExist() {
+		String error = null;
+        String firstName = "Joe";
+        String lastName = "Doe";
+		String email = "joe@gmail.com";
+        int phoneNumber = 1234567891;
+		String password = "Pass";
+		Manager manager = null;
+		managerService.createManager(firstName, lastName, email, phoneNumber, password);
+		try {
+			manager = managerService.updateManagerPassword(email, "Pass", "Passed");
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertNotNull(manager);
+		assertEquals("Passed", manager.getPassword());
+	}
+
+	@Test
+	public void testUpdateManagerThatDoesNotExist() {
+		String error = null;
+        String firstName = "Joe";
+        String lastName = "Doe";
+		String email = "joe@gmail.com";
+        int phoneNumber = 1234567891;
+		String password = "Pass";
+		Manager manager = null;
+		managerService.createManager(firstName, lastName, email, phoneNumber, password);
+		try {
+			manager = managerService.updateManagerPassword("Hey@gmail.com", "WhatUp?", "NothingMuchYou?");
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertNull(manager);
+		assertEquals("User Not Found", error);
+	}
 
 	@Test
 	public void testDeleteManagerThatExist() {

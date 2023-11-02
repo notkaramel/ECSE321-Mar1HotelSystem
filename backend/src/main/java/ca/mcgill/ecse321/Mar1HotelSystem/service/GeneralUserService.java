@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import jakarta.transaction.Transactional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -28,13 +31,22 @@ public class GeneralUserService {
 
     @Transactional
     public List<GeneralUser> getAllGeneralUsers() {
-        return ServiceUtils.toList(generalUserRepository.findAll());
+        List<GeneralUser> generalUserList = ServiceUtils.toList(generalUserRepository.findAll());
+        if(generalUserList == null || generalUserList.size() == 0){
+            throw new IllegalArgumentException("There are no Users found!");
+        } else {
+            return generalUserList;
+        }  
     }
 
     @Transactional
     public GeneralUser getGeneralUser(String email) {
-        String emailTrimmed = email.trim();
-        return generalUserRepository.findGeneralUserByEmail(emailTrimmed);
+        GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
+        if(generalUser == null){
+            throw new IllegalArgumentException("User Not Found");
+        } else {
+            return generalUser;
+        }
     }
 
     /**
@@ -48,29 +60,51 @@ public class GeneralUserService {
      */
     @Transactional
     public GeneralUser createGeneralUser(String firstName, String lastName, String email, long phoneNumber) {
+         //Check is all inputs are null
+        if(firstName == null && lastName == null && email == null){
+            throw new IllegalArgumentException("All inputs null!");
+        }
+        //Check is all inputs are inputes
+        else if(firstName.trim().isEmpty() && lastName.trim().isEmpty() && email.trim().isEmpty()){
+            throw new IllegalArgumentException("All fields are empty!");
+        } 
         // Check if firstName is empty
-        if (firstName == null || firstName.trim().isEmpty()) {
+        else if (firstName == null || firstName.trim().isEmpty()) {
             throw new IllegalArgumentException("The first name cannot be empty!");
         }
         // Check if lastName is empty
-        if (lastName == null || lastName.trim().isEmpty()) {
+        else if (lastName == null || lastName.trim().isEmpty()) {
             throw new IllegalArgumentException("The last name cannot be empty!");
         }
         // Check if email is empty
-        if (email == null || email.trim().isEmpty()) {
+        else if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("The email cannot be empty!");
         }
-        // Check if email is valid
-        String emailTrimmed = email.trim();
-        Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
-        Matcher matcher = pattern.matcher(emailTrimmed);
-        if (!matcher.find()) {
-            throw new IllegalArgumentException("The email is invalid!");
+        else {
+            String emailTrimmed = email.trim();
+            Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
+            Matcher matcher = pattern.matcher(emailTrimmed);
+            if (!matcher.find()) {
+                throw new IllegalArgumentException("The email is invalid!");
+            } else {
+
+                GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
+                generalUserRepository.save(generalUser);
+                return generalUser;
         }
-        // Create, save and return the GeneralUser
-        GeneralUser generalUser = new GeneralUser(firstName.trim(), lastName.trim(), emailTrimmed, phoneNumber);
-        generalUserRepository.save(generalUser);
-        return generalUser;
+        }
+       
+    }
+
+    @Transactional
+    public GeneralUser updateGeneralUserEmail(String oldEmail, String newEmail) {
+        GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(oldEmail);
+        if(generalUser == null){
+            throw new IllegalArgumentException("User Not Found");
+        } else{
+            generalUser.setEmail(newEmail);
+            return generalUser;
+        }
     }
 
     @Transactional
