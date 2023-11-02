@@ -80,6 +80,12 @@ public class Request {
         return this.requestId;
     }
 
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
+
+
     public void delete() {
         this.booking = null;
     }

@@ -74,4 +74,4 @@ public class BookingService {
     public Iterable<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
-}
+  }

@@ -18,14 +18,14 @@ public class GeneralUser {
     private String email;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private long phoneNumber;
 
     public GeneralUser() {
 
     }
 
     // Shift constructor requiring firstName, lastName, email, phoneNumber
-    public GeneralUser(String firstName, String lastName, String email, int phoneNumber) {
+    public GeneralUser(String firstName, String lastName, String email, long phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -49,7 +49,7 @@ public class GeneralUser {
     }
 
     // Method to get phoneNumber, returns phoneNumber
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return this.phoneNumber;
     }
 
