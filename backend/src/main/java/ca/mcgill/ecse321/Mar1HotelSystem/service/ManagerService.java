@@ -47,26 +47,41 @@ public class ManagerService {
 
     @Transactional
     public Manager createManager(String firstName, String lastName, String email, int phoneNumber, String password){
-        if(firstName == null || lastName == null || email == null || password == null){
-            throw new IllegalArgumentException("Inputs invaild null");
+        //Check is all inputs are null
+        if(firstName == null && lastName == null && email == null && password == null){
+            throw new IllegalArgumentException("All inputs null!");
         }
-        else if(firstName == "" || lastName == "" || email == "" || password == ""){
-            throw new IllegalArgumentException("One or more fields are empty");
+        //Check is all inputs are inputes
+        else if(firstName.trim().isEmpty() && lastName.trim().isEmpty() && email.trim().isEmpty() && password.trim().isEmpty()){
+            throw new IllegalArgumentException("All fields are empty!");
         } 
+        // Check if firstName is empty
+        else if (firstName == null || firstName.trim().isEmpty()) {
+            throw new IllegalArgumentException("The first name cannot be empty!");
+        }
+        // Check if lastName is empty
+        else if (lastName == null || lastName.trim().isEmpty()) {
+            throw new IllegalArgumentException("The last name cannot be empty!");
+        }
+        // Check if email is empty
+        else if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("The email cannot be empty!");
+        }
+        // Check if password is empty
+        else if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("The password cannot be empty!");
+        }
         else {
-            Pattern patternAt = Pattern.compile("@");
-            Matcher matcherAt = patternAt.matcher(email);
-            boolean matchFoundAt = matcherAt.find();
-            Pattern patternDot = Pattern.compile(".", Pattern.LITERAL);
-            Matcher matcherDot = patternDot.matcher(email);
-            boolean matchFoundDot = matcherDot.find();
-            if(matchFoundAt == false || matchFoundDot == false){
-                throw new IllegalArgumentException("Invalid Email");
-            }
-
+            String emailTrimmed = email.trim();
+            Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
+            Matcher matcher = pattern.matcher(emailTrimmed);
+            if (!matcher.find()) {
+                throw new IllegalArgumentException("The email is invalid!");
+            } else {
             Manager manager = new Manager(firstName, lastName, email, phoneNumber, password);
             managerRepository.save(manager);
             return manager;
+        }
         }
         
     }

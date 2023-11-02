@@ -99,7 +99,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Inputs invaild null", error);
+		assertEquals("All inputs null!", error);
 	}
 
     @Test
@@ -119,7 +119,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("One or more fields are empty", error);
+		assertEquals("All fields are empty!", error);
 	}
 
     @Test
@@ -139,7 +139,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("One or more fields are empty", error);
+		assertEquals("The first name cannot be empty!", error);
 	}
 
     @Test
@@ -159,7 +159,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("One or more fields are empty", error);
+		assertEquals("The last name cannot be empty!", error);
 	}
 
     @Test
@@ -179,7 +179,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("One or more fields are empty", error);
+		assertEquals("The email cannot be empty!", error);
 	}
 
 	// To check with the rest of the team if we need to test a phone number of 0
@@ -220,7 +220,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("One or more fields are empty", error);
+		assertEquals("The password cannot be empty!", error);
 	}
 
     @Test
@@ -240,7 +240,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Invalid Email", error);
+		assertEquals("The email is invalid!", error);
 	}
 
     @Test
@@ -260,7 +260,7 @@ public class ManagerServiceTest {
 			error = e.getMessage();
 		}
 		assertNull(manager);
-		assertEquals("Invalid Email", error);
+		assertEquals("The email is invalid!", error);
 	}
 
 	@Test
