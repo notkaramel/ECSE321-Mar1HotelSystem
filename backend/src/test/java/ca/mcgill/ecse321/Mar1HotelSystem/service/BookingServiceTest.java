@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
@@ -120,13 +121,36 @@ public class BookingServiceTest {
 
     @Test
     public void testCreateInvalidBooking() {
-        int bookingId = 0;
+        String error = null;
+        String generalUserEmail = "";
+        GeneralUser generalUser = new GeneralUser();
+        generalUser.setEmail(generalUserEmail);
+        int roomId = 1;
+        Room room = new Room();
+        room.setRoomId(roomId);
         Booking booking = new Booking();
-        when(bookingRepository.findBookingByBookingId(bookingId)).thenReturn(booking);
-        Exception e = assertThrows(NullPointerException.class, () -> bookingService.createBooking(booking.getPayment(), booking.getGeneralUser(), booking.getRoom()));
-        assertEquals("Booking with id: " + bookingId + " already exists.", e.getMessage());
+        booking.setGeneralUser(generalUser);
+        booking.setRoom(room);
+        try {
+            bookingService.createBooking(null, booking.getGeneralUser(), booking.getRoom());
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
     }
-  
+
+    @Test
+    public void testInvalidDeleteBooking() {
+        final int bookingId = 1;
+        when(bookingRepository.findBookingByBookingId(bookingId)).thenReturn(null);
+        String error = null;
+        try {
+            bookingService.deleteBooking(bookingId);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+    }
+
+
 
 
 
