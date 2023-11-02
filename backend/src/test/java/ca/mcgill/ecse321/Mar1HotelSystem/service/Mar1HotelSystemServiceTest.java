@@ -71,7 +71,7 @@ public class Mar1HotelSystemServiceTest {
         Hotel hotel = null;
 
         try {
-            hotel = hotelService.getHotel();
+            hotel = hotelService.getHotel("Mar-1 Hotel");
                 
         } catch (IllegalArgumentException e) {
             fail();

@@ -11,6 +11,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
+import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,29 +60,40 @@ public class ScheduleServiceTest {
 
     private static final Integer YEAR_KEY = 2023;
 
-    Calendar calendar = Calendar.getInstance();
-    //TODO: set calendar not working
-    //calendar.set(2000, 1, 30); 
-    Date date = calendar.getTime();
-
-    private final Date DATE_KEY = date; //TODO: can't be static
     private static final DayOfWeek DAY_KEY = DayOfWeek.Friday;
+    
+    Date date = new GregorianCalendar(2023, Calendar.FEBRUARY, 20).getTime();
+
+    private static final Integer OPENING_HOUR_KEY = 8;
+    private static final Integer CLOSING_HOUR_KEY = 20;
 
     @BeforeEach
     public void setMockOutput() {
             lenient().when(hotelScheduleDao.findHotelScheduleByYear(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-                if(invocation.getArgument(0).equals(YEAR_KEY)) {
+                if(invocation.getArgument(0).equals(YEAR_KEY)){
+
+                    OperatingHours operatingHour1 = scheduleService.createOperatingHours(DayOfWeek.Monday, 11, 12);
+                    OperatingHours operatingHour2 = scheduleService.createOperatingHours(DayOfWeek.Tuesday, 11, 12);
+                    OperatingHours[] operatingHoursArray = new OperatingHours[]{operatingHour1, operatingHour2};
+                        
+                    CustomHours customHours = scheduleService.createCustomHours(date, 11, 13);
+                    CustomHours[] customHoursArray = new CustomHours[]{customHours};
+
                     HotelSchedule hotelSchedule = new HotelSchedule();
-                    hotelSchedule.setYear(YEAR_KEY);
+                    hotelSchedule = scheduleService.createHotelSchedule(YEAR_KEY, operatingHoursArray, customHoursArray);
+
                     return hotelSchedule;
                 } else {
                     return null;
                 }
             });
             lenient().when(customHoursDao.findCustomHoursByDate(any(Date.class))).thenAnswer( (InvocationOnMock invocation) -> {
-                if(invocation.getArgument(0).equals(DATE_KEY)) {
-                    CustomHours customHours = new CustomHours();
-                    customHours.setDate(DATE_KEY);
+                if(invocation.getArgument(0).equals(date)) {
+
+                    Integer openingHour = 9; 
+                    Integer closingHour = 14; 
+
+                    CustomHours customHours = new CustomHours(date, openingHour, closingHour);
                     return customHours;
                 } else {
                     return null;
@@ -89,8 +101,7 @@ public class ScheduleServiceTest {
             });
             lenient().when(operatingHoursDao.findOperatingHoursByDay(any(DayOfWeek.class))).thenAnswer( (InvocationOnMock invocation) -> {
                 if(invocation.getArgument(0).equals(DAY_KEY)) {
-                    OperatingHours operatingHours = new OperatingHours();
-                    operatingHours.setDayOfWeek(DAY_KEY);
+                    OperatingHours operatingHours = new OperatingHours(DAY_KEY, OPENING_HOUR_KEY, CLOSING_HOUR_KEY);
                     return operatingHours;
                 } else {
                     return null;
@@ -156,10 +167,9 @@ public class ScheduleServiceTest {
 
         DayOfWeek day = DayOfWeek.Friday;
         Integer openingHour = 8; //8:00am
-        Integer closingHour = 21; //9:00pm
+        Integer closingHour = 20; //9:00pm
 
         try {
-            operatingHours = scheduleService.createOperatingHours(day, openingHour, closingHour);
             retrievedHours = scheduleService.getOperatingHoursByDay(day);
             
         } catch (IllegalArgumentException e) {
@@ -246,10 +256,6 @@ public class ScheduleServiceTest {
         CustomHours initialCustomHours = null;
         CustomHours updatedCustomHours = null;
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2001, Calendar.FEBRUARY, 20);
-        Date date = calendar.getTime();
-
         Integer initialOpeningHour = 8; //8:00am
         Integer initialClosingHour = 21; //9:00pm
 
@@ -272,18 +278,13 @@ public class ScheduleServiceTest {
 
     @Test
     public void testGetCustomHoursByDate() {
-        CustomHours customHours = null;
+
         CustomHours retrievedHours = null;
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2001, Calendar.FEBRUARY, 20);
-        Date date = calendar.getTime();
-
-        Integer openingHour = 11; 
-        Integer closingHour = 12; 
+        Integer openingHour = 9; 
+        Integer closingHour = 14;
 
         try {
-            customHours = scheduleService.createCustomHours(date, openingHour, closingHour);
             retrievedHours = scheduleService.getCustomHoursByDate(date);
             
         } catch (IllegalArgumentException e) {
@@ -362,123 +363,45 @@ public class ScheduleServiceTest {
     @Test
     public void testCreateHotelHours() {
 
-        HotelSchedule hotelHours = null;
-    
-        HotelSchedule retrievedHotelSchedule = null;
-
-        DayOfWeek day1 = DayOfWeek.Monday;
-        Integer openingHour1 = 11; 
-        Integer closingHour1 = 12;
-
-        DayOfWeek day2 = DayOfWeek.Monday;
-        Integer openingHour2 = 10; 
-        Integer closingHour2 = 13;
-
-        OperatingHours operatingHour1 = scheduleService.createOperatingHours(day1, openingHour1, closingHour1);
-        OperatingHours operatingHour2 = scheduleService.createOperatingHours(day2, openingHour2, closingHour2);
-
+        OperatingHours operatingHour1 = scheduleService.createOperatingHours(DayOfWeek.Monday, 11, 12);
+        OperatingHours operatingHour2 = scheduleService.createOperatingHours(DayOfWeek.Tuesday, 11, 12);
         OperatingHours[] operatingHoursArray = new OperatingHours[]{operatingHour1, operatingHour2};
-        
-        int year = 2023;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2023, Calendar.FEBRUARY, 20);
-        Date date = calendar.getTime();
-
-        Integer openingHour3 = 9; 
-        Integer closingHour3 = 14; 
-        
-        CustomHours customHours = scheduleService.createCustomHours(date, openingHour3, closingHour3);
-
+                        
+        CustomHours customHours = scheduleService.createCustomHours(date, 11, 13);
         CustomHours[] customHoursArray = new CustomHours[]{customHours};
 
+        HotelSchedule hotelSchedule = scheduleService.createHotelSchedule(YEAR_KEY, operatingHoursArray, customHoursArray);
+
         try {
-            hotelHours = scheduleService.createHotelSchedule(year, operatingHoursArray, customHoursArray);
+            hotelSchedule = scheduleService.createHotelSchedule(YEAR_KEY, operatingHoursArray, customHoursArray);
             
         } catch (IllegalArgumentException e) {
             fail();
         };
-        assertNotNull(hotelHours);
+        assertNotNull(hotelSchedule);
     }
 
     @Test
     public void testGetHotelScheduleByYear() {
-
-        HotelSchedule hotelHours = null;
-        HotelSchedule retrievedHotelHours = null;
-    
         HotelSchedule retrievedHotelSchedule = null;
 
-        DayOfWeek day1 = DayOfWeek.Monday;
-        Integer openingHour1 = 11; 
-        Integer closingHour1 = 12;
-
-        DayOfWeek day2 = DayOfWeek.Monday;
-        Integer openingHour2 = 10; 
-        Integer closingHour2 = 13;
-
-        OperatingHours operatingHour1 = scheduleService.createOperatingHours(day1, openingHour1, closingHour1);
-        OperatingHours operatingHour2 = scheduleService.createOperatingHours(day2, openingHour2, closingHour2);
-
-        OperatingHours[] operatingHoursArray = new OperatingHours[]{operatingHour1, operatingHour2};
-        
-        int year = 2023;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2023, Calendar.FEBRUARY, 20);
-        Date date = calendar.getTime();
-
-        Integer openingHour3 = 9; 
-        Integer closingHour3 = 14; 
-        
-        CustomHours customHours = scheduleService.createCustomHours(date, openingHour3, closingHour3);
-
-        CustomHours[] customHoursArray = new CustomHours[]{customHours};
-
         try {
-            hotelHours = scheduleService.createHotelSchedule(year, operatingHoursArray, customHoursArray);
-            retrievedHotelHours = scheduleService.getHotelScheduleByYear(year);
+            retrievedHotelSchedule = scheduleService.getHotelScheduleByYear(YEAR_KEY);
             
         } catch (IllegalArgumentException e) {
             fail();
         };
-        assertNotNull(retrievedHotelHours);
+
+        assertNotNull(retrievedHotelSchedule);
     }
 
     @Test
     public void testGetAllHotelSchedule() {
 
-        HotelSchedule hotelHours = null;
         List<HotelSchedule> retrievedHotelSchedule = null;
 
-        DayOfWeek day1 = DayOfWeek.Monday;
-        Integer openingHour1 = 11; 
-        Integer closingHour1 = 12;
-
-        DayOfWeek day2 = DayOfWeek.Monday;
-        Integer openingHour2 = 10; 
-        Integer closingHour2 = 13;
-
-        OperatingHours operatingHour1 = scheduleService.createOperatingHours(day1, openingHour1, closingHour1);
-        OperatingHours operatingHour2 = scheduleService.createOperatingHours(day2, openingHour2, closingHour2);
-
-        OperatingHours[] operatingHoursArray = new OperatingHours[]{operatingHour1, operatingHour2};
-        
-        int year = 2023;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2023, Calendar.FEBRUARY, 20);
-        Date date = calendar.getTime();
-
-        Integer openingHour3 = 9; 
-        Integer closingHour3 = 14; 
-        
-        CustomHours customHours = scheduleService.createCustomHours(date, openingHour3, closingHour3);
-
-        CustomHours[] customHoursArray = new CustomHours[]{customHours};
-
         try {
-            hotelHours = scheduleService.createHotelSchedule(year, operatingHoursArray, customHoursArray);
+            
             retrievedHotelSchedule = scheduleService.getAllHotelSchedules();
             
         } catch (IllegalArgumentException e) {
