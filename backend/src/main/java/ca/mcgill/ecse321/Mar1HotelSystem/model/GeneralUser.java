@@ -73,7 +73,7 @@ public class GeneralUser {
     }
 
     // Method to set phoneNumber, returns true if phoneNumber set
-    public boolean setPhoneNumber(int phoneNumber) {
+    public boolean setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
         return true;
     }
