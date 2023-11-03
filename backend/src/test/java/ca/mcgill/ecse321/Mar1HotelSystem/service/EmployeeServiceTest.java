@@ -352,7 +352,7 @@ public class EmployeeServiceTest {
      */
     @Test
     public void testGetExistingEmployee() {
-        assertEquals(EMPLOYEE_KEY, employeeService.getEmployee(EMPLOYEE_KEY).getEmail());
+        assertEquals(EMPLOYEE_INITIAL_KEY_1, employeeService.getEmployee(EMPLOYEE_INITIAL_KEY_1).getEmail());
     }
 
     /**
