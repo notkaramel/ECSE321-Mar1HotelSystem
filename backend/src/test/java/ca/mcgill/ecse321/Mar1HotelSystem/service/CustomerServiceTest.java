@@ -40,13 +40,10 @@ public class CustomerServiceTest {
     private ManagerRepository managerDao;
     @Mock
     private GeneralUserRepository generalUserDao;
-
     @InjectMocks
     private CustomerService customerService;
-
     private static final String CUSTOMER_KEY = "TestEmail@gmail.com";
     private static final String NONEXISTING_KEY = "NotACustomer@mail.com";
-
     private static final String CUSTOMER_INITIAL_KEY_1 = "test1@mail.com";
     private static final String CUSTOMER_INITIAL_KEY_2 = "test2@mail.com";
 
@@ -471,6 +468,9 @@ public class CustomerServiceTest {
         assertEquals("The password cannot be empty!", error);
     }
 
+    /**
+     * Test updating a customer that isn't in the database.
+     */
     @Test
     public void testUpdateCustomerEmailNotFound() {
         String newFirstName = "Josh";
@@ -504,6 +504,7 @@ public class CustomerServiceTest {
         } catch (Exception e) {
             fail();
         }
+        // Check if the customer was deleted
         assertTrue(deleted);
         verify(customerDao, times(1)).delete(customerService.getCustomer(CUSTOMER_INITIAL_KEY_1));
     }

@@ -39,13 +39,10 @@ public class EmployeeServiceTest {
     private ManagerRepository managerDao;
     @Mock
     private GeneralUserRepository generalUserDao;
-
     @InjectMocks
     private EmployeeService employeeService;
-
     private static final String EMPLOYEE_KEY = "TestEmployee@mail.mcgill.ca";
     private static final String NONEXISTING_KEY = "NotAnEmployee@mail.com";
-
     private static final String EMPLOYEE_INITIAL_KEY_1 = "testemployee1@mail.com";
     private static final String EMPLOYEE_INITIAL_KEY_2 = "testemployee2@mail.com";
 
@@ -382,6 +379,9 @@ public class EmployeeServiceTest {
         }
     }
 
+    /**
+     * Test updating an employee.
+     */
     @Test
     public void testUpdateEmployee() {
     	String newFirstName = "Dolan";
@@ -400,6 +400,9 @@ public class EmployeeServiceTest {
         assertEquals(newPassword, employee.getPassword());
     }
 
+    /**
+     * Test updating an employee with an invalid first name.
+     */
     @Test
     public void testUpdateEmployeeInvalidFirstName() {
         	String newFirstName = "";
@@ -417,6 +420,9 @@ public class EmployeeServiceTest {
         	assertEquals("The first name cannot be empty!", error);
     }
 
+    /**
+     * Test updating an employee with an invalid last name.
+     */
     @Test
     void testUpdateEmployeeInvalidLastName() {
         	String newFirstName = "Dolan";
@@ -434,6 +440,9 @@ public class EmployeeServiceTest {
         	assertEquals("The last name cannot be empty!", error);
     }
 
+    /**
+     * Test updating an employee with an invalid password.
+     */
     @Test
     void testUpdateEmployeeInvalidPassword() {
         String newFirstName = "Dolan";
@@ -451,6 +460,9 @@ public class EmployeeServiceTest {
         assertEquals("The password cannot be empty!", error);
     }
 
+    /**
+     * Test updating an employee that isn't in the database.
+     */
     @Test
     public void testUpdateEmployeeEmailNotFound() {
         	String newFirstName = "Dolan";
@@ -467,6 +479,10 @@ public class EmployeeServiceTest {
             assertNull(employee);
         	assertEquals("The employee does not exist!", error);
     }
+
+    /**
+     * Test deleting an employee.
+     */
     @Test
     public void testDeleteEmployee() {
         boolean deleted = false;
@@ -475,7 +491,7 @@ public class EmployeeServiceTest {
         } catch (Exception e) {
             fail();
         }
-        // Check not null
+        // Check if the employee was deleted
         assertTrue(deleted);
         verify(employeeDao, times(1)).delete(employeeService.getEmployee(EMPLOYEE_INITIAL_KEY_1));
     }
