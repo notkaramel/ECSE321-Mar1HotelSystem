@@ -65,8 +65,9 @@ public class CustomerService {
             throw new IllegalArgumentException("The email is invalid!");
         }
         // Check if email is already used
-        if (employeeRepository.findEmployeeByEmail(emailTrimmed) != null
-                || customerRepository.findCustomerByEmail(emailTrimmed) != null
+        // Note: why must customer be fore employee?
+        if(customerRepository.findCustomerByEmail(emailTrimmed) != null
+                || employeeRepository.findEmployeeByEmail(emailTrimmed) != null
                 || managerRepository.findManagerByEmail(emailTrimmed) != null
                 || generalUserRepository.findGeneralUserByEmail(emailTrimmed) != null
                 || accountRepository.findAccountByEmail(emailTrimmed) != null) {
@@ -107,7 +108,7 @@ public class CustomerService {
             throw new IllegalArgumentException("The password cannot be empty!");
         }
         // Get Customer
-        Customer customer = customerRepository.findCustomerByEmail(emailTrimmed);
+        Customer customer = getCustomer(emailTrimmed);
         if (customer == null) {
             throw new IllegalArgumentException("The customer does not exist!");
         }

@@ -117,7 +117,7 @@ public class EmployeeService {
             // Getting the employee
             Employee employee = getEmployee(emailTrimmed);
             if (employee == null) {
-                return null;
+                throw new IllegalArgumentException("The employee does not exist!");
             }
             // Updating the employee
             employee.setFirstName(newFirstName.trim());
