@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,10 @@ public class EmployeeServiceTest {
     private EmployeeService employeeService;
 
     private static final String EMPLOYEE_KEY = "TestEmployee@mail.mcgill.ca";
-    private static final String NONEXISTING_KEY = "NotAnEmployee";
+    private static final String NONEXISTING_KEY = "NotAnEmployee@mail.com";
+
+    private static final String EMPLOYEE_INITIAL_KEY_1 = "testemployee1@mail.com";
+    private static final String EMPLOYEE_INITIAL_KEY_2 = "testemployee2@mail.com";
 
     /**
      * Set mock employee output before each test.
@@ -44,11 +48,11 @@ public class EmployeeServiceTest {
     @BeforeEach
     public void setMockOutput() {
         lenient().when(employeeDao.findEmployeeByEmail(anyString())).thenAnswer((invocation) -> {
-            if (invocation.getArgument(0).equals(EMPLOYEE_KEY)) {
+            if (invocation.getArgument(0).equals(EMPLOYEE_INITIAL_KEY_1)) {
                 return new Employee(
                         "TestFirstName",
                         "TestLastName",
-                        EMPLOYEE_KEY,
+                        EMPLOYEE_INITIAL_KEY_1,
                         1234567890,
                         "TestPassword",
                         0
@@ -59,15 +63,24 @@ public class EmployeeServiceTest {
         });
         lenient().when(employeeDao.findAll()).thenAnswer((invocation) -> {
             ArrayList<Employee> employees = new ArrayList<>();
-            Employee employee = new Employee(
+            Employee employee1 = new Employee(
                     "TestFirstName",
                     "TestLastName",
-                    EMPLOYEE_KEY,
+                    EMPLOYEE_INITIAL_KEY_1,
                     1234567890,
                     "TestPassword",
                     0
             );
-            employees.add(employee);
+            employees.add(employee1);
+            Employee employee2 = new Employee(
+                    "TestFirstName2",
+                    "TestLastName2",
+                    EMPLOYEE_INITIAL_KEY_2,
+                    1234567890,
+                    "TestPassword2",
+                    0
+            );
+            employees.add(employee2);
             return employees;
         });
         Answer<?> returnParameterAsAnswer =
@@ -310,6 +323,31 @@ public class EmployeeServiceTest {
     }
 
     /**
+     * Test creating an employee with an existing email
+     */
+    @Test
+    public void testCreateEmployeeExistingEmail() {
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi",
+                    EMPLOYEE_INITIAL_KEY_1,
+                    1234567891,
+                    " ",
+                    0
+            );
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(employee);
+        // check error
+        assertEquals("User using that email already exists!", error);
+    }
+
+    /**
      * Test retrieving an employee.
      */
     @Test
@@ -325,17 +363,113 @@ public class EmployeeServiceTest {
         assertNull(employeeService.getEmployee(NONEXISTING_KEY));
     }
 
+    /**
+     * Test retrieving all employees.
+     */
     @Test
-    public void testUpdateEmployeeFirstName() {
+    public void testGetAllCustomers() {
+        ArrayList<Employee> listOfEmployees = (ArrayList<Employee>) employeeService.getAllEmployees();
+        assertEquals(2, listOfEmployees.size());
+        for(Employee employee : listOfEmployees) {
+            assertNotNull(employee);
+        }
+    }
+
+    @Test
+    public void testUpdateEmployee() {
     	String newFirstName = "Dolan";
+        String newLastName = "Duck";
+        String newPassword = "password123";
     	Employee employee = null;
     	try {
-    		employee = employeeService.updateEmployeeFirstName(newFirstName, EMPLOYEE_KEY);
+    		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
     	} catch (IllegalArgumentException e) {
     		fail();
     	}
     	// Check not null
         assertNotNull(employee);
     	assertEquals(newFirstName, employee.getFirstName());
+        assertEquals(newLastName, employee.getLastName());
+        assertEquals(newPassword, employee.getPassword());
+    }
+
+    @Test
+    public void testUpdateEmployeeInvalidFirstName() {
+        	String newFirstName = "";
+            String newLastName = "Duck";
+            String newPassword = "password123";
+        	Employee employee = null;
+        	String error = null;
+        	try {
+        		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
+        	} catch (IllegalArgumentException e) {
+        		error = e.getMessage();
+        	}
+        	// Check null
+            assertNull(employee);
+        	assertEquals("The first name cannot be empty!", error);
+    }
+
+    @Test
+    void testUpdateEmployeeInvalidLastName() {
+        	String newFirstName = "Dolan";
+            String newLastName = "";
+            String newPassword = "password123";
+        	Employee employee = null;
+        	String error = null;
+        	try {
+        		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
+        	} catch (IllegalArgumentException e) {
+        		error = e.getMessage();
+        	}
+        	// Check null
+            assertNull(employee);
+        	assertEquals("The last name cannot be empty!", error);
+    }
+
+    @Test
+    void testUpdateEmployeeInvalidPassword() {
+        String newFirstName = "Dolan";
+        String newLastName = "Duck";
+        String newPassword = "";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The password cannot be empty!", error);
+    }
+
+    @Test
+    public void testUpdateEmployeeEmailNotFound() {
+        	String newFirstName = "Dolan";
+            String newLastName = "Duck";
+            String newPassword = "password123";
+        	Employee employee = null;
+        	String error = null;
+        	try {
+        		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, NONEXISTING_KEY);
+        	} catch (IllegalArgumentException e) {
+        		error = e.getMessage();
+        	}
+        	// Check null
+            assertNull(employee);
+        	assertEquals("The employee does not exist!", error);
+    }
+    @Test
+    public void testDeleteEmployee() {
+        boolean deleted = false;
+        try {
+            deleted = employeeService.deleteEmployee(EMPLOYEE_INITIAL_KEY_1);
+        } catch (Exception e) {
+            fail();
+        }
+        // Check not null
+        assertTrue(deleted);
+        assertNull(employeeService.getEmployee(EMPLOYEE_INITIAL_KEY_1));
     }
 }
