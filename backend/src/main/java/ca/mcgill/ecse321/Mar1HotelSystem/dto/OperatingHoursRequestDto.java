@@ -1,44 +1,38 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
 public class OperatingHoursRequestDto{
     
-    // VARIABLES
-    // private int operatingHoursId;
-    private DayOfWeekDto day;
+    private DayOfWeek day;
     private int openingHour;
     private int closingHour;
 
-    // CONSTRUCTORS
-    public OperatingHoursRequestDto() {
-    }
-
-    // OperatingHours constructor day, openingHour, closingHour
-    public OperatingHoursRequestDto(DayOfWeekDto day, int openingHour, int closingHour) {
+    public void setDayOfWeek(DayOfWeek day) {
         this.day = day;
+    }
+    public void setOpeningHour(int openingHour) {
         this.openingHour = openingHour;
+    }
+    public void setClosingHour(int closingHour) {
         this.closingHour = closingHour;
     }
 
-    // ENUM
-    // Enum DayOfWeek
-    public enum DayOfWeekDto {
-        Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-    }
-
-    // GETTERS 
-    // Method to get dayOfWeek, returns dayOfWeek
-    public DayOfWeekDto getDayOfWeekDto() {
+    public DayOfWeek getDayOfWeek() {
         return this.day;
     }
-
-    // Method to get openingHour, returns openingHour
     public int getOpeningHour() {
         return this.openingHour;
     }
-
-    // Method to get closingHour, returns closingHour
     public int getClosingHour() {
         return this.closingHour;
     }
 
+    public OperatingHours toModel() {
+        OperatingHours operatingHours = new OperatingHours();
+        operatingHours.setDayOfWeek(this.day);
+        operatingHours.setOpeningHour(this.openingHour);
+        operatingHours.setClosingHour(this.closingHour);
+        return operatingHours;
+    }
 }

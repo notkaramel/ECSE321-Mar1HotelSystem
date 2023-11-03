@@ -18,6 +18,7 @@ public class CustomHoursRequestDto {
     public void setClosingHour(int closingHour) {
         this.closingHour = closingHour;
     }
+
     public Date getDate() {
         return this.date;
     }
@@ -27,6 +28,7 @@ public class CustomHoursRequestDto {
     public int getClosingHour() {
         return this.closingHour;
     }
+    
     public CustomHours toModel() {
         CustomHours customHours = new CustomHours();
         customHours.setDate(this.date);
