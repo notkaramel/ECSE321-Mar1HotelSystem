@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +20,7 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Service tests for the Employee class.
@@ -32,6 +31,14 @@ import static org.mockito.Mockito.when;
 public class EmployeeServiceTest {
     @Mock
     private EmployeeRepository employeeDao;
+    @Mock
+    private CustomerRepository customerDao;
+    @Mock
+    private AccountRepository accountDao;
+    @Mock
+    private ManagerRepository managerDao;
+    @Mock
+    private GeneralUserRepository generalUserDao;
 
     @InjectMocks
     private EmployeeService employeeService;
@@ -470,6 +477,6 @@ public class EmployeeServiceTest {
         }
         // Check not null
         assertTrue(deleted);
-        assertNull(employeeService.getEmployee(EMPLOYEE_INITIAL_KEY_1));
+        verify(employeeDao, times(1)).delete(employeeService.getEmployee(EMPLOYEE_INITIAL_KEY_1));
     }
 }

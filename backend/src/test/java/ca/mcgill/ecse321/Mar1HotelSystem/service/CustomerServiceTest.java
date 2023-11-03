@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
@@ -21,8 +21,7 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Service tests for the Customer class.
@@ -32,7 +31,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
     @Mock
+    private EmployeeRepository employeeDao;
+    @Mock
     private CustomerRepository customerDao;
+    @Mock
+    private AccountRepository accountDao;
+    @Mock
+    private ManagerRepository managerDao;
+    @Mock
+    private GeneralUserRepository generalUserDao;
 
     @InjectMocks
     private CustomerService customerService;
@@ -492,21 +499,12 @@ public class CustomerServiceTest {
     @Test
     public void deleteCustomer() {
         boolean deleted = false;
-        Customer customer = null;
         try {
-            customer = customerService.createCustomer(
-                    "Josh",
-                    "Deb",
-                    CUSTOMER_KEY,
-                    1234567890,
-                    "TestPassword"
-            );
-            deleted = customerService.deleteCustomer(CUSTOMER_KEY);
+            deleted = customerService.deleteCustomer(CUSTOMER_INITIAL_KEY_1);
         } catch (Exception e) {
             fail();
         }
         assertTrue(deleted);
-        assertNull(customer);
-        assertNull(customerService.getCustomer(CUSTOMER_KEY));
+        verify(customerDao, times(1)).delete(customerService.getCustomer(CUSTOMER_INITIAL_KEY_1));
     }
 }
