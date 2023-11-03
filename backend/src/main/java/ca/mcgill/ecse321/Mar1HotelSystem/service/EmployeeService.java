@@ -5,9 +5,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import jakarta.transaction.Transactional;
 
@@ -24,6 +24,14 @@ import jakarta.transaction.Transactional;
 public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    ManagerRepository managerRepository;
+    @Autowired
+    GeneralUserRepository generalUserRepository;
 
     @Transactional
     public List<Employee> getAllEmployees() {
@@ -58,28 +66,63 @@ public class EmployeeService {
         if (!matcher.find()) {
             throw new IllegalArgumentException("The email is invalid!");
         }
+        // Check if email is already used
+        if (employeeRepository.findEmployeeByEmail(emailTrimmed) != null
+                || customerRepository.findCustomerByEmail(emailTrimmed) != null
+                || managerRepository.findManagerByEmail(emailTrimmed) != null
+                || generalUserRepository.findGeneralUserByEmail(emailTrimmed) != null
+                || accountRepository.findAccountByEmail(emailTrimmed) != null) {
+            throw new IllegalArgumentException("User using that email already exists!");
+        }
         // Check if password is empty
         if (password == null || password.trim().isEmpty()) {
             throw new IllegalArgumentException("The password cannot be empty!");
         }
         // Create, save, and return the employee
-        Employee employee = new Employee(firstName, lastName, email, phoneNumber, password, hoursWorked);
-        employeeRepository.save(employee);
-        return employee;
+        Employee employee = new Employee(
+                firstName.trim(),
+                lastName.trim(),
+                emailTrimmed,
+                phoneNumber,
+                password,
+                hoursWorked);
+        return employeeRepository.save(employee);
     }
 
     @Transactional
-    public Employee updateEmployeeFirstName(String newFirstName, String email) {
-
+    public Employee updateEmployee(String newFirstName, String newLastName, String newPassword, String email) {
             // Check if firstName is empty
             if (newFirstName == null || newFirstName.trim().isEmpty()) {
                 throw new IllegalArgumentException("The first name cannot be empty!");
             }
-            Employee employee = getEmployee(email);
+            // Check if lastName is empty
+            if (newLastName == null || newLastName.trim().isEmpty()) {
+                throw new IllegalArgumentException("The last name cannot be empty!");
+            }
+            // Check if email is empty
+            if (email == null || email.trim().isEmpty()) {
+                throw new IllegalArgumentException("The email cannot be empty!");
+            }
+            // Check if email is valid
+            String emailTrimmed = email.trim();
+            Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
+            Matcher matcher = pattern.matcher(emailTrimmed);
+            if (!matcher.find()) {
+                throw new IllegalArgumentException("The email is invalid!");
+            }
+            // Check if password is empty
+            if (newPassword == null || newPassword.trim().isEmpty()) {
+                throw new IllegalArgumentException("The password cannot be empty!");
+            }
+            // Getting the employee
+            Employee employee = getEmployee(emailTrimmed);
             if (employee == null) {
                 return null;
             }
-            employee.setFirstName(newFirstName);
+            // Updating the employee
+            employee.setFirstName(newFirstName.trim());
+            employee.setLastName(newLastName.trim());
+            employee.setPassword(newPassword);
             return employeeRepository.save(employee);
     }
 
