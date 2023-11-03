@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.CustomerService;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * The controller that handles /customer endpoint requests
  * Required functionalities:
@@ -31,6 +35,11 @@ public class CustomerRestController {
     @GetMapping(value = { "/customer/{email}", "/customer/{email}/" })
     public CustomerDto getCustomer(@PathVariable("email") String email) {
         return convertToDto(customerService.getCustomer(email));
+    }
+
+    @GetMapping(value = { "/customers", "/customers/" })
+    public List<CustomerDto> getCustomers() {
+        return customerService.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     private CustomerDto convertToDto(Customer customer) {
