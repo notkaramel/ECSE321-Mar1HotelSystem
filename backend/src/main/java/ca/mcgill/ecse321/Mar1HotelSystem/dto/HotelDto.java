@@ -9,7 +9,7 @@ public class HotelDto {
     
     // VARIABLES
     private String hotelName = "Mar-1 Hotel";
-    private HotelScheduleDto hotelSchedule;
+    private HotelScheduleRequestDto hotelSchedule;
     private List<Room> rooms;
 
     // CONSTRUCTORS
@@ -17,14 +17,14 @@ public class HotelDto {
     }
 
     // Hotel constructor requiring hotelSchedule
-    public HotelDto(HotelScheduleDto hotelSchedule) {
+    public HotelDto(HotelScheduleRequestDto hotelSchedule) {
         this.hotelSchedule = hotelSchedule;
         rooms = new ArrayList<Room>();
     }
 
     // GETTERS
     // Method to get hotelSchedule, returns hotelSchedule
-    public HotelScheduleDto getHotelSchedule() {
+    public HotelScheduleRequestDto getHotelSchedule() {
         return this.hotelSchedule;
     }
 

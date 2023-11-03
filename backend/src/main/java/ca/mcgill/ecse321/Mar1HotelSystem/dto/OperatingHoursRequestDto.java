@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
-public class OperatingHoursDto{
+public class OperatingHoursRequestDto{
     
     // VARIABLES
     // private int operatingHoursId;
@@ -9,11 +9,11 @@ public class OperatingHoursDto{
     private int closingHour;
 
     // CONSTRUCTORS
-    public OperatingHoursDto() {
+    public OperatingHoursRequestDto() {
     }
 
     // OperatingHours constructor day, openingHour, closingHour
-    public OperatingHoursDto(DayOfWeekDto day, int openingHour, int closingHour) {
+    public OperatingHoursRequestDto(DayOfWeekDto day, int openingHour, int closingHour) {
         this.day = day;
         this.openingHour = openingHour;
         this.closingHour = closingHour;
