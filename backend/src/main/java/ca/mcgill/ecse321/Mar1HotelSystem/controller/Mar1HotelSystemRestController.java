@@ -19,7 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class Mar1HotelSystemRestController {
 
     @GetMapping("/")
-    public ResponseEntity<String> index() {
-        return new ResponseEntity<String>("Welcome to the Mar-1 Hotel System!\n", HttpStatus.I_AM_A_TEAPOT);
+    public ResponseEntity<String> homepage() {
+        return new ResponseEntity<String>("Welcome to the Mar-1 Hotel System!\n", HttpStatus.OK);
+    }
+
+    @GetMapping("/coffee")
+    public ResponseEntity<String> brewCoffee() {
+        return new ResponseEntity<String>("I am a teapot 🫖\n", HttpStatus.I_AM_A_TEAPOT);
     }
 }
