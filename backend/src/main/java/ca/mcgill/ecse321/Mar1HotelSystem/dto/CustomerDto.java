@@ -11,4 +11,26 @@ public class CustomerDto extends AccountDto {
     public CustomerDto(String firstName, String lastName, String email, long phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber, password);
     }
+
+    // GETTERS
+    public String getFirstName() {
+        return super.getFirstName();
+    }
+
+    public String getLastName() {
+        return super.getLastName();
+    }
+
+    public String getEmail() {
+        return super.getEmail();
+    }
+
+    public long getPhoneNumber() {
+        return super.getPhoneNumber();
+    }
+
+    public String getPassword() {
+        return super.getPassword();
+    }
+
 }

@@ -1,6 +1,10 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomerDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.CustomerService;
@@ -22,6 +26,34 @@ import ca.mcgill.ecse321.Mar1HotelSystem.service.CustomerService;
 public class CustomerRestController {
     
     @Autowired
-	private CustomerService service;
-    
+	private CustomerService customerService;
+
+    @GetMapping(value = { "/customer/{email}", "/customer/{email}/" })
+    public CustomerDto getCustomer(@PathVariable("email") String email) {
+        return convertToDto(customerService.getCustomer(email));
+    }
+
+    private CustomerDto convertToDto(Customer customer) {
+        if (customer == null) {
+            throw new IllegalArgumentException("There is no such customer!");
+        }
+        return new CustomerDto(
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getPhoneNumber(),
+                customer.getPassword());
+    }
+
+    private  Customer convertToDomainObject(CustomerDto customerDto) {
+        if (customerDto == null) {
+            throw new IllegalArgumentException("There is no such customer!");
+        }
+        return new Customer(
+                customerDto.getFirstName(),
+                customerDto.getLastName(),
+                customerDto.getEmail(),
+                customerDto.getPhoneNumber(),
+                customerDto.getPassword());
+    }
 }
