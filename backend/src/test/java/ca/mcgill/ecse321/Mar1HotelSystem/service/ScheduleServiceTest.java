@@ -58,14 +58,14 @@ public class ScheduleServiceTest {
     private ScheduleService scheduleService;
     
 
-    private static final Integer YEAR_KEY = 2023;
+    private static final int YEAR_KEY = 2023;
 
     private static final DayOfWeek DAY_KEY = DayOfWeek.Friday;
     
     Date date = new GregorianCalendar(2023, Calendar.FEBRUARY, 20).getTime();
 
-    private static final Integer OPENING_HOUR_KEY = 8;
-    private static final Integer CLOSING_HOUR_KEY = 20;
+    private static final int OPENING_HOUR_KEY = 8;
+    private static final int CLOSING_HOUR_KEY = 20;
 
     @BeforeEach
     public void setMockOutput() {
@@ -90,8 +90,8 @@ public class ScheduleServiceTest {
             lenient().when(customHoursDao.findCustomHoursByDate(any(Date.class))).thenAnswer( (InvocationOnMock invocation) -> {
                 if(invocation.getArgument(0).equals(date)) {
 
-                    Integer openingHour = 9; 
-                    Integer closingHour = 14; 
+                    int openingHour = 9; 
+                    int closingHour = 14; 
 
                     CustomHours customHours = new CustomHours(date, openingHour, closingHour);
                     return customHours;
@@ -116,8 +116,8 @@ public class ScheduleServiceTest {
         OperatingHours operatingHours = null;
 
         DayOfWeek day = DayOfWeek.Friday;
-        Integer openingHour = 8; //8:00am
-        Integer closingHour = 21; //9:00pm
+        int openingHour = 8; //8:00am
+        int closingHour = 21; //9:00pm
 
         try {
             operatingHours = scheduleService.createOperatingHours(day, openingHour, closingHour);
@@ -139,11 +139,11 @@ public class ScheduleServiceTest {
         OperatingHours updatedOperatingHours = null;
 
         DayOfWeek day = DayOfWeek.Friday;
-        Integer initialOpeningHour = 8; //8:00am
-        Integer initialClosingHour = 21; //9:00pm
+        int initialOpeningHour = 8; //8:00am
+        int initialClosingHour = 21; //9:00pm
 
-        Integer updatedOpeningHour = 9; //8:00am
-        Integer updatedClosingHour = 22; //9:00pm
+        int updatedOpeningHour = 9; //8:00am
+        int updatedClosingHour = 22; //9:00pm
 
         try {
             initialOperatingHours = scheduleService.createOperatingHours(day, initialOpeningHour, initialClosingHour);
@@ -166,8 +166,8 @@ public class ScheduleServiceTest {
         OperatingHours retrievedHours = null;
 
         DayOfWeek day = DayOfWeek.Friday;
-        Integer openingHour = 8; //8:00am
-        Integer closingHour = 20; //9:00pm
+        int openingHour = 8; //8:00am
+        int closingHour = 20; //9:00pm
 
         try {
             retrievedHours = scheduleService.getOperatingHoursByDay(day);
@@ -192,20 +192,20 @@ public class ScheduleServiceTest {
         List<OperatingHours> allOperatingHours = null;
 
         DayOfWeek dayS = DayOfWeek.Sunday;
-        Integer openingHourS = 11; 
-        Integer closingHourS = 17; 
+        int openingHourS = 11; 
+        int closingHourS = 17; 
 
         DayOfWeek dayM = DayOfWeek.Monday;
-        Integer openingHourM = 10; 
-        Integer closingHourM = 18; 
+        int openingHourM = 10; 
+        int closingHourM = 18; 
 
         DayOfWeek dayT = DayOfWeek.Tuesday;
-        Integer openingHourT = 9; 
-        Integer closingHourT = 19; 
+        int openingHourT = 9; 
+        int closingHourT = 19; 
 
         DayOfWeek dayW = DayOfWeek.Wednesday;
-        Integer openingHourW = 8; 
-        Integer closingHourW = 20; 
+        int openingHourW = 8; 
+        int closingHourW = 20; 
 
         try {
             operatingHoursS = scheduleService.createOperatingHours(dayS, openingHourS, closingHourS);
@@ -219,8 +219,6 @@ public class ScheduleServiceTest {
         }
 
         assertNotNull(allOperatingHours);
-        //TODO: Fix following statement
-        //assertThat(allOperatingHours, containsInAnyOrder(operatingHoursS, operatingHoursM, operatingHoursT, operatingHoursW)); 
 
     }
 
@@ -235,8 +233,8 @@ public class ScheduleServiceTest {
         calendar.set(2001, Calendar.FEBRUARY, 20);
         Date date = calendar.getTime();
 
-        Integer openingHour = 11; 
-        Integer closingHour = 12; 
+        int openingHour = 11; 
+        int closingHour = 12; 
 
         try {
             customHours = scheduleService.createCustomHours(date, openingHour, closingHour);
@@ -256,11 +254,11 @@ public class ScheduleServiceTest {
         CustomHours initialCustomHours = null;
         CustomHours updatedCustomHours = null;
 
-        Integer initialOpeningHour = 8; //8:00am
-        Integer initialClosingHour = 21; //9:00pm
+        int initialOpeningHour = 8; //8:00am
+        int initialClosingHour = 21; //9:00pm
 
-        Integer updatedOpeningHour = 9; //8:00am
-        Integer updatedClosingHour = 22; //9:00pm
+        int updatedOpeningHour = 9; //8:00am
+        int updatedClosingHour = 22; //9:00pm
 
         try {
             initialCustomHours = scheduleService.createCustomHours(date, initialOpeningHour, initialClosingHour);
@@ -281,8 +279,8 @@ public class ScheduleServiceTest {
 
         CustomHours retrievedHours = null;
 
-        Integer openingHour = 9; 
-        Integer closingHour = 14;
+        int openingHour = 9; 
+        int closingHour = 14;
 
         try {
             retrievedHours = scheduleService.getCustomHoursByDate(date);
@@ -306,8 +304,8 @@ public class ScheduleServiceTest {
         calendar.set(2001, Calendar.FEBRUARY, 20);
         Date date = calendar.getTime();
 
-        Integer openingHour = 11; 
-        Integer closingHour = 12; 
+        int openingHour = 11; 
+        int closingHour = 12; 
 
         try {
             customHours = scheduleService.createCustomHours(date, openingHour, closingHour);
@@ -332,18 +330,18 @@ public class ScheduleServiceTest {
 
         calendar.set(2001, Calendar.FEBRUARY, 20);
         Date date1 = calendar.getTime();
-        Integer openingHour1 = 11; 
-        Integer closingHour1 = 12;
+        int openingHour1 = 11; 
+        int closingHour1 = 12;
 
         calendar.set(2001, Calendar.FEBRUARY, 21);
         Date date2 = calendar.getTime();
-        Integer openingHour2 = 10; 
-        Integer closingHour2 = 13;
+        int openingHour2 = 10; 
+        int closingHour2 = 13;
 
         calendar.set(2001, Calendar.FEBRUARY, 22);
         Date date3 = calendar.getTime();
-        Integer openingHour3 = 9; 
-        Integer closingHour3 = 14; 
+        int openingHour3 = 9; 
+        int closingHour3 = 14; 
 
         try {
             customHours1   = scheduleService.createCustomHours(date1, openingHour1, closingHour1);
@@ -356,7 +354,6 @@ public class ScheduleServiceTest {
         };
 
         assertNotNull(allCustomHours);
-        //TODO: no other ideas for testing this
     }
 
     // HOTEL SCHEDULE
@@ -415,12 +412,12 @@ public class ScheduleServiceTest {
         HotelSchedule hotelSchedule = null;
 
         DayOfWeek day1 = DayOfWeek.Monday;
-        Integer openingHour1 = 11; 
-        Integer closingHour1 = 12;
+        int openingHour1 = 11; 
+        int closingHour1 = 12;
 
         DayOfWeek day2 = DayOfWeek.Monday;
-        Integer openingHour2 = 10; 
-        Integer closingHour2 = 13;
+        int openingHour2 = 10; 
+        int closingHour2 = 13;
 
         OperatingHours operatingHour1 = scheduleService.createOperatingHours(day1, openingHour1, closingHour1);
         OperatingHours operatingHour2 = scheduleService.createOperatingHours(day2, openingHour2, closingHour2);
@@ -433,8 +430,8 @@ public class ScheduleServiceTest {
         calendar.set(2023, Calendar.FEBRUARY, 20);
         Date date = calendar.getTime();
 
-        Integer openingHour3 = 9; 
-        Integer closingHour3 = 14; 
+        int openingHour3 = 9; 
+        int closingHour3 = 14; 
         
         CustomHours customHours = scheduleService.createCustomHours(date, openingHour3, closingHour3);
 
