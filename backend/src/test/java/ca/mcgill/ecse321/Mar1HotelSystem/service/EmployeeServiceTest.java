@@ -367,7 +367,7 @@ public class EmployeeServiceTest {
      * Test retrieving all employees.
      */
     @Test
-    public void testGetAllCustomers() {
+    public void testGetAllEmployees() {
         ArrayList<Employee> listOfEmployees = (ArrayList<Employee>) employeeService.getAllEmployees();
         assertEquals(2, listOfEmployees.size());
         for(Employee employee : listOfEmployees) {
