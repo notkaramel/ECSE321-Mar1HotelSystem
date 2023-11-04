@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
@@ -17,16 +18,17 @@ public class RoomService {
     @Autowired
     RoomRepository roomRepository;
 
+    @Autowired
+    HotelRepository hotelRepository;
+
     @Transactional
-    public Room createRoom(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
-            Hotel hotel) {
-        Room room = new Room();
-        room.setRoomType(roomType);
-        room.setBedType(bedType);
-        room.setIsAvailable(isAvailable);
-        room.setPricePerNight(pricePerNight);
-        room.setMaxCapacity(maxCapacity);
-        room.setHotel(hotel);
+    public Room createRoom(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity) {
+        Hotel hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
+        if (hotel == null) {
+            hotel = new Hotel();
+            hotelRepository.save(hotel);
+        }
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
         roomRepository.save(room);
         return room;
     }

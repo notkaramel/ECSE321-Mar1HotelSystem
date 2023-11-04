@@ -8,7 +8,6 @@ import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +45,6 @@ public class HotelRepositoryTest {
 
     // Clears the database before and after each test
     @BeforeEach
-    @Order(0)
     @AfterEach
     public void clearDatabase() {
         roomRepository.deleteAll();
@@ -56,15 +54,20 @@ public class HotelRepositoryTest {
         customHoursRepository.deleteAll();
     }
 
-    @BeforeEach
-    @Order(1)
-    private HotelSchedule createHotelSchedule() {
+    // ------------------
+    // Test Methods
+    // ------------------
+
+    @Test
+    @Transactional
+    public void testPersistAndLoadHotel() {
+
+        // =-=-=-=-=-=- Create HotelSchedule object -=-=-=-=-=-=//
         Date date = new Date();
         CustomHours customHours = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
         CustomHours[] customHoursArray = new CustomHours[1];
         OperatingHours[] operatingHoursArray = new OperatingHours[1];
-
         customHoursRepository.save(customHours);
         customHours = customHoursRepository.findCustomHoursByDate(date);
         operatingHoursRepository.save(operatingHours);
@@ -73,25 +76,15 @@ public class HotelRepositoryTest {
         customHoursArray[0] = customHours;
         operatingHoursArray[0] = operatingHours;
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
-        hotelScheduleRepository.save(hotelSchedule);
-        return hotelSchedule;
-    }
-    // ------------------
-    // Test Methods
-    // ------------------
-
-    @Test
-    @Transactional
-    public void testPersistAndLoadHotel() {
-        HotelSchedule hotelSchedule = createHotelSchedule();
+        // --------------------------------//
 
         // ------------------
         // Create and Save Hotel
         // ------------------
-        Hotel hotel = new Hotel();
-        hotel.setHotelSchedule(hotelSchedule);
+        Hotel hotel = new Hotel(hotelSchedule);
+        hotelScheduleRepository.save(hotelSchedule);
         hotelRepository.save(hotel);
-
+        hotel = hotelRepository.findHotelByHotelSchedule(hotelSchedule);
 
         // Create Room parameters
         RoomType roomType = RoomType.Suite;
@@ -108,8 +101,6 @@ public class HotelRepositoryTest {
         int roomId = room.getRoomId();
         room = roomRepository.findRoomByRoomId(roomId);
         // Add the saved Room to the saved Hotel
-        hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
-        assertNotNull(hotel);
         hotel.addRoom(room);
 
         // Retrieve saved Hotel

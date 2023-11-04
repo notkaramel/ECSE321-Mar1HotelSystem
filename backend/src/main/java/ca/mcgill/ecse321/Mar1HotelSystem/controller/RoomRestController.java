@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.service.HotelService;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.RoomService;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 

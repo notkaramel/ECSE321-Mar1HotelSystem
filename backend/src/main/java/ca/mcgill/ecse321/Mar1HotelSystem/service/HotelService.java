@@ -15,7 +15,7 @@ import jakarta.transaction.Transactional;
  * @author Antoine Phan (@notkaramel) 
  */
 @Service
-public class Mar1HotelSystemService {
+public class HotelService {
     @Autowired
     HotelRepository hotelRepository;
 

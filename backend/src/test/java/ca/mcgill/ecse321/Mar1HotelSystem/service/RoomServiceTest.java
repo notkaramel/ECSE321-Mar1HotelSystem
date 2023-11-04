@@ -21,7 +21,9 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
@@ -32,6 +34,9 @@ public class RoomServiceTest {
     private RoomService roomService;
 
     @Mock
+    private HotelRepository hotelRepository;
+
+    @Mock
     private RoomRepository roomRepository;
 
     /**
@@ -39,18 +44,27 @@ public class RoomServiceTest {
      */ 
     @BeforeEach
     public void setMockOutput() {
-        Room roomSuite1 = new Room(RoomType.Suite, BedType.King, true, 400, 8, null);
-        Room roomSuite2 = new Room(RoomType.Suite, BedType.King, true, 300, 6, null);
+        Hotel hotel = new Hotel();
+        lenient().when(hotelRepository.findHotelByHotelName(isA(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals("Mar-1 Hotel")) {
+                return hotel;
+            } else {
+                return null;
+            }
+        });
+
+        Room roomSuite1 = new Room(RoomType.Suite, BedType.King, true, 400, 8, hotel);
+        Room roomSuite2 = new Room(RoomType.Suite, BedType.King, true, 300, 6, hotel);
         roomSuite1.setRoomId(1);
         roomSuite2.setRoomId(2);
         
-        Room roomDeluxe3 = new Room(RoomType.Deluxe, BedType.Queen, true, 200, 3, null);
-        Room roomDeluxe4 = new Room(RoomType.Deluxe, BedType.Queen, true, 100, 2, null);
+        Room roomDeluxe3 = new Room(RoomType.Deluxe, BedType.Queen, true, 200, 3, hotel);
+        Room roomDeluxe4 = new Room(RoomType.Deluxe, BedType.Queen, true, 100, 2, hotel);
         roomDeluxe3.setRoomId(3);
         roomDeluxe4.setRoomId(4);
 
-        Room roomRegular5 = new Room(RoomType.Regular, BedType.Queen, true, 50, 2, null);
-        Room roomRegular6 = new Room(RoomType.Regular, BedType.Doubles, false, 10, 2, null);
+        Room roomRegular5 = new Room(RoomType.Regular, BedType.Queen, true, 50, 2, hotel);
+        Room roomRegular6 = new Room(RoomType.Regular, BedType.Doubles, false, 10, 2, hotel);
         roomRegular5.setRoomId(5);
         roomRegular6.setRoomId(6);
 
@@ -136,7 +150,7 @@ public class RoomServiceTest {
     public void testCreateRoom() {
         Room room = new Room();
         try {
-            room = roomService.createRoom(RoomType.Deluxe, Room.BedType.Queen, true, 100, 2, null);
+            room = roomService.createRoom(RoomType.Deluxe, Room.BedType.Queen, true, 100, 2);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -152,7 +166,7 @@ public class RoomServiceTest {
     public void testDeleteRoom() {
         Room room = new Room();
         try {
-            room = roomService.createRoom(RoomType.Deluxe, Room.BedType.Queen, true, 100, 2, null);
+            room = roomService.createRoom(RoomType.Deluxe, Room.BedType.Queen, true, 100, 2);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
