@@ -96,7 +96,9 @@ public class GeneralUserService {
         // Check if email is empty
         else if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("The email cannot be empty!");
-        } else if(generalUserRepository.findGeneralUserByEmail(email) != null){
+        } 
+        // Check if User Already Exists
+        else if(generalUserRepository.findGeneralUserByEmail(email) != null){
                 throw new IllegalArgumentException("User with that email already exists!");
         }
         else {
@@ -125,13 +127,19 @@ public class GeneralUserService {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(oldEmail);
         if(generalUser == null){
             throw new IllegalArgumentException("User Not Found");
-        } else{
+        } 
+        else if(generalUserRepository.findGeneralUserByEmail(newEmail) != null){
+                throw new IllegalArgumentException("User with that email already exists!");
+        }
+        
+        else{
             //  List<GeneralUser> generalUserList = generalUserRepository.findAll();
             //     for(int i = 0; i < generalUserList.size(); i++){
             //     if(generalUserList.get(i).getEmail() == newEmail){
             //         throw new IllegalArgumentException("User with that email already exists");
             //         }
             //     }
+
             generalUser.setEmail(newEmail);
             return generalUser;
         }
@@ -141,10 +149,15 @@ public class GeneralUserService {
     public boolean deleteGeneralUser(String email) {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
         try {
+            if(generalUserRepository.findGeneralUserByEmail(email) == null){
+                throw new IllegalArgumentException("User with that email does not exist!");
+        } else {
             generalUserRepository.delete(generalUser);
+            return true;
+        }
         } catch (Exception e) {
             return false;
         }
-        return true;
+        
     }
 }

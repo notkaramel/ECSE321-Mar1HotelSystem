@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
+
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -25,10 +27,13 @@ public class ManagerService {
     @Autowired
     ManagerRepository managerRepository;
 
+    @Autowired
+    GeneralUserRepository generalUserRepository;
+
     @Transactional
     public List<Manager> getAllManagers() {
        List<Manager> managerList = ServiceUtils.toList(managerRepository.findAll());
-       if(managerList == null){
+       if(managerList == null || managerList.size() == 0){
             throw new IllegalArgumentException("There are no Managers Found");
         } else {
             return managerList;
@@ -72,6 +77,9 @@ public class ManagerService {
         else if (password == null || password.trim().isEmpty()) {
             throw new IllegalArgumentException("The password cannot be empty!");
         }
+        else if(generalUserRepository.findGeneralUserByEmail(email) != null){
+            throw new IllegalArgumentException("User with that email already exists!");
+         }
         else {
             String emailTrimmed = email.trim();
             Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
@@ -93,9 +101,15 @@ public class ManagerService {
         Manager manager = managerRepository.findManagerByEmail(email);
         if(manager == null){
             throw new IllegalArgumentException("User Not Found");
-        } else{
+        } 
+
+         else{
+            if(manager.getPassword() == oldPassword){
             manager.setPassword(newPassword);
             return manager;
+            } else {
+                throw new IllegalArgumentException("Incorrect old password!");
+            }
         }
     }
 
@@ -103,11 +117,19 @@ public class ManagerService {
     public boolean deleteManager(String email) {
         Manager manager = managerRepository.findManagerByEmail(email);
         try {
+            if(managerRepository.findManagerByEmail(email) == null){
+                throw new IllegalArgumentException("User with that email does not exist!");
+        } 
+        // else if(managerRepository.delete(manager) = null){
+        //     throw new IllegalArgumentException("User with that email does not exist!");
+        // }
+            else {
             managerRepository.delete(manager);
+            return true;
+        }
         } catch (Exception e) {
             return false;
         }
-        return true;
-    }
 
+}
 }

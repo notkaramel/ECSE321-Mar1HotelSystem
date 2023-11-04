@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import java.util.List;
 import java.util.ArrayList;
@@ -64,11 +65,18 @@ public class GeneralUserServiceTest {
 		lenient().when(generalUserDao.findAll()).thenAnswer((invocation) -> {
             List<GeneralUser> generalUsers = new ArrayList<>();
             GeneralUser generalUser1= new GeneralUser();
+			generalUser1.setEmail("joey@gmail.com");
 			GeneralUser generalUser2= new GeneralUser();
+			generalUser2.setEmail("janet@gmail.com");
             generalUsers.add(generalUser1);
 			generalUsers.add(generalUser2);
             return generalUsers;
         }); //save, update, delete
+
+		// lenient().when(generalUserDao.findAll()).thenAnswer((invocation) -> {
+        //     List<GeneralUser> generalUsersListEmpty = new ArrayList<>();
+        //     return generalUsersListEmpty;
+        // });
 
 		// lenient().when(generalUserDao.save()).thenAnswer((invocation) -> {
         //      	GeneralUser generalUser = new GeneralUser();
@@ -76,15 +84,21 @@ public class GeneralUserServiceTest {
         //         return generalUser;
             
         // });
+
+		Answer<?> returnParameterAsAnswer =
+                (InvocationOnMock invocation) -> {
+                    return invocation.getArgument(0);
+                };
+        lenient().when(generalUserDao.save(any(GeneralUser.class))).thenAnswer(returnParameterAsAnswer);
 }
 
     @Test
 	public void testCreateGeneralUser() {
 		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
         
-        String firstName = "Joey";
+        String firstName = "Joeye";
         String lastName = "Doey";
-		String email = "joey@gmail.com";
+		String email = "joeye@gmail.com";
         int phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
@@ -95,6 +109,7 @@ public class GeneralUserServiceTest {
 		}
 		assertNotNull(generalUser);
 		assertEquals(email, generalUser.getEmail());
+
 	}
 
 	@Test
@@ -116,7 +131,7 @@ public class GeneralUserServiceTest {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
-		
+		assertNull(generalUser);
 		assertEquals("User with that email already exists!", error);
 		
 	}
@@ -276,63 +291,68 @@ public class GeneralUserServiceTest {
 	@Test
 	public void testGetGeneralUserSuccessful() {
 		String error = null;
-		
+		GeneralUser generalUser = null;
 		try {
-			GeneralUser generalUser = generalUserService.getGeneralUser("joe@gmail.com");
-			assertNotNull(generalUser);
-			assertEquals("joe@gmail.com", generalUser.getEmail());
+			generalUser = generalUserService.getGeneralUser("joe@gmail.com");
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
+		assertNotNull(generalUser);
+		assertEquals("joe@gmail.com", generalUser.getEmail());
 		
 	}
 
 	@Test
-	public void testGetGeneralUserUnSuccessful() {
+	public void testGetGeneralUserUnsuccessful() {
 		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
         String error = null;
+		GeneralUser generalUser = null;
 		try {
 			generalUserService.getGeneralUser("jane@gmail.com");
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
+			
 		}
+		assertNull(generalUser);
 		assertEquals("User Not Found", error);
+		
 	}
 
 	@Test
 	public void testGetGeneralUserListSuccessful() {
 		String error = null;
-		String firstName2 = "Joee";
-        String lastName2 = "Doee";
-		String email2 = "joee@gmail.com";
-        int phoneNumber2 = 1234567891;
-		generalUserService.createGeneralUser(firstName2, lastName2, email2, phoneNumber2);
+		List<GeneralUser> generalUsers = null;
+		// String firstName2 = "Joee";
+        // String lastName2 = "Doee";
+		// String email2 = "joee@gmail.com";
+        // int phoneNumber2 = 1234567891;
+		// generalUserService.createGeneralUser(firstName2, lastName2, email2, phoneNumber2);
 		try {
-			List<GeneralUser> generalUsers = generalUserService.getAllGeneralUsers();
-			assertNotNull(generalUsers);
-		 	assertEquals("joe@gmail.com", generalUsers.get(0).getEmail());
-		 	assertEquals("joee@gmail.com", generalUsers.get(1).getEmail());
+			generalUsers = generalUserService.getAllGeneralUsers();
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
-	    
-		
+		assertNotNull(generalUsers);
+		assertEquals("joey@gmail.com", generalUsers.get(0).getEmail());
+		assertEquals("janet@gmail.com", generalUsers.get(1).getEmail());	
 	}
 
 	@Test
 	public void testGetGeneralUserListUnsuccessfulNull() {
 		String error = null;
+		List<GeneralUser> generalUsers = null;
 		try {
-		List<GeneralUser> generalUsers = generalUserService.getAllGeneralUsers();
-		
+		generalUsers = generalUserService.getAllGeneralUsers();
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
-		 assertEquals("There are no Users found!", error);
+		assertNull(generalUsers);
+		assertEquals("There are no Users found!", error);
+		//assertEquals("There are no Users found!", error);
 		 
 	}
 	
@@ -340,31 +360,22 @@ public class GeneralUserServiceTest {
 	@Test
 	public void testUpdateGeneralUserThatExist() {
 		String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = "joe@gmail.com";
-        int phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
-		generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		try {
-			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "jane@gmail.com");
+		generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "janette@gmail.com");
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
 		assertNotNull(generalUser);
-		assertEquals("jane@gmail.com", generalUser.getEmail());
+		assertEquals("janette@gmail.com", generalUser.getEmail());
+		
 	}
 
 	@Test
 	public void testUpdateGeneralUserThatDoesNotExist() {
 		String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = "joe@gmail.com";
-        int phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
-		generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		try {
 			generalUser = generalUserService.updateGeneralUserEmail("Gio@gmail.com", "jane@gmail.com");
 		} catch (IllegalArgumentException e) {
@@ -376,26 +387,47 @@ public class GeneralUserServiceTest {
 	}
 
 	@Test
-	public void testDeleteGeneralUserThatExist() {
-		 String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = "joee@gmail.com";
-        int phoneNumber = 1234567891;
-		Boolean generalUser = null;
-		generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
+	public void testUpdateGeneralUserThatAlreadyHasEmail() {
+		String error = null;
+		GeneralUser generalUser = null;
 		try {
-			generalUser = generalUserService.deleteGeneralUser("joee@gmail.com");
+			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "janette@gmail.com");
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
+		assertNull(generalUser);
+		assertEquals("User with that email already exists!", error);
+	}
+	
+
+	@Test
+	public void testDeleteGeneralUserThatExist() {
+		 String error = null;
+		 Boolean generalUser = null;
+		try {
+			generalUser = generalUserService.deleteGeneralUser("joe@gmail.com");
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertNotNull(generalUser);
 		assertEquals(true, generalUser);
 	}
 
-    @Test
-	public void testGetExistingGeneralUser() {
-		assertEquals(GENERALUSER_KEY, generalUserService.getGeneralUser(GENERALUSER_KEY).getEmail());
+	@Test
+	public void testDeleteGeneralUserThatDoesNotExist() {
+		String error = null;
+		Boolean generalUser = null;
+		try {
+			generalUser = generalUserService.deleteGeneralUser("George@gmail.com");	
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+			assertEquals("User with that email does not exist!", error);
+		}
+		assertEquals(false, generalUser);
+		//assertEquals("User with that email does not exist!", error);
 	}
-
+	
 }
