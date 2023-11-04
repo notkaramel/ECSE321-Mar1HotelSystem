@@ -24,13 +24,41 @@ public class Hotel {
     @OneToMany
     private List<Room> rooms;
 
+    private static List<Hotel> hotelList = new ArrayList<Hotel>();
+
+    public static boolean isExist() {
+        return hotelList.size() > 0;
+    }
+
+    public static Hotel getHotel() {
+        if (!isExist()) {
+            Hotel.hotelList.add(new Hotel());
+        }
+        return hotelList.get(0);
+    }
+
     // Default constructor
     public Hotel() {
+        if (isExist() == true) {
+            return;
+        }
+        this.hotelName = "Mar-1 Hotel";
+        this.rooms = new ArrayList<Room>();
+        Hotel.hotelList.add(this);
     }
 
     // Hotel constructor requiring hotelSchedule
     public Hotel(HotelSchedule hotelSchedule) {
-        rooms = new ArrayList<Room>();
+        if (setHotelSchedule(hotelSchedule) == false) {
+            throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
+        }
+        if (isExist()) {
+            setHotelSchedule(hotelSchedule);
+            return;
+        }
+        this.hotelName = "Mar-1 Hotel";
+        this.rooms = new ArrayList<Room>();
+        Hotel.hotelList.add(this);
         if (setHotelSchedule(hotelSchedule) == false) {
             throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
         }
@@ -105,6 +133,9 @@ public class Hotel {
     }
 
     public boolean addRoom(Room room) {
+        if (!isExist()) {
+            return false;
+        }
         if (this.rooms.contains(room)) {
             return false;
         }

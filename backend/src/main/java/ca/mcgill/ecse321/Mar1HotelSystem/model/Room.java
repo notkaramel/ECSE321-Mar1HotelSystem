@@ -33,6 +33,10 @@ public class Room {
 
     // Default constructor
     public Room() {
+        if (!Hotel.isExist()) {
+            throw new RuntimeException("Need an hotel class to be instatiated; need an Hotel");
+        }
+        this.hotel = Hotel.getHotel();
     }
 
     public Room(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
