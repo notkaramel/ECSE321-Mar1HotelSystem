@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +40,7 @@ public class EmployeeService {
     @Transactional
     public Employee getEmployee(String email) {
         String emailTrimmed = email.trim();
-        return employeeRepository.findEmployeeByEmail(email);
+        return employeeRepository.findEmployeeByEmail(emailTrimmed);
     }
 
     @Transactional
