@@ -493,7 +493,7 @@ public class CustomerServiceTest {
      * Test deleting a customer.
      */
     @Test
-    public void deleteCustomer() {
+    public void testDeleteCustomer() {
         boolean deleted = false;
         try {
             deleted = customerService.deleteCustomer(CUSTOMER_INITIAL_KEY_1);
