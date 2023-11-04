@@ -340,7 +340,7 @@ public class CustomerServiceTest {
      * Test retrieving a customer.
      */
     @Test
-    public void testGetExistingGeneralUser() {
+    public void testGetExistingCustomer() {
         assertEquals(CUSTOMER_INITIAL_KEY_1, customerService.getCustomer(CUSTOMER_INITIAL_KEY_1).getEmail());
     }
 
@@ -348,7 +348,7 @@ public class CustomerServiceTest {
      * Test retrieving a non-existing customer.
      */
     @Test
-    public void testGetNonExistingPerson() {
+    public void testGetNonExistingCustomer() {
         assertNull(customerService.getCustomer(NONEXISTING_KEY));
     }
 
