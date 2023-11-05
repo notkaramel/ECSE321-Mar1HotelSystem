@@ -178,7 +178,7 @@ public class RoomServiceTest {
         assertEquals(2, room.getMaxCapacity());
         
         try {
-            roomService.deleteRoom(room.getRoomId());
+            roomService.deleteRoomByRoomId(room.getRoomId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

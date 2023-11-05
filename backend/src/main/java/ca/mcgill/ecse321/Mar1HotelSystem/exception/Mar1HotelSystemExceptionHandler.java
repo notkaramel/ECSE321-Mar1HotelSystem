@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class Mar1HotelSystemExceptionHandler {
+public class Mar1HotelSystemExceptionHandler extends Throwable {
         @ExceptionHandler(Mar1HotelSystemException.class)
         public ResponseEntity<String> handleMar1HotelSystemException(Mar1HotelSystemException e) {
             return new ResponseEntity<String>(e.getMessage(), e.getStatus());

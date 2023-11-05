@@ -1,0 +1,1 @@
+curl -X 'POST' 'http://localhost:8080/createRoom' -H 'Content-Type: application/json' -d '{"roomType": "Deluxe", "bedType": "Queen", "isAvailable": true, "pricePerNight": 0, "maxCapacity": 0 }'

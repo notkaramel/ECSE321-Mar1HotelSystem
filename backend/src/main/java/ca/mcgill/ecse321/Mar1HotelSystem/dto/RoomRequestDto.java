@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * A response that contains all the information about a room.
@@ -19,8 +20,11 @@ public class RoomRequestDto {
     @NotBlank(message = "bed_type must be Queen, King, or Doubles")
     private Room.BedType bedType;
 
+    @NotNull
     private boolean isAvailable;
+    @NotNull
     private int pricePerNight;
+    @NotNull
     private int maxCapacity;
 
     public RoomRequestDto() {

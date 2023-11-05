@@ -24,10 +24,10 @@ public class RoomService {
     @Transactional
     public Room createRoom(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity) {
         Hotel hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
-        // if (hotel == null) {
-        //     hotel = new Hotel();
-        //     hotelRepository.save(hotel);
-        // }
+        if (hotel == null) {
+            hotel = new Hotel();
+            hotelRepository.save(hotel);
+        }
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
         roomRepository.save(room);
         return room;
@@ -45,9 +45,9 @@ public class RoomService {
     }
 
     @Transactional
-    public boolean deleteRoom(int roomId) {
-        Room room = roomRepository.findRoomByRoomId(roomId);
+    public boolean deleteRoomByRoomId(int roomId) {
         try {
+            Room room = roomRepository.findRoomByRoomId(roomId);
             roomRepository.delete(room);
         } catch (Exception e) {
             return false;
