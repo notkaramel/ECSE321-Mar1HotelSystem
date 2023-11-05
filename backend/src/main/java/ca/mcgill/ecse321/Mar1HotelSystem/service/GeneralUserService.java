@@ -33,23 +33,19 @@ public class GeneralUserService {
     @Transactional
     public List<GeneralUser> getAllGeneralUsers() {
         List<GeneralUser> generalUserList = generalUserRepository.findAll();
-       // List<GeneralUser> generalUserList = new ArrayList<GeneralUser>();
-            // while (generalUserRepository.findAll().iterator().hasNext()) {
-            //     generalUserList.add(generalUserRepository.findAll().iterator().next());
-            // }
-
-        // List<GeneralUser> generalUserList = ServiceUtils.toList(generalUserRepository.findAll());
-        if(generalUserList == null || generalUserList.size() == 0){
+        // Check if general user list is null or empty
+        if (generalUserList == null || generalUserList.size() == 0) {
             throw new IllegalArgumentException("There are no Users found!");
         } else {
             return generalUserList;
-        }  
+        }
     }
 
     @Transactional
     public GeneralUser getGeneralUser(String email) {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
-        if(generalUser == null){
+        // Check if general user not found
+        if (generalUser == null) {
             throw new IllegalArgumentException("User Not Found");
         } else {
             return generalUser;
@@ -67,24 +63,14 @@ public class GeneralUserService {
      */
     @Transactional
     public GeneralUser createGeneralUser(String firstName, String lastName, String email, long phoneNumber) {
-        // List<GeneralUser> generalUserList = generalUserRepository.findAll();
-        // if(generalUserList != null || generalUserList.size() != 0){
-        // for(int i = 0; i < generalUserList.size(); i++){
-        // if(generalUserList.get(i).getEmail() != null){
-        // if(generalUserList.get(i).getEmail().equals(email)){
-        //     throw new IllegalArgumentException("User with that email already exists!");
-        //         } 
-        //  }
-        // }
-        // }
-         //Check is all inputs are null
-        if(firstName == null && lastName == null && email == null){
+        // Check is all inputs are null
+        if (firstName == null && lastName == null && email == null) {
             throw new IllegalArgumentException("All inputs null!");
         }
-        //Check is all inputs are inputes
-        else if(firstName.trim().isEmpty() && lastName.trim().isEmpty() && email.trim().isEmpty()){
+        // Check is all inputs are inputes
+        else if (firstName.trim().isEmpty() && lastName.trim().isEmpty() && email.trim().isEmpty()) {
             throw new IllegalArgumentException("All fields are empty!");
-        } 
+        }
         // Check if firstName is empty
         else if (firstName == null || firstName.trim().isEmpty()) {
             throw new IllegalArgumentException("The first name cannot be empty!");
@@ -96,52 +82,48 @@ public class GeneralUserService {
         // Check if email is empty
         else if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("The email cannot be empty!");
-        } 
-        // Check if User Already Exists
-        else if(generalUserRepository.findGeneralUserByEmail(email) != null){
-                throw new IllegalArgumentException("User with that email already exists!");
         }
-        else {
+        // Check if user already exists
+        else if (generalUserRepository.findGeneralUserByEmail(email) != null) {
+            throw new IllegalArgumentException("User with that email already exists!");
+        } else {
             String emailTrimmed = email.trim();
             Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
             Matcher matcher = pattern.matcher(emailTrimmed);
+            // Check if email valid format
             if (!matcher.find()) {
                 throw new IllegalArgumentException("The email is invalid!");
             } else {
-               
-            GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
-            generalUserRepository.save(generalUser);
-            return generalUser;
+                // Create general user
+                GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
+                generalUserRepository.save(generalUser);
+                return generalUser;
             }
         }
-                
 
-                
-        
-    
-       
     }
 
     @Transactional
     public GeneralUser updateGeneralUserEmail(String oldEmail, String newEmail) {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(oldEmail);
-        if(generalUser == null){
+        // Check if user not found
+        if (generalUser == null) {
             throw new IllegalArgumentException("User Not Found");
-        } 
-        else if(generalUserRepository.findGeneralUserByEmail(newEmail) != null){
-                throw new IllegalArgumentException("User with that email already exists!");
         }
-        
-        else{
-            //  List<GeneralUser> generalUserList = generalUserRepository.findAll();
-            //     for(int i = 0; i < generalUserList.size(); i++){
-            //     if(generalUserList.get(i).getEmail() == newEmail){
-            //         throw new IllegalArgumentException("User with that email already exists");
-            //         }
-            //     }
-
-            generalUser.setEmail(newEmail);
-            return generalUser;
+        // Check if user already has new email
+        else if (generalUserRepository.findGeneralUserByEmail(newEmail) != null) {
+            throw new IllegalArgumentException("User with that email already exists!");
+        } else {
+            String emailTrimmed = newEmail.trim();
+            Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
+            Matcher matcher = pattern.matcher(emailTrimmed);
+            // Check if new email is valid format
+            if (!matcher.find()) {
+                throw new IllegalArgumentException("The new email is invalid!");
+            } else {
+                generalUser.setEmail(newEmail);
+                return generalUser;
+            }
         }
     }
 
@@ -149,15 +131,17 @@ public class GeneralUserService {
     public boolean deleteGeneralUser(String email) {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
         try {
-            if(generalUserRepository.findGeneralUserByEmail(email) == null){
+            // Check if general user
+            if (generalUserRepository.findGeneralUserByEmail(email) == null) {
                 throw new IllegalArgumentException("User with that email does not exist!");
-        } else {
-            generalUserRepository.delete(generalUser);
-            return true;
-        }
+            } else {
+                // Delete general user
+                generalUserRepository.delete(generalUser);
+                return true;
+            }
         } catch (Exception e) {
             return false;
         }
-        
+
     }
 }
