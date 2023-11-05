@@ -1,16 +1,14 @@
 name: Gradle CI - Checking Compile
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # Trigger the workflow on push or pull request
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  compile:
+  database-write-test:
     runs-on: ubuntu-latest
     env:
       working-directory: ./backend
@@ -21,11 +19,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Install Gradle
-      uses: gradle/gradle-build-action@v2
-      with:
-        gradle-version: 8.2.1
-    - name: Compile with Gradle
+    - name: Test Write/Read Database
       run: |
-        gradle build -xtest
+        ./gradlew test --tests "*Repository*"
       working-directory: ${{ env.working-directory }}
