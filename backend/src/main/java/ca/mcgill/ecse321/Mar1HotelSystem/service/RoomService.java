@@ -61,6 +61,21 @@ public class RoomService {
     }
 
     @Transactional
+    public List<Room> getAvailableRooms() {
+        return ServiceUtils.toList(roomRepository.findRoomsByIsAvailable(true));
+    }
+
+    @Transactional
+    public List<Room> getUnavailableRooms() {
+        return ServiceUtils.toList(roomRepository.findRoomsByIsAvailable(false));
+    }
+
+    @Transactional
+    public List<Room> getRoomsByBedType(BedType bedType) {
+        return ServiceUtils.toList(roomRepository.findRoomsByBedType(bedType));
+    }
+
+    @Transactional
     public boolean setRoomAvailability(int roomId, boolean availability) {
         Room room = roomRepository.findRoomByRoomId(roomId);
         try {

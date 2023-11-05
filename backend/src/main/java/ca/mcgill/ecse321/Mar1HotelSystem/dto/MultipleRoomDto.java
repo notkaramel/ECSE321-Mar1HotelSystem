@@ -6,17 +6,20 @@ import java.util.List;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
 public class MultipleRoomDto {
-    private Iterable<RoomDto> roomList;
+    private Iterable<RoomResponseDto> roomList;
+
+	public MultipleRoomDto() {
+	}
 	
 	public MultipleRoomDto(Iterable<Room> rooms) {
-		List<RoomDto> roomDtoList = new ArrayList<RoomDto>();
+		List<RoomResponseDto> roomDtoList = new ArrayList<RoomResponseDto>();
 		for (Room r : rooms) {
-			roomDtoList.add(new RoomDto(r));
+			roomDtoList.add(new RoomResponseDto(r));
 		}
 		this.roomList = roomDtoList;
 	}
 	
-	public Iterable<RoomDto> getRoomList() {
+	public Iterable<RoomResponseDto> getRoomList() {
 		return this.roomList;
 	}
 }

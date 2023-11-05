@@ -20,6 +20,17 @@ public class HotelService {
     HotelRepository hotelRepository;
 
     @Transactional
+    public boolean createHotel() {
+        try {
+            Hotel hotel = new Hotel();
+            hotelRepository.save(hotel);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Transactional
     public Hotel getHotel() {
         return hotelRepository.findHotelByHotelName("Mar-1 Hotel");
     }

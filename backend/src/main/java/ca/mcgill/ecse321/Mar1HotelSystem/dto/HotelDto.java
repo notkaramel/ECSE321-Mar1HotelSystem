@@ -1,25 +1,16 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
-
 import java.util.List;
-import java.util.ArrayList;
 
 public class HotelDto {
     
     // VARIABLES
     private String hotelName = "Mar-1 Hotel";
     private HotelScheduleDto hotelSchedule;
-    private List<Room> rooms;
+    private List<RoomResponseDto> rooms;
 
     // CONSTRUCTORS
     public HotelDto() {
-    }
-
-    // Hotel constructor requiring hotelSchedule
-    public HotelDto(HotelScheduleDto hotelSchedule) {
-        this.hotelSchedule = hotelSchedule;
-        rooms = new ArrayList<Room>();
     }
 
     // GETTERS
@@ -38,9 +29,8 @@ public class HotelDto {
     //     return room;
     // }
 
-    public List<RoomDto> getRooms() {
-        List<RoomDto> room = new ArrayList<RoomDto>();
-        return room;
+    public List<RoomResponseDto> getRooms() {
+        return this.rooms;
     }
 
     public int getNumberOfRooms() {
