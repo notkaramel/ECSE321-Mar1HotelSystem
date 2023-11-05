@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,75 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomHoursMultipleResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomHoursResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleMultipleResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursMultipleResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
+import ca.mcgill.ecse321.Mar1HotelSystem.service.ScheduleService;
+
+@CrossOrigin(origins="*")
+@RestController
+
 public class ScheduleRestController {
     
+    @Autowired
+    private ScheduleService service;
+
+    //operating hours
+    @GetMapping(value = {"/operatingHours/{day}", "/operatingHours/{day}/"})
+    public ResponseEntity<OperatingHoursResponseDto> getOperatingHoursByDay(@PathVariable DayOfWeek day) {
+        OperatingHours oh = service.getOperatingHoursByDay(day);
+        return new ResponseEntity<OperatingHoursResponseDto>(new OperatingHoursResponseDto(oh), HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/operatingHours", "/operatingHours/"})
+    public ResponseEntity<OperatingHoursMultipleResponseDto> getAllOperatingHours() {
+        Iterable<OperatingHours> ohList = service.getAllOperatingHours();
+        OperatingHoursMultipleResponseDto ohResponse = new OperatingHoursMultipleResponseDto(ohList);
+        return new ResponseEntity<OperatingHoursMultipleResponseDto>(ohResponse, HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"/operatingHours", "/operatingHours/"})
+    public ResponseEntity<OperatingHoursResponseDto> createOperatingHours(@RequestBody OperatingHoursRequestDto request) {
+        OperatingHours ohToCreate = request.toModel();
+        OperatingHours oh = service.createOperatingHours(ohToCreate);
+        OperatingHoursResponseDto response = new OperatingHoursResponseDto(oh);
+        return new ResponseEntity<OperatingHoursResponseDto>(response, HttpStatus.CREATED);
+    }
+
+    //custom hours
+    @GetMapping( value = {"/customHours/{date}", "/customHours/{date}/"})
+    public ResponseEntity<CustomHoursResponseDto> getCustomHoursByDate(@PathVariable Date date) {
+        CustomHours ch = service.getCustomHoursByDate(date);
+        return new ResponseEntity<CustomHoursResponseDto>(new CustomHoursResponseDto(ch), HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/customHours", "/customHours/"})
+    public ResponseEntity<CustomHoursMultipleResponseDto> getAllCustomHours() {
+        Iterable<CustomHours> chList = service.getAllCustomHours();
+        CustomHoursMultipleResponseDto chResponse = new CustomHoursMultipleResponseDto(chList);
+        return new ResponseEntity<CustomHoursMultipleResponseDto>(chResponse, HttpStatus.OK);
+    }
+
+    //hotel schedule
+    @GetMapping(value = {"/hotelSchedule/{year}", "/hotelSchedule/{year}/"})
+    public ResponseEntity<HotelScheduleResponseDto> getHotelScheduleByYear(@PathVariable int year) {
+        HotelSchedule hs = service.getHotelScheduleByYear(year);
+        return new ResponseEntity<HotelScheduleResponseDto>(new HotelScheduleResponseDto(hs), HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/hotelSchedule", "/hotelSchedule/"})
+    public ResponseEntity<HotelScheduleMultipleResponseDto> getAllHotelSchedules() {
+        Iterable<HotelSchedule> hsList = service.getAllHotelSchedules();
+        HotelScheduleMultipleResponseDto hsResponse = new HotelScheduleMultipleResponseDto(hsList);
+        return new ResponseEntity<HotelScheduleMultipleResponseDto>(hsResponse, HttpStatus.OK);
+    }
 }
+

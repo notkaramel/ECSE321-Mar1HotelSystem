@@ -6,41 +6,41 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
+
 public class HotelScheduleRequestDto {
-   
-    // VARIABLES
+
     private int year;
-    private List<CustomHoursResponseDto> customHoursList;
-    private List<OperatingHoursRequestDto> operatingHoursList;
+    private CustomHours[] customHoursList;
+    private OperatingHours[] operatingHoursList;
 
-    // CONSTRUCTORS
-    public HotelScheduleRequestDto() {
-    }
-
-    // HotelSchedule constructor requiring year, list of operatingHours, list
-    // customHours
-    public HotelScheduleRequestDto(int year, OperatingHoursRequestDto[] operatingHoursList, CustomHoursResponseDto[] customHoursList) {
-        this.year = year;
-        this.customHoursList = new ArrayList<CustomHoursResponseDto>(Arrays.asList(customHoursList));
-        this.operatingHoursList = new ArrayList<OperatingHoursRequestDto>(Arrays.asList(operatingHoursList));
-    }
-
-    // GETTERS 
-    // Method to get year, returns year
     public int getYear() {
         return this.year;
     }
-
-    // Methods for 1 to 7 associationn between HotelSchedule and OperatingHours
-    public List<OperatingHoursRequestDto> getOperatingHours() {
-        List<OperatingHoursRequestDto> newOperatingHours = Collections.unmodifiableList(this.operatingHoursList);
-        return newOperatingHours;
+    public CustomHours[] getCustomHoursList() {
+        return this.customHoursList;
+    }
+    public OperatingHours[] getOperatingHoursList() {
+        return this.operatingHoursList;
     }
 
-    // Methods for 1 to 365 associations between Hotel to CustomHours
-    public List<CustomHoursResponseDto> getCustomHours() {
-        List<CustomHoursResponseDto> newCustomHours = Collections.unmodifiableList(this.customHoursList);
-        return newCustomHours;
+    public void setYear(int year) {
+        this.year = year;
+    }
+    public void setCustomHoursList(CustomHours[] customHoursList) {
+        this.customHoursList = customHoursList;
+    }
+    public void setOperatingHoursList(OperatingHours[] operatingHoursList) {
+        this.operatingHoursList = operatingHoursList;
     }
 
+    public HotelSchedule toModel() {
+        HotelSchedule hotelSchedule = new HotelSchedule();
+        hotelSchedule.setYear(this.year);
+        hotelSchedule.setCustomHours(this.customHoursList);
+        hotelSchedule.setOperatingHours(this.operatingHoursList);
+        return hotelSchedule;
+    }
 }
