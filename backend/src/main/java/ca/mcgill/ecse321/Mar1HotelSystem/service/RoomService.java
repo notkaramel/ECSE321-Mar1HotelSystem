@@ -24,10 +24,10 @@ public class RoomService {
     @Transactional
     public Room createRoom(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity) {
         Hotel hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
-        if (hotel == null) {
-            hotel = new Hotel();
-            hotelRepository.save(hotel);
-        }
+        // if (hotel == null) {
+        //     hotel = new Hotel();
+        //     hotelRepository.save(hotel);
+        // }
         Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
         roomRepository.save(room);
         return room;

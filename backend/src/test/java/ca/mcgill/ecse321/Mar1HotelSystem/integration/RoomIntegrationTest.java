@@ -36,6 +36,7 @@ public class RoomIntegrationTest {
         roomRepository.deleteAll();
     }
 
+    @Test
     public int testCreateRoom() {
         RoomRequestDto testRoom = new RoomRequestDto(Room.RoomType.Deluxe, Room.BedType.Doubles, true, 100, 1);
         ResponseEntity<RoomResponseDto> res = roomClient.postForEntity("/createRoom", testRoom, RoomResponseDto.class);
@@ -55,7 +56,7 @@ public class RoomIntegrationTest {
     }
 
     @Test
-    public void testGetAllRooms() {
+    public void testCreateAndGetRoomById() {
         int id = testCreateRoom();
         testGetRoomById(id);
     }

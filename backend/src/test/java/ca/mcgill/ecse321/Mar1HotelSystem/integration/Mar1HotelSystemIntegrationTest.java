@@ -22,14 +22,14 @@ public class Mar1HotelSystemIntegrationTest {
     }
 
     public void testPing() {
-        ResponseEntity<String> response = client.getForEntity("localhost:8080", String.class);
+        ResponseEntity<String> response = client.getForEntity("/", String.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
     public void testCoffee() {
-        ResponseEntity<String> response = client.getForEntity("localhost:8080/coffee", String.class);
+        ResponseEntity<String> response = client.getForEntity("/coffee", String.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(response.getStatusCode(), HttpStatus.I_AM_A_TEAPOT);
