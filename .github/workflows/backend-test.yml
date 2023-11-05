@@ -10,7 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  prepare-test:
+  service-test:
+    name: "Service Tests"
     env:
       working-directory: ./backend
     runs-on: ubuntu-latest
@@ -25,9 +26,27 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         gradle-version: 8.2.1
-    - name: "Test 1: General User Service"
+    - name: "Run all service tests"
       run: |
-        gradle test --tests GeneralUserServiceTest
+        gradle test --tests '*Service*'
       working-directory: ${{ env.working-directory }}
+  
+  integration-test:
+    name: "Integration Tests"
+    env:
+      working-directory: ./backend
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: "Run all in tests"
+      run: |
+        ./gradlew test --tests '*Integration*'
+      working-directory: ${{ env.working-directory }}
+
 
 # integration test job
