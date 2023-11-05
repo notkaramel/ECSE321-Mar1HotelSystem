@@ -2,10 +2,8 @@ package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomerDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.CustomerService;
 
@@ -40,6 +38,17 @@ public class CustomerRestController {
     @GetMapping(value = { "/customers", "/customers/" })
     public List<CustomerDto> getCustomers() {
         return customerService.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    @PostMapping(value = { "/customer", "/customer/" })
+    @ResponseStatus(HttpStatus.CREATED)
+    public CustomerDto createCustomer(@RequestBody CustomerDto customerDto) {
+        return convertToDto(customerService.createCustomer(
+                customerDto.getFirstName(),
+                customerDto.getLastName(),
+                customerDto.getEmail(),
+                customerDto.getPhoneNumber(),
+                customerDto.getPassword()));
     }
 
     private CustomerDto convertToDto(Customer customer) {
