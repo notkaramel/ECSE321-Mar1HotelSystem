@@ -16,16 +16,20 @@ public class Mar1HotelSystemIntegrationTest {
     private TestRestTemplate client;
 
     @Test
+    public void mainTest() {
+        testPing();
+        testCoffee();
+    }
+
     public void testPing() {
-        ResponseEntity<String> response = client.getForEntity("/", String.class);
+        ResponseEntity<String> response = client.getForEntity("localhost:8080", String.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
-    @Test
     public void testCoffee() {
-        ResponseEntity<String> response = client.getForEntity("/coffee", String.class);
+        ResponseEntity<String> response = client.getForEntity("localhost:8080/coffee", String.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(response.getStatusCode(), HttpStatus.I_AM_A_TEAPOT);

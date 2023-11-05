@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
@@ -25,9 +26,13 @@ public class RoomIntegrationTest {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private HotelRepository hotelRepository;
+
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
+        hotelRepository.deleteAll();
         roomRepository.deleteAll();
     }
 
