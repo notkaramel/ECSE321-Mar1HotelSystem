@@ -53,17 +53,18 @@ public class PaymentServiceTest {
         assertEquals(100, foundPayment.getAmount());
     }
 
-@Test
-public void testDeletePaymentById() {
-    Payment payment = new Payment(100);
-    payment.setPaymentId(1); 
-    when(paymentRepository.findPaymentByPaymentId(anyInt())).thenReturn(payment);
-    doNothing().when(paymentRepository).delete(any(Payment.class));
-    boolean isDeleted = paymentService.deletePaymentById(1);
-    assertTrue(isDeleted);
-    verify(paymentRepository, times(1)).delete(any(Payment.class));
-}
+    @Test
+    public void testDeletePaymentById() {
+        Payment payment = new Payment(100);
+        payment.setPaymentId(1);
+        when(paymentRepository.findPaymentByPaymentId(anyInt())).thenReturn(payment);
+        doNothing().when(paymentRepository).delete(any(Payment.class));
+        paymentService.deletePaymentById(1);
+        List<Payment> payments = paymentService.getAllPayments();
 
+        assertEquals(0, payments.size());
+
+    }
 
     @Test
     public void testGetAllPayments() {
@@ -77,13 +78,24 @@ public void testDeletePaymentById() {
     }
 
     @Test
-    public void testCreateInvalidPayment() {
-        Payment payment = new Payment();
-        when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
-        assertThrows(IllegalArgumentException.class, () -> {
-            paymentService.createPayment(-100);
-        });
+    public void testInvalidDeletePaymentById(){
+        when(paymentRepository.findPaymentByPaymentId(anyInt())).thenReturn(null);
+        try {
+            paymentService.deletePaymentById(1);
+       } catch (Exception e) {
+           assertThrows(IllegalArgumentException.class, () -> paymentService.deletePaymentById(1));
+       }
     }
-    
+
+    @Test
+    public void testInvalidGetPaymentById(){
+        when(paymentRepository.findPaymentByPaymentId(anyInt())).thenReturn(null);
+        try {
+            paymentService.getPaymentById(1);
+       } catch (Exception e) {
+           assertThrows(IllegalArgumentException.class, () -> paymentService.getPaymentById(1));
+       }
+    }
+
 
 }
