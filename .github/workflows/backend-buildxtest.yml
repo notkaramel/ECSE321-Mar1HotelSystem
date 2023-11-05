@@ -1,4 +1,4 @@
-name: Gradle CI - Checking Compile
+name: Gradle CI - Checking Build without Tests
 
 on:
   push:
