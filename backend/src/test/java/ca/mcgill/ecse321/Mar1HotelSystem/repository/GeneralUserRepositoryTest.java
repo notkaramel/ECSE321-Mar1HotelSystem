@@ -15,7 +15,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 /**
  * Test class for the GeneralUser repository.
  * 
- * @author Bilar Mokhtari 
+ * @author Bilar Mokhtari
  */
 @SpringBootTest
 public class GeneralUserRepositoryTest {
@@ -24,7 +24,6 @@ public class GeneralUserRepositoryTest {
 
     @BeforeEach
     @AfterEach
-
     // Clear the database before and after each test
     public void clearDatabase() {
         generalUserRepository.deleteAll();

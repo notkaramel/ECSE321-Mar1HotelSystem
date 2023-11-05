@@ -6,14 +6,14 @@ public class GeneralUserDto{
     private String email;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private long phoneNumber;
 
     // CONSTRUCTORS
     public GeneralUserDto() {
     }
 
     // Shift constructor requiring firstName, lastName, email, phoneNumber
-    public GeneralUserDto(String firstName, String lastName, String email, int phoneNumber) {
+    public GeneralUserDto(String firstName, String lastName, String email, long phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -37,7 +37,7 @@ public class GeneralUserDto{
     }
 
     // Method to get phoneNumber, returns phoneNumber
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return this.phoneNumber;
     }
 
