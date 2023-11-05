@@ -19,7 +19,11 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Install Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 8.2.1
     - name: Test Write/Read Database
       run: |
-        ./gradlew test --tests "*Repository*"
+        gradle test --tests "*Repository*"
       working-directory: ${{ env.working-directory }}
