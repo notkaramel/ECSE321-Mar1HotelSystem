@@ -49,7 +49,7 @@ public class ManagerService {
         Manager manager = managerRepository.findManagerByEmail(email);
         // Check if manager not found
         if (manager == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,"Manager Not Found");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Manager Not Found");
         } else {
             return manager;
         }
@@ -60,39 +60,40 @@ public class ManagerService {
     public Manager createManager(String firstName, String lastName, String email, int phoneNumber, String password) {
         // Check is all inputs are null
         if (firstName == null && lastName == null && email == null && password == null) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"All inputs null!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "All inputs null!");
         }
         // Check is all inputs are inputes
         else if (firstName.trim().isEmpty() && lastName.trim().isEmpty() && email.trim().isEmpty()
                 && password.trim().isEmpty()) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"All fields are empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "All fields are empty!");
         }
         // Check if firstName is empty
         else if (firstName == null || firstName.trim().isEmpty()) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The first name cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The first name cannot be empty!");
         }
         // Check if lastName is empty
         else if (lastName == null || lastName.trim().isEmpty()) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The last name cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The last name cannot be empty!");
         }
         // Check if email is empty
         else if (email == null || email.trim().isEmpty()) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The email cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
         }
         // Check if password is empty
         else if (password == null || password.trim().isEmpty()) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The password cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
         }
         // Check if user already exists
-        else if (generalUserRepository.findGeneralUserByEmail(email) != null) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"User with that email already exists!");
+        else if (generalUserRepository.findGeneralUserByEmail(email) != null
+                || managerRepository.findManagerByEmail(email) != null) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "User with that email already exists!");
         } else {
             String emailTrimmed = email.trim();
             Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
             Matcher matcher = pattern.matcher(emailTrimmed);
             // Check if email is valid format
             if (!matcher.find()) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The email is invalid!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email is invalid!");
             } else {
                 // Create manager
                 Manager manager = new Manager(firstName, lastName, email, phoneNumber, password);
@@ -108,13 +109,13 @@ public class ManagerService {
         Manager manager = managerRepository.findManagerByEmail(email);
         // Check if user exists
         if (manager == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,"User Not Found");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "User Not Found");
         } else {
             if (manager.getPassword() == oldPassword) {
                 manager.setPassword(newPassword);
                 return manager;
             } else {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"Incorrect old password!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Incorrect old password!");
             }
         }
     }
@@ -125,7 +126,7 @@ public class ManagerService {
         try {
             // Check if user exists
             if (managerRepository.findManagerByEmail(email) == null) {
-                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,"User with that email does not exist!");
+                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "User with that email does not exist!");
             } else {
                 // Delete manager
                 managerRepository.delete(manager);
