@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import java.util.List;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			fail();
 		}
@@ -97,7 +98,7 @@ public class GeneralUserServiceTest {
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -119,7 +120,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			error = e.getMessage();
 		}
 		assertNull(generalUser);
@@ -139,7 +140,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 
 			error = e.getMessage();
 		}
@@ -160,7 +161,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -181,7 +182,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -202,7 +203,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -223,7 +224,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -244,7 +245,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -261,7 +262,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.getGeneralUser("joe@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -279,7 +280,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUserService.getGeneralUser("jane@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 
@@ -298,7 +299,7 @@ public class GeneralUserServiceTest {
 		List<GeneralUser> generalUsers = null;
 		try {
 			generalUsers = generalUserService.getAllGeneralUsers();
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -316,7 +317,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "janette@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -335,7 +336,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "janettegmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -354,7 +355,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.updateGeneralUserEmail("Gio@gmail.com", "jane@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -372,7 +373,7 @@ public class GeneralUserServiceTest {
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "joe@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -389,7 +390,7 @@ public class GeneralUserServiceTest {
 		Boolean generalUser = null;
 		try {
 			generalUser = generalUserService.deleteGeneralUser("joe@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -406,7 +407,7 @@ public class GeneralUserServiceTest {
 		Boolean generalUser = null;
 		try {
 			generalUser = generalUserService.deleteGeneralUser("George@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 			assertEquals("User with that email does not exist!", error);

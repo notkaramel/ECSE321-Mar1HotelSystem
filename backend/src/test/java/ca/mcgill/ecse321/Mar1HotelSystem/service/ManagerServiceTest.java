@@ -5,6 +5,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import java.util.List;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			fail();
 		}
@@ -98,7 +99,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 			assertNull(manager);
@@ -120,7 +121,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 
 			error = e.getMessage();
 		}
@@ -142,7 +143,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 
 			error = e.getMessage();
 		}
@@ -164,7 +165,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -186,7 +187,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -208,7 +209,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -230,7 +231,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -252,7 +253,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -274,7 +275,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -291,7 +292,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.getManager("joe@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -309,7 +310,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.getManager("jane@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -327,7 +328,7 @@ public class ManagerServiceTest {
 		List<Manager> managers = null;
 		try {
 			managers = managerService.getAllManagers();
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -346,7 +347,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.updateManagerPassword("joe@gmail.com", "Pass", "Passed");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -364,7 +365,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.updateManagerPassword("joe@gmail.com", "wrongPass", "Passed");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 
@@ -382,7 +383,7 @@ public class ManagerServiceTest {
 		Manager manager = null;
 		try {
 			manager = managerService.updateManagerPassword("Hey@gmail.com", "WhatUp?", "NothingMuchYou?");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -399,7 +400,7 @@ public class ManagerServiceTest {
 		Boolean manager = null;
 		try {
 			manager = managerService.deleteManager("joe@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}
@@ -418,7 +419,7 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.deleteManager("jane@gmail.com");
 
-		} catch (IllegalArgumentException e) {
+		} catch (Mar1HotelSystemException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 			assertEquals("User with that email does not exist!", error);
