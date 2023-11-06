@@ -33,7 +33,6 @@ public class GeneralUserServiceTest {
 
 	private static final String GENERALUSER_KEY = "joe@gmail.com";
 
-	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(generalUserDao.findGeneralUserByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(GENERALUSER_KEY)) {
@@ -66,6 +65,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUser() {
+		setMockOutput();
 		String firstName = "Joeye";
 		String lastName = "Doey";
 		String email = "joeye@gmail.com";
@@ -89,6 +89,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserTwice() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -112,6 +113,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserNull() {
+		setMockOutput();
 		String error = null;
 		String firstName = null;
 		String lastName = null;
@@ -132,6 +134,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserAllSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "";
 		String lastName = "";
@@ -153,6 +156,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserFistNameSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "";
 		String lastName = "Doe";
@@ -174,6 +178,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserLastNameSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "";
@@ -195,6 +200,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserEmailSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -216,6 +222,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserEmailMissingAt() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -237,6 +244,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testCreateGeneralUserEmailMissingDot() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -258,6 +266,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testGetGeneralUserSuccessful() {
+		setMockOutput();
 		String error = null;
 		GeneralUser generalUser = null;
 		try {
@@ -276,6 +285,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testGetGeneralUserUnsuccessful() {
+		setMockOutput();
 		String error = null;
 		GeneralUser generalUser = null;
 		try {
@@ -295,6 +305,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testGetGeneralUserListSuccessful() {
+		setMockOutput();
 		String error = null;
 		List<GeneralUser> generalUsers = null;
 		try {
@@ -309,10 +320,28 @@ public class GeneralUserServiceTest {
 	}
 
 	/*
+	 * Fail to get list of general users successfully since null
+	 */
+	@Test
+	public void testGetGeneralUserListUnsuccessful() {
+		String error = null;
+		List<GeneralUser> generalUsers = null;
+		try {
+			generalUsers = generalUserService.getAllGeneralUsers();
+		} catch (Mar1HotelSystemException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertNull(generalUsers);
+		assertEquals("There are no Users found!", error);
+	}
+
+	/*
 	 * Update general user email from correct email of existing general user
 	 */
 	@Test
 	public void testUpdateGeneralUserThatExist() {
+		setMockOutput();
 		String error = null;
 		GeneralUser generalUser = null;
 		try {
@@ -332,6 +361,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testUpdateGeneralUserThatExistNewEmailIncorrect() {
+		setMockOutput();
 		String error = null;
 		GeneralUser generalUser = null;
 		try {
@@ -351,6 +381,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testUpdateGeneralUserThatDoesNotExist() {
+		setMockOutput();
 		String error = null;
 		GeneralUser generalUser = null;
 		try {
@@ -369,6 +400,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testUpdateGeneralUserThatAlreadyHasEmail() {
+		setMockOutput();
 		String error = null;
 		GeneralUser generalUser = null;
 		try {
@@ -386,6 +418,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testDeleteGeneralUserThatExist() {
+		setMockOutput();
 		String error = null;
 		Boolean generalUser = null;
 		try {
@@ -403,6 +436,7 @@ public class GeneralUserServiceTest {
 	 */
 	@Test
 	public void testDeleteGeneralUserThatDoesNotExist() {
+		setMockOutput();
 		String error = null;
 		Boolean generalUser = null;
 		try {

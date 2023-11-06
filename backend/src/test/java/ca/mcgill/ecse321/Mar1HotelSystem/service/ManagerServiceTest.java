@@ -35,7 +35,6 @@ public class ManagerServiceTest {
 
 	private static final String MANAGER_KEY = "joe@gmail.com";
 
-	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(managerDao.findManagerByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(MANAGER_KEY)) {
@@ -68,6 +67,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManager() {
+		setMockOutput();
 		String firstName = "Joey";
 		String lastName = "Doey";
 		String email = "joeye@gmail.com";
@@ -90,6 +90,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerTwice() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -112,6 +113,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerNull() {
+		setMockOutput();
 		String error = null;
 		String firstName = null;
 		String lastName = null;
@@ -134,6 +136,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerAllSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "";
 		String lastName = "";
@@ -156,6 +159,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerFistNameSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "";
 		String lastName = "Doe";
@@ -178,6 +182,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerLastNameSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "";
@@ -200,6 +205,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerEmailSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -222,6 +228,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerPasswordSpace() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -244,6 +251,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerEmailMissingAt() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -266,6 +274,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testCreateManagerEmailMissingDot() {
+		setMockOutput();
 		String error = null;
 		String firstName = "Joe";
 		String lastName = "Doe";
@@ -288,6 +297,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testGetManagerSuccessful() {
+		setMockOutput();
 		String error = null;
 		Manager manager = null;
 		try {
@@ -301,11 +311,13 @@ public class ManagerServiceTest {
 
 	}
 
+
 	/*
 	 * Fail to get manager because email of non-existing manager
 	 */
 	@Test
 	public void testGetManagerUnsuccessful() {
+		setMockOutput();
 		String error = null;
 		Manager manager = null;
 		try {
@@ -324,6 +336,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testGetManagerListSuccessful() {
+		setMockOutput();
 		String error = null;
 		List<Manager> managers = null;
 		try {
@@ -338,11 +351,29 @@ public class ManagerServiceTest {
 	}
 
 	/*
+	 * Fail to get list of managers successfully since null
+	 */
+	@Test
+	public void testGetManagerListUnsuccessful() {
+		String error = null;
+		List<Manager> managers = null;
+		try {
+			managers = managerService.getAllManagers();
+		} catch (Mar1HotelSystemException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertNull(managers);
+		assertEquals("There are no Managers Found", error);
+	}
+
+	/*
 	 * Update manager password from correct email of existing manager and correct
 	 * old password successfully
 	 */
 	@Test
 	public void testUpdateManagerThatExist() {
+		setMockOutput();
 		String error = null;
 		Manager manager = null;
 		try {
@@ -361,6 +392,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testUpdateManagerThatExistOldPasswordIncorrect() {
+		setMockOutput();
 		String error = null;
 		Manager manager = null;
 		try {
@@ -379,6 +411,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testUpdateManagerThatDoesNotExist() {
+		setMockOutput();
 		String error = null;
 		Manager manager = null;
 		try {
@@ -396,6 +429,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testDeleteManagerThatExist() {
+		setMockOutput();
 		String error = null;
 		Boolean manager = null;
 		try {
@@ -414,6 +448,7 @@ public class ManagerServiceTest {
 	 */
 	@Test
 	public void testDeleteManagerThatDoesNotExist() {
+		setMockOutput();
 		String error = null;
 		Boolean manager = null;
 		try {
