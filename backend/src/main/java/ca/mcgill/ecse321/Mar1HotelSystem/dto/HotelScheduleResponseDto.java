@@ -15,6 +15,8 @@ public class HotelScheduleResponseDto {
         this.operatingHoursList = operatingHoursList;
     }
 
+    public HotelScheduleResponseDto(Boolean hs) {} 
+
     public HotelScheduleResponseDto(HotelSchedule i) {
 	}
 

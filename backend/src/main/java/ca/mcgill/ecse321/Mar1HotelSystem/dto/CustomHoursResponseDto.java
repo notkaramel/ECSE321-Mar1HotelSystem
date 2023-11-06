@@ -15,6 +15,9 @@ public class CustomHoursResponseDto {
         this.closingHour = customHour.getClosingHour();
     }
 
+    public CustomHoursResponseDto(Boolean customHour) {} 
+
+
     public Date getDate() {
         return this.date;
     }

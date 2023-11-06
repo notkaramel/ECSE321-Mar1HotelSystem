@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomHoursMultipleResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomHoursRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomHoursResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleMultipleResponseDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursMultipleResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursRequestDto;
@@ -46,14 +49,35 @@ public class ScheduleRestController {
         OperatingHoursMultipleResponseDto ohResponse = new OperatingHoursMultipleResponseDto(ohList);
         return new ResponseEntity<OperatingHoursMultipleResponseDto>(ohResponse, HttpStatus.OK);
     }
-
+    
     @PostMapping(value = {"/operatingHours", "/operatingHours/"})
     public ResponseEntity<OperatingHoursResponseDto> createOperatingHours(@RequestBody OperatingHoursRequestDto request) {
         OperatingHours ohToCreate = request.toModel();
-        OperatingHours oh = service.createOperatingHours(ohToCreate);
+
+        DayOfWeek day = ohToCreate.getDayOfWeek();
+        int openingHour = ohToCreate.getOpeningHour();
+        int closingHour = ohToCreate.getClosingHour();
+
+        OperatingHours oh = service.createOperatingHours(day, openingHour, closingHour);
+    
         OperatingHoursResponseDto response = new OperatingHoursResponseDto(oh);
         return new ResponseEntity<OperatingHoursResponseDto>(response, HttpStatus.CREATED);
     }
+
+    @PostMapping(value = {"/operatingHours", "/operatingHours/"})
+    public ResponseEntity<OperatingHoursResponseDto> updateOperatingHours(@RequestBody OperatingHoursRequestDto request) {
+        OperatingHours ohToUpdate = request.toModel();
+
+        DayOfWeek day = ohToUpdate.getDayOfWeek();
+        int openingHour = ohToUpdate.getOpeningHour();
+        int closingHour = ohToUpdate.getClosingHour();
+
+        OperatingHours oh = service.updateOperatingHours(day, openingHour, closingHour);
+    
+        OperatingHoursResponseDto response = new OperatingHoursResponseDto(oh);
+        return new ResponseEntity<OperatingHoursResponseDto>(response, HttpStatus.OK);
+    }
+    
 
     //custom hours
     @GetMapping( value = {"/customHours/{date}", "/customHours/{date}/"})
@@ -69,6 +93,46 @@ public class ScheduleRestController {
         return new ResponseEntity<CustomHoursMultipleResponseDto>(chResponse, HttpStatus.OK);
     }
 
+    @PostMapping(value = {"/customHours", "/customHours/"})
+    public ResponseEntity<CustomHoursResponseDto> createCustomHours(@RequestBody CustomHoursRequestDto request) {
+        CustomHours chToCreate = request.toModel();
+
+        Date date = chToCreate.getDate();
+        int openingHour = chToCreate.getOpeningHour();
+        int closingHour = chToCreate.getClosingHour();
+
+        CustomHours ch = service.createCustomHours(date, openingHour, closingHour);
+    
+        CustomHoursResponseDto response = new CustomHoursResponseDto(ch);
+        return new ResponseEntity<CustomHoursResponseDto>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = {"/customHours", "/customHours/"})
+    public ResponseEntity<CustomHoursResponseDto> updateCustomHours(@RequestBody CustomHoursRequestDto request) {
+        CustomHours chToUpdate = request.toModel();
+
+        Date date = chToUpdate.getDate();
+        int openingHour = chToUpdate.getOpeningHour();
+        int closingHour = chToUpdate.getClosingHour();
+
+        CustomHours ch = service.updateCustomHours(date, openingHour, closingHour);
+    
+        CustomHoursResponseDto response = new CustomHoursResponseDto(ch);
+        return new ResponseEntity<CustomHoursResponseDto>(response, HttpStatus.OK);
+    }
+    
+    @PostMapping(value = {"/customHours", "/customHours/"})
+    public ResponseEntity<CustomHoursResponseDto> deleteCustomHours(@RequestBody CustomHoursRequestDto request) {
+        CustomHours chToDelete = request.toModel();
+
+        Date date = chToDelete.getDate();
+
+        boolean ch = service.deleteCustomHours(date);
+    
+        CustomHoursResponseDto response = new CustomHoursResponseDto(ch); //TODO: come back to this, because of empty boolean constructor
+        return new ResponseEntity<CustomHoursResponseDto>(response, HttpStatus.OK); //TODO: is there a httpStatus for delete?
+    }
+
     //hotel schedule
     @GetMapping(value = {"/hotelSchedule/{year}", "/hotelSchedule/{year}/"})
     public ResponseEntity<HotelScheduleResponseDto> getHotelScheduleByYear(@PathVariable int year) {
@@ -81,6 +145,35 @@ public class ScheduleRestController {
         Iterable<HotelSchedule> hsList = service.getAllHotelSchedules();
         HotelScheduleMultipleResponseDto hsResponse = new HotelScheduleMultipleResponseDto(hsList);
         return new ResponseEntity<HotelScheduleMultipleResponseDto>(hsResponse, HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"/hotelSchedule", "/hotelSchedule/"})
+    public ResponseEntity<HotelScheduleResponseDto> createHotelSchedule(@RequestBody HotelScheduleRequestDto request) {
+        HotelSchedule hsToCreate = request.toModel();
+
+        int year = hsToCreate.getYear();
+        List<OperatingHours> ohList = hsToCreate.getOperatingHours();
+        List<CustomHours> chList = hsToCreate.getCustomHours();
+        
+        OperatingHours[] operatingHoursArray = ohList.toArray(new OperatingHours[0]);
+        CustomHours[] customHoursArray = chList.toArray(new CustomHours[0]);
+
+        HotelSchedule hs = service.createHotelSchedule(year, operatingHoursArray, customHoursArray);
+    
+        HotelScheduleResponseDto response = new HotelScheduleResponseDto(hs);
+        return new ResponseEntity<HotelScheduleResponseDto>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = {"/hotelSchedule", "/hotelSchedule/"})
+    public ResponseEntity<HotelScheduleResponseDto> deleteHotelSchedule(@RequestBody HotelScheduleRequestDto request) {
+        HotelSchedule hsToDelete = request.toModel();
+
+        int year = hsToDelete.getYear();
+
+        boolean hs = service.deleteHotelSchedule(year);
+    
+        HotelScheduleResponseDto response = new HotelScheduleResponseDto(hs); //TODO: come back to this, because of empty boolean constructor
+        return new ResponseEntity<HotelScheduleResponseDto>(response, HttpStatus.OK); //TODO: is there a httpStatus for delete?
     }
 }
 
