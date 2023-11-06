@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.springframework.http.HttpStatus;
 
 @ExtendWith(MockitoExtension.class)
 public class GeneralUserServiceTest {
@@ -77,6 +78,7 @@ public class GeneralUserServiceTest {
 		}
 		assertNotNull(generalUser);
 		assertEquals(email, generalUser.getEmail());
+		
 
 	}
 

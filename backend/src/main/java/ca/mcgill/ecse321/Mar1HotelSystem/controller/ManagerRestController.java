@@ -1,15 +1,20 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.GeneralUserDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.ManagerDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.ManagerService;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import java.util.ArrayList;
 
 /**
@@ -28,36 +33,41 @@ public class ManagerRestController {
 	private ManagerService service;
     
     @GetMapping(value = { "/managers", "/managers/" })
-    public List<Manager> getAllManagers() {
-        List<Manager> managers = new ArrayList<>();
-        managers = service.getAllManagers();
-        return managers;
-    }
+    public Iterable<ManagerDto> getAllManagers() {
+        return StreamSupport.stream(service.getAllManagers().spliterator(), false)
+                    .map(manager -> new ManagerDto(manager.getFirstName(), manager.getLastName(), manager.getEmail(), (int) manager.getPhoneNumber(), manager.getPassword()))
+                    .collect(Collectors.toList());
+            }
+    
 
     @GetMapping(value = { "/managers/{email}", "/managers/{email}/" })
-    public Manager getManager(@PathVariable("email") String email) {
+    public ResponseEntity<ManagerDto> getManager(@PathVariable("email") String email) {
         Manager manager = service.getManager(email);
-        return manager;
+        ManagerDto managerBody = new ManagerDto(manager.getFirstName(), manager.getLastName(), manager.getEmail(), (int) manager.getPhoneNumber(), manager.getPassword());
+        return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.OK);
     }
 
     @PostMapping(value = { "/managers/{email}/{firstName}/{lastName}/{phoneNumber}/{password}", "/managers/{email}/{firstName}/{lastName}/{phoneNumber}/{password}/" })
-    public Manager createManager( @PathVariable("email") String email, @PathVariable("firstName") String firstName, 
+    public ResponseEntity<ManagerDto> createManager(@PathVariable("email") String email, @PathVariable("firstName") String firstName, 
     @PathVariable("lastName") String lastName, @PathVariable("phoneNumber") int phoneNumber, 
     @PathVariable("password") String password){
         Manager manager = service.createManager(firstName,lastName, email, phoneNumber, password);
-        return manager;
+        ManagerDto managerBody = new ManagerDto(manager.getFirstName(), manager.getLastName(), manager.getEmail(), (int) manager.getPhoneNumber(), manager.getPassword());
+        return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.CREATED);
     }
 
     @PostMapping(value = { "/managers/{email}/{oldPassword}/{newPassword}", "/managers/{email}/{oldPassword}/{newPassword}/" })
-    public Manager updateManager( @PathVariable("email") String email, @PathVariable("oldPassword") String oldPassword, 
+    public ResponseEntity<ManagerDto> updateManager( @PathVariable("email") String email, @PathVariable("oldPassword") String oldPassword, 
     @PathVariable("newPassword") String newPassword){
         Manager manager = service.updateManagerPassword(email, oldPassword, newPassword);
-        return manager;
+        Manager managerDetails = service.getManager(email);
+        ManagerDto managerBody = new ManagerDto(managerDetails.getFirstName(), managerDetails.getLastName(), managerDetails.getEmail(), (int) managerDetails.getPhoneNumber(), managerDetails.getPassword());
+        return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.CREATED);
     }
 
     @PostMapping(value = { "/managers/{email}", "/managers/{email}/" })
-    public Boolean updateManager(@PathVariable("email") String email){
+    public ResponseEntity<Boolean> deleteManager(@PathVariable("email") String email){
         Boolean manager = service.deleteManager(email);
-        return manager;
+        return new ResponseEntity<Boolean>(manager, HttpStatus.OK);
     }
 }

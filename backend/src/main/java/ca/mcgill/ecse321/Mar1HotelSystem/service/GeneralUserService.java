@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import jakarta.transaction.Transactional;
@@ -35,7 +37,7 @@ public class GeneralUserService {
         List<GeneralUser> generalUserList = generalUserRepository.findAll();
         // Check if general user list is null or empty
         if (generalUserList == null || generalUserList.size() == 0) {
-            throw new IllegalArgumentException("There are no Users found!");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,"There are no Users found!");
         } else {
             return generalUserList;
         }
@@ -46,7 +48,7 @@ public class GeneralUserService {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(email);
         // Check if general user not found
         if (generalUser == null) {
-            throw new IllegalArgumentException("User Not Found");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,"User Not Found");
         } else {
             return generalUser;
         }
@@ -65,34 +67,34 @@ public class GeneralUserService {
     public GeneralUser createGeneralUser(String firstName, String lastName, String email, long phoneNumber) {
         // Check is all inputs are null
         if (firstName == null && lastName == null && email == null) {
-            throw new IllegalArgumentException("All inputs null!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"All inputs null!");
         }
         // Check is all inputs are inputes
         else if (firstName.trim().isEmpty() && lastName.trim().isEmpty() && email.trim().isEmpty()) {
-            throw new IllegalArgumentException("All fields are empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"All fields are empty!");
         }
         // Check if firstName is empty
         else if (firstName == null || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("The first name cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The first name cannot be empty!");
         }
         // Check if lastName is empty
         else if (lastName == null || lastName.trim().isEmpty()) {
-            throw new IllegalArgumentException("The last name cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The last name cannot be empty!");
         }
         // Check if email is empty
         else if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("The email cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The email cannot be empty!");
         }
         // Check if user already exists
         else if (generalUserRepository.findGeneralUserByEmail(email) != null) {
-            throw new IllegalArgumentException("User with that email already exists!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"User with that email already exists!");
         } else {
             String emailTrimmed = email.trim();
             Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
             Matcher matcher = pattern.matcher(emailTrimmed);
             // Check if email valid format
             if (!matcher.find()) {
-                throw new IllegalArgumentException("The email is invalid!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The email is invalid!");
             } else {
                 // Create general user
                 GeneralUser generalUser = new GeneralUser(firstName, lastName, email, phoneNumber);
@@ -108,18 +110,18 @@ public class GeneralUserService {
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(oldEmail);
         // Check if user not found
         if (generalUser == null) {
-            throw new IllegalArgumentException("User Not Found");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,"User Not Found");
         }
         // Check if user already has new email
         else if (generalUserRepository.findGeneralUserByEmail(newEmail) != null) {
-            throw new IllegalArgumentException("User with that email already exists!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"User with that email already exists!");
         } else {
             String emailTrimmed = newEmail.trim();
             Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
             Matcher matcher = pattern.matcher(emailTrimmed);
             // Check if new email is valid format
             if (!matcher.find()) {
-                throw new IllegalArgumentException("The new email is invalid!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,"The new email is invalid!");
             } else {
                 generalUser.setEmail(newEmail);
                 return generalUser;
@@ -133,7 +135,7 @@ public class GeneralUserService {
         try {
             // Check if general user
             if (generalUserRepository.findGeneralUserByEmail(email) == null) {
-                throw new IllegalArgumentException("User with that email does not exist!");
+                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "User with that email does not exist!");
             } else {
                 // Delete general user
                 generalUserRepository.delete(generalUser);
