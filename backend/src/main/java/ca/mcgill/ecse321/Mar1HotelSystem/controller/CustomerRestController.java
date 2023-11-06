@@ -36,6 +36,7 @@ public class CustomerRestController {
     }
 
     @GetMapping(value = { "/customers", "/customers/" })
+    @ResponseStatus(HttpStatus.OK)
     public List<CustomerDto> getCustomers() {
         return customerService.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
     }
@@ -49,6 +50,17 @@ public class CustomerRestController {
                 customerDto.getEmail(),
                 customerDto.getPhoneNumber(),
                 customerDto.getPassword()));
+    }
+
+    @PutMapping(value = { "/customer/{email}", "/customer/{email}/" })
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerDto updateCustomer(@PathVariable("email") String email, @RequestBody CustomerDto customerDto) {
+        return convertToDto(customerService.updateCustomer(
+                customerDto.getFirstName(),
+                customerDto.getLastName(),
+                customerDto.getPhoneNumber(),
+                customerDto.getPassword(),
+                email));
     }
 
     private CustomerDto convertToDto(Customer customer) {

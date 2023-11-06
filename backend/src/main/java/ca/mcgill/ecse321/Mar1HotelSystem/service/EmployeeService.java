@@ -5,7 +5,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import jakarta.transaction.Transactional;
@@ -48,22 +50,22 @@ public class EmployeeService {
             int hoursWorked) {
         // Check if firstName is empty
         if (firstName == null || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("The first name cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The first name cannot be empty!");
         }
         // Check if lastName is empty
         if (lastName == null || lastName.trim().isEmpty()) {
-            throw new IllegalArgumentException("The last name cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The last name cannot be empty!");
         }
         // Check if email is empty
         if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("The email cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
         }
         // Check if email is valid
         String emailTrimmed = email.trim();
         Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
         Matcher matcher = pattern.matcher(emailTrimmed);
         if (!matcher.find()) {
-            throw new IllegalArgumentException("The email is invalid!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email is invalid!");
         }
         // Check if email is already used
         if (employeeRepository.findEmployeeByEmail(emailTrimmed) != null
@@ -71,11 +73,15 @@ public class EmployeeService {
                 || managerRepository.findManagerByEmail(emailTrimmed) != null
                 || generalUserRepository.findGeneralUserByEmail(emailTrimmed) != null
                 || accountRepository.findAccountByEmail(emailTrimmed) != null) {
-            throw new IllegalArgumentException("User using that email already exists!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "User using that email already exists!");
+        }
+        // Check if the phone number is above 0
+        if (phoneNumber <= 0) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The phone number must be above 0!");
         }
         // Check if password is empty
         if (password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("The password cannot be empty!");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
         }
         // Create, save, and return the employee
         Employee employee = new Employee(
@@ -89,38 +95,42 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee updateEmployee(String newFirstName, String newLastName, String newPassword, String email) {
+    public Employee updateEmployee(String newFirstName, String newLastName, long newPhoneNumber, String newPassword, String email) {
             // Check if firstName is empty
             if (newFirstName == null || newFirstName.trim().isEmpty()) {
-                throw new IllegalArgumentException("The first name cannot be empty!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The first name cannot be empty!");
             }
             // Check if lastName is empty
             if (newLastName == null || newLastName.trim().isEmpty()) {
-                throw new IllegalArgumentException("The last name cannot be empty!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The last name cannot be empty!");
             }
             // Check if email is empty
             if (email == null || email.trim().isEmpty()) {
-                throw new IllegalArgumentException("The email cannot be empty!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
             }
             // Check if email is valid
             String emailTrimmed = email.trim();
             Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
             Matcher matcher = pattern.matcher(emailTrimmed);
             if (!matcher.find()) {
-                throw new IllegalArgumentException("The email is invalid!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email is invalid!");
+            }
+            if (newPhoneNumber <= 0) {
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The phone number must be above 0!");
             }
             // Check if password is empty
             if (newPassword == null || newPassword.trim().isEmpty()) {
-                throw new IllegalArgumentException("The password cannot be empty!");
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
             }
             // Getting the employee
             Employee employee = getEmployee(emailTrimmed);
             if (employee == null) {
-                throw new IllegalArgumentException("The employee does not exist!");
+                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The employee does not exist!");
             }
             // Updating the employee
             employee.setFirstName(newFirstName.trim());
             employee.setLastName(newLastName.trim());
+            employee.setPhoneNumber(newPhoneNumber);
             employee.setPassword(newPassword);
             return employeeRepository.save(employee);
     }
@@ -128,11 +138,10 @@ public class EmployeeService {
     @Transactional
     public boolean deleteEmployee(String email) {
         Employee employee = employeeRepository.findEmployeeByEmail(email);
-        try {
-            employeeRepository.delete(employee);
-        } catch (Exception e) {
-            return false;
+        if (employee == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The employee does not exist!");
         }
+        employeeRepository.delete(employee);
         return true;
     }
 }
