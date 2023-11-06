@@ -12,7 +12,8 @@ public class BookingDto {
     public BookingDto() {
     }
 
-    public BookingDto(PaymentDto payment, GeneralUserDto generalUser, RoomDto room) {
+    public BookingDto(int bookingId, PaymentDto payment, GeneralUserDto generalUser, RoomDto room) {
+        this.bookingId = bookingId;
         this.payment = payment;
         this.generalUser = generalUser;
         this.room = room;
