@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -104,7 +105,7 @@ public class CustomerServiceTest {
                     1234567890,
                     "TestPassword"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             // Check that no error occurred
             fail();
         }
@@ -128,7 +129,7 @@ public class CustomerServiceTest {
                     0,
                     ""
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -153,7 +154,7 @@ public class CustomerServiceTest {
                     0,
                     null
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -178,13 +179,38 @@ public class CustomerServiceTest {
                     1234567890,
                     "TestPassword"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
         assertNull(customer);
         // check error
         assertEquals("The first name cannot be empty!", error);
+    }
+
+    /**
+     * Test creating a customer with a last name that is null.
+     */
+    @Test
+    public void testCreateCustomerLastNameNull() {
+        //assertEquals(0, customerService.getAllCustomers().size());
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    "Josh",
+                    null,
+                    CUSTOMER_KEY,
+                    1234567890,
+                    "TestPassword"
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("The last name cannot be empty!", error);
     }
 
     /**
@@ -203,7 +229,7 @@ public class CustomerServiceTest {
                     1234567890,
                     "TestPassword"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -228,7 +254,7 @@ public class CustomerServiceTest {
                     1234567890,
                     "TestPassword"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -253,7 +279,7 @@ public class CustomerServiceTest {
                     1234567890,
                     "TestPassword"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -278,13 +304,36 @@ public class CustomerServiceTest {
                     1234567890,
                     "TestPassword"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
         assertNull(customer);
         // check error
         assertEquals("The email is invalid!", error);
+    }
+
+    /**
+     * Test creating a customer with a negative phone number.
+     */
+    @Test
+    public void testCreateCustomerNegativePhoneNumber() {
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(
+                    "Josh",
+                    "Deb",
+                    CUSTOMER_KEY,
+                    -1,
+                    "TestPassword");
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(customer);
+        // check error
+        assertEquals("The phone number must be above 0!", error);
     }
 
     /**
@@ -303,7 +352,7 @@ public class CustomerServiceTest {
                     1234567890,
                     " "
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -327,7 +376,7 @@ public class CustomerServiceTest {
                     1234567890,
                     "TestPassword"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -381,7 +430,7 @@ public class CustomerServiceTest {
                     newPhoneNumber,
                     newPassword,
                     CUSTOMER_INITIAL_KEY_1);
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             // Check that no error occurred
             fail();
         }
@@ -407,7 +456,7 @@ public class CustomerServiceTest {
                     newPhoneNumber,
                     newPassword,
                     CUSTOMER_INITIAL_KEY_1);
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         assertNull(customer);
@@ -432,11 +481,61 @@ public class CustomerServiceTest {
                     newPhoneNumber,
                     newPassword,
                     CUSTOMER_INITIAL_KEY_1);
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         assertNull(customer);
         assertEquals("The last name cannot be empty!", error);
+    }
+
+    /**
+     * Test updating a customer with empty email.
+     */
+    @Test
+    public void testUpdateCustomerSpaceEmail() {
+        String newFirstName = "Josh";
+        String newLastName = "Deb";
+        String newPassword = "TestPassword";
+        long newPhoneNumber = 1234567890;
+        Customer customer = null;
+        String error = null;
+        try {
+            customer = customerService.updateCustomer(
+                    newFirstName,
+                    newLastName,
+                    newPhoneNumber,
+                    newPassword,
+                    "");
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        assertEquals("The email cannot be empty!", error);
+    }
+
+    /**
+     * Test updating a customer with invalid email.
+     */
+    @Test
+    public void testUpdateCustomerInvalidEmail() {
+        String newFirstName = "Josh";
+        String newLastName = "Deb";
+        String newPassword = "TestPassword";
+        long newPhoneNumber = 1234567890;
+        Customer customer = null;
+        String error = null;
+        try {
+            customer = customerService.updateCustomer(
+                    newFirstName,
+                    newLastName,
+                    newPhoneNumber,
+                    newPassword,
+                    "joshdebmcgill.ca");
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        assertEquals("The email is invalid!", error);
     }
 
     /**
@@ -457,11 +556,36 @@ public class CustomerServiceTest {
                     newPhoneNumber,
                     newPassword,
                     CUSTOMER_INITIAL_KEY_1);
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         assertNull(customer);
         assertEquals("The password cannot be empty!", error);
+    }
+
+    /**
+     * Test updating a customer with a negative phone number.
+     */
+    @Test
+    public void testUpdateCustomerNegativePhoneNumber() {
+        String newFirstName = "Josh";
+        String newLastName = "Deb";
+        String newPassword = "TestPassword";
+        long newPhoneNumber = -1;
+        Customer customer = null;
+        String error = null;
+        try {
+            customer = customerService.updateCustomer(
+                    newFirstName,
+                    newLastName,
+                    newPhoneNumber,
+                    newPassword,
+                    CUSTOMER_INITIAL_KEY_1);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        assertEquals("The phone number must be above 0!", error);
     }
 
     /**
@@ -482,7 +606,7 @@ public class CustomerServiceTest {
                     newPhoneNumber,
                     newPassword,
                     NONEXISTING_KEY);
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         assertNull(customer);
@@ -503,5 +627,22 @@ public class CustomerServiceTest {
         // Check if the customer was deleted
         assertTrue(deleted);
         verify(customerDao, times(1)).delete(customerService.getCustomer(CUSTOMER_INITIAL_KEY_1));
+    }
+
+    /**
+     * Test deleting a customer that isn't in the database.
+     */
+    @Test
+    public void testDeleteCustomerInvalidEmail() {
+        boolean deleted = false;
+        String error = null;
+        try {
+            deleted = customerService.deleteCustomer(NONEXISTING_KEY);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check if the customer was deleted
+        assertFalse(deleted);
+        assertEquals("The customer does not exist!", error);
     }
 }

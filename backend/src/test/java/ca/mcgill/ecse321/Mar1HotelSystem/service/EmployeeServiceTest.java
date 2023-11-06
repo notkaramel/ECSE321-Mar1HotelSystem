@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,7 +107,7 @@ public class EmployeeServiceTest {
                     "password123",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             fail();
         }
         // Check not null
@@ -131,7 +132,7 @@ public class EmployeeServiceTest {
                     null,
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -157,7 +158,7 @@ public class EmployeeServiceTest {
                     "",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -183,13 +184,38 @@ public class EmployeeServiceTest {
                     " ",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
         assertNull(employee);
         // check error
         assertEquals("The first name cannot be empty!", error);
+    }
+
+    /**
+     * Test creating an employee with a last name that is null.
+     */
+    @Test
+    public void testCreateEmployeeLastNameNull() {
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    null,
+                    EMPLOYEE_KEY,
+                    1234567891,
+                    " 1",
+                    0
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(employee);
+        // check error
+        assertEquals("The last name cannot be empty!", error);
     }
 
     /**
@@ -206,10 +232,10 @@ public class EmployeeServiceTest {
                     "",
                     EMPLOYEE_KEY,
                     1234567891,
-                    " ",
+                    " 1",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -232,10 +258,10 @@ public class EmployeeServiceTest {
                     "boi",
                     "",
                     1234567891,
-                    " ",
+                    " 1",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -258,10 +284,10 @@ public class EmployeeServiceTest {
                     "boi",
                     "boi",
                     1234567891,
-                    " ",
+                    " 1",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -284,16 +310,41 @@ public class EmployeeServiceTest {
                     "boi",
                     "boi@boi",
                     1234567891,
-                    " ",
+                    " 1",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
         assertNull(employee);
         // check error
         assertEquals("The email is invalid!", error);
+    }
+
+    /**
+     * Test creating an employee with a negative phone number.
+     */
+    @Test
+    public void testCreateEmployeeInvalidPhoneNumber() {
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi",
+                    EMPLOYEE_KEY,
+                    -1,
+                    " 1",
+                    0
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(employee);
+        // check error
+        assertEquals("The phone number must be above 0!", error);
     }
 
     /**
@@ -313,7 +364,7 @@ public class EmployeeServiceTest {
                     "",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -335,10 +386,10 @@ public class EmployeeServiceTest {
                     "boi",
                     EMPLOYEE_INITIAL_KEY_1,
                     1234567891,
-                    " ",
+                    " 1",
                     0
             );
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // check null
@@ -383,16 +434,23 @@ public class EmployeeServiceTest {
     	String newFirstName = "Dolan";
         String newLastName = "Duck";
         String newPassword = "password123";
+        long newPhoneNumber = 123;
     	Employee employee = null;
     	try {
-    		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
-    	} catch (IllegalArgumentException e) {
+    		employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    newPhoneNumber,
+                    newPassword,
+                    EMPLOYEE_INITIAL_KEY_1);
+    	} catch (Mar1HotelSystemException e) {
     		fail();
     	}
     	// Check not null
         assertNotNull(employee);
     	assertEquals(newFirstName, employee.getFirstName());
         assertEquals(newLastName, employee.getLastName());
+        assertEquals(newPhoneNumber, employee.getPhoneNumber());
         assertEquals(newPassword, employee.getPassword());
     }
 
@@ -403,12 +461,18 @@ public class EmployeeServiceTest {
     public void testUpdateEmployeeInvalidFirstName() {
         	String newFirstName = "";
             String newLastName = "Duck";
+            long newPhoneNumber = 123;
             String newPassword = "password123";
         	Employee employee = null;
         	String error = null;
         	try {
-        		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
-        	} catch (IllegalArgumentException e) {
+        		employee = employeeService.updateEmployee(
+                        newFirstName,
+                        newLastName,
+                        newPhoneNumber,
+                        newPassword,
+                        EMPLOYEE_INITIAL_KEY_1);
+        	} catch (Mar1HotelSystemException e) {
         		error = e.getMessage();
         	}
         	// Check null
@@ -420,15 +484,21 @@ public class EmployeeServiceTest {
      * Test updating an employee with an invalid last name.
      */
     @Test
-    void testUpdateEmployeeInvalidLastName() {
+    public void testUpdateEmployeeInvalidLastName() {
         	String newFirstName = "Dolan";
             String newLastName = "";
+            long newPhoneNumber = 123;
             String newPassword = "password123";
         	Employee employee = null;
         	String error = null;
         	try {
-        		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
-        	} catch (IllegalArgumentException e) {
+        		employee = employeeService.updateEmployee(
+                        newFirstName,
+                        newLastName,
+                        newPhoneNumber,
+                        newPassword,
+                        EMPLOYEE_INITIAL_KEY_1);
+        	} catch (Mar1HotelSystemException e) {
         		error = e.getMessage();
         	}
         	// Check null
@@ -437,18 +507,101 @@ public class EmployeeServiceTest {
     }
 
     /**
+     * Test updating an employee with a negative phone number.
+     */
+    @Test
+    public void testUpdateEmployeeInvalidPhoneNumber() {
+            String newFirstName = "Dolan";
+            String newLastName = "Duck";
+            long newPhoneNumber = -1;
+            String newPassword = "password123";
+            Employee employee = null;
+            String error = null;
+            try {
+                employee = employeeService.updateEmployee(
+                        newFirstName,
+                        newLastName,
+                        newPhoneNumber,
+                        newPassword,
+                        EMPLOYEE_INITIAL_KEY_1);
+            } catch (Mar1HotelSystemException e) {
+                error = e.getMessage();
+            }
+            // Check null
+            assertNull(employee);
+            assertEquals("The phone number must be above 0!", error);
+    }
+
+    /**
+     * Test updating an employee with an empty email.
+     */
+    @Test
+    public void testUpdateEmployeeSpaceEmail() {
+        String newFirstName = "Dolan";
+        String newLastName = "Duck";
+        long newPhoneNumber = 123;
+        String newPassword = "password123";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    newPhoneNumber,
+                    newPassword,
+                    "");
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The email cannot be empty!", error);
+    }
+
+    /**
+     * Test updating an employee with an invalid email.
+     */
+    @Test
+    public void testUpdateEmployeeInvalidEmail() {
+        String newFirstName = "Dolan";
+        String newLastName = "Duck";
+        long newPhoneNumber = 123;
+        String newPassword = "password123";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    newPhoneNumber,
+                    newPassword,
+                    "boimailcom");
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The email is invalid!", error);
+    }
+
+    /**
      * Test updating an employee with an invalid password.
      */
     @Test
-    void testUpdateEmployeeInvalidPassword() {
+    public void testUpdateEmployeeInvalidPassword() {
         String newFirstName = "Dolan";
         String newLastName = "Duck";
+        long newPhoneNumber = 123;
         String newPassword = "";
         Employee employee = null;
         String error = null;
         try {
-            employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, EMPLOYEE_INITIAL_KEY_1);
-        } catch (IllegalArgumentException e) {
+            employee = employeeService.updateEmployee(newFirstName,
+                    newLastName,
+                    newPhoneNumber,
+                    newPassword,
+                    EMPLOYEE_INITIAL_KEY_1);
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // Check null
@@ -463,12 +616,18 @@ public class EmployeeServiceTest {
     public void testUpdateEmployeeEmailNotFound() {
         	String newFirstName = "Dolan";
             String newLastName = "Duck";
+            long newPhoneNumber = 123;
             String newPassword = "password123";
         	Employee employee = null;
         	String error = null;
         	try {
-        		employee = employeeService.updateEmployee(newFirstName, newLastName, newPassword, NONEXISTING_KEY);
-        	} catch (IllegalArgumentException e) {
+        		employee = employeeService.updateEmployee(
+                        newFirstName,
+                        newLastName,
+                        newPhoneNumber,
+                        newPassword,
+                        NONEXISTING_KEY);
+        	} catch (Mar1HotelSystemException e) {
         		error = e.getMessage();
         	}
         	// Check null
@@ -490,5 +649,22 @@ public class EmployeeServiceTest {
         // Check if the employee was deleted
         assertTrue(deleted);
         verify(employeeDao, times(1)).delete(employeeService.getEmployee(EMPLOYEE_INITIAL_KEY_1));
+    }
+
+    /**
+     * Test deleting an employee that isn't in the database.
+     */
+    @Test
+    public void testDeleteEmployeeInvalidEmail() {
+        boolean deleted = false;
+        String error = null;
+        try {
+            deleted = employeeService.deleteEmployee(NONEXISTING_KEY);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        // Check if the employee was deleted
+        assertFalse(deleted);
+        assertEquals("The employee does not exist!", error);
     }
 }
