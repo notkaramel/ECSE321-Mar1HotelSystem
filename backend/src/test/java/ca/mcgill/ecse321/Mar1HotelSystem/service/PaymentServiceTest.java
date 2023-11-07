@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 
 @SpringBootTest
 public class PaymentServiceTest {
@@ -83,7 +84,7 @@ public class PaymentServiceTest {
         try {
             paymentService.deletePaymentById(1);
        } catch (Exception e) {
-           assertThrows(IllegalArgumentException.class, () -> paymentService.deletePaymentById(1));
+           assertThrows(Mar1HotelSystemException.class, () -> paymentService.deletePaymentById(1));
        }
     }
 
@@ -93,7 +94,7 @@ public class PaymentServiceTest {
         try {
             paymentService.getPaymentById(1);
        } catch (Exception e) {
-           assertThrows(IllegalArgumentException.class, () -> paymentService.getPaymentById(1));
+           assertThrows(Mar1HotelSystemException.class, () -> paymentService.getPaymentById(1));
        }
     }
 

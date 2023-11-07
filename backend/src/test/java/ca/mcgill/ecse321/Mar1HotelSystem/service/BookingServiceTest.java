@@ -133,8 +133,8 @@ public class BookingServiceTest {
         booking.setRoom(room);
         try {
             bookingService.createBooking(null, booking.getGeneralUser(), booking.getRoom());
-        } catch (Mar1HotelSystemException e) {
-            error = e.getMessage();
+        } catch (Exception e) {
+            assertThrows(Mar1HotelSystemException.class, () -> bookingService.createBooking(null, generalUser, room));
         }
     }
 
@@ -147,7 +147,7 @@ public class BookingServiceTest {
         try {
              bookingService.deleteBooking(1);
         } catch (Exception e) {
-            assertThrows(IllegalArgumentException.class, () -> bookingService.deleteBooking(1));
+            assertThrows(Mar1HotelSystemException.class, () -> bookingService.deleteBooking(1));
         }
     }
 
@@ -159,7 +159,7 @@ public class BookingServiceTest {
         try {
             bookingService.updateBooking(booking);
         } catch (Exception e) {
-            assertThrows(IllegalArgumentException.class, () -> bookingService.updateBooking(booking));
+            assertThrows(Mar1HotelSystemException.class, () -> bookingService.updateBooking(booking));
         }
     }
 

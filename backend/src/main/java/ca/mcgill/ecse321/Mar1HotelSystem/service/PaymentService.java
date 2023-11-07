@@ -3,9 +3,11 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.transaction.Transactional;
@@ -31,7 +33,7 @@ public class PaymentService {
     public Payment getPaymentById(int paymentId) {
        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
         if(payment == null) {
-            throw new IllegalArgumentException("Booking does not exist.");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Payment with id " + paymentId + " does not exist.");
         }
         return payment;
     }
