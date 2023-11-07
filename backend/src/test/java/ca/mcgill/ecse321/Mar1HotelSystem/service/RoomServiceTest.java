@@ -2,10 +2,12 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
@@ -20,9 +22,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
@@ -122,44 +126,29 @@ public class RoomServiceTest {
     @Test
     public void testGetAllRooms() {
         ArrayList<Room> rooms = new ArrayList<Room>();
-        try {
-            rooms = (ArrayList<Room>) roomService.getAllRooms();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        rooms = (ArrayList<Room>) roomService.getAllRooms();
         assertEquals(6, rooms.size());
     }
 
     @Test
     public void testGetAllRoomsByRoomType() {
         ArrayList<Room> rooms = new ArrayList<Room>();
-        try {
-            rooms = (ArrayList<Room>) roomService.getRoomsByRoomType(RoomType.Deluxe);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        rooms = (ArrayList<Room>) roomService.getRoomsByRoomType(RoomType.Deluxe);
         assertEquals(2, rooms.size());
     }
 
     @Test
     public void testGetRoomByRoomId() {
         Room room = new Room();
-        try {
-            room = roomService.getRoomByRoomId(1);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        room = roomService.getRoomByRoomId(1);
+        assertNotNull(room);
         assertEquals(1, room.getRoomId());
     }
 
     @Test
     public void testCreateRoom() {
         Room room = new Room();
-        try {
-            room = roomService.createRoom(RoomType.Deluxe, Room.BedType.Queen, true, 100, 2);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        room = roomService.createRoom(RoomType.Deluxe, Room.BedType.Queen, true, 100, 2);
 
         assertEquals(RoomType.Deluxe, room.getRoomType());
         assertEquals(Room.BedType.Queen, room.getBedType());
@@ -169,26 +158,11 @@ public class RoomServiceTest {
     }
 
     @Test
-    public void testDeleteRoom() {
-        Room room = new Room();
-        try {
-            room = roomService.createRoom(RoomType.Deluxe, Room.BedType.Queen, true, 100, 2);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        assertEquals(RoomType.Deluxe, room.getRoomType());
-        assertEquals(Room.BedType.Queen, room.getBedType());
-        assertEquals(true, room.getIsAvailable());
-        assertEquals(100, room.getPricePerNight());
-        assertEquals(2, room.getMaxCapacity());
-        
-        try {
-            roomService.deleteRoomByRoomId(room.getRoomId());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        assertNull(roomService.getRoomByRoomId(room.getRoomId()));
+    public void testDeleteRoomById() {
+        // Trying to delete existing (mocked) room 1
+        Room deletedRoom = roomService.deleteRoomByRoomId(1);
+        assertNotNull(deletedRoom);
+        assertEquals(1, deletedRoom.getRoomId());
     }
 
     @Test
@@ -205,5 +179,29 @@ public class RoomServiceTest {
         setBool = roomService.setRoomAvailable(1);
         assertTrue(setBool);
         assertTrue(room.getIsAvailable());
+    }
+    
+    /* ----------- INVALID TESTS ----------- */
+    @Test
+    public void testCreateRoomButHotelIsNull() {
+        Hotel hotel = null;
+        Room nullTestRoom = new Room(RoomType.Regular, BedType.Doubles, false, 10, 2, hotel);
+
+        assertNull(hotel);
+        assertNull(nullTestRoom.getHotel());
+
+        Room room = roomService.createRoom(nullTestRoom.getRoomType(), nullTestRoom.getBedType(), nullTestRoom.getIsAvailable(), nullTestRoom.getPricePerNight(), nullTestRoom.getMaxCapacity());
+        assertNotNull(room.getHotel());
+    }
+
+    @Test
+    public void testGetRoomByRoomIdButInvalidId() {
+        try {
+            // There is no room with Id 7 being mocked
+            roomService.getRoomByRoomId(7);
+        } catch (Mar1HotelSystemException e) {
+            assertEquals(e.getStatus(), HttpStatus.BAD_REQUEST);
+            assertEquals(e.getMessage(), "Can't find room with id {7}");
+        }
     }
 }

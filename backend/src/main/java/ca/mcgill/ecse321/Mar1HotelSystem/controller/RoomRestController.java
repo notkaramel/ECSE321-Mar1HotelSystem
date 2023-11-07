@@ -100,8 +100,8 @@ public class RoomRestController {
     @DeleteMapping("/rooms/id/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
-    public ResponseEntity<Boolean> deleteRoomById(@PathVariable("roomId") int roomId) {
-        return new ResponseEntity<Boolean> (roomService.deleteRoomByRoomId(roomId), HttpStatus.valueOf(200));
+    public ResponseEntity<RoomResponseDto> deleteRoomById(@PathVariable("roomId") int roomId) {
+        return new ResponseEntity<> (new RoomResponseDto(roomService.deleteRoomByRoomId(roomId)), HttpStatus.valueOf(200));
     }
 
     @PutMapping("/room/setAvailable/{roomId}")

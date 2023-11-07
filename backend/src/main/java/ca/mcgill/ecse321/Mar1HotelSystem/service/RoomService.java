@@ -25,7 +25,8 @@ public class RoomService {
     HotelRepository hotelRepository;
 
     @Transactional
-    public Room createRoom(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity) {
+    public Room createRoom(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight,
+            int maxCapacity) {
         Hotel hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
         if (hotel == null) {
             hotel = new Hotel();
@@ -39,23 +40,15 @@ public class RoomService {
     @Transactional
     public Room getRoomByRoomId(int roomId) {
         Room room = roomRepository.findRoomByRoomId(roomId);
+        if (room == null) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Can't find room with id {" + roomId + "}");
+        }
         return room;
     }
 
     @Transactional
     public List<Room> getRoomsByRoomType(RoomType roomType) {
         return ServiceUtils.toList(roomRepository.findRoomsByRoomType(roomType));
-    }
-
-    @Transactional
-    public boolean deleteRoomByRoomId(int roomId) {
-        try {
-            Room room = roomRepository.findRoomByRoomId(roomId);
-            roomRepository.delete(room);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
     }
 
     @Transactional
@@ -109,5 +102,22 @@ public class RoomService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, exceptionMessage);
         }
         return true;
+    }
+
+    @Transactional
+    public Room deleteRoomByRoomId(int roomId) {
+        try {
+            Room room = roomRepository.findRoomByRoomId(roomId);
+            roomRepository.delete(room);
+            return room;
+        } catch (Mar1HotelSystemException e) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Can't delete room with id {" + roomId + "}");
+        }
+    }
+
+    @Transactional
+    public Room updateRoomByRoomId(int roomId) {
+        //TODO
+        return null;
     }
 }
