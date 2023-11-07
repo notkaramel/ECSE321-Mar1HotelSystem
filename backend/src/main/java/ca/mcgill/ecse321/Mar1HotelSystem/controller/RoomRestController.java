@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,8 +78,9 @@ public class RoomRestController {
         return new ResponseEntity<MultipleRoomDto>(new MultipleRoomDto(rooms), HttpStatus.OK);
     }
 
-    @PostMapping("/createRoom")
+    @PostMapping("/room/create")
     @ResponseStatus(HttpStatus.CREATED)
+    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
     public ResponseEntity<RoomResponseDto> createRoom(@RequestBody RoomRequestDto roomRequestDto) {
         // Enforcing that there must be a hotel in the system before creating a room
         Hotel hotel = hotelService.getHotel();
@@ -100,5 +102,12 @@ public class RoomRestController {
     @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
     public ResponseEntity<Boolean> deleteRoomById(@PathVariable("roomId") int roomId) {
         return new ResponseEntity<Boolean> (roomService.deleteRoomByRoomId(roomId), HttpStatus.valueOf(200));
+    }
+
+    @PutMapping("/room/setAvailable/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
+    public ResponseEntity<Boolean> setRoomAvailable(@PathVariable("roomId") int roomId) {
+        return new ResponseEntity<>(roomService.setRoomAvailable(roomId), HttpStatus.OK);
     }
 }

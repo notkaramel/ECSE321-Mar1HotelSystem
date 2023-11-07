@@ -1,12 +1,15 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
@@ -72,18 +75,38 @@ public class RoomService {
 
     @Transactional
     public List<Room> getRoomsByBedType(BedType bedType) {
-        return ServiceUtils.toList(roomRepository.findRoomsByBedType(bedType));
+        List<Room> roomList = new ArrayList<>();
+        try {
+            roomList = ServiceUtils.toList(roomRepository.findRoomsByBedType(bedType));
+        } catch (Exception e) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Can't find bed type \"" + bedType + "\"");
+        }
+        return roomList;
     }
 
     @Transactional
-    public boolean setRoomAvailability(int roomId, boolean availability) {
+    public boolean setRoomUnavialable(int roomId) {
         Room room = roomRepository.findRoomByRoomId(roomId);
         try {
-            room.setIsAvailable(availability);
+            room.setIsAvailable(false);
             roomRepository.save(room);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+            String exceptionMessage = "Unable to set room with id " + roomId + " to unavailable";
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, exceptionMessage);
+        }
+        return true;
+    }
+
+    @Transactional
+    public boolean setRoomAvailable(int roomId) {
+        Room room = null;
+        try {
+            room = roomRepository.findRoomByRoomId(roomId);
+            room.setIsAvailable(true);
+            roomRepository.save(room);
+        } catch (Exception e) {
+            String exceptionMessage = "Unable to set room with id " + roomId + " to available";
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, exceptionMessage);
         }
         return true;
     }

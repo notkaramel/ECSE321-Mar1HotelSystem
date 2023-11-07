@@ -68,6 +68,7 @@ public class RoomServiceTest {
         roomRegular5.setRoomId(5);
         roomRegular6.setRoomId(6);
 
+        // Mock finding methods
         lenient().when(roomRepository.findRoomsByRoomType(isA(Room.RoomType.class))).thenAnswer((InvocationOnMock invocation) -> {
             ArrayList<Room> rooms = new ArrayList<Room>();
             if (invocation.getArgument(0).equals(RoomType.Deluxe)) {
@@ -109,6 +110,11 @@ public class RoomServiceTest {
             rooms.add(roomRegular5);
             rooms.add(roomRegular6);
             return rooms;
+        });
+
+        // Mock saving methods
+        lenient().when(roomRepository.save(isA(Room.class))).then((InvocationOnMock invocation) -> {
+            return invocation.getArgument(0);
         });
     }
 
@@ -188,10 +194,16 @@ public class RoomServiceTest {
     @Test
     public void testSetRoomAvailability() {
         Room room = roomRepository.findRoomByRoomId(1);
-        room.setIsAvailable(false); // force room to be unavailable
+        assertTrue(room.getIsAvailable()); // Room 1 should be true by mocking
+
+        // Set room to unavailable
+        boolean setBool = roomService.setRoomUnavialable(1);
+        assertTrue(setBool);
         assertFalse(room.getIsAvailable());
 
-        roomService.setRoomAvailability(1, true);
+        // Set room to available again
+        setBool = roomService.setRoomAvailable(1);
+        assertTrue(setBool);
         assertTrue(room.getIsAvailable());
     }
 }
