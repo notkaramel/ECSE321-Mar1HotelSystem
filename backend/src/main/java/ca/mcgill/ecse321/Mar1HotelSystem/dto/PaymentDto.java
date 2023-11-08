@@ -1,27 +1,47 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
+import org.checkerframework.checker.units.qual.min;
+import org.checkerframework.common.value.qual.MinLen;
+
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
+import jakarta.annotation.Nonnull;
+
 public class PaymentDto {
-    // VARIABLES
+    //VARIABLES
     private int paymentId;
+
+    @Nonnull
+    @MinLen(value = 0)
     private int amount;
 
-    // CONSTRUCTORS
     public PaymentDto() {
+    }
+
+    public PaymentDto(Payment payment) {
+        if (payment != null) {
+            this.paymentId = payment.getPaymentId();
+            this.amount = payment.getAmount();
+        }
     }
 
     public PaymentDto(int amount) {
         this.amount = amount;
     }
 
-    // GETTERS 
-    // Method to get amount, returns amount
-    public int getAmount() {
-        return this.amount;
-    }
-
-    // Method to get paymentId, returns paymentId
+    // Getters and Setters
     public int getPaymentId() {
-        return this.paymentId;
+        return paymentId;
     }
 
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 }
