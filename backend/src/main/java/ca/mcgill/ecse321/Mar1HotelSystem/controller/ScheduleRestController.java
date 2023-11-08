@@ -129,8 +129,8 @@ public class ScheduleRestController {
 
         boolean ch = service.deleteCustomHours(date);
     
-        CustomHoursResponseDto response = new CustomHoursResponseDto(ch); //TODO: come back to this, because of empty boolean constructor
-        return new ResponseEntity<CustomHoursResponseDto>(response, HttpStatus.OK); //TODO: is there a httpStatus for delete?
+        CustomHoursResponseDto response = new CustomHoursResponseDto(ch); 
+        return new ResponseEntity<CustomHoursResponseDto>(response, HttpStatus.OK); 
     }
 
     //hotel schedule
@@ -172,8 +172,7 @@ public class ScheduleRestController {
 
         boolean hs = service.deleteHotelSchedule(year);
     
-        HotelScheduleResponseDto response = new HotelScheduleResponseDto(hs); //TODO: come back to this, because of empty boolean constructor
-        return new ResponseEntity<HotelScheduleResponseDto>(response, HttpStatus.OK); //TODO: is there a httpStatus for delete?
-    }
+        HotelScheduleResponseDto response = new HotelScheduleResponseDto(hs); 
+        return new ResponseEntity<HotelScheduleResponseDto>(response, HttpStatus.OK); 
 }
 
