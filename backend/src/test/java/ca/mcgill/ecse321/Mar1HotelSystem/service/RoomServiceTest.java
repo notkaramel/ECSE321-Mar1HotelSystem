@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
@@ -180,6 +179,24 @@ public class RoomServiceTest {
         assertTrue(setBool);
         assertTrue(room.getIsAvailable());
     }
+
+    @Test
+    public void testUpdateRoomByRoomId() {
+        Room room = roomRepository.findRoomByRoomId(1);
+        // RoomType.Suite, BedType.King, true, 400, 8
+        assertEquals(RoomType.Suite, room.getRoomType());
+        assertEquals(BedType.King, room.getBedType());
+        assertEquals(true, room.getIsAvailable());
+        assertEquals(400, room.getPricePerNight());
+        assertEquals(8, room.getMaxCapacity());
+
+        roomService.updateRoomByRoomId(1, RoomType.Deluxe, BedType.Queen, false, 200, 5);
+        assertEquals(RoomType.Deluxe, room.getRoomType());
+        assertEquals(BedType.Queen, room.getBedType());
+        assertEquals(false, room.getIsAvailable());
+        assertEquals(200, room.getPricePerNight());
+        assertEquals(5, room.getMaxCapacity());
+    }
     
     /* ----------- INVALID TESTS ----------- */
     @Test
@@ -199,6 +216,28 @@ public class RoomServiceTest {
         try {
             // There is no room with Id 7 being mocked
             roomService.getRoomByRoomId(7);
+        } catch (Mar1HotelSystemException e) {
+            assertEquals(e.getStatus(), HttpStatus.BAD_REQUEST);
+            assertEquals(e.getMessage(), "Can't find room with id {7}");
+        }
+    }
+
+    @Test
+    public void testDeleteRoomByIdButInvalidId() {
+        try {
+            // There is no room with Id 7 being mocked
+            roomService.deleteRoomByRoomId(7);
+        } catch (Mar1HotelSystemException e) {
+            assertEquals(e.getStatus(), HttpStatus.BAD_REQUEST);
+            assertEquals(e.getMessage(), "Can't delete room with id {7}");
+        }
+    }
+
+    @Test
+    public void testUpdateRoomButInvalidId() {
+        try {
+            // There is no room with Id 7 being mocked
+            roomService.updateRoomByRoomId(7, RoomType.Deluxe, BedType.Queen, true, 100, 2);
         } catch (Mar1HotelSystemException e) {
             assertEquals(e.getStatus(), HttpStatus.BAD_REQUEST);
             assertEquals(e.getMessage(), "Can't find room with id {7}");

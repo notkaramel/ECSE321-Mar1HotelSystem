@@ -116,8 +116,22 @@ public class RoomService {
     }
 
     @Transactional
-    public Room updateRoomByRoomId(int roomId) {
-        //TODO
-        return null;
+    public Room updateRoomByRoomId(int roomId, RoomType roomType, BedType bedType, boolean isAvailable,
+            int pricePerNight, int maxCapacity) {
+        Room room = roomRepository.findRoomByRoomId(roomId);
+        if (room == null) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Can't find room with id {" + roomId + "}");
+        }
+        try {
+            room.setRoomType(roomType);
+            room.setBedType(bedType);
+            room.setIsAvailable(isAvailable);
+            room.setPricePerNight(pricePerNight);
+            room.setMaxCapacity(maxCapacity);
+            roomRepository.save(room);
+            return room;
+        } catch (Exception e) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Can't update room with id {" + roomId + "}");
+        }
     }
 }

@@ -110,4 +110,19 @@ public class RoomRestController {
     public ResponseEntity<Boolean> setRoomAvailable(@PathVariable("roomId") int roomId) {
         return new ResponseEntity<>(roomService.setRoomAvailable(roomId), HttpStatus.OK);
     }
+
+    @PutMapping("/room/setUnavailable/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
+    public ResponseEntity<Boolean> setRoomUnavailable(@PathVariable("roomId") int roomId) {
+        return new ResponseEntity<>(roomService.setRoomUnavialable(roomId), HttpStatus.OK);
+    }
+
+    @PutMapping("/room/update/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
+    public ResponseEntity<RoomResponseDto> updateRoomByRoomId(@PathVariable("roomId") int roomId, @RequestBody RoomRequestDto roomRequestDto) {
+        Room room = roomService.updateRoomByRoomId(roomId, roomRequestDto.getRoomType(), roomRequestDto.getBedType(), roomRequestDto.getIsAvailable(), roomRequestDto.getPricePerNight(), roomRequestDto.getMaxCapacity());
+        return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(room), HttpStatus.OK);
+    }
 }
