@@ -78,30 +78,27 @@ public class RoomService {
     }
 
     @Transactional
-    public boolean setRoomUnavialable(int roomId) {
-        Room room = roomRepository.findRoomByRoomId(roomId);
+    public Room setRoomUnavialable(int roomId) {
         try {
+            Room room = roomRepository.findRoomByRoomId(roomId);
             room.setIsAvailable(false);
-            roomRepository.save(room);
-        } catch (Exception e) {
+            return roomRepository.save(room);
+        } catch (Mar1HotelSystemException e) {
             String exceptionMessage = "Unable to set room with id " + roomId + " to unavailable";
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, exceptionMessage);
         }
-        return true;
     }
 
     @Transactional
-    public boolean setRoomAvailable(int roomId) {
-        Room room = null;
+    public Room setRoomAvailable(int roomId) {
         try {
-            room = roomRepository.findRoomByRoomId(roomId);
+            Room room = roomRepository.findRoomByRoomId(roomId);
             room.setIsAvailable(true);
-            roomRepository.save(room);
-        } catch (Exception e) {
+            return roomRepository.save(room);
+        } catch (Mar1HotelSystemException e) {
             String exceptionMessage = "Unable to set room with id " + roomId + " to available";
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, exceptionMessage);
         }
-        return true;
     }
 
     @Transactional

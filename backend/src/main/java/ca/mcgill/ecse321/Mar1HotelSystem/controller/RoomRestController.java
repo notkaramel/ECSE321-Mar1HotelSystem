@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.HotelService;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.RoomService;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemExceptionHandler;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleRoomDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
 
@@ -33,7 +32,7 @@ import org.springframework.http.HttpStatus;
  * - Get rooms by room type (GET /rooms/roomType/{roomType})
  * - Get rooms by bed type (GET /rooms/bedType/{bedType})
  * - Create a room (POST /createRoom)
- *   - Request body: RoomRequestDto schema
+ * - Request body: RoomRequestDto schema
  * 
  * @author Lucas Paccico @Lucaspac5
  * @author Antoine Phan @notkaramel
@@ -42,7 +41,7 @@ import org.springframework.http.HttpStatus;
 @RestController
 public class RoomRestController {
     @Autowired
-	private RoomService roomService;
+    private RoomService roomService;
 
     @Autowired
     private HotelService hotelService;
@@ -60,7 +59,6 @@ public class RoomRestController {
     }
 
     @GetMapping("/rooms/available")
-    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
     public ResponseEntity<MultipleRoomDto> getAvailableRooms() {
         Iterable<Room> rooms = roomService.getAvailableRooms();
         return new ResponseEntity<MultipleRoomDto>(new MultipleRoomDto(rooms), HttpStatus.OK);
@@ -80,11 +78,11 @@ public class RoomRestController {
 
     @PostMapping("/room/create")
     @ResponseStatus(HttpStatus.CREATED)
-    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
     public ResponseEntity<RoomResponseDto> createRoom(@RequestBody RoomRequestDto roomRequestDto) {
         // Enforcing that there must be a hotel in the system before creating a room
-        Hotel hotel = hotelService.getHotel();
-        if (hotel == null) {
+        try {
+            hotelService.getHotel();
+        } catch (Mar1HotelSystemException e) {
             hotelService.createHotel();
         }
         Room.RoomType roomType = roomRequestDto.getRoomType();
@@ -92,37 +90,36 @@ public class RoomRestController {
         boolean isAvailable = roomRequestDto.getIsAvailable();
         int pricePerNight = roomRequestDto.getPricePerNight();
         int maxCapacity = roomRequestDto.getMaxCapacity();
-        
+
         Room room = roomService.createRoom(roomType, bedType, isAvailable, pricePerNight, maxCapacity);
         return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(room), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/rooms/id/{roomId}")
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
     public ResponseEntity<RoomResponseDto> deleteRoomById(@PathVariable("roomId") int roomId) {
-        return new ResponseEntity<> (new RoomResponseDto(roomService.deleteRoomByRoomId(roomId)), HttpStatus.valueOf(200));
+        return new ResponseEntity<>(new RoomResponseDto(roomService.deleteRoomByRoomId(roomId)),
+                HttpStatus.valueOf(200));
     }
 
     @PutMapping("/room/setAvailable/{roomId}")
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
-    public ResponseEntity<Boolean> setRoomAvailable(@PathVariable("roomId") int roomId) {
-        return new ResponseEntity<>(roomService.setRoomAvailable(roomId), HttpStatus.OK);
+    public ResponseEntity<RoomResponseDto> setRoomAvailable(@PathVariable("roomId") int roomId) {
+        return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(roomService.setRoomAvailable(roomId)), HttpStatus.OK);
     }
 
     @PutMapping("/room/setUnavailable/{roomId}")
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
-    public ResponseEntity<Boolean> setRoomUnavailable(@PathVariable("roomId") int roomId) {
-        return new ResponseEntity<>(roomService.setRoomUnavialable(roomId), HttpStatus.OK);
+    public ResponseEntity<RoomResponseDto> setRoomUnavailable(@PathVariable("roomId") int roomId) {
+        return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(roomService.setRoomUnavialable(roomId)), HttpStatus.OK);
     }
 
     @PutMapping("/room/update/{roomId}")
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(Mar1HotelSystemExceptionHandler.class)
-    public ResponseEntity<RoomResponseDto> updateRoomByRoomId(@PathVariable("roomId") int roomId, @RequestBody RoomRequestDto roomRequestDto) {
-        Room room = roomService.updateRoomByRoomId(roomId, roomRequestDto.getRoomType(), roomRequestDto.getBedType(), roomRequestDto.getIsAvailable(), roomRequestDto.getPricePerNight(), roomRequestDto.getMaxCapacity());
+    public ResponseEntity<RoomResponseDto> updateRoomByRoomId(@PathVariable("roomId") int roomId,
+            @RequestBody RoomRequestDto roomRequestDto) {
+        Room room = roomService.updateRoomByRoomId(roomId, roomRequestDto.getRoomType(), roomRequestDto.getBedType(),
+                roomRequestDto.getIsAvailable(), roomRequestDto.getPricePerNight(), roomRequestDto.getMaxCapacity());
         return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(room), HttpStatus.OK);
     }
 }

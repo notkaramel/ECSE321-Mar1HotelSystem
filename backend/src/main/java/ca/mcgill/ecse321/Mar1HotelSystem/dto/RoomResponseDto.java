@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
@@ -16,13 +15,12 @@ public class RoomResponseDto {
     
     // VARIABLES
     @NotEmpty(message = "Room ID cannot be empty")
-    @NotNull
     private int roomId;
-    private @NotNull Room.RoomType roomType;
-    private @NotNull Room.BedType bedType;
-    private @NotNull boolean isAvailable;
-    private @NotNull int pricePerNight;
-    private @NotNull int maxCapacity;
+    private Room.RoomType roomType;
+    private Room.BedType bedType;
+    private boolean isAvailable;
+    private int pricePerNight;
+    private int maxCapacity;
 
     public RoomResponseDto() {
     }

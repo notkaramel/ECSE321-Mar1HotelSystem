@@ -38,12 +38,11 @@ public class RoomIntegrationTest {
     @AfterEach
     public void clearDatabase() {
         roomRepository.deleteAll();
-        hotelRepository.deleteAll();
     }
 
     public int testCreateRoom() {
         RoomRequestDto testRoom = new RoomRequestDto(Room.RoomType.Deluxe, Room.BedType.Doubles, true, 100, 1);
-        ResponseEntity<RoomResponseDto> res = roomClient.postForEntity("/createRoom", testRoom, RoomResponseDto.class);
+        ResponseEntity<RoomResponseDto> res = roomClient.postForEntity("/room/create", testRoom, RoomResponseDto.class);
         assertNotNull(res);
         assertNotNull(res.getBody());
         assertEquals(HttpStatus.CREATED, res.getStatusCode());
@@ -78,6 +77,7 @@ public class RoomIntegrationTest {
     @Test
     public void testCreateAndGetRoomById() {
         int id = testCreateRoom();
+        assertEquals(1, roomRepository.count());
         testGetRoomById(id);
     }
 

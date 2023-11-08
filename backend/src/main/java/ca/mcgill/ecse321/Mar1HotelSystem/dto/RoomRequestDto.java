@@ -3,8 +3,9 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * A response that contains all the information about a room.
@@ -20,11 +21,11 @@ public class RoomRequestDto {
     @NotBlank(message = "bed_type must be Queen, King, or Doubles")
     private Room.BedType bedType;
 
-    @NotNull
+    @NotBlank
     private boolean isAvailable;
-    @NotNull
+    @Digits(fraction = 2, integer = 10)
     private int pricePerNight;
-    @NotNull
+    @DecimalMax("20")
     private int maxCapacity;
 
     public RoomRequestDto() {

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @RestController
 public class Mar1HotelSystemRestController {
-
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> homepage() {
