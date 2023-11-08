@@ -65,7 +65,7 @@ public class GeneralUserRestController {
         GeneralUser generalUser = service.updateGeneralUserEmail(oldEmail, newEmail);
         GeneralUser generalUserDetails = service.getGeneralUser(newEmail);
         GeneralUserDto generalUserBody = new GeneralUserDto(generalUserDetails.getFirstName(), generalUserDetails.getLastName(), generalUserDetails.getEmail(), (int) generalUserDetails.getPhoneNumber());
-        return new ResponseEntity<GeneralUserDto>(generalUserBody, HttpStatus.CREATED);
+        return new ResponseEntity<GeneralUserDto>(generalUserBody, HttpStatus.OK);
     }
 
     @PostMapping(value = { "/generalUsers/{email}", "/generalUsers/{email}/" })

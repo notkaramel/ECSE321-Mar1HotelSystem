@@ -62,7 +62,7 @@ public class ManagerRestController {
         Manager manager = service.updateManagerPassword(email, oldPassword, newPassword);
         Manager managerDetails = service.getManager(email);
         ManagerDto managerBody = new ManagerDto(managerDetails.getFirstName(), managerDetails.getLastName(), managerDetails.getEmail(), (int) managerDetails.getPhoneNumber(), managerDetails.getPassword());
-        return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.CREATED);
+        return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.OK);
     }
 
     @PostMapping(value = { "/managers/{email}", "/managers/{email}/" })
