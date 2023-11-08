@@ -1,17 +1,19 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
+import jakarta.validation.constraints.Min;
+
 import org.checkerframework.checker.units.qual.min;
-import org.checkerframework.common.value.qual.MinLen;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.annotation.Nonnull;
+
 
 public class PaymentDto {
     //VARIABLES
     private int paymentId;
 
     @Nonnull
-    @MinLen(value = 0)
+    @min(0)
     private int amount;
 
     public PaymentDto() {
