@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,15 +35,31 @@ public class RoomIntegrationTest {
     @Autowired
     private HotelRepository hotelRepository;
 
+
+    private ArrayList<RoomRequestDto> roomReqList;
+
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
         roomRepository.deleteAll();
     }
 
-    public int testCreateRoom() {
-        RoomRequestDto testRoom = new RoomRequestDto(Room.RoomType.Deluxe, Room.BedType.Doubles, true, 100, 1);
-        ResponseEntity<RoomResponseDto> res = roomClient.postForEntity("/room/create", testRoom, RoomResponseDto.class);
+    private Iterable<RoomRequestDto> initializeRoomRequests() {
+        roomReqList = new ArrayList<RoomRequestDto>();
+        for(Room.RoomType roomType : Room.RoomType.values()) {
+            for(Room.BedType bedType : Room.BedType.values()) {
+                for(int i = 0; i < 3; i++) {
+                    RoomRequestDto roomReq = new RoomRequestDto(roomType, bedType, true, 100, 2);
+                    roomReqList.add(roomReq);
+                }
+            }
+        }
+        return roomReqList;
+    }
+
+
+    public int testCreateRoom(RoomRequestDto roomRequestDto) {
+        ResponseEntity<RoomResponseDto> res = roomClient.postForEntity("/room/create", roomRequestDto, RoomResponseDto.class);
         assertNotNull(res);
         assertNotNull(res.getBody());
         assertEquals(HttpStatus.CREATED, res.getStatusCode());
@@ -76,15 +93,48 @@ public class RoomIntegrationTest {
 
     @Test
     public void testCreateAndGetRoomById() {
-        int id = testCreateRoom();
+        initializeRoomRequests();
+        int id = testCreateRoom(roomReqList.get(0));
         assertEquals(1, roomRepository.count());
         testGetRoomById(id);
     }
 
     @Test
     public void testCreateMultipleAndGetAllRooms() {
-        testCreateRoom();
-        testCreateRoom();
+        initializeRoomRequests();
+        for(RoomRequestDto roomReq : roomReqList) {
+            testCreateRoom(roomReq);
+        }
         testGetAllRooms();
+    }
+
+    public List<Room> allRoomsByRoomType(List<Room> allRooms, Room.RoomType rt) {
+        List<Room> roomsByRoomType = new ArrayList<Room>();
+        for(Room room : allRooms) {
+            if(room.getRoomType().equals(rt)) {
+                roomsByRoomType.add(room);
+            }
+        }
+        return roomsByRoomType;
+    }
+
+    @Test
+    public void testCreateAndGetAllByTypes() {
+        initializeRoomRequests();
+        for(RoomRequestDto roomReq : roomReqList) {
+            testCreateRoom(roomReq);
+        }
+
+        for(Room.RoomType roomType : Room.RoomType.values()) {
+            ResponseEntity<MultipleRoomDto> res = roomClient.getForEntity("/rooms/roomType/" + roomType, MultipleRoomDto.class);
+            assertNotNull(res);
+            assertNotNull(res.getBody());
+            assertEquals(HttpStatus.OK, res.getStatusCode());
+
+            List<RoomResponseDto> roomList = (List<RoomResponseDto>) res.getBody().getRoomList();
+            for(RoomResponseDto room : roomList) {
+                assertEquals(roomType, room.getRoomType());
+            }
+        }
     }
 }
