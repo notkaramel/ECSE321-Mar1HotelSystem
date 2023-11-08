@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static org.mockito.Mockito.lenient;
 
 import java.util.ArrayList;
@@ -290,7 +289,7 @@ public class RoomServiceTest {
             roomService.updateRoomByRoomId(7, RoomType.Deluxe, BedType.Queen, true, 100, 2);
         } catch (Mar1HotelSystemException e) {
             assertEquals(e.getStatus(), HttpStatus.BAD_REQUEST);
-            assertEquals(e.getMessage(), "Can't find room with id {7}");
+            assertEquals(e.getMessage(), "Can't update room with id {7}");
         }
     }
 
@@ -331,17 +330,6 @@ public class RoomServiceTest {
         assertEquals(2, unavailableRooms.size());
         for (Room room : unavailableRooms) {
             assertEquals(false, room.getIsAvailable());
-        }
-    }
-
-    @Test
-    public void testCannotUpdateRoom() {
-        try {
-            // There is no room with Id 7 being mocked
-            roomService.updateRoomByRoomId(7, RoomType.Deluxe, BedType.Queen, true, 100, 2);
-        } catch (Mar1HotelSystemException e) {
-            assertEquals(e.getStatus(), HttpStatus.BAD_REQUEST);
-            assertEquals(e.getMessage(), "Can't update room with id {7}");
         }
     }
 
