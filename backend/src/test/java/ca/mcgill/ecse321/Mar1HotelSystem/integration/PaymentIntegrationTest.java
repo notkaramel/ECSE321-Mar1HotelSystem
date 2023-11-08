@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.apache.catalina.connector.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +13,9 @@ import org.springframework.http.ResponseEntity;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 
 public class PaymentIntegrationTest {
-    
+
     @Autowired
     private PaymentRepository paymentRepository;
 
@@ -29,14 +27,46 @@ public class PaymentIntegrationTest {
     public void clearDatabase() {
         paymentRepository.deleteAll();
     }
+
     @Test
-    public int testCreatePayment() {
+    public int testCreatePaymentIntegration() {
         PaymentDto paymentDto = new PaymentDto(100);
-        ResponseEntity<PaymentDto> response = paymentClient.postForEntity("/payment", paymentDto, PaymentDto.class);
-        assertNotNull(response);
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        return response.getBody().getPaymentId();
+        ResponseEntity<PaymentDto> res = paymentClient.postForEntity("/payment/create", paymentDto, PaymentDto.class);
+        assertNotNull(res);
+        assertNotNull(res.getBody());
+        assertEquals(HttpStatus.CREATED, res.getStatusCode());
+
+        return res.getBody().getPaymentId();
     }
-    
+
+    @Test
+    public void testGetPaymentByIdIntegration() {
+        int paymentId = testCreatePaymentIntegration();
+        ResponseEntity<PaymentDto> res = paymentClient.getForEntity("/payment/" + paymentId, PaymentDto.class);
+        assertNotNull(res);
+        assertNotNull(res.getBody());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(paymentId, res.getBody().getPaymentId());
+    }
+
+    @Test
+    public void testGetAllPaymentsIntegration() {
+        testCreatePaymentIntegration();
+        ResponseEntity<PaymentDto[]> res = paymentClient.getForEntity("/payment/", PaymentDto[].class);
+        assertNotNull(res);
+        assertNotNull(res.getBody());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(1, res.getBody().length);
+    }
+
+    @Test
+    public void testDeletePaymentIntegration() {
+        int paymentId = testCreatePaymentIntegration();
+        ResponseEntity<PaymentDto> res = paymentClient.getForEntity("/payment/" + paymentId, PaymentDto.class);
+        assertNotNull(res);
+        assertNotNull(res.getBody());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(paymentId, res.getBody().getPaymentId());
+    }
+
 }

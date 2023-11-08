@@ -44,7 +44,7 @@ public class PaymentRestController {
         service.getAllPayments();
     }
 
-    @PostMapping
+    @PostMapping("/payment/create")
     public ResponseEntity<PaymentDto> createPayment(@RequestBody PaymentDto paymentDto) {
         Payment payment = service.createPayment(paymentDto.getAmount());
         return ResponseEntity.ok(new PaymentDto(payment));
