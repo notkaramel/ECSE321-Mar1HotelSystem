@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.Min;
+
 
 
 public class PaymentDto {
@@ -9,6 +11,7 @@ public class PaymentDto {
     private int paymentId;
 
     @Nonnull
+    @Min(0)
     private int amount;
 
     public PaymentDto() {

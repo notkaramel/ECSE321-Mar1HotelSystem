@@ -1,45 +1,58 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
-import jakarta.annotation.Nonnull;
 
-public class BookingResponseDto{
-    @Nonnull private int bookingId;
-    @Nonnull private Room room;
-    @Nonnull private GeneralUser generalUser;
-    @Nonnull private Payment payment;
+public class BookingResponseDto {
+    
+    private int bookingId;
+    private PaymentDto payment;
+    private GeneralUserDto generalUser;
+    private RoomDto room;
 
-    // CONSTRUCTORS
-     public BookingResponseDto() {
-        super();
+    // Default constructor
+    public BookingResponseDto() {
     }
 
+    // Constructor based on the Booking domain model
     public BookingResponseDto(Booking booking) {
-        this.bookingId = booking.getBookingId();
-        this.room = booking.getRoom();
-        this.generalUser = booking.getGeneralUser();
-        this.payment = booking.getPayment();
-        
-
+        if (booking != null) {
+            this.bookingId = booking.getBookingId();
+            this.payment = new PaymentDto(booking.getPayment()); // Assuming PaymentDto constructor takes a Payment model
+            this.generalUser = new GeneralUserDto(booking.getGeneralUser().getFirstName(),booking.getGeneralUser().getLastName(),booking.getGeneralUser().getEmail(),booking.getGeneralUser().getPhoneNumber()); // Assuming GeneralUserDto constructor takes a GeneralUser model
+            this.room = new RoomDto(booking.getRoom()); // Assuming RoomDto constructor takes a Room model
+        }
     }
 
+    // Getters and setters
     public int getBookingId() {
-        return this.bookingId;
+        return bookingId;
     }
 
-    public Room getRoom() {
-        return this.room;
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
-    public GeneralUser getGeneralUser() {
-        return this.generalUser;
+    public PaymentDto getPayment() {
+        return payment;
     }
 
-    public Payment getPayment() {
-        return this.payment;
+    public void setPayment(PaymentDto payment) {
+        this.payment = payment;
+    }
+
+    public GeneralUserDto getGeneralUser() {
+        return generalUser;
+    }
+
+    public void setGeneralUser(GeneralUserDto generalUser) {
+        this.generalUser = generalUser;
+    }
+
+    public RoomDto getRoom() {
+        return room;
+    }
+
+    public void setRoom(RoomDto room) {
+        this.room = room;
     }
 }
-

@@ -69,7 +69,7 @@ public class BookingRestController {
         bookingService.getAllBookings();
     }
 
-    @PostMapping
+    @PostMapping(value = { "/booking/create", "/booking/create" })
     @ResponseStatus(HttpStatus.CREATED)
     public void createBooking(@RequestBody BookingRequestDto bookingRequestDto) {
         GeneralUser generalUser = new GeneralUser(bookingRequestDto.getGeneralUser().getFirstName(), bookingRequestDto.getGeneralUser().getLastName(), bookingRequestDto.getGeneralUser().getEmail(), bookingRequestDto.getGeneralUser().getPhoneNumber());
