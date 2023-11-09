@@ -68,7 +68,7 @@ public class HotelSchedule {
         return 7;
     }
 
-    public boolean setOperatingHours(OperatingHours... newOperatingHours) {
+    public boolean setOperatingHours(OperatingHours[] newOperatingHours) {
         ArrayList<OperatingHours> theOperatingHoursList = new ArrayList<OperatingHours>();
 
         for (OperatingHours aOperatingHour : newOperatingHours) {
@@ -104,7 +104,7 @@ public class HotelSchedule {
         return 366;
     }
 
-    public boolean setCustomHours(CustomHours... newCustomHours) {
+    public boolean setCustomHours(CustomHours[] newCustomHours) {
         boolean wasSet = false;
         ArrayList<CustomHours> verifiedCustomHours = new ArrayList<CustomHours>();
         for (CustomHours aCustomHour : newCustomHours) {
@@ -113,17 +113,16 @@ public class HotelSchedule {
             }
             verifiedCustomHours.add(aCustomHour);
         }
-
         if (verifiedCustomHours.size() != newCustomHours.length
-                || verifiedCustomHours.size() > maximumNumberOfCustomHours()) {
+                || verifiedCustomHours.size() != maximumNumberOfCustomHours()) {
             return wasSet;
         }
-
-        customHoursList.clear();
-        customHoursList.addAll(verifiedCustomHours);
+        this.customHoursList.clear();
+        this.customHoursList.addAll(verifiedCustomHours);
         wasSet = true;
         return wasSet;
     }
+
 
     public void delete() {
         operatingHoursList.clear();

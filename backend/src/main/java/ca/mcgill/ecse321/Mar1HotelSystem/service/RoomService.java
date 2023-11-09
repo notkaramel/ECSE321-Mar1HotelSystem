@@ -32,7 +32,7 @@ public class RoomService {
     }
 
     @Transactional
-    public Room getRoomById(int roomId) {
+    public Room getRoomByRoomId(int roomId) {
         Room room = roomRepository.findRoomByRoomId(roomId);
         return room;
     }
@@ -56,5 +56,18 @@ public class RoomService {
     @Transactional
     public List<Room> getAllRooms() {
         return ServiceUtils.toList(roomRepository.findAll());
+    }
+
+    @Transactional
+    public boolean setRoomAvailability(int roomId, boolean availability) {
+        Room room = roomRepository.findRoomByRoomId(roomId);
+        try {
+            room.setIsAvailable(availability);
+            roomRepository.save(room);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 }
