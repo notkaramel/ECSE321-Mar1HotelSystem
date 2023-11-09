@@ -26,6 +26,14 @@ public interface RoomRepository extends CrudRepository<Room, Integer> {
     public Iterable<Room> findRoomsByRoomType(Room.RoomType roomType);
 
     /**
+     * Find a list of Rooms by bedType attribute.
+     * 
+     * @param bedType
+     * @return the corresponding Room object
+     */
+    public Iterable<Room> findRoomsByBedType(Room.BedType bedType);
+
+    /**
      * Find a list of Rooms that are available
      * 
      * @param availability

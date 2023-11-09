@@ -4,6 +4,9 @@ package ca.mcgill.ecse321.Mar1HotelSystem.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 
 /**
@@ -14,6 +17,7 @@ import jakarta.persistence.*;
  * @author Antoine Phan (@notkaramel) - JPA Annotations
  */
 @Entity
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Hotel {
     @Id
     private String hotelName = "Mar-1 Hotel";
@@ -26,13 +30,14 @@ public class Hotel {
 
     // Default constructor
     public Hotel() {
+        this.rooms = new ArrayList<Room>();
     }
 
     // Hotel constructor requiring hotelSchedule
     public Hotel(HotelSchedule hotelSchedule) {
-        rooms = new ArrayList<Room>();
+        this.rooms = new ArrayList<Room>();
         if (setHotelSchedule(hotelSchedule) == false) {
-            throw new RuntimeException("Need an hotelSchedule class to be instatiated; need an Hotel Schedule");
+            throw new RuntimeException("Need an hotelSchedule class to be instatiated");
         }
     }
 

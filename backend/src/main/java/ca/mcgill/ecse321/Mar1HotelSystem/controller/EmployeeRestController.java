@@ -23,4 +23,6 @@ import ca.mcgill.ecse321.Mar1HotelSystem.service.EmployeeService;
 public class EmployeeRestController {
     @Autowired
 	private EmployeeService service;
+
+
 }
