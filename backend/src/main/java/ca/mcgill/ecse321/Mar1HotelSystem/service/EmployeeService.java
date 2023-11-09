@@ -1,16 +1,22 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import jakarta.transaction.Transactional;
+
+import javax.xml.crypto.Data;
 
 /**
  * This Service class is for the Customer entity, not customer service ~
@@ -33,6 +39,9 @@ public class EmployeeService {
     ManagerRepository managerRepository;
     @Autowired
     GeneralUserRepository generalUserRepository;
+
+    @Autowired
+    ShiftRepository shiftRepository;
 
     @Transactional
     public List<Employee> getAllEmployees() {
@@ -143,5 +152,83 @@ public class EmployeeService {
         }
         employeeRepository.delete(employee);
         return true;
+    }
+
+    @Transactional
+    public List<Shift> getAllShifts() {
+        return ServiceUtils.toList(shiftRepository.findAll());
+    }
+    @Transactional
+    public List<Shift> getShiftsEmployee(String email) {
+        Employee employee = employeeRepository.findEmployeeByEmail(email);
+        // Check if the employee exists
+        if (employee == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The employee does not exist!");
+        }
+        // Get all shifts
+        ArrayList<Shift> shifts = (ArrayList<Shift>) shiftRepository.findAll();
+        ArrayList<Shift> employeeShifts = new ArrayList<Shift>();
+        // Filter the shifts to only the ones that belong to the employee
+        for (Shift s: shifts) {
+            if (Objects.equals(s.getEmployee().getEmail(), email)) {
+                employeeShifts.add(s);
+            }
+        }
+        return employeeShifts;
+    }
+
+    @Transactional
+    public Shift getShift(int id) {
+        return shiftRepository.findShiftByShiftId(id);
+    }
+
+    @Transactional
+    public Shift createShift(Date date, int startTime, int endTime, String email) {
+        Employee employee = employeeRepository.findEmployeeByEmail(email);
+        // Check if the employee exists
+        if (employee == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The employee does not exist!");
+        }
+        // Check if the start date is between 0 and 24 hours
+        if (startTime < 0 || startTime >= 24) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The start time must be between 0 and 24!");
+        }
+        // Check if the end date is between 0 and 24 hours
+        if (endTime < 0 || endTime >= 24) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The end time must be between 0 and 24!");
+        }
+        // Check if the end date is after the start date
+        if (endTime < startTime) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The end time must be after the start time!");
+        }
+        // Create the shift
+        Shift shift = new Shift(employee, date, startTime, endTime);
+        return shiftRepository.save(shift);
+    }
+
+    @Transactional
+    public Shift updateShift(int id, Date newDate, int newStartTime, int newEndTime) {
+        Shift shift = shiftRepository.findShiftByShiftId(id);
+        // Check if the shift exists
+        if (shift == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The shift does not exist!");
+        }
+        // Check if the start date is between 0 and 24 hours
+        if (newStartTime < 0 || newStartTime >= 24) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The start time must be between 0 and 24!");
+        }
+        // Check if the end date is between 0 and 24 hours
+        if (newEndTime < 0 || newEndTime >= 24) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The end time must be between 0 and 24!");
+        }
+        // Check if the end date is after the start date
+        if (newEndTime < newStartTime) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The end time must be after the start time!");
+        }
+        // Update the shift
+        shift.setDate(newDate);
+        shift.setStartTime(newStartTime);
+        shift.setEndTime(newEndTime);
+        return shiftRepository.save(shift);
     }
 }

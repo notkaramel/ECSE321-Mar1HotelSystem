@@ -84,9 +84,7 @@ public class CustomerServiceTest {
             return customers;
         });
         Answer<?> returnParameterAsAnswer =
-                (InvocationOnMock invocation) -> {
-                    return invocation.getArgument(0);
-                };
+                (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(customerDao.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
     }
 
@@ -365,7 +363,7 @@ public class CustomerServiceTest {
      * Test creating a customer with an existing email
      */
     @Test
-    public void testCreateCustomerExistingEmail() {;
+    public void testCreateCustomerExistingEmail() {
         String error = null;
         Customer customer = null;
         try {

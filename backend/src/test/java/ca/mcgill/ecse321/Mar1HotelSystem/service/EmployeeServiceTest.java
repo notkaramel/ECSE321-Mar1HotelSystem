@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,59 +39,79 @@ public class EmployeeServiceTest {
     private ManagerRepository managerDao;
     @Mock
     private GeneralUserRepository generalUserDao;
+    @Mock
+    private ShiftRepository shiftDao;
     @InjectMocks
     private EmployeeService employeeService;
     private static final String EMPLOYEE_KEY = "TestEmployee@mail.mcgill.ca";
     private static final String NONEXISTING_KEY = "NotAnEmployee@mail.com";
     private static final String EMPLOYEE_INITIAL_KEY_1 = "testemployee1@mail.com";
     private static final String EMPLOYEE_INITIAL_KEY_2 = "testemployee2@mail.com";
+    private static final int NONEXISTING_SHIFT_KEY = 10;
+    private static final int SHIFT_KEY_INITIAL_1 = 1;
+    private static final int SHIFT_KEY_INITIAL_2 = 2;
 
     /**
      * Set mock employee output before each test.
      */
     @BeforeEach
     public void setMockOutput() {
+        ArrayList<Employee> employees = new ArrayList<>();
+        Employee employee1 = new Employee(
+                "TestFirstName",
+                "TestLastName",
+                EMPLOYEE_INITIAL_KEY_1,
+                1234567890,
+                "TestPassword",
+                0
+        );
+        employees.add(employee1);
+        Employee employee2 = new Employee(
+                "TestFirstName2",
+                "TestLastName2",
+                EMPLOYEE_INITIAL_KEY_2,
+                1234567890,
+                "TestPassword2",
+                0
+        );
+        employees.add(employee2);
         lenient().when(employeeDao.findEmployeeByEmail(anyString())).thenAnswer((invocation) -> {
             if (invocation.getArgument(0).equals(EMPLOYEE_INITIAL_KEY_1)) {
-                return new Employee(
-                        "TestFirstName",
-                        "TestLastName",
-                        EMPLOYEE_INITIAL_KEY_1,
-                        1234567890,
-                        "TestPassword",
-                        0
-                );
+                return employee1;
             } else {
                 return null;
             }
         });
-        lenient().when(employeeDao.findAll()).thenAnswer((invocation) -> {
-            ArrayList<Employee> employees = new ArrayList<>();
-            Employee employee1 = new Employee(
-                    "TestFirstName",
-                    "TestLastName",
-                    EMPLOYEE_INITIAL_KEY_1,
-                    1234567890,
-                    "TestPassword",
-                    0
-            );
-            employees.add(employee1);
-            Employee employee2 = new Employee(
-                    "TestFirstName2",
-                    "TestLastName2",
-                    EMPLOYEE_INITIAL_KEY_2,
-                    1234567890,
-                    "TestPassword2",
-                    0
-            );
-            employees.add(employee2);
-            return employees;
-        });
+        lenient().when(employeeDao.findAll()).thenAnswer((invocation) -> employees);
         Answer<?> returnParameterAsAnswer =
-                (InvocationOnMock invocation) -> {
-                    return invocation.getArgument(0);
-                };
+                (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(employeeDao.save(any(Employee.class))).thenAnswer(returnParameterAsAnswer);
+        ArrayList<Shift> shifts = new ArrayList<>();
+        Shift shift1 = new Shift(
+                employee1,
+                new Date(2000, Calendar.JANUARY,1),
+                1,
+                2
+        );
+        shift1.setShiftId(SHIFT_KEY_INITIAL_1);
+        shifts.add(shift1);
+        Shift shift2 = new Shift(
+                employee2,
+                new Date(2000, Calendar.JANUARY,1),
+                2,
+                3
+        );
+        shift2.setShiftId(SHIFT_KEY_INITIAL_2);
+        shifts.add(shift2);
+        lenient().when(shiftDao.findShiftByShiftId(anyInt())).thenAnswer((invocation) -> {
+            if (invocation.getArgument(0).equals(shift1.getShiftId())) {
+                return shift1;
+            } else {
+                return null;
+            }
+        });
+        lenient().when(shiftDao.findAll()).thenAnswer((invocation) -> shifts);
+        lenient().when(shiftDao.save(any(Shift.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     /**
@@ -643,7 +666,7 @@ public class EmployeeServiceTest {
         boolean deleted = false;
         try {
             deleted = employeeService.deleteEmployee(EMPLOYEE_INITIAL_KEY_1);
-        } catch (Exception e) {
+        } catch (Mar1HotelSystemException e) {
             fail();
         }
         // Check if the employee was deleted
@@ -660,11 +683,407 @@ public class EmployeeServiceTest {
         String error = null;
         try {
             deleted = employeeService.deleteEmployee(NONEXISTING_KEY);
-        } catch (Exception e) {
+        } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // Check if the employee was deleted
         assertFalse(deleted);
         assertEquals("The employee does not exist!", error);
     }
+
+    /**
+     * Test retrieving all shifts
+     */
+    @Test
+    public void testGetAllShifts() {
+        ArrayList<Shift> shifts = null;
+        try {
+            shifts = (ArrayList<Shift>) employeeService.getAllShifts();
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check not null
+        assertNotNull(shifts);
+        assertEquals(2, shifts.size());
+        assertEquals(SHIFT_KEY_INITIAL_1, shifts.get(0).getShiftId());
+        assertEquals(SHIFT_KEY_INITIAL_2, shifts.get(1).getShiftId());
+    }
+
+    /**
+     * Test retrieving all shifts for an employee
+     */
+    @Test
+    public void testGetShiftsEmployee() {
+        ArrayList<Shift> shifts = null;
+        try {
+            shifts = (ArrayList<Shift>) employeeService.getShiftsEmployee(EMPLOYEE_INITIAL_KEY_1);
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check not null
+        assertNotNull(shifts);
+        assertEquals(1, shifts.size());
+        assertEquals(EMPLOYEE_INITIAL_KEY_1, shifts.get(0).getEmployee().getEmail());
+    }
+
+    /**
+     * Test retrieving all shifts for an employee that doesn't exist
+     */
+    @Test
+    public void testGetShiftsEmployeeNull() {
+        ArrayList<Shift> shifts = null;
+        String error = null;
+        try {
+            shifts = (ArrayList<Shift>) employeeService.getShiftsEmployee(NONEXISTING_KEY);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check not null
+        assertNull(shifts);
+        assertEquals("The employee does not exist!", error);
+    }
+
+    /**
+     * Test retrieving a shift
+     */
+    @Test
+    public void testGetShift() {
+        Shift shift = null;
+        try {
+            shift = employeeService.getShift(SHIFT_KEY_INITIAL_1);
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check not null
+        assertNotNull(shift);
+        assertEquals(SHIFT_KEY_INITIAL_1, shift.getShiftId());
+    }
+
+    /**
+     * Test retrieving a shift that doesn't exist
+     */
+    @Test
+    public void testGetNonExistingShift() {
+        Shift shift = null;
+        try {
+            shift = employeeService.getShift(NONEXISTING_SHIFT_KEY);
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check null
+        assertNull(shift);
+    }
+
+    /**
+     * Test creating shift
+     */
+    @Test
+    public void testCreateShift() {
+        Shift shift = null;
+        try {
+            shift = employeeService.createShift(
+                    new Date(2000, Calendar.JANUARY,1),
+                    1,
+                    2,
+                    EMPLOYEE_INITIAL_KEY_1
+            );
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check not null
+        assertNotNull(shift);
+        assertEquals(EMPLOYEE_INITIAL_KEY_1, shift.getEmployee().getEmail());
+        assertEquals(1, shift.getStartTime());
+        assertEquals(2, shift.getEndTime());
+    }
+
+    /**
+     * Test creating shift with negative start time
+     */
+    @Test
+    public void testCreateShiftNegativeStartTime() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.createShift(
+                    new Date(2000, Calendar.JANUARY,1),
+                    -1,
+                    2,
+                    EMPLOYEE_INITIAL_KEY_1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The start time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test creating shift with start time over 24
+     */
+    @Test
+    public void testCreateTestStartTimeOver24() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.createShift(
+                    new Date(2000, Calendar.JANUARY,1),
+                    25,
+                    2,
+                    EMPLOYEE_INITIAL_KEY_1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The start time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test creating shift with negative end time
+     */
+    @Test
+    public void testCreateShiftNegativeEndTime() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.createShift(
+                    new Date(2000, Calendar.JANUARY,1),
+                    1,
+                    -1,
+                    EMPLOYEE_INITIAL_KEY_1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The end time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test creating shift with end time over 24
+     */
+    @Test
+    public void testCreatingShiftEndTimeOver24() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.createShift(
+                    new Date(2000, Calendar.JANUARY,1),
+                    1,
+                    25,
+                    EMPLOYEE_INITIAL_KEY_1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The end time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test creating shift with end time before start time
+     */
+    @Test
+    public void createShiftEndTimeBeforeStartTime() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.createShift(
+                    new Date(2000, Calendar.JANUARY,1),
+                    2,
+                    1,
+                    EMPLOYEE_INITIAL_KEY_1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The end time must be after the start time!", error);
+    }
+
+    /**
+     * Test creating shift with an employee that doesn't exist
+     */
+    @Test
+    public void testCreatingShiftEmployeeNull() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.createShift(
+                    new Date(2000, Calendar.JANUARY,1),
+                    1,
+                    2,
+                    NONEXISTING_KEY
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The employee does not exist!", error);
+    }
+
+    /**
+     * Test updating shift
+     */
+    @Test
+    public void testUpdateShift() {
+        Shift shift = null;
+        try {
+            shift = employeeService.updateShift(
+                    SHIFT_KEY_INITIAL_1,
+                    new Date(2000, Calendar.JANUARY,1),
+                    4,
+                    5
+            );
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check not null
+        assertNotNull(shift);
+        assertEquals(4, shift.getStartTime());
+        assertEquals(5, shift.getEndTime());
+        assertEquals(SHIFT_KEY_INITIAL_1, shift.getShiftId());
+        assertEquals(EMPLOYEE_INITIAL_KEY_1, shift.getEmployee().getEmail());
+        assertEquals(new Date(2000, Calendar.JANUARY,1), shift.getDate());
+    }
+
+    /**
+     * Test updating shift with negative start time
+     */
+    @Test
+    public void testUpdateShiftNegativeStartTime() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.updateShift(
+                    SHIFT_KEY_INITIAL_1,
+                    new Date(2000, Calendar.JANUARY,1),
+                    -1,
+                    5
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The start time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test updating shift with start time over 24
+     */
+    @Test
+    public void testUpdateShiftStartTimeOver24() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.updateShift(
+                    SHIFT_KEY_INITIAL_1,
+                    new Date(2000, Calendar.JANUARY,1),
+                    25,
+                    5
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The start time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test updating shift with negative end time
+     */
+    @Test
+    public void testUpdateShiftNegativeEndTime() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.updateShift(
+                    SHIFT_KEY_INITIAL_1,
+                    new Date(2000, Calendar.JANUARY,1),
+                    1,
+                    -1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The end time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test updating shift with end time over 24
+     */
+    @Test
+    public void testUpdateShiftEndTimeOver24() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.updateShift(
+                    SHIFT_KEY_INITIAL_1,
+                    new Date(2000, Calendar.JANUARY,1),
+                    1,
+                    25
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The end time must be between 0 and 24!", error);
+    }
+
+    /**
+     * Test updating shift with end time before start time
+     */
+    @Test
+    public void testUpdateShiftEndTimeBeforeStartTime() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.updateShift(
+                    SHIFT_KEY_INITIAL_1,
+                    new Date(2000, Calendar.JANUARY,1),
+                    2,
+                    1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The end time must be after the start time!", error);
+    }
+
+    /**
+     * Test updating shift that doesn't exist
+     */
+    @Test
+    public void testUpdateShiftNull() {
+        Shift shift = null;
+        String error = null;
+        try {
+            shift = employeeService.updateShift(
+                    NONEXISTING_SHIFT_KEY,
+                    new Date(2000, Calendar.JANUARY,1),
+                    1,
+                    2
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(shift);
+        assertEquals("The shift does not exist!", error);
+    }
+
 }
