@@ -16,10 +16,11 @@ import org.springframework.http.ResponseEntity;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultiplePaymentDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.PaymentService;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class PaymentIntegrationTest {
@@ -38,11 +39,12 @@ public class PaymentIntegrationTest {
     public void clearDatabase() {
         paymentRepository.deleteAll();
     }
-    
+
     public int testCreatePaymentIntegration() {
-        Payment payment = new Payment(100);
-        PaymentDto paymentDto = new PaymentDto(payment);
-        ResponseEntity<PaymentDto> res = paymentClient.postForEntity("/payment/create", paymentDto, PaymentDto.class);
+        PaymentRequestDto paymentRequestDto = new PaymentRequestDto();
+        paymentRequestDto.setAmount(100);
+        ResponseEntity<PaymentResponseDto> res = paymentClient.postForEntity("/payment/create", paymentRequestDto,
+                PaymentResponseDto.class);
         assertNotNull(res);
         assertNotNull(res.getBody());
         assertEquals(HttpStatus.CREATED, res.getStatusCode());
@@ -51,34 +53,34 @@ public class PaymentIntegrationTest {
     }
 
     public void testGetPaymentByIdIntegration(int paymentId) {
-        ResponseEntity<PaymentDto> res = paymentClient.getForEntity("/payment/" + paymentId, PaymentDto.class);
+        ResponseEntity<PaymentResponseDto> res = paymentClient.getForEntity("/payment/" + paymentId,
+                PaymentResponseDto.class);
         assertNotNull(res);
         assertNotNull(res.getBody());
         assertEquals(HttpStatus.OK, res.getStatusCode());
         assertEquals(paymentId, res.getBody().getPaymentId());
     }
 
-public void testGetAllPaymentsIntegration() {
-    ResponseEntity<MultiplePaymentDto> res = paymentClient.getForEntity("/payment/all", MultiplePaymentDto.class);
-    assertNotNull(res);
-    assertNotNull(res.getBody());
-    assertEquals(HttpStatus.OK, res.getStatusCode());
-    assertEquals(1, res.getBody().getPaymentList().size());
-}
+    public void testGetAllPaymentsIntegration() {
+        ResponseEntity<MultiplePaymentDto> res = paymentClient.getForEntity("/payment/all", MultiplePaymentDto.class);
+        assertNotNull(res);
+        assertNotNull(res.getBody());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(1, res.getBody().getPaymentList().size());
+    }
 
-public void testDeletePaymentIntegration(int id) {
-    // Send a DELETE request to the controller
-    ResponseEntity<Void> res = paymentClient.exchange(
-        "/payment/" + id, 
-        HttpMethod.DELETE, 
-        null, 
-        Void.class
-    );
-    assertEquals(HttpStatus.NO_CONTENT, res.getStatusCode());
-}
+    public void testDeletePaymentIntegration(int id) {
+        // Send a DELETE request to the controller
+        ResponseEntity<Void> res = paymentClient.exchange(
+                "/payment/" + id,
+                HttpMethod.DELETE,
+                null,
+                Void.class);
+        assertEquals(HttpStatus.NO_CONTENT, res.getStatusCode());
+    }
 
     @Test
-    public void testCreateandDeletePayment(){
+    public void testCreateandDeletePayment() {
         int paymentId = testCreatePaymentIntegration();
         assertNotNull(paymentId);
         testDeletePaymentIntegration(paymentId);
@@ -90,17 +92,16 @@ public void testDeletePaymentIntegration(int id) {
     }
 
     @Test
-    public void testCreateandGetPayment(){
+    public void testCreateandGetPayment() {
         int paymentId = testCreatePaymentIntegration();
         assertNotNull(paymentId);
         testGetPaymentByIdIntegration(paymentId);
     }
 
     @Test
-    public void testCreateAndGetAllPayments(){
+    public void testCreateAndGetAllPayments() {
         testCreatePaymentIntegration();
         testGetAllPaymentsIntegration();
     }
-
 
 }

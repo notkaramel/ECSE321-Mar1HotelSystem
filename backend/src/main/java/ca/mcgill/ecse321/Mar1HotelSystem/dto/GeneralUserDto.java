@@ -41,4 +41,20 @@ public class GeneralUserDto{
         return this.phoneNumber;
     }
 
+    public void setLastName(String string) {
+        this.lastName = string;
+    }
+
+    public void setFirstName(String string) {
+        this.firstName = string;
+    }
+
+    public void setEmail(String string) {
+        this.email = string;
+    }
+
+    public void setPhoneNumber(long l) {
+        this.phoneNumber = l;
+    }
+
 }

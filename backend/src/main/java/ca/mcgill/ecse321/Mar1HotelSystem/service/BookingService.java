@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.BookingRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
@@ -25,22 +29,27 @@ public class BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
+    @Autowired
+    RoomRepository roomRepository;
+
+    @Autowired
+    GeneralUserRepository   generalUserRepository;
+
+    @Autowired
+    PaymentRepository   paymentRepository;
+
     /**
      * Service method to create and save a new booking.
      */
     @Transactional
-    public Booking createBooking(Payment payment, GeneralUser generalUser, Room room) {
+    public Booking createBooking(BookingRequestDto bookingRequestDto) {
         Booking booking = new Booking();
-        booking.setPayment(payment);
-        booking.setGeneralUser(generalUser);
-        booking.setRoom(room);
-        if(payment == null || generalUser.getFirstName() == ""  || generalUser.getLastName() == "" || generalUser.getEmail() == "" || generalUser == null) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Booking must have a payment, a user and a room that all follow convention.");
-        }
+        booking.setPayment(paymentRepository.findPaymentByPaymentId(bookingRequestDto.getPaymentId()));
+        booking.setGeneralUser(generalUserRepository.findGeneralUserByEmail(bookingRequestDto.getGeneralUserEmail()));
+        booking.setRoom(roomRepository.findRoomByRoomId(bookingRequestDto.getRoomId()));
         bookingRepository.save(booking);
         return booking;
     }
-
     /**
      * Service method to update an existing booking.
      */

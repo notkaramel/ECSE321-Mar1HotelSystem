@@ -1,7 +1,10 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.BookingRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomerDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
@@ -47,56 +53,48 @@ public class BookingRestController {
     @Autowired
     private RoomService roomService;
 
-    private RoomDto roomRequestDto;
+    @Autowired
+    PaymentRepository paymentRepository;
+
+    @Autowired
+    GeneralUserRepository generalUserRepository;
+
+    @Autowired
+    RoomRepository roomRepository;
+
+    private RoomRequestDto roomRequestDto;
 
     @DeleteMapping(value = { "/booking/{bookingId}", "/booking/{bookingId}/" })
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteBooking(@PathVariable int bookingId) {
+    public ResponseEntity<Void> deleteBooking(@PathVariable int bookingId) {
         bookingService.deleteBooking(bookingId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = { "/booking/{bookingId}", "/booking/{bookingId}/" })
-    @ResponseStatus(HttpStatus.OK)
-    public void getBookingById(@PathVariable int bookingId) {
-        bookingService.getBookingById(bookingId);
+    public ResponseEntity<Booking> getBookingById(@PathVariable int bookingId) {
+        Booking booking = bookingService.getBookingById(bookingId);
+        return new ResponseEntity<>(booking, HttpStatus.OK);
     }
 
-    @GetMapping(value = { "/booking", "/booking/" })
-    @ResponseStatus(HttpStatus.OK)
-    public void getAllBookings() {
-        bookingService.getAllBookings();
-    }
+    // @GetMapping(value = { "/booking", "/booking/" })
+    // public ResponseEntity<List<Booking>> getAllBookings() {
+    //     List<Booking> bookings = bookingService.getAllBookings();
+    //     return new ResponseEntity<>(bookings, HttpStatus.OK);
+    // }
 
     @PostMapping(value = { "/booking/create", "/booking/create" })
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createBooking(@RequestBody BookingRequestDto bookingRequestDto) {
-        GeneralUser generalUser = new GeneralUser(bookingRequestDto.getGeneralUser().getFirstName(), bookingRequestDto.getGeneralUser().getLastName(), bookingRequestDto.getGeneralUser().getEmail(), bookingRequestDto.getGeneralUser().getPhoneNumber());
-        Payment payment = new Payment(bookingRequestDto.getPayment().getAmount());
-        Room room = convertRoom(bookingRequestDto);
-        bookingService.createBooking(payment, generalUser, room);
+    public ResponseEntity<Booking> createBooking(@RequestBody BookingRequestDto bookingRequestDto) {
+        Booking booking = bookingService.createBooking(bookingRequestDto);
+        return new ResponseEntity<>(booking, HttpStatus.CREATED);
     }
-
+    
     @PutMapping(value = { "/booking/{bookingId}", "/booking/{bookingId}/" })
-    @ResponseStatus(HttpStatus.OK)
-    public void updateBooking(@PathVariable int bookingId, @RequestBody BookingRequestDto bookingRequestDto) {
-        GeneralUser generalUser = new GeneralUser(bookingRequestDto.getGeneralUser().getFirstName(), bookingRequestDto.getGeneralUser().getLastName(), bookingRequestDto.getGeneralUser().getEmail(), bookingRequestDto.getGeneralUser().getPhoneNumber());
-        Payment payment = new Payment(bookingRequestDto.getPayment().getAmount());
+    public ResponseEntity<Booking> updateBooking(@PathVariable int bookingId, @RequestBody BookingRequestDto bookingRequestDto) {
         Booking booking = bookingService.getBookingById(bookingId);
-        booking.setGeneralUser(generalUser);
-        booking.setPayment(payment);
-        booking.setRoom(convertRoom(bookingRequestDto)); 
-        bookingService.updateBooking(booking);
+        booking.setPayment(paymentRepository.findPaymentByPaymentId(bookingRequestDto.getPaymentId()));
+        booking.setGeneralUser(generalUserRepository.findGeneralUserByEmail(bookingRequestDto.getGeneralUserEmail()));
+        booking.setRoom(roomRepository.findRoomByRoomId(bookingRequestDto.getRoomId()));
+        booking = bookingService.updateBooking(booking);
+        return new ResponseEntity<>(booking, HttpStatus.OK);
     }
-
-
-    private Room convertRoom (BookingRequestDto bookingRequestDto) {
-        Room.RoomType roomType = roomRequestDto.getRoomType();
-        Room.BedType bedType = roomRequestDto.getBedType();
-        boolean isAvailable = roomRequestDto.getIsAvailable();
-        int pricePerNight = roomRequestDto.getPricePerNight();
-        int maxCapacity = roomRequestDto.getMaxCapacity();
-
-        Room room = roomService.createRoom(roomType, bedType, isAvailable, pricePerNight, maxCapacity);
-        return room;
-    }
- }
+}
