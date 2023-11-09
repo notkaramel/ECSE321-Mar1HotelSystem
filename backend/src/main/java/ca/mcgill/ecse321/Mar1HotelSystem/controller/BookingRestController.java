@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +47,6 @@ public class BookingRestController {
     @Autowired
     private RoomService roomService;
 
-    @Autowired
     private RoomDto roomRequestDto;
 
     @DeleteMapping(value = { "/booking/{bookingId}", "/booking/{bookingId}/" })

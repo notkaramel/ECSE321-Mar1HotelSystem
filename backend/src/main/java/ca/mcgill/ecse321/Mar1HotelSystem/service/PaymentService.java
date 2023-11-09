@@ -19,7 +19,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class PaymentService {
     @Autowired
-    PaymentRepository paymentRepository;
+    private PaymentRepository paymentRepository;
 
     @Transactional
     public Payment createPayment(int amount) {

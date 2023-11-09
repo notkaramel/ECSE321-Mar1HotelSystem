@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Repository;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
@@ -47,9 +48,7 @@ public class PaymentServiceTest {
     public void testGetPaymentById() {
         Payment payment = new Payment(100);
         when(paymentRepository.findPaymentByPaymentId(1)).thenReturn(payment);
-
         Payment foundPayment = paymentService.getPaymentById(1);
-
         assertNotNull(foundPayment);
         assertEquals(100, foundPayment.getAmount());
     }
@@ -97,6 +96,5 @@ public class PaymentServiceTest {
            assertThrows(Mar1HotelSystemException.class, () -> paymentService.getPaymentById(1));
        }
     }
-
 
 }

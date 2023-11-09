@@ -1,13 +1,16 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 
 public class BookingResponseDto {
     
     private int bookingId;
-    private PaymentDto payment;
-    private GeneralUserDto generalUser;
-    private RoomDto room;
+    private Payment payment;
+    private GeneralUser generalUser;
+    private Room room;
 
     // Default constructor
     public BookingResponseDto() {
@@ -17,9 +20,9 @@ public class BookingResponseDto {
     public BookingResponseDto(Booking booking) {
         if (booking != null) {
             this.bookingId = booking.getBookingId();
-            this.payment = new PaymentDto(booking.getPayment()); // Assuming PaymentDto constructor takes a Payment model
-            this.generalUser = new GeneralUserDto(booking.getGeneralUser().getFirstName(),booking.getGeneralUser().getLastName(),booking.getGeneralUser().getEmail(),booking.getGeneralUser().getPhoneNumber()); // Assuming GeneralUserDto constructor takes a GeneralUser model
-            this.room = new RoomDto(booking.getRoom()); // Assuming RoomDto constructor takes a Room model
+            this.payment = booking.getPayment();
+            this.generalUser = booking.getGeneralUser();
+            this.room = booking.getRoom();
         }
     }
 
@@ -32,27 +35,27 @@ public class BookingResponseDto {
         this.bookingId = bookingId;
     }
 
-    public PaymentDto getPayment() {
+    public Payment getPayment() {
         return payment;
     }
 
-    public void setPayment(PaymentDto payment) {
+    public void setPayment(Payment payment) {
         this.payment = payment;
     }
 
-    public GeneralUserDto getGeneralUser() {
+    public GeneralUser getGeneralUser() {
         return generalUser;
     }
 
-    public void setGeneralUser(GeneralUserDto generalUser) {
+    public void setGeneralUser(GeneralUser generalUser) {
         this.generalUser = generalUser;
     }
 
-    public RoomDto getRoom() {
+    public Room getRoom() {
         return room;
     }
 
-    public void setRoom(RoomDto room) {
+    public void setRoom(Room room) {
         this.room = room;
     }
 }

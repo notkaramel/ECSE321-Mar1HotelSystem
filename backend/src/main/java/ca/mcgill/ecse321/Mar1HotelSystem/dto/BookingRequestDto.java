@@ -2,16 +2,11 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import jakarta.annotation.Nonnull;
 
-/**
- * A request that contains all the necessary information to create a booking.
- * 
- * @author Antoine Phan (@notkaramel)
- */
 public class BookingRequestDto {
     
     // VARIABLES
     @Nonnull
-    private PaymentDto payment;
+    private PaymentRequestDto payment;
 
     @Nonnull
     private GeneralUserDto generalUser;
@@ -23,18 +18,18 @@ public class BookingRequestDto {
     public BookingRequestDto() {
     }
 
-    public BookingRequestDto(PaymentDto payment, GeneralUserDto generalUser, RoomDto room) {
+    public BookingRequestDto(PaymentRequestDto payment, GeneralUserDto generalUser, RoomDto room) {
         this.payment = payment;
         this.generalUser = generalUser;
         this.room = room;
     }
 
     // GETTERS AND SETTERS
-    public PaymentDto getPayment() {
+    public PaymentRequestDto getPayment() {
         return this.payment;
     }
 
-    public void setPayment(PaymentDto payment) {
+    public void setPayment(PaymentRequestDto payment) {
         this.payment = payment;
     }
 

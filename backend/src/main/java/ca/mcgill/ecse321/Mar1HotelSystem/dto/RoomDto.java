@@ -1,11 +1,14 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
+
 public class RoomDto {
     
     // VARIABLES
     private int roomId;
-    private RoomTypeDto roomType;
-    private BedTypeDto bedType;
+    private RoomType roomType;
+    private BedType bedType;
     private boolean isAvailable;
     private int pricePerNight;
     private int maxCapacity;
@@ -15,7 +18,7 @@ public class RoomDto {
     public RoomDto() {
     }
 
-    public RoomDto(RoomTypeDto roomType, BedTypeDto bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
+    public RoomDto(RoomType roomType, BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity,
             HotelDto hotel) {
         this.roomType = roomType;
         this.bedType = bedType;
@@ -25,20 +28,10 @@ public class RoomDto {
         this.hotel = hotel;
     }
 
-    // ENUM
-    // BedType enum
-    public enum BedTypeDto {
-        Queen, King, Doubles
-    }
-
-    // RoomType enum
-    public enum RoomTypeDto {
-        Suite, Deluxe, Regular
-    }
 
     // GETTERS
     // Method to get roomType, returns roomType
-    public RoomTypeDto getRoomType() {
+    public RoomType getRoomType() {
         return this.roomType;
     }
 
@@ -47,7 +40,7 @@ public class RoomDto {
     }
 
     // Method to get bedType, returns bedType
-    public BedTypeDto getBedType() {
+    public BedType getBedType() {
         return this.bedType;
     }
 
