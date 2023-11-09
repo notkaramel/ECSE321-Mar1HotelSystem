@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.BookingRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
@@ -37,8 +36,6 @@ public class BookingServiceTest {
     @Mock
     private BookingRepository bookingRepository;
 
-    BookingRequestDto bookingRequestDto;
-
     @InjectMocks
     private BookingService bookingService;
 
@@ -59,10 +56,9 @@ public class BookingServiceTest {
         booking.setGeneralUser(generalUser);
         booking.setRoom(room);
         booking.setPayment(payment);
-        bookingRequestDto = new BookingRequestDto(booking.getPayment().getPaymentId(), booking.getGeneralUser().getEmail(), booking.getRoom().getRoomId());
-        
         when(bookingRepository.save(booking)).thenReturn(booking);
-        Booking createdBooking = bookingService.createBooking(bookingRequestDto);
+        Booking createdBooking = bookingService.createBooking(booking.getPayment(), booking.getGeneralUser(), booking.getRoom());
+
         assertNotNull(createdBooking);
         assertEquals(generalUserEmail, createdBooking.getGeneralUser().getEmail());
         assertEquals(roomId, createdBooking.getRoom().getRoomId());
@@ -136,9 +132,9 @@ public class BookingServiceTest {
         booking.setGeneralUser(generalUser);
         booking.setRoom(room);
         try {
-            bookingService.createBooking(bookingRequestDto);
+            bookingService.createBooking(null, booking.getGeneralUser(), booking.getRoom());
         } catch (Exception e) {
-            assertThrows(Mar1HotelSystemException.class, () -> bookingService.createBooking(null));
+            assertThrows(Mar1HotelSystemException.class, () -> bookingService.createBooking(null, generalUser, room));
         }
     }
 

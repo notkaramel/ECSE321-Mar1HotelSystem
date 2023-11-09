@@ -114,7 +114,7 @@ public class BookingRepositoryTest {
         hotelRepository.save(hotel);
 
         // Create and Save Room Object (Required for Booking)
-        Room room = new Room(RoomType.Suite, BedType.King, true, phoneNumber, phoneNumber, hotel);
+        Room room = new Room(RoomType.Suite, BedType.King, true, phoneNumber, phoneNumber,hotel);
         roomRepository.save(room);
 
         // ------------------

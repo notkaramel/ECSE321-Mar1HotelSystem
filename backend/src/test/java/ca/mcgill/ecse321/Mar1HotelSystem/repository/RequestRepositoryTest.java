@@ -132,7 +132,7 @@ public class RequestRepositoryTest {
         boolean isAvailable = true;
         int pricePerNight = 50;
         int maxCapacity = 1;
-        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity, hotel);
+        Room room = new Room(roomType, bedType, isAvailable, pricePerNight, maxCapacity,hotel);
 
         // Adding to the database
         roomRepository.save(room);
