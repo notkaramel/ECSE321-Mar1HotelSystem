@@ -49,4 +49,11 @@ public class PaymentService {
         paymentRepository.delete(payment);
         
     }
+
+    @Transactional 
+    public void updatePayment(int paymentId, int amount) {
+        Payment payment = this.getPaymentById(paymentId);
+        payment.setAmount(amount);
+        paymentRepository.save(payment);
+    }
 }
