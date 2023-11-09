@@ -3,16 +3,11 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
-
 import jakarta.transaction.Transactional;
-
 import java.util.List;
-
-import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +52,7 @@ public class ManagerService {
     }
 
     @Transactional
-    public Manager createManager(String firstName, String lastName, String email, int phoneNumber, String password) {
+    public Manager createManager(String firstName, String lastName, String email, long phoneNumber, String password) {
         // Check is all inputs are null
         if (firstName == null && lastName == null && email == null && password == null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "All inputs null!");

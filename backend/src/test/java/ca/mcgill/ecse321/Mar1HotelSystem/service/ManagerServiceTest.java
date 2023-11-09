@@ -18,7 +18,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.http.HttpStatus;
@@ -72,7 +71,7 @@ public class ManagerServiceTest {
 		String firstName = "Joey";
 		String lastName = "Doey";
 		String email = "joeye@gmail.com";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "worked";
 		Manager manager = null;
 		try {
@@ -97,7 +96,7 @@ public class ManagerServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = MANAGER_KEY;
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "worked";
 		Manager manager = null;
 		try {
@@ -123,7 +122,7 @@ public class ManagerServiceTest {
 		String firstName = null;
 		String lastName = null;
 		String email = null;
-		int phoneNumber = 0;
+		long phoneNumber = 0;
 		String password = null;
 		Manager manager = null;
 		try {
@@ -149,7 +148,7 @@ public class ManagerServiceTest {
 		String firstName = "";
 		String lastName = "";
 		String email = "";
-		int phoneNumber = 0;
+		long phoneNumber = 0;
 		String password = "";
 		Manager manager = null;
 		try {
@@ -175,7 +174,7 @@ public class ManagerServiceTest {
 		String firstName = "";
 		String lastName = "Doe";
 		String email = MANAGER_KEY;
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "worked";
 		Manager manager = null;
 		try {
@@ -201,7 +200,7 @@ public class ManagerServiceTest {
 		String firstName = "Joe";
 		String lastName = "";
 		String email = MANAGER_KEY;
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "worked";
 		Manager manager = null;
 		try {
@@ -227,7 +226,7 @@ public class ManagerServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = "";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "worked";
 		Manager manager = null;
 		try {
@@ -253,7 +252,7 @@ public class ManagerServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = MANAGER_KEY;
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "";
 		Manager manager = null;
 		try {
@@ -279,7 +278,7 @@ public class ManagerServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = "joegmail.com";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "Pass";
 		Manager manager = null;
 		try {
@@ -305,7 +304,7 @@ public class ManagerServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = "joe@gmailcom";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		String password = "Pass";
 		Manager manager = null;
 		try {

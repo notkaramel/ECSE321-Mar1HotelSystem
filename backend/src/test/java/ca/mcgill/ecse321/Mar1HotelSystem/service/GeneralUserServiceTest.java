@@ -68,7 +68,7 @@ public class GeneralUserServiceTest {
 		String firstName = "Joeye";
 		String lastName = "Doey";
 		String email = "joeye@gmail.com";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -93,7 +93,7 @@ public class GeneralUserServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = GENERALUSER_KEY;
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -120,7 +120,7 @@ public class GeneralUserServiceTest {
 		String firstName = null;
 		String lastName = null;
 		String email = null;
-		int phoneNumber = 0;
+		long phoneNumber = 0;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -144,7 +144,7 @@ public class GeneralUserServiceTest {
 		String firstName = "";
 		String lastName = "";
 		String email = "";
-		int phoneNumber = 0;
+		long phoneNumber = 0;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -169,7 +169,7 @@ public class GeneralUserServiceTest {
 		String firstName = "";
 		String lastName = "Doe";
 		String email = GENERALUSER_KEY;
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -194,7 +194,7 @@ public class GeneralUserServiceTest {
 		String firstName = "Joe";
 		String lastName = "";
 		String email = GENERALUSER_KEY;
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -219,7 +219,7 @@ public class GeneralUserServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = "";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -244,7 +244,7 @@ public class GeneralUserServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = "joegmail.com";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
@@ -269,7 +269,7 @@ public class GeneralUserServiceTest {
 		String firstName = "Joe";
 		String lastName = "Doe";
 		String email = "joe@gmailcom";
-		int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);

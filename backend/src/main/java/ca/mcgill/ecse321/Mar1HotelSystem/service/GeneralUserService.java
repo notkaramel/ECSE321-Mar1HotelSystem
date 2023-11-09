@@ -1,22 +1,15 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import java.util.List;
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import jakarta.transaction.Transactional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 /**
  * Service class is for the GeneralUser (Guest).
