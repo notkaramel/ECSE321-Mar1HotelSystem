@@ -55,7 +55,7 @@ public class BookingRestController {
 
     private RoomRequestDto roomRequestDto;
 
-    @DeleteMapping(value = { "/booking/{bookingId}", "/booking/{bookingId}/" })
+    @DeleteMapping(value = { "/booking/delete/{bookingId}", "/booking/{bookingId}/" })
     @ResponseStatus(HttpStatus.OK)
     public void deleteBooking(@PathVariable int bookingId) {
         bookingService.deleteBooking(bookingId);
@@ -67,7 +67,7 @@ public class BookingRestController {
         bookingService.getBookingById(bookingId);
     }
 
-    @GetMapping(value = { "/booking", "/booking/" })
+    @GetMapping(value = { "/booking/all", "/booking/all" })
     @ResponseStatus(HttpStatus.OK)
     public void getAllBookings() {
         bookingService.getAllBookings();
@@ -82,7 +82,7 @@ public class BookingRestController {
         bookingService.createBooking(payment, generalUser, room);
     }
 
-    @PutMapping(value = { "/booking/{bookingId}", "/booking/{bookingId}/" })
+    @PutMapping(value = { "/booking/update/{bookingId}", "/booking/update/{bookingId}/" })
     @ResponseStatus(HttpStatus.OK)
     public void updateBooking(@PathVariable int bookingId, @RequestBody BookingRequestDto bookingRequestDto) {
         GeneralUser generalUser = new GeneralUser(bookingRequestDto.getGeneralUser().getFirstName(), bookingRequestDto.getGeneralUser().getLastName(), bookingRequestDto.getGeneralUser().getEmail(), bookingRequestDto.getGeneralUser().getPhoneNumber());

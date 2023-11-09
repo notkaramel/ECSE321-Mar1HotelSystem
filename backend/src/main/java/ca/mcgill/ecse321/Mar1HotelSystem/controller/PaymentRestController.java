@@ -18,7 +18,7 @@ public class PaymentRestController {
     @Autowired
     private PaymentService service;
 
-    @DeleteMapping("/payment/{paymentId}")
+    @DeleteMapping("/payment/delete/{paymentId}")
     public ResponseEntity<Void> deletePaymentById(@PathVariable("paymentId") int paymentId) {
         service.deletePaymentById(paymentId);
         return ResponseEntity.noContent().build(); // Changed to no content as it's a delete operation
@@ -43,5 +43,14 @@ public class PaymentRestController {
         Payment payment = service.createPayment(paymentRequestDto.getAmount());
         PaymentResponseDto paymentResponseDto = new PaymentResponseDto(payment);
         return new ResponseEntity<>(paymentResponseDto, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/payment/update/{paymentId}")
+    public ResponseEntity<PaymentResponseDto> updatePayment(@PathVariable("paymentId") int paymentId,
+            @RequestBody PaymentRequestDto paymentRequestDto) {
+        service.updatePayment(paymentId, paymentRequestDto.getAmount());
+        Payment payment = service.getPaymentById(paymentId);
+        PaymentResponseDto paymentResponseDto = new PaymentResponseDto(payment);
+        return new ResponseEntity<>(paymentResponseDto, HttpStatus.OK);
     }
 }
