@@ -52,7 +52,7 @@ public class RoomRestController {
         return new ResponseEntity<MultipleRoomDto>(new MultipleRoomDto(rooms), HttpStatus.OK);
     }
 
-    @GetMapping("/rooms/id/{roomId}")
+    @GetMapping("/room/id/{roomId}")
     public ResponseEntity<RoomResponseDto> getRoomById(@PathVariable("roomId") int roomId) {
         Room room = roomService.getRoomByRoomId(roomId);
         return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(room), HttpStatus.OK);
@@ -70,7 +70,7 @@ public class RoomRestController {
         return new ResponseEntity<MultipleRoomDto>(new MultipleRoomDto(rooms), HttpStatus.OK);
     }
 
-    @GetMapping("/rooms/bedtype/{bedType}")
+    @GetMapping("/rooms/bedType/{bedType}")
     public ResponseEntity<MultipleRoomDto> getRoomsByBedType(@PathVariable("bedType") Room.BedType bedType) {
         Iterable<Room> rooms = roomService.getRoomsByBedType(bedType);
         return new ResponseEntity<MultipleRoomDto>(new MultipleRoomDto(rooms), HttpStatus.OK);
@@ -95,7 +95,7 @@ public class RoomRestController {
         return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(room), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/rooms/id/{roomId}")
+    @DeleteMapping("/room/delete/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<RoomResponseDto> deleteRoomById(@PathVariable("roomId") int roomId) {
         return new ResponseEntity<>(new RoomResponseDto(roomService.deleteRoomByRoomId(roomId)),

@@ -35,7 +35,6 @@ public class RoomIntegrationTest {
     @Autowired
     private HotelRepository hotelRepository;
 
-
     private ArrayList<RoomRequestDto> roomReqList;
 
     @BeforeEach
@@ -44,11 +43,11 @@ public class RoomIntegrationTest {
         roomRepository.deleteAll();
     }
 
-    private Iterable<RoomRequestDto> initializeRoomRequests() {
+    private Iterable<RoomRequestDto> generateRequests() {
         roomReqList = new ArrayList<RoomRequestDto>();
-        for(Room.RoomType roomType : Room.RoomType.values()) {
-            for(Room.BedType bedType : Room.BedType.values()) {
-                for(int i = 0; i < 3; i++) {
+        for (Room.RoomType roomType : Room.RoomType.values()) {
+            for (Room.BedType bedType : Room.BedType.values()) {
+                for (int i = 0; i < 4; i++) {
                     RoomRequestDto roomReq = new RoomRequestDto(roomType, bedType, true, 100, 2);
                     roomReqList.add(roomReq);
                 }
@@ -57,9 +56,27 @@ public class RoomIntegrationTest {
         return roomReqList;
     }
 
+    /*
+     * Helper function: turn a list of RoomResponseDto into a list of Room
+     */
+    private List<Room> turnRoomResponseDtoToRoom(List<RoomResponseDto> roomResponseDtoList) {
+        List<Room> roomList = new ArrayList<Room>();
+        for (RoomResponseDto roomResponseDto : roomResponseDtoList) {
+            Hotel hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
+            Room room = new Room(roomResponseDto.getRoomType(), roomResponseDto.getBedType(),
+                    roomResponseDto.getIsAvailable(), roomResponseDto.getPricePerNight(),
+                    roomResponseDto.getMaxCapacity(), hotel);
+            roomList.add(room);
+        }
+        return roomList;
+    }
 
-    public int testCreateRoom(RoomRequestDto roomRequestDto) {
-        ResponseEntity<RoomResponseDto> res = roomClient.postForEntity("/room/create", roomRequestDto, RoomResponseDto.class);
+    /*
+     * Send a POST request: /room/create
+     */
+    public int createRoomFromRequest(RoomRequestDto roomRequestDto) {
+        ResponseEntity<RoomResponseDto> res = roomClient.postForEntity("/room/create", roomRequestDto,
+                RoomResponseDto.class);
         assertNotNull(res);
         assertNotNull(res.getBody());
         assertEquals(HttpStatus.CREATED, res.getStatusCode());
@@ -67,15 +84,21 @@ public class RoomIntegrationTest {
         return res.getBody().getRoomId();
     }
 
-    public void testGetRoomById(int id) {
-        ResponseEntity<RoomResponseDto> res = roomClient.getForEntity("/rooms/id/" + id, RoomResponseDto.class);
+    /*
+     * Send a GET request: /rooms/id/{roomId}
+     */
+    public void retrieveRoomById(int id) {
+        ResponseEntity<RoomResponseDto> res = roomClient.getForEntity("/room/id/" + id, RoomResponseDto.class);
         assertNotNull(res);
         assertNotNull(res.getBody());
         assertEquals(id, res.getBody().getRoomId());
         assertEquals(HttpStatus.OK, res.getStatusCode());
     }
 
-    public List<Room> testGetAllRooms() {
+    /*
+     * Send a GET request: /rooms
+     */
+    public List<Room> retrieveAllRooms() {
         ResponseEntity<MultipleRoomDto> res = roomClient.getForEntity("/rooms", MultipleRoomDto.class);
         assertNotNull(res);
         assertNotNull(res.getBody());
@@ -83,58 +106,118 @@ public class RoomIntegrationTest {
 
         List<RoomResponseDto> roomList = (List<RoomResponseDto>) res.getBody().getRoomList();
         List<Room> roomListInDb = new ArrayList<Room>();
-        for (RoomResponseDto room : roomList) {
-            Hotel hotel = hotelRepository.findHotelByHotelName("Mar-1 Hotel");
-            Room roomInDb = new Room(room.getRoomType(), room.getBedType(), room.getIsAvailable(), room.getPricePerNight(), room.getMaxCapacity(), hotel);
-            roomListInDb.add(roomInDb);
-        }
-        return roomListInDb;
+        return turnRoomResponseDtoToRoom(roomList);
     }
+
+    public List<Room> retrieveAllRoomsByRoomType(Room.RoomType rt) {
+        ResponseEntity<MultipleRoomDto> res = roomClient.getForEntity("/rooms/roomType/", MultipleRoomDto.class);
+        assertNotNull(res);
+        assertNotNull(res.getBody());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+
+        List<RoomResponseDto> roomList = (List<RoomResponseDto>) res.getBody().getRoomList();
+        ;
+        return turnRoomResponseDtoToRoom(roomList);
+    }
+
+    public List<Room> retrieveAllRoomByBedType(Room.BedType bt) {
+        ResponseEntity<MultipleRoomDto> res = roomClient.getForEntity("/rooms/bedType/", MultipleRoomDto.class);
+        assertNotNull(res);
+        assertNotNull(res.getBody());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+
+        List<RoomResponseDto> roomList = (List<RoomResponseDto>) res.getBody().getRoomList();
+        ;
+        return turnRoomResponseDtoToRoom(roomList);
+    }
+
+    // ---------- TEST ------------ //
 
     @Test
     public void testCreateAndGetRoomById() {
-        initializeRoomRequests();
-        int id = testCreateRoom(roomReqList.get(0));
+        // Singular Room Request Test
+        generateRequests();
+        // Here I only get one request from the list
+        int id = createRoomFromRequest(roomReqList.get(0));
         assertEquals(1, roomRepository.count());
-        testGetRoomById(id);
+        retrieveRoomById(id);
     }
 
     @Test
     public void testCreateMultipleAndGetAllRooms() {
-        initializeRoomRequests();
-        for(RoomRequestDto roomReq : roomReqList) {
-            testCreateRoom(roomReq);
+        // Multiple Room Requests Test
+        generateRequests();
+        for (RoomRequestDto roomReq : roomReqList) {
+            createRoomFromRequest(roomReq);
         }
-        testGetAllRooms();
-    }
-
-    public List<Room> allRoomsByRoomType(List<Room> allRooms, Room.RoomType rt) {
-        List<Room> roomsByRoomType = new ArrayList<Room>();
-        for(Room room : allRooms) {
-            if(room.getRoomType().equals(rt)) {
-                roomsByRoomType.add(room);
-            }
-        }
-        return roomsByRoomType;
+        retrieveAllRooms();
+        assertEquals(36, roomRepository.count());
     }
 
     @Test
-    public void testCreateAndGetAllByTypes() {
-        initializeRoomRequests();
-        for(RoomRequestDto roomReq : roomReqList) {
-            testCreateRoom(roomReq);
+    public void testCreateAndGetAllByRoomTypes() {
+        generateRequests();
+        for (RoomRequestDto roomReq : roomReqList) {
+            createRoomFromRequest(roomReq);
         }
 
-        for(Room.RoomType roomType : Room.RoomType.values()) {
-            ResponseEntity<MultipleRoomDto> res = roomClient.getForEntity("/rooms/roomType/" + roomType, MultipleRoomDto.class);
+        for (Room.RoomType roomType : Room.RoomType.values()) {
+            ResponseEntity<MultipleRoomDto> res = roomClient.getForEntity("/rooms/roomType/" + roomType,
+                    MultipleRoomDto.class);
             assertNotNull(res);
             assertNotNull(res.getBody());
             assertEquals(HttpStatus.OK, res.getStatusCode());
 
             List<RoomResponseDto> roomList = (List<RoomResponseDto>) res.getBody().getRoomList();
-            for(RoomResponseDto room : roomList) {
+            for (RoomResponseDto room : roomList) {
                 assertEquals(roomType, room.getRoomType());
             }
         }
+    }
+
+    @Test
+    public void testCreateAndGetAllByBedTypes() {
+        generateRequests();
+        for (RoomRequestDto roomReq : roomReqList) {
+            createRoomFromRequest(roomReq);
+        }
+
+        for (Room.BedType bedType : Room.BedType.values()) {
+            ResponseEntity<MultipleRoomDto> res = roomClient.getForEntity("/rooms/bedType/" + bedType,
+                    MultipleRoomDto.class);
+            assertNotNull(res);
+            assertNotNull(res.getBody());
+            assertEquals(HttpStatus.OK, res.getStatusCode());
+
+            List<RoomResponseDto> roomList = (List<RoomResponseDto>) res.getBody().getRoomList();
+            for (RoomResponseDto room : roomList) {
+                assertEquals(bedType, room.getBedType());
+            }
+        }
+    }
+
+    @Test
+    public void testDeleteRoomById() {
+        generateRequests();
+        int id1 = createRoomFromRequest(roomReqList.get(5));
+        int id2 = createRoomFromRequest(roomReqList.get(12));
+        assertEquals(2, roomRepository.count());
+        retrieveRoomById(id1);
+        retrieveRoomById(id2);
+
+        roomClient.delete("/room/delete/" + id1);
+        assertEquals(1, roomRepository.count());
+    }
+
+    @Test
+    public void testUpdateRoomById() {
+        generateRequests();
+        int id = createRoomFromRequest(roomReqList.get(0));
+        assertEquals(1, roomRepository.count());
+        retrieveRoomById(id);
+
+        RoomRequestDto roomReq = new RoomRequestDto(Room.RoomType.Deluxe, Room.BedType.Doubles, false, 200, 4);
+        roomClient.put("/room/update/" + id, roomReq);
+        retrieveRoomById(id);
     }
 }

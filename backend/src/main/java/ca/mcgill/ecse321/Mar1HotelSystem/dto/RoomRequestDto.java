@@ -39,14 +39,6 @@ public class RoomRequestDto {
         this.maxCapacity = maxCapacity;
     }
 
-    public RoomRequestDto(Room room) {
-        this.roomType = room.getRoomType();
-        this.bedType = room.getBedType();
-        this.isAvailable = room.getIsAvailable();
-        this.pricePerNight = room.getPricePerNight();
-        this.maxCapacity = room.getMaxCapacity();
-    }
-
     public RoomType getRoomType() {
         return this.roomType;
     }
