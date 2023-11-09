@@ -78,6 +78,16 @@ public class PaymentServiceTest {
     }
 
     @Test
+    public void testUpdatePayment() {
+        Payment payment = new Payment(100);
+        payment.setPaymentId(1);
+        when(paymentRepository.findPaymentByPaymentId(anyInt())).thenReturn(payment);
+        paymentService.updatePayment(1, 200);
+        assertNotNull(payment);
+        assertEquals(200, payment.getAmount());
+    }
+
+    @Test
     public void testInvalidDeletePaymentById(){
         when(paymentRepository.findPaymentByPaymentId(anyInt())).thenReturn(null);
         try {
