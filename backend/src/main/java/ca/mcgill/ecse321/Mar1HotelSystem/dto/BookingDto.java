@@ -6,13 +6,13 @@ public class BookingDto {
     private int bookingId;
     private PaymentDto payment;
     private GeneralUserDto generalUser;
-    private RoomDto room;
+    private RoomResponseDto room;
 
     // CONSTRUCTORS
     public BookingDto() {
     }
 
-    public BookingDto(PaymentDto payment, GeneralUserDto generalUser, RoomDto room) {
+    public BookingDto(PaymentDto payment, GeneralUserDto generalUser, RoomResponseDto room) {
         this.payment = payment;
         this.generalUser = generalUser;
         this.room = room;
@@ -36,7 +36,7 @@ public class BookingDto {
     }
 
     // Method getting room, returns room
-    public RoomDto getRoom() {
+    public RoomResponseDto getRoom() {
         return this.room;
     }
 
