@@ -61,7 +61,6 @@ public class EmployeeRestController {
     @GetMapping(value = { "/shift/{shiftId}", "/shift/{shiftId}/" })
     @ResponseStatus(value = HttpStatus.OK)
     public ShiftDto getShift(@PathVariable("shiftId") int shiftId) {
-        System.out.println(shiftId);
         return convertToDto(employeeService.getShift(shiftId));
     }
 
@@ -142,7 +141,6 @@ public class EmployeeRestController {
 
     private ShiftDto convertToDto(Shift shift) {
         if (shift == null) {
-            System.out.println("wut?");
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The shift does not exist!");
         }
         return new ShiftDto(
