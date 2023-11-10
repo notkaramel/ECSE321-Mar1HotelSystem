@@ -74,9 +74,15 @@ public class CustomerRestController {
                 email));
     }
 
+    @DeleteMapping(value = { "/customer/{email}", "/customer/{email}/" })
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCustomer(@PathVariable("email") String email) {
+        customerService.deleteCustomer(email);
+    }
+
     private CustomerDto convertToDto(Customer customer) {
         if (customer == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "There is no such customer!");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The customer does not exist!");
         }
         return new CustomerDto(
                 customer.getFirstName(),
@@ -88,7 +94,7 @@ public class CustomerRestController {
 
     private Customer convertToDomainObject(CustomerDto customerDto) {
         if (customerDto == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "There is no such customer!");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The customer does not exist!");
         }
         return new Customer(
                 customerDto.getFirstName(),
