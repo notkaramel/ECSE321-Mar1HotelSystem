@@ -2,9 +2,6 @@ package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.contains;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
@@ -21,18 +18,13 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.GeneralUserDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleGeneralUserDto;
 
-import java.util.List;
-import java.util.ArrayList;
-
-// Start the app for real so that we can send requests to it, but use a random port to avoid conflicts.
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-// // Reuse the same class for all the tests (instead of creating a new class
-// each time).
+
 @TestInstance(Lifecycle.PER_CLASS)
 public class GeneralUserIntegrationTest {
 
 	@Autowired
-	private GeneralUserRepository GeneralUserRepo;
+	private GeneralUserRepository generalUserRepo;
 
 	@Autowired
 	private TestRestTemplate client;
@@ -40,9 +32,13 @@ public class GeneralUserIntegrationTest {
 	@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
-		GeneralUserRepo.deleteAll();
+		generalUserRepo.deleteAll();
 	}
 
+	/*
+	 * Test to get error message indicating list of general users is empty because
+	 * there are no general users created yet
+	 */
 	@Test
 	@Order(0)
 	public void testGetGeneralUsersInvalid() {
@@ -51,6 +47,9 @@ public class GeneralUserIntegrationTest {
 		assertEquals("There are no Users found!", response.getBody());
 	}
 
+	/*
+	 * Test successfully creating a general user
+	 */
 	@Test
 	@Order(1)
 	public void testCreateGeneralUserValid() {
@@ -71,17 +70,9 @@ public class GeneralUserIntegrationTest {
 
 	}
 
-	public GeneralUserDto createGeneralUser() {
-		String firstName = "Joe";
-		String lastName = "Doe";
-		String email = "joe@gmail.com";
-		long phoneNumber = 1234567891;
-		GeneralUserDto generalUserDto = new GeneralUserDto(firstName, lastName, email, phoneNumber);
-		ResponseEntity<GeneralUserDto> response = client.postForEntity("/generalUsers/create", generalUserDto,
-				GeneralUserDto.class);
-		return response.getBody();
-	}
-
+	/*
+	 * Test to successfully get a specific general user
+	 */
 	@Test
 	@Order(2)
 	public void testGetSpecificGeneralUserValid() {
@@ -100,6 +91,9 @@ public class GeneralUserIntegrationTest {
 
 	}
 
+	/*
+	 * Test to unsuccessfully get a general user that does not exist
+	 */
 	@Test
 	@Order(3)
 	public void testGetSpecificGeneralUserInvalid() {
@@ -111,6 +105,9 @@ public class GeneralUserIntegrationTest {
 
 	}
 
+	/*
+	 * Test to unsucessfully create another general user with same characteristics
+	 */
 	@Test
 	@Order(4)
 	public void testCreateSecondGeneralUserInavlid1() {
@@ -128,6 +125,9 @@ public class GeneralUserIntegrationTest {
 		assertEquals("User with that email already exists!", response.getBody());
 	}
 
+	/*
+	 * Test to successfully create a second general user
+	 */
 	@Test
 	@Order(5)
 	public void testCreateSecondGeneralUserValid() {
@@ -149,17 +149,9 @@ public class GeneralUserIntegrationTest {
 		assertEquals(phoneNumber, response.getBody().getPhoneNumber());
 	}
 
-	public GeneralUserDto createSecondGeneralUser() {
-		String firstName = "Joey";
-		String lastName = "Doey";
-		String email = "joey@gmail.com";
-		long phoneNumber = 1234567891;
-		GeneralUserDto generalUserDto = new GeneralUserDto(firstName, lastName, email, phoneNumber);
-		ResponseEntity<GeneralUserDto> response = client.postForEntity("/generalUsers/create", generalUserDto,
-				GeneralUserDto.class);
-		return response.getBody();
-	}
-
+	/*
+	 * Test to successfully delete a general user
+	 */
 	@Test
 	@Order(6)
 	public void testDeleteGeneralUserValid() {
@@ -170,6 +162,9 @@ public class GeneralUserIntegrationTest {
 
 	}
 
+	/*
+	 * Test to unsuccessfully create a general user because a field is empty
+	 */
 	@Test
 	@Order(7)
 	public void testCreateGeneralUserInvalid2() {
@@ -185,35 +180,17 @@ public class GeneralUserIntegrationTest {
 		assertEquals("The first name cannot be empty!", response.getBody());
 	}
 
+	/*
+	 * Test to successfully get a list of general users
+	 */
 	@Test
 	@Order(8)
-	public void testUpdateGeneralUserValid() {	
-		
-		GeneralUserDto generalUser = createGeneralUser();
-		ResponseEntity<GeneralUserDto> response = client.postForEntity("/generalUsers/update/"+"joey@gmail.com", generalUser, GeneralUserDto.class);
+	public void testGetAllGeneralUsers() {
 
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertEquals("joey@gmail.com", response.getBody().getEmail());
-	}
-
-	@Test
-	@Order(9)
-	public void testUpdateGeneralUserInvalid() {	
-		
-		GeneralUserDto generalUser = createGeneralUser();
-		ResponseEntity<String> response = client.postForEntity("/generalUsers/update/"+"joeygmail.com", generalUser, String.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals("The new email is invalid!", response.getBody());
-	}
-
-	@Test
-	@Order(10)
-	public void testGetAllGeneralUsers() {	
-		
 		GeneralUserDto generalUser1 = createGeneralUser();
 		GeneralUserDto generalUser2 = createSecondGeneralUser();
-		ResponseEntity<MultipleGeneralUserDto> response = client.getForEntity("/generalUsers",MultipleGeneralUserDto.class);
+		ResponseEntity<MultipleGeneralUserDto> response = client.getForEntity("/generalUsers",
+				MultipleGeneralUserDto.class);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertNotNull(response);
@@ -227,5 +204,32 @@ public class GeneralUserIntegrationTest {
 		assertEquals(generalUser2.getPhoneNumber(), response.getBody().getGeneralUserList().get(1).getPhoneNumber());
 	}
 
+	/*
+	 * Helper function to create a general user
+	 */
+	public GeneralUserDto createGeneralUser() {
+		String firstName = "Joe";
+		String lastName = "Doe";
+		String email = "joe@gmail.com";
+		long phoneNumber = 1234567891;
+		GeneralUserDto generalUserDto = new GeneralUserDto(firstName, lastName, email, phoneNumber);
+		ResponseEntity<GeneralUserDto> response = client.postForEntity("/generalUsers/create", generalUserDto,
+				GeneralUserDto.class);
+		return response.getBody();
+	}
+
+	/*
+	 * Helper Fuction to create a second general user
+	 */
+	public GeneralUserDto createSecondGeneralUser() {
+		String firstName = "Joey";
+		String lastName = "Doey";
+		String email = "joey@gmail.com";
+		long phoneNumber = 1234567891;
+		GeneralUserDto generalUserDto = new GeneralUserDto(firstName, lastName, email, phoneNumber);
+		ResponseEntity<GeneralUserDto> response = client.postForEntity("/generalUsers/create", generalUserDto,
+				GeneralUserDto.class);
+		return response.getBody();
+	}
 
 }

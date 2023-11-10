@@ -12,13 +12,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.ManagerDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleGeneralUserDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleManagerDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.ManagerService;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import java.util.List;
 
 /**
@@ -36,6 +32,9 @@ public class ManagerRestController {
     @Autowired
     private ManagerService service;
 
+    /*
+     * End point to get a list of all managers
+     */
     @GetMapping(value = { "/managers", "/managers/" })
     @ResponseStatus(HttpStatus.OK)
      public  ResponseEntity<MultipleManagerDto> getAllManagers() {
@@ -44,6 +43,9 @@ public class ManagerRestController {
         return new ResponseEntity<MultipleManagerDto>(managerBody, HttpStatus.OK);
     }
 
+    /*
+     * End point to get a specific manager from email
+     */
     @GetMapping(value = { "/managers/{email}", "/managers/{email}/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ManagerDto> getManager(@PathVariable("email") String email) {
@@ -52,6 +54,9 @@ public class ManagerRestController {
         return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.OK);
     }
 
+    /*
+     * End point to create a new manager by post
+     */
     @PostMapping(value = { "/managers/create", "/managers/create/" })
     public ResponseEntity<ManagerDto> createManager(@RequestBody ManagerDto managerDto) {
         Manager manager = service.createManager(managerDto.getFirstName(), managerDto.getLastName(),
@@ -60,6 +65,9 @@ public class ManagerRestController {
         return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.CREATED);
     }
 
+    /*
+     * End point to update a manager password by put
+     */
     @PutMapping(value = { "/managers/update/{newPassword}", "/managers/update/{newPassword}/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ManagerDto> updateManager(@RequestBody ManagerDto managerDto,
@@ -69,6 +77,9 @@ public class ManagerRestController {
         return new ResponseEntity<ManagerDto>(managerDto, HttpStatus.OK);
     }
 
+    /*
+     * End point to delete a specific manager by post
+     */
     @PostMapping(value = { "/managers/delete", "/managers/delete/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> deleteManager(@RequestBody ManagerDto managerDto) {

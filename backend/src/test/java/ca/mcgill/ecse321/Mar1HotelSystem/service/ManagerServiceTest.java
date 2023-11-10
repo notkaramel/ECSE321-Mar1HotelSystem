@@ -77,7 +77,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			fail();
 		}
 		assertNotNull(manager);
@@ -102,7 +101,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -167,7 +165,7 @@ public class ManagerServiceTest {
 	 * Fail to create a manager if first name input empty
 	 */
 	@Test
-	public void testCreateManagerFistNameSpace() {
+	public void testCreateManagerFirstNameSpace() {
 		setMockOutput();
 		String error = null;
 		HttpStatus error_status = null;
@@ -180,7 +178,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -206,7 +203,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -232,7 +228,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -258,7 +253,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -284,7 +278,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -310,7 +303,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.createManager(firstName, lastName, email, phoneNumber, password);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -325,15 +317,11 @@ public class ManagerServiceTest {
 	@Test
 	public void testGetManagerSuccessful() {
 		setMockOutput();
-		String error = null;
-		HttpStatus error_status = null;
 		Manager manager = null;
 		try {
 			manager = managerService.getManager("joe@gmail.com");
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-			error_status = e.getStatus();
+			fail();
 		}
 		assertNotNull(manager);
 		assertEquals("joe@gmail.com", manager.getEmail());
@@ -352,7 +340,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.getManager("jane@gmail.com");
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -368,15 +355,11 @@ public class ManagerServiceTest {
 	@Test
 	public void testGetManagerListSuccessful() {
 		setMockOutput();
-		String error = null;
-		HttpStatus error_status = null;
 		List<Manager> managers = null;
 		try {
 			managers = managerService.getAllManagers();
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-			error_status = e.getStatus();
+			fail();
 		}
 		assertNotNull(managers);
 		assertEquals("joey@gmail.com", managers.get(0).getEmail());
@@ -394,7 +377,6 @@ public class ManagerServiceTest {
 		try {
 			managers = managerService.getAllManagers();
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -408,17 +390,13 @@ public class ManagerServiceTest {
 	 * old password successfully
 	 */
 	@Test
-	public void testUpdateManagerThatExist() {
+	public void testUpdateManagerThatExists() {
 		setMockOutput();
-		String error = null;
-		HttpStatus error_status = null;
 		Manager manager = null;
 		try {
 			manager = managerService.updateManagerPassword("joe@gmail.com", "Pass", "Passed");
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-			error_status = e.getStatus();
+			fail();
 		}
 		assertNotNull(manager);
 		assertEquals("Passed", manager.getPassword());
@@ -432,14 +410,11 @@ public class ManagerServiceTest {
 	public void testUpdateManagerThatExistOldPasswordIncorrect() {
 		setMockOutput();
 		String error = null;
-		HttpStatus error_status = null;
 		Manager manager = null;
 		try {
 			manager = managerService.updateManagerPassword("joe@gmail.com", "wrongPass", "Passed");
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
-			error_status = e.getStatus();
 
 		}
 		assertNull(manager);
@@ -458,7 +433,6 @@ public class ManagerServiceTest {
 		try {
 			manager = managerService.updateManagerPassword("Hey@gmail.com", "WhatUp?", "NothingMuchYou?");
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -473,15 +447,11 @@ public class ManagerServiceTest {
 	@Test
 	public void testDeleteManagerThatExist() {
 		setMockOutput();
-		String error = null;
-		HttpStatus error_status = null;
 		Boolean manager = null;
 		try {
 			manager = managerService.deleteManager("joe@gmail.com");
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-			error_status = e.getStatus();
+			fail();
 		}
 		assertNotNull(manager);
 		assertEquals(true, manager);
@@ -501,7 +471,6 @@ public class ManagerServiceTest {
 			manager = managerService.deleteManager("jane@gmail.com");
 
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 			assertEquals("User with that email does not exist!", error);
