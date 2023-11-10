@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,14 +52,21 @@ public class BookingRestController {
 
     @GetMapping(value = { "/booking/{bookingId}", "/booking/{bookingId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public void getBookingById(@PathVariable int bookingId) {
-        bookingService.getBookingById(bookingId);
+    public ResponseEntity<BookingResponseDto> getBookingById(@PathVariable int bookingId) {
+        Booking booking = bookingService.getBookingById(bookingId);
+        return new ResponseEntity<BookingResponseDto>(new BookingResponseDto(booking), HttpStatus.OK);
     }
 
     @GetMapping(value = { "/booking/all", "/booking/all" })
     @ResponseStatus(HttpStatus.OK)
-    public void getAllBookings() {
-        bookingService.getAllBookings();
+    public ResponseEntity<List<BookingResponseDto>> getAllBookings() {
+        List<Booking> bookingList = bookingService.getAllBookings();
+        List<BookingResponseDto> bookingResponseDtoList = new ArrayList<BookingResponseDto>();
+        
+        for (Booking booking : bookingList) {
+            bookingResponseDtoList.add(new BookingResponseDto(booking));
+        }
+        return new ResponseEntity<List<BookingResponseDto>>(bookingResponseDtoList, HttpStatus.OK);
     }
 
     @PostMapping(value = { "/booking/create", "/booking/create" })

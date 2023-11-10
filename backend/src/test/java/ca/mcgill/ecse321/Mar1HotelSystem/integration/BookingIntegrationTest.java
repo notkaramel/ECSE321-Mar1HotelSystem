@@ -18,144 +18,155 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.BookingRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.BookingResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.GeneralUserDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
-import ca.mcgill.ecse321.Mar1HotelSystem.service.HotelService;
-import ca.mcgill.ecse321.Mar1HotelSystem.service.RoomService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
 public class BookingIntegrationTest {
-    @Autowired
-    private BookingRepository bookingRepository;
-
     @Autowired
     private TestRestTemplate bookingClient;
 
+    // Wiring repositories
     @Autowired
-    PaymentRepository paymentRepository;
-
-    @Autowired
-    HotelService hotelService;
-
-    @Autowired
-    GeneralUserRepository generalUserRepository;
-
+    private BookingRepository bookingRepository;
     @Autowired
     RoomRepository roomRepository;
-
     @Autowired
-    RoomService roomService;
+    GeneralUserRepository generalUserRepository;
+    @Autowired
+    PaymentRepository paymentRepository;
 
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
         bookingRepository.deleteAll();
+        paymentRepository.deleteAll();
+        generalUserRepository.deleteAll();
+        roomRepository.deleteAll();
     }
 
-    public int testCreateBookingIntegration(BookingRequestDto bookingRequestDto) {
-        ResponseEntity<Booking> response = bookingClient.postForEntity("/booking/create", bookingRequestDto,
-                Booking.class);
+    private int createDemoRoom() {
+        RoomRequestDto roomRequestDto = new RoomRequestDto(Room.RoomType.Deluxe, Room.BedType.King, true, 200, 4);
+        ResponseEntity<RoomResponseDto> response = bookingClient.postForEntity("/room/create", roomRequestDto,
+                RoomResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        return response.getBody().getRoomId();
+    }
+
+    private int createDemoPayment() {
+        PaymentRequestDto paymentRequestDto = new PaymentRequestDto(100);
+        ResponseEntity<PaymentResponseDto> response = bookingClient.postForEntity("/payment/create", paymentRequestDto,
+                PaymentResponseDto.class);
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        return response.getBody().getPaymentId();
+    }
+
+    private String createDemoGeneralUser() {
+        GeneralUserDto generalUserDto = new GeneralUserDto("John", "Poah", "john.poah@mail.com", 9517152);
+        ResponseEntity<GeneralUserDto> response = bookingClient.postForEntity("/generalUsers/create", generalUserDto,
+                GeneralUserDto.class);
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        return response.getBody().getEmail();
+    }
+
+    private int createDemoBooking(String email, int roomId, int paymentId) {
+        BookingRequestDto bookingRequestDto = new BookingRequestDto(email, roomId, paymentId);
+        ResponseEntity<BookingResponseDto> response = bookingClient.postForEntity("/booking/create", bookingRequestDto,
+                BookingResponseDto.class);
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         int bookingId = response.getBody().getBookingId();
         return bookingId;
     }
 
-    public void testDeleteBookingByIdIntegration(int id) {
-        ResponseEntity<Booking> response = bookingClient.exchange("/booking/" + id, HttpMethod.DELETE, null,
+    private Booking getDemoBookingById(int id) {
+        ResponseEntity<BookingResponseDto> response = bookingClient.getForEntity("/booking/" + id, BookingResponseDto.class);
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(id, response.getBody().getBookingId());
+        Booking booking = new Booking();
+        booking.setBookingId(response.getBody().getBookingId());
+        booking.setRoom(response.getBody().getRoom());
+        booking.setPayment(response.getBody().getPayment());
+        booking.setGeneralUser(response.getBody().getGeneralUser());
+
+        return booking;
+    }
+
+    @Test
+    public void testCreateBooking() {
+        int roomId = createDemoRoom();
+        int paymentId = createDemoPayment();
+        String email = createDemoGeneralUser();
+        int bookingId = createDemoBooking(email, roomId, paymentId);
+        assertNotNull(bookingId);
+        assertEquals(1, bookingRepository.count());
+    }
+
+    public void deleteBookingById(int id) {
+        ResponseEntity<Booking> response = bookingClient.exchange("/booking/delete/" + id, HttpMethod.DELETE, null,
                 Booking.class);
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    public void testGetBookingByIdIntegration(int id) {
-        ResponseEntity<Booking> response = bookingClient.getForEntity("/booking/" + id, Booking.class);
-        assertNotNull(response);
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(id, response.getBody().getBookingId());
+    @Test
+    public void testCreateAndRetrieveBookingById() {
+        int roomId = createDemoRoom();
+        int paymentId = createDemoPayment();
+        String email = createDemoGeneralUser();
+        int bookingId = createDemoBooking(email, roomId, paymentId);
+        Booking booking = getDemoBookingById(bookingId);
+        assertNotNull(booking);
+        assertEquals(bookingId, booking.getBookingId());
+        assertEquals(email, booking.getGeneralUser().getEmail());
+        assertEquals(roomId, booking.getRoom().getRoomId());
     }
 
-    // @Test
-    // public void testCreateandDeleteBookingByIdIntegration() {
+    @Test
+    public void testCreateAndDeleteBookingById() {
+        int roomId = createDemoRoom();
+        int paymentId = createDemoPayment();
+        String email = createDemoGeneralUser();
+        int bookingId = createDemoBooking(email, roomId, paymentId);
+        deleteBookingById(bookingId);
+        assertEquals(0, bookingRepository.count());
+    }
+
+    private void updateBookingById(int id, String email, int roomId, int paymentId) {
+        BookingRequestDto bookingRequestDto = new BookingRequestDto(email, roomId, paymentId);
+        bookingClient.put("/booking/update/" + id, bookingRequestDto);
+    }
+
+    @Test 
+    public void testCreateAndUpdateBookingById() {
+        int roomId = createDemoRoom();
+        int paymentId = createDemoPayment();
+        String email = createDemoGeneralUser();
+        int bookingId = createDemoBooking(email, roomId, paymentId);
         
-    //     BookingRequestDto bookingRequestDto = createBookingRequestDto(
-    //         createPaymentRequestDto(100),
-    //         createGeneralUserDto("Joe", "John", "joejohn@mail.com", 514514514),
-    //         createRoomRequestDto(RoomType.Suite, BedType.King, true, 200, 2));
-    //     int id = testCreateBookingIntegration(bookingRequestDto);
-    //     testGetBookingByIdIntegration(id);
-    //     testDeleteBookingByIdIntegration(id);
-    // }
-
-    public Room createRoom(RoomRequestDto roomRequestDto) {
-        try {
-            hotelService.getHotel();
-        } catch (Mar1HotelSystemException e) {
-            hotelService.createHotel();
-        }
-        Room.RoomType roomType = roomRequestDto.getRoomType();
-        Room.BedType bedType = roomRequestDto.getBedType();
-        boolean isAvailable = roomRequestDto.getIsAvailable();
-        int pricePerNight = roomRequestDto.getPricePerNight();
-        int maxCapacity = roomRequestDto.getMaxCapacity();
-
-        Room room = roomService.createRoom(roomType, bedType, isAvailable, pricePerNight, maxCapacity);
-        return room;
-
+        // Create new BookingRequestDto to update
+        int newRoomId = createDemoRoom();
+        int newPaymentId = createDemoPayment();
+        updateBookingById(bookingId, email, newRoomId, newPaymentId);
+        Booking updatedBooking = getDemoBookingById(bookingId);
+        assertEquals(newRoomId, updatedBooking.getRoom().getRoomId());
+        assertEquals(newPaymentId, updatedBooking.getPayment().getPaymentId());
     }
-
-    // public void setUp() {
-    // RoomType roomType = RoomType.Suite;
-    // BedType bedType = BedType.King;
-    // boolean isAvailable = true;
-    // int pricePerNight = 200;
-    // int maxCapacity = 2;
-    // createPaymentRequestDto(100);
-    // createGeneralUserDto("Joe", "John", "joe@mail.com", 514514514);
-    // createRoomRequestDto(roomType, bedType, isAvailable, pricePerNight,
-    // maxCapacity);
-    // }
-
-    public GeneralUserDto createGeneralUserDto(String firstName, String lastName, String email, long phoneNumber) {
-        GeneralUserDto generalUserDto = new GeneralUserDto();
-        generalUserDto.setFirstName(firstName);
-        generalUserDto.setLastName(lastName);
-        generalUserDto.setEmail(email);
-        generalUserDto.setPhoneNumber(phoneNumber);
-        return generalUserDto;
-    }
-
-    public PaymentRequestDto createPaymentRequestDto(int amount) {
-        PaymentRequestDto paymentRequestDto = new PaymentRequestDto();
-        paymentRequestDto.setAmount(amount);
-        return paymentRequestDto;
-    }
-
-    public RoomRequestDto createRoomRequestDto(Room.RoomType roomType, Room.BedType bedType, boolean isAvailable,
-            int pricePerNight, int maxCapacity) {
-
-        RoomRequestDto roomRequestDto = new RoomRequestDto(roomType, bedType, isAvailable, pricePerNight, maxCapacity);
-
-        return roomRequestDto;
-
-    }
-
-    // public BookingRequestDto createBookingRequestDto(PaymentRequestDto paymentRequestDto, GeneralUserDto generalUserDto,
-    //         RoomRequestDto roomRequestDto) {
-    //     BookingRequestDto bookingRequestDto = new BookingRequestDto();
-    //     bookingRequestDto.setPayment(paymentRequestDto);
-    //     bookingRequestDto.setGeneralUser(generalUserDto);
-    //     bookingRequestDto.setRoom(roomRequestDto);
-    //     return bookingRequestDto;
-    // }
 
 }
