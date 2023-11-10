@@ -46,12 +46,6 @@ public class CustomerRestController {
         return customerService.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-//    @GetMapping(value = { "/customer/{email}/bookings", "/customer/{email}/bookings/" })
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<BookingDto> getCustomerBookings(@PathVariable("email") String email) {
-//        return bookingService.getCustomerBookings(email);
-//    }
-
     @PostMapping(value = { "/customer", "/customer/" })
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDto createCustomer(@RequestBody CustomerDto customerDto) {
@@ -123,30 +117,4 @@ public class CustomerRestController {
                 generalUser.getEmail(),
                 generalUser.getPhoneNumber());
     }
-
-//    private RoomDto converToRoomDTO(Room room) {
-//        if (room == null) {
-//            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "There is no such room!");
-//        }
-//        RoomDto.RoomTypeDto roomTypeDto = roomType;
-//        return new RoomDto(
-//                room.getRoomId(),
-//                room.getRoomType(),
-//                room.getBedType(),
-//                room.getIsAvailable(),
-//                room.getPricePerNight(),
-//                room.getMaxCapacity(),
-//                );
-//    }
-//
-//    private BookingDto convertToBookingDTO(Booking booking) {
-//        if (booking == null) {
-//            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "There is no such booking!");
-//        }
-//        return new BookingDto(
-//                booking.getBookingId(),
-//                booking.getPayment(),
-//                convertToGeneralUserDTO(booking.getGeneralUser()),
-//                booking.getRoom());
-//    }
 }
