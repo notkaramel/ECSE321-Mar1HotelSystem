@@ -42,6 +42,9 @@ public class GeneralUserService {
         // Check if general user not found
         if (generalUser == null) {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "User Not Found");
+        } // Check if email is empty
+        else if (email == null || email.trim().isEmpty()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
         } else {
             return generalUser;
         }
@@ -116,6 +119,10 @@ public class GeneralUserService {
             // Check if new email is valid format
             if (!matcher.find()) {
                 throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The new email is invalid!");
+            }
+            // Check if email is empty
+            else if (newEmail == null || newEmail.trim().isEmpty()) {
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
             } else {
                 generalUser.setEmail(newEmail);
                 generalUserRepository.save(generalUser);

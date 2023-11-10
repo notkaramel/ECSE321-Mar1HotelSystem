@@ -45,6 +45,9 @@ public class ManagerService {
         // Check if manager not found
         if (manager == null) {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Manager Not Found");
+        } // Check if email is empty
+        else if (email == null || email.trim().isEmpty()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
         } else {
             return manager;
         }
@@ -105,8 +108,11 @@ public class ManagerService {
         // Check if user exists
         if (manager == null) {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "User Not Found");
+        } // Check if password is empty
+        else if (newPassword == null || newPassword.trim().isEmpty()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
         } else {
-            if (manager.getPassword() == oldPassword) {
+            if (manager.getPassword().equals(oldPassword)) {
                 manager.setPassword(newPassword);
                 return manager;
             } else {
