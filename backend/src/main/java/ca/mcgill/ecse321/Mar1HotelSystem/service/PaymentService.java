@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.transaction.Transactional;
 /**

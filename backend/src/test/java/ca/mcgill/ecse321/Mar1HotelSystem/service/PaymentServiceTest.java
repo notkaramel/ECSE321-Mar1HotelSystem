@@ -7,14 +7,12 @@ import static org.mockito.Mockito.*;
 
 import java.util.List;
 
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
