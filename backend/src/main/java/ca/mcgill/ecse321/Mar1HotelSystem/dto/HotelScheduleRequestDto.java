@@ -16,6 +16,9 @@ public class HotelScheduleRequestDto {
     private CustomHours[] customHoursList;
     private OperatingHours[] operatingHoursList;
 
+    public HotelScheduleRequestDto() {
+    }
+
     public int getYear() {
         return this.year;
     }
@@ -36,6 +39,7 @@ public class HotelScheduleRequestDto {
         this.operatingHoursList = operatingHoursList;
     }
 
+
     public HotelSchedule toModel() {
         HotelSchedule hotelSchedule = new HotelSchedule();
         hotelSchedule.setYear(this.year);
@@ -43,4 +47,5 @@ public class HotelScheduleRequestDto {
         hotelSchedule.setOperatingHours(this.operatingHoursList);
         return hotelSchedule;
     }
+
 }

@@ -4,12 +4,15 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
 public class OperatingHoursRequestDto{
     
-    private DayOfWeek day;
+    private DayOfWeek dayOfWeek;
     private int openingHour;
     private int closingHour;
 
+    public OperatingHoursRequestDto() {
+    }
+    
     public void setDayOfWeek(DayOfWeek day) {
-        this.day = day;
+        this.dayOfWeek = day;
     }
     public void setOpeningHour(int openingHour) {
         this.openingHour = openingHour;
@@ -19,7 +22,7 @@ public class OperatingHoursRequestDto{
     }
 
     public DayOfWeek getDayOfWeek() {
-        return this.day;
+        return this.dayOfWeek;
     }
     public int getOpeningHour() {
         return this.openingHour;
@@ -30,7 +33,7 @@ public class OperatingHoursRequestDto{
 
     public OperatingHours toModel() {
         OperatingHours operatingHours = new OperatingHours();
-        operatingHours.setDayOfWeek(this.day);
+        operatingHours.setDayOfWeek(this.dayOfWeek);
         operatingHours.setOpeningHour(this.openingHour);
         operatingHours.setClosingHour(this.closingHour);
         return operatingHours;

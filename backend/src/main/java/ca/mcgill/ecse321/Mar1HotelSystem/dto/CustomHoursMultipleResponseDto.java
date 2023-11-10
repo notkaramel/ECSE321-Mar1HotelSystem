@@ -9,6 +9,9 @@ public class CustomHoursMultipleResponseDto {
 
     private Iterable<CustomHoursResponseDto> customHours;
 
+    public CustomHoursMultipleResponseDto() {
+    }
+
     public CustomHoursMultipleResponseDto(Iterable<CustomHours> customHours) {
         List<CustomHoursResponseDto> customHoursDtos = new ArrayList<CustomHoursResponseDto>();
         for (CustomHours i : customHours) {

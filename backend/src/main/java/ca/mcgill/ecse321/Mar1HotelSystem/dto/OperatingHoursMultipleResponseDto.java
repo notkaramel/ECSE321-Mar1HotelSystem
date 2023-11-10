@@ -9,6 +9,9 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 public class OperatingHoursMultipleResponseDto {
      private Iterable<OperatingHoursResponseDto> operatingHours;
 
+     public OperatingHoursMultipleResponseDto() {
+    }
+
      public OperatingHoursMultipleResponseDto(Iterable<OperatingHours> operatingHours) {
         List<OperatingHoursResponseDto> operatingHoursDtos = new ArrayList<OperatingHoursResponseDto>();
         for (OperatingHours i : operatingHours) {

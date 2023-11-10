@@ -9,6 +9,9 @@ public class HotelScheduleResponseDto {
     private CustomHours[] customHoursList;
     private OperatingHours[] operatingHoursList;
 
+    public HotelScheduleResponseDto() {
+    }
+
     public HotelScheduleResponseDto(int year, CustomHours[] customHoursList, OperatingHours[] operatingHoursList) {
         this.year = year;
         this.customHoursList = customHoursList;

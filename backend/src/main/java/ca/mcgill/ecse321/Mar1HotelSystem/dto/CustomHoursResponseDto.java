@@ -9,13 +9,18 @@ public class CustomHoursResponseDto {
     private int openingHour;
     private int closingHour;
 
+    public CustomHoursResponseDto() {
+    }
+
     public CustomHoursResponseDto(CustomHours customHour) {
         this.date = customHour.getDate();
         this.openingHour = customHour.getOpeningHour();
         this.closingHour = customHour.getClosingHour();
     }
 
-    public CustomHoursResponseDto(Boolean customHour) {} 
+    public CustomHoursResponseDto(Boolean isDeleted) {
+        //todo: maybe add something here??
+    } 
 
 
     public Date getDate() {

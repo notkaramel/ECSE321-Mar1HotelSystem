@@ -9,6 +9,9 @@ public class HotelScheduleMultipleResponseDto {
     
     private Iterable<HotelScheduleResponseDto> hotelSchedule;
 
+    public HotelScheduleMultipleResponseDto() {
+    }
+
     public HotelScheduleMultipleResponseDto(Iterable<HotelSchedule> hotelSchedule) {
         List<HotelScheduleResponseDto> hotelScheduleDtos = new ArrayList<HotelScheduleResponseDto>();
         for (HotelSchedule i : hotelSchedule) {

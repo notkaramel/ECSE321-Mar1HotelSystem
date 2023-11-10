@@ -9,6 +9,9 @@ public class CustomHoursRequestDto {
     private int openingHour;
     private int closingHour;
 
+    public CustomHoursRequestDto() {
+    }
+
     public void setDate(Date date) {
         this.date = date;
     }
