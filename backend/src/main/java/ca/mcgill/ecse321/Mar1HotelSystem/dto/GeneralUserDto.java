@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
-import java.util.List;
-import java.util.ArrayList;
 
 public class GeneralUserDto {
 
@@ -11,7 +9,6 @@ public class GeneralUserDto {
     private String firstName;
     private String lastName;
     private long phoneNumber;
-    private List<GeneralUserDto> generalUserList;
 
     // CONSTRUCTORS
     public GeneralUserDto() {
@@ -54,20 +51,10 @@ public class GeneralUserDto {
         return this.phoneNumber;
     }
 
-    public void setLastName(String string) {
-        this.lastName = string;
-    }
-
-    public void setFirstName(String string) {
-        this.firstName = string;
-    }
-
-    public void setEmail(String string) {
-        this.email = string;
-    }
-
-    public void setPhoneNumber(long l) {
-        this.phoneNumber = l;
+    // Setters
+    public boolean setEmail(String email) {
+        this.email = email;
+        return true;
     }
 
 }

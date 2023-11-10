@@ -73,7 +73,6 @@ public class GeneralUserServiceTest {
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			fail();
 		}
 		assertNotNull(generalUser);
@@ -99,7 +98,6 @@ public class GeneralUserServiceTest {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
 
 		} catch (Mar1HotelSystemException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 			error_status = e.getStatus();
 		}
@@ -133,147 +131,340 @@ public class GeneralUserServiceTest {
 		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
 
-    @Test
+	/*
+	 * Fail to create a general user if first name inputs null
+	 */
+	@Test
 	public void testCreateGeneralUserAllSpace() {
-		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "";
-        String lastName = "";
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		String firstName = "";
+		String lastName = "";
 		String email = "";
-        int phoneNumber = 0;
+		long phoneNumber = 0;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
-			
+		} catch (Mar1HotelSystemException e) {
+
 			error = e.getMessage();
+			error_status = e.getStatus();
 		}
 		assertNull(generalUser);
-		assertEquals("The first name cannot be empty!", error);
+		assertEquals("All fields are empty!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
 
-    @Test
-	public void testCreateGeneralUserFistNameSpace() {
-		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "";
-        String lastName = "Doe";
+	/*
+	 * Fail to create a general user if first name input empty
+	 */
+	@Test
+	public void testCreateGeneralUserFirstNameSpace() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		String firstName = "";
+		String lastName = "Doe";
 		String email = GENERALUSER_KEY;
-        int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
+		} catch (Mar1HotelSystemException e) {
 			error = e.getMessage();
+			error_status = e.getStatus();
 		}
 		assertNull(generalUser);
 		assertEquals("The first name cannot be empty!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
 
-    @Test
+	/*
+	 * Fail to create a general user if last name input empty
+	 */
+	@Test
 	public void testCreateGeneralUserLastNameSpace() {
-		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "Joe";
-        String lastName = "";
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		String firstName = "Joe";
+		String lastName = "";
 		String email = GENERALUSER_KEY;
-        int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
+		} catch (Mar1HotelSystemException e) {
 			error = e.getMessage();
+			error_status = e.getStatus();
 		}
 		assertNull(generalUser);
 		assertEquals("The last name cannot be empty!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
 
-    @Test
+	/*
+	 * Fail to create a general user if email input empty
+	 */
+	@Test
 	public void testCreateGeneralUserEmailSpace() {
-		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		String firstName = "Joe";
+		String lastName = "Doe";
 		String email = "";
-        int phoneNumber = 1234567891;
+		long phoneNumber = 1234567891;
 		GeneralUser generalUser = null;
 		try {
 			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
+		} catch (Mar1HotelSystemException e) {
 			error = e.getMessage();
+			error_status = e.getStatus();
 		}
 		assertNull(generalUser);
 		assertEquals("The email cannot be empty!", error);
-	}
-	// To check with the rest of the team if we need to test a phone number of 0
-//    @Test
-//	public void testCreateGeneralUserPhoneNumberSpace() {
-//		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-//        String error = null;
-//        String firstName = "Joe";
-//        String lastName = "Doe";
-//		String email = GENERALUSER_KEY;
-//        int phoneNumber = 0;
-//		GeneralUser generalUser = null;
-//		try {
-//			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-//		} catch (IllegalArgumentException e) {
-//			// Check that no error occurred
-//			error = e.getMessage();
-//		}
-//		assertNull(generalUser);
-//		assertEquals("GeneralUser phone number cannot be empty!", error);
-//	}
-
-
-    @Test
-	public void testCreateGeneralUserEmailMissingAt() {
-		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = "joegmail.com";
-        int phoneNumber = 1234567891;
-		GeneralUser generalUser = null;
-		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-		}
-		assertNull(generalUser);
-		assertEquals("The email is invalid!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
 
-    @Test
-	public void testCreateGeneralUserEmailMissingDot() {
-		//assertEquals(0, generalUserService.getAllGeneralUsers().size());
-        String error = null;
-        String firstName = "Joe";
-        String lastName = "Doe";
-		String email = "joe@gmailcom";
-        int phoneNumber = 1234567891;
-		GeneralUser generalUser = null;
-		try {
-			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			error = e.getMessage();
-		}
-		assertNull(generalUser);
-		assertEquals("The email is invalid!", error);
-	}
-
-    @Test
-	public void testGetExistingGeneralUser() {
-		assertEquals(GENERALUSER_KEY, generalUserService.getGeneralUser(GENERALUSER_KEY).getEmail());
-	}
-
+	/*
+	 * Fail to create a general user if email input missing @
+	 */
 	@Test
-	public void testGetNonExistingPerson() {
-		assertNull(generalUserService.getGeneralUser("NotAGeneralUser"));
+	public void testCreateGeneralUserEmailMissingAt() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		String firstName = "Joe";
+		String lastName = "Doe";
+		String email = "joegmail.com";
+		long phoneNumber = 1234567891;
+		GeneralUser generalUser = null;
+		try {
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+		}
+		assertNull(generalUser);
+		assertEquals("The email is invalid!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
+
+	/*
+	 * Fail to create a general user if email input missing dot
+	 */
+	@Test
+	public void testCreateGeneralUserEmailMissingDot() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		String firstName = "Joe";
+		String lastName = "Doe";
+		String email = "joe@gmailcom";
+		long phoneNumber = 1234567891;
+		GeneralUser generalUser = null;
+		try {
+			generalUser = generalUserService.createGeneralUser(firstName, lastName, email, phoneNumber);
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+		}
+		assertNull(generalUser);
+		assertEquals("The email is invalid!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
+	}
+
+	/*
+	 * Get general user from correct email of existing manager successfully
+	 */
+	@Test
+	public void testGetGeneralUserSuccessful() {
+		setMockOutput();
+		GeneralUser generalUser = null;
+		try {
+			generalUser = generalUserService.getGeneralUser("joe@gmail.com");
+		} catch (Mar1HotelSystemException e) {
+			fail();
+		}
+		assertNotNull(generalUser);
+		assertEquals("joe@gmail.com", generalUser.getEmail());
+
+	}
+
+	/*
+	 * Fail to get general user because email of non-existing manager
+	 */
+	@Test
+	public void testGetGeneralUserUnsuccessful() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		GeneralUser generalUser = null;
+		try {
+			generalUserService.getGeneralUser("jane@gmail.com");
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+
+		}
+		assertNull(generalUser);
+		assertEquals("User Not Found", error);
+		assertEquals(HttpStatus.NOT_FOUND, error_status);
+	}
+
+	/*
+	 * Get list of general users successfully
+	 */
+	@Test
+	public void testGetGeneralUserListSuccessful() {
+		setMockOutput();
+		List<GeneralUser> generalUsers = null;
+		try {
+			generalUsers = generalUserService.getAllGeneralUsers();
+		} catch (Mar1HotelSystemException e) {
+			fail();
+		}
+		assertNotNull(generalUsers);
+		assertEquals("joey@gmail.com", generalUsers.get(0).getEmail());
+		assertEquals("janet@gmail.com", generalUsers.get(1).getEmail());
+	}
+
+	/*
+	 * Fail to get list of general users successfully since null
+	 */
+	@Test
+	public void testGetGeneralUserListUnsuccessful() {
+		String error = null;
+		HttpStatus error_status = null;
+		List<GeneralUser> generalUsers = null;
+		try {
+			generalUsers = generalUserService.getAllGeneralUsers();
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+		}
+		assertNull(generalUsers);
+		assertEquals("There are no Users found!", error);
+		assertEquals(HttpStatus.NOT_FOUND, error_status);
+	}
+
+	/*
+	 * Update general user email from correct email of existing general user
+	 */
+	@Test
+	public void testUpdateGeneralUserThatExists() {
+		setMockOutput();
+		GeneralUser generalUser = null;
+		try {
+			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "janette@gmail.com");
+		} catch (Mar1HotelSystemException e) {
+			fail();
+		}
+		assertNotNull(generalUser);
+		assertEquals("janette@gmail.com", generalUser.getEmail());
+
+	}
+
+	/*
+	 * Fail to update general user email from correct email of existing general user
+	 * but new email is invalid, missing @ in this example
+	 */
+	@Test
+	public void testUpdateGeneralUserThatExistNewEmailIncorrect() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		GeneralUser generalUser = null;
+		try {
+			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "janettegmail.com");
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+		}
+		assertNull(generalUser);
+		assertEquals("The new email is invalid!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
+
+	}
+
+	/*
+	 * Fail to update general user email from incorrect email of non-existing
+	 * general user
+	 */
+	@Test
+	public void testUpdateGeneralUserThatDoesNotExist() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		GeneralUser generalUser = null;
+		try {
+			generalUser = generalUserService.updateGeneralUserEmail("Gio@gmail.com", "jane@gmail.com");
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+		}
+		assertNull(generalUser);
+		assertEquals("User Not Found", error);
+		assertEquals(HttpStatus.NOT_FOUND, error_status);
+	}
+
+	/*
+	 * Fail to update general user email from correct email of existing general user
+	 * but new email is already associated to another general user
+	 */
+	@Test
+	public void testUpdateGeneralUserThatAlreadyHasEmail() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		GeneralUser generalUser = null;
+		try {
+			generalUser = generalUserService.updateGeneralUserEmail("joe@gmail.com", "joe@gmail.com");
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+		}
+		assertNull(generalUser);
+		assertEquals("User with that email already exists!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
+	}
+
+	/*
+	 * Delete general user from correct email of existing general user successfully
+	 */
+	@Test
+	public void testDeleteGeneralUserThatExist() {
+		setMockOutput();
+		Boolean generalUser = null;
+		try {
+			generalUser = generalUserService.deleteGeneralUser("joe@gmail.com");
+		} catch (Mar1HotelSystemException e) {
+			fail();
+		}
+		assertNotNull(generalUser);
+		assertEquals(true, generalUser);
+	}
+
+	/*
+	 * Unsuccessfully delete general user of non-existing general user
+	 */
+	@Test
+	public void testDeleteGeneralUserThatDoesNotExist() {
+		setMockOutput();
+		String error = null;
+		HttpStatus error_status = null;
+		Boolean generalUser = null;
+		try {
+			generalUser = generalUserService.deleteGeneralUser("George@gmail.com");
+		} catch (Mar1HotelSystemException e) {
+			error = e.getMessage();
+			error_status = e.getStatus();
+			assertEquals("User with that email does not exist!", error);
+			assertEquals(HttpStatus.BAD_REQUEST, error_status);
+		}
+		assertEquals(false, generalUser);
+	}
+
 }

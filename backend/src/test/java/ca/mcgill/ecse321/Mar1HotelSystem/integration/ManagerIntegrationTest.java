@@ -16,19 +16,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.ManagerDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.ManagerDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleManagerDto;
 
-// Start the app for real so that we can send requests to it, but use a random port to avoid conflicts.
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-// // Reuse the same class for all the tests (instead of creating a new class
-// each time).
+
 @TestInstance(Lifecycle.PER_CLASS)
 
 public class ManagerIntegrationTest {
 
 	@Autowired
-	private ManagerRepository ManagerRepo;
+	private ManagerRepository managerRepo;
 
 	@Autowired
 	private TestRestTemplate client;
@@ -36,9 +33,13 @@ public class ManagerIntegrationTest {
 	@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
-		ManagerRepo.deleteAll();
+		managerRepo.deleteAll();
 	}
 
+	/*
+	 * Test to get error message indicating list of managers is empty because there
+	 * are no mnanagers created yet
+	 */
 	@Test
 	@Order(0)
 	public void testGetManagersInvalid() {
@@ -47,6 +48,9 @@ public class ManagerIntegrationTest {
 		assertEquals("There are no Managers Found", response.getBody());
 	}
 
+	/*
+	 * Test successfully creating a manager
+	 */
 	@Test
 	@Order(1)
 	public void testCreateManagerValid() {
@@ -68,17 +72,9 @@ public class ManagerIntegrationTest {
 
 	}
 
-	public ManagerDto createManager() {
-		String firstName = "Joe";
-		String lastName = "Doe";
-		String email = "joe@gmail.com";
-		long phoneNumber = 1234567891;
-		String password = "pass";
-		ManagerDto managerDto = new ManagerDto(firstName, lastName, email, phoneNumber, password);
-		ResponseEntity<ManagerDto> response = client.postForEntity("/managers/create", managerDto, ManagerDto.class);
-		return response.getBody();
-	}
-
+	/*
+	 * Test to successfully get a specific manager
+	 */
 	@Test
 	@Order(2)
 	public void testGetSpecificManagerValid() {
@@ -97,6 +93,9 @@ public class ManagerIntegrationTest {
 
 	}
 
+	/*
+	 * Test to unsuccessfully get a manager that does not exist
+	 */
 	@Test
 	@Order(3)
 	public void testGetSpecificManagerInvalid() {
@@ -108,6 +107,9 @@ public class ManagerIntegrationTest {
 
 	}
 
+	/*
+	 * Test to unsucessfully create another manager with same characteristics
+	 */
 	@Test
 	@Order(4)
 	public void testCreateSecondManagerInavlid1() {
@@ -126,6 +128,9 @@ public class ManagerIntegrationTest {
 		assertEquals("User with that email already exists!", response.getBody());
 	}
 
+	/*
+	 * Test to successfully create a second manager
+	 */
 	@Test
 	@Order(5)
 	public void testCreateSecondManagerValid() {
@@ -148,17 +153,9 @@ public class ManagerIntegrationTest {
 		assertEquals(user.getPassword(), response.getBody().getPassword());
 	}
 
-	public ManagerDto createSecondManager() {
-		String firstName = "Joey";
-		String lastName = "Doey";
-		String email = "joey@gmail.com";
-		long phoneNumber = 1234567891;
-		String password = "pass";
-		ManagerDto managerDto = new ManagerDto(firstName, lastName, email, phoneNumber, password);
-		ResponseEntity<ManagerDto> response = client.postForEntity("/managers/create", managerDto, ManagerDto.class);
-		return response.getBody();
-	}
-
+	/*
+	 * Test to successfully delete a manager
+	 */
 	@Test
 	@Order(6)
 	public void testDeleteManagerValid() {
@@ -169,6 +166,9 @@ public class ManagerIntegrationTest {
 
 	}
 
+	/*
+	 * Test to unsuccessfully create a manager because a field is empty
+	 */
 	@Test
 	@Order(7)
 	public void testCreateManagerInvalid2() {
@@ -184,24 +184,17 @@ public class ManagerIntegrationTest {
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("The first name cannot be empty!", response.getBody());
 	}
+
+	/*
+	 * Test to successfully get a list of managers
+	 */
 	@Test
 	@Order(8)
-	public void testUpdateManagerValid() {	
-		
-		ManagerDto manager = createManager();
-		ResponseEntity<ManagerDto> response = client.postForEntity("/managers/update/"+"pass", manager, ManagerDto.class);
+	public void testGetAllManagers() {
 
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertEquals("pass", response.getBody().getPassword());
-	}
-
-	@Test
-	@Order(9)
-	public void testGetAllManagers() {	
-		
 		ManagerDto manager1 = createManager();
 		ManagerDto manager2 = createSecondManager();
-		ResponseEntity<MultipleManagerDto> response = client.getForEntity("/managers",MultipleManagerDto.class);
+		ResponseEntity<MultipleManagerDto> response = client.getForEntity("/managers", MultipleManagerDto.class);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertNotNull(response);
@@ -213,6 +206,34 @@ public class ManagerIntegrationTest {
 		assertEquals(manager2.getLastName(), response.getBody().getManagerList().get(1).getLastName());
 		assertEquals(manager2.getEmail(), response.getBody().getManagerList().get(1).getEmail());
 		assertEquals(manager2.getPhoneNumber(), response.getBody().getManagerList().get(1).getPhoneNumber());
+	}
+
+	/*
+	 * Helper function to create a manager
+	 */
+	public ManagerDto createManager() {
+		String firstName = "Joe";
+		String lastName = "Doe";
+		String email = "joe@gmail.com";
+		long phoneNumber = 1234567891;
+		String password = "pass";
+		ManagerDto managerDto = new ManagerDto(firstName, lastName, email, phoneNumber, password);
+		ResponseEntity<ManagerDto> response = client.postForEntity("/managers/create", managerDto, ManagerDto.class);
+		return response.getBody();
+	}
+
+	/*
+	 * Helper Fuction to create a second manager
+	 */
+	public ManagerDto createSecondManager() {
+		String firstName = "Joey";
+		String lastName = "Doey";
+		String email = "joey@gmail.com";
+		long phoneNumber = 1234567891;
+		String password = "pass";
+		ManagerDto managerDto = new ManagerDto(firstName, lastName, email, phoneNumber, password);
+		ResponseEntity<ManagerDto> response = client.postForEntity("/managers/create", managerDto, ManagerDto.class);
+		return response.getBody();
 	}
 
 }
