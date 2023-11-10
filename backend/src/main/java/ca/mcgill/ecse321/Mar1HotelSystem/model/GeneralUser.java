@@ -55,7 +55,7 @@ public class GeneralUser {
 
     // Setters
     // Method to set firstName, returns true if firstName set
-    public boolean setFistName(String firstName) {
+    public boolean setFirstName(String firstName) {
         this.firstName = firstName;
         return true;
     }
@@ -73,7 +73,7 @@ public class GeneralUser {
     }
 
     // Method to set phoneNumber, returns true if phoneNumber set
-    public boolean setPhoneNumber(int phoneNumber) {
+    public boolean setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
         return true;
     }
