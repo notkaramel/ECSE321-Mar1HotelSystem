@@ -588,7 +588,7 @@ public class EmployeeServiceTest {
      * Test updating an employee with an empty email.
      */
     @Test
-    public void testUpdateEmployeeSpaceEmail() {
+    public void testUpdateEmployeeEmptyEmail() {
         String newFirstName = "Dolan";
         String newLastName = "Duck";
         long newPhoneNumber = 123;

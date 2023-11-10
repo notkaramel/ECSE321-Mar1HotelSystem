@@ -490,7 +490,7 @@ public class CustomerServiceTest {
      * Test updating a customer with empty email.
      */
     @Test
-    public void testUpdateCustomerSpaceEmail() {
+    public void testUpdateCustomerEmptyEmail() {
         String newFirstName = "Josh";
         String newLastName = "Deb";
         String newPassword = "TestPassword";
