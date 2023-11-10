@@ -80,7 +80,7 @@ public class CustomerService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The phone number must be above 0!");
         }
         // Check if password is empty
-        if (password == null || password.trim().isEmpty()) {
+        if (password == null || password.isEmpty()) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
         }
         // Create, save, and return the customer
@@ -114,7 +114,7 @@ public class CustomerService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The phone number must be above 0!");
         }
         // Check if password is empty
-        if (newPassword == null || newPassword.trim().isEmpty()) {
+        if (newPassword == null || newPassword.isEmpty() ) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
         }
         // Get Customer

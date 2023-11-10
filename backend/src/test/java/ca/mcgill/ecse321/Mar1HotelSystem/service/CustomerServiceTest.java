@@ -348,7 +348,7 @@ public class CustomerServiceTest {
                     "Deb",
                     CUSTOMER_KEY,
                     1234567890,
-                    " "
+                    ""
             );
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
