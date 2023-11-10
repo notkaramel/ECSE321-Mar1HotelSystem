@@ -239,4 +239,14 @@ public class EmployeeService {
         shift.setEndTime(newEndTime);
         return shiftRepository.save(shift);
     }
+
+    @Transactional
+    public boolean deleteShift(int shiftId) {
+        Shift shift = shiftRepository.findShiftByShiftId(shiftId);
+        if (shift == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The shift does not exist!");
+        }
+        shiftRepository.delete(shift);
+        return true;
+    }
 }

@@ -1147,4 +1147,37 @@ public class EmployeeServiceTest {
         assertEquals("The shift does not exist!", error);
     }
 
+    /**
+     * Test deleting shift
+     */
+    @Test
+    public void testDeleteShift() {
+        boolean deleted = false;
+        try {
+            deleted = employeeService.deleteShift(SHIFT_KEY_INITIAL_1);
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check if the shift was deleted
+        assertTrue(deleted);
+        verify(shiftDao, times(1)).delete(employeeService.getShift(SHIFT_KEY_INITIAL_1));
+    }
+
+    /**
+     * Test deleting shift that isn't registered in the database
+     */
+    @Test
+    public void testDeleteShiftInvalidId() {
+        boolean deleted = false;
+        String error = null;
+        try {
+            deleted = employeeService.deleteShift(NONEXISTING_SHIFT_KEY);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check if the shift was deleted
+        assertFalse(deleted);
+        assertEquals("The shift does not exist!", error);
+    }
+
 }
