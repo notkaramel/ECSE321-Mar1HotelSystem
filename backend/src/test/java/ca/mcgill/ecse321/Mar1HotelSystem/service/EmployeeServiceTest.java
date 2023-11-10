@@ -397,6 +397,31 @@ public class EmployeeServiceTest {
     }
 
     /**
+     * Test creating an employee with a negative hours worked.
+     */
+    @Test
+    public void testCreateEmployeeNegativeHoursWorked() {
+        String error = null;
+        Employee employee = null;
+        try {
+            employee = employeeService.createEmployee(
+                    "boi",
+                    "boi",
+                    EMPLOYEE_KEY,
+                    1234567891,
+                    " 1",
+                    -1
+            );
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // check null
+        assertNull(employee);
+        // check error
+        assertEquals("The hours worked must not be negative!", error);
+    }
+
+    /**
      * Test creating an employee with an existing email
      */
     @Test
@@ -463,9 +488,10 @@ public class EmployeeServiceTest {
     		employee = employeeService.updateEmployee(
                     newFirstName,
                     newLastName,
+                    EMPLOYEE_INITIAL_KEY_1,
                     newPhoneNumber,
                     newPassword,
-                    EMPLOYEE_INITIAL_KEY_1);
+                    1);
     	} catch (Mar1HotelSystemException e) {
     		fail();
     	}
@@ -492,9 +518,10 @@ public class EmployeeServiceTest {
         		employee = employeeService.updateEmployee(
                         newFirstName,
                         newLastName,
+                        EMPLOYEE_INITIAL_KEY_1,
                         newPhoneNumber,
                         newPassword,
-                        EMPLOYEE_INITIAL_KEY_1);
+                        1);
         	} catch (Mar1HotelSystemException e) {
         		error = e.getMessage();
         	}
@@ -518,9 +545,10 @@ public class EmployeeServiceTest {
         		employee = employeeService.updateEmployee(
                         newFirstName,
                         newLastName,
+                        EMPLOYEE_INITIAL_KEY_1,
                         newPhoneNumber,
                         newPassword,
-                        EMPLOYEE_INITIAL_KEY_1);
+                        1);
         	} catch (Mar1HotelSystemException e) {
         		error = e.getMessage();
         	}
@@ -544,9 +572,10 @@ public class EmployeeServiceTest {
                 employee = employeeService.updateEmployee(
                         newFirstName,
                         newLastName,
+                        EMPLOYEE_INITIAL_KEY_1,
                         newPhoneNumber,
                         newPassword,
-                        EMPLOYEE_INITIAL_KEY_1);
+                        1);
             } catch (Mar1HotelSystemException e) {
                 error = e.getMessage();
             }
@@ -570,9 +599,10 @@ public class EmployeeServiceTest {
             employee = employeeService.updateEmployee(
                     newFirstName,
                     newLastName,
+                    "",
                     newPhoneNumber,
                     newPassword,
-                    "");
+                    1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -596,9 +626,10 @@ public class EmployeeServiceTest {
             employee = employeeService.updateEmployee(
                     newFirstName,
                     newLastName,
+                    "boimailcom",
                     newPhoneNumber,
                     newPassword,
-                    "boimailcom");
+                    1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -619,17 +650,46 @@ public class EmployeeServiceTest {
         Employee employee = null;
         String error = null;
         try {
-            employee = employeeService.updateEmployee(newFirstName,
+            employee = employeeService.updateEmployee(
+                    newFirstName,
                     newLastName,
+                    EMPLOYEE_INITIAL_KEY_1,
                     newPhoneNumber,
                     newPassword,
-                    EMPLOYEE_INITIAL_KEY_1);
+                    1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
         // Check null
         assertNull(employee);
         assertEquals("The password cannot be empty!", error);
+    }
+
+    /**
+     * Test updating an employee with a negative hours worked.
+     */
+    @Test
+    public void testUpdateEmployeeNegativeEmail() {
+        String newFirstName = "Dolan";
+        String newLastName = "Duck";
+        long newPhoneNumber = 123;
+        String newPassword = "password123";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    EMPLOYEE_INITIAL_KEY_1,
+                    newPhoneNumber,
+                    newPassword,
+                    -1);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The hours worked must not be negative!", error);
     }
 
     /**
@@ -647,9 +707,10 @@ public class EmployeeServiceTest {
         		employee = employeeService.updateEmployee(
                         newFirstName,
                         newLastName,
+                        NONEXISTING_KEY,
                         newPhoneNumber,
                         newPassword,
-                        NONEXISTING_KEY);
+                        1);
         	} catch (Mar1HotelSystemException e) {
         		error = e.getMessage();
         	}

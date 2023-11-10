@@ -91,6 +91,9 @@ public class EmployeeService {
         // Check if password is empty
         if (password == null || password.trim().isEmpty()) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
+        }// Check if the hours worked is not negative
+        if (hoursWorked < 0) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The hours worked must not be negative!");
         }
         // Create, save, and return the employee
         Employee employee = new Employee(
@@ -104,7 +107,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee updateEmployee(String newFirstName, String newLastName, long newPhoneNumber, String newPassword, String email) {
+    public Employee updateEmployee(String newFirstName, String newLastName, String email, long newPhoneNumber, String newPassword, int newHoursWorked) {
             // Check if firstName is empty
             if (newFirstName == null || newFirstName.trim().isEmpty()) {
                 throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The first name cannot be empty!");
@@ -136,11 +139,16 @@ public class EmployeeService {
             if (employee == null) {
                 throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The employee does not exist!");
             }
+            // Check if the hours worked is not negative
+            if (newHoursWorked < 0) {
+                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The hours worked must not be negative!");
+            }
             // Updating the employee
             employee.setFirstName(newFirstName.trim());
             employee.setLastName(newLastName.trim());
             employee.setPhoneNumber(newPhoneNumber);
             employee.setPassword(newPassword);
+            employee.setHoursWorked(newHoursWorked);
             return employeeRepository.save(employee);
     }
 
