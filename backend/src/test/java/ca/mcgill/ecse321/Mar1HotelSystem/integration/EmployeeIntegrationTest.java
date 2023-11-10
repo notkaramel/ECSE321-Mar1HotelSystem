@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 
-import ca.mcgill.ecse321.Mar1HotelSystem.controller.EmployeeRestController;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ShiftRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.EmployeeDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.ShiftDto;
@@ -20,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +62,7 @@ public class EmployeeIntegrationTest {
     }
 
     /**
-     * Helper method to create a lot of employees and customers
+     * Helper method to create a lot a customer, employee and shift
      */
     public void createEmployeesAndCustomers() {
         customerService.createCustomer(
@@ -199,7 +199,7 @@ public class EmployeeIntegrationTest {
         and add that id to the url.
          */
         int id = employeeService.getAllShifts().get(0).getShiftId();
-        String url = "/shift/" + id;
+        String url = "/employee/shift/" + id;
         ResponseEntity<ShiftDto> responseEntity = restTemplate.exchange(
                 url,
                 org.springframework.http.HttpMethod.GET,
@@ -218,7 +218,7 @@ public class EmployeeIntegrationTest {
     @Test
     public void testGetShiftInvalidId() {
         createEmployeesAndCustomers();
-        String url = "/shift/10";
+        String url = "/employee/shift/10";
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 url,
                 org.springframework.http.HttpMethod.GET,
@@ -304,7 +304,7 @@ public class EmployeeIntegrationTest {
         createEmployeesAndCustomers();
         ShiftDto shiftDto = new ShiftDto(
                 convertToDto(employeeService.getEmployee(EMPLOYEE_KEY)),
-                new Date(2000,2,20),
+                new Date(2000, Calendar.JANUARY,20),
                 1,
                 3);
         ResponseEntity<ShiftDto> responseEntity = restTemplate.postForEntity(
@@ -328,7 +328,7 @@ public class EmployeeIntegrationTest {
         createEmployeesAndCustomers();
         ShiftDto shiftDto = new ShiftDto(
                 null,
-                new Date(2000, 2, 20),
+                new Date(2000, Calendar.JANUARY, 20),
                 1,
                 3);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
@@ -398,7 +398,7 @@ public class EmployeeIntegrationTest {
         createEmployeesAndCustomers();
         ShiftDto shiftDto = new ShiftDto(
                 convertToDto(employeeService.getEmployee(EMPLOYEE_KEY)),
-                new Date(2000,2,20),
+                new Date(2000,Calendar.FEBRUARY,20),
                 1,
                 3);
         /*
@@ -435,7 +435,7 @@ public class EmployeeIntegrationTest {
         createEmployeesAndCustomers();
         ShiftDto shiftDto = new ShiftDto(
                 convertToDto(employeeService.getEmployee(EMPLOYEE_KEY)),
-                new Date(2000,2,20),
+                new Date(2000,Calendar.FEBRUARY,20),
                 1,
                 3);
         ResponseEntity<String> responseEntity = restTemplate.exchange(

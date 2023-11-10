@@ -28,10 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class CustomerIntegrationTest {
-
         @Autowired
         private TestRestTemplate restTemplate;
-
         @Autowired
         private CustomerService customerService;
         @Autowired
@@ -107,7 +105,7 @@ public class CustomerIntegrationTest {
     }
 
     /**
-     * Test for getting a customer
+     * Test for creating a customer
      */
     @Test
     public void testCreateCustomer() {
