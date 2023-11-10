@@ -187,6 +187,9 @@ public class EmployeeService {
 
     @Transactional
     public Shift getShift(int id) {
+        for (Shift s: shiftRepository.findAll()) {
+            System.out.println(s.getShiftId() + " " + id);
+        }
         return shiftRepository.findShiftByShiftId(id);
     }
 
