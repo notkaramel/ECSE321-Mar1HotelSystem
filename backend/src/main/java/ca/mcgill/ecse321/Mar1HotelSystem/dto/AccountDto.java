@@ -1,13 +1,15 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Account;
+
 public class AccountDto extends GeneralUserDto {
-    
+
     // VARIABLES
     private String password;
     // Note: Not sure if we should send the password to the front end
 
     // CONSTRUCTORS
-    public AccountDto(){ 
+    public AccountDto() {
         super();
     }
 
@@ -16,12 +18,18 @@ public class AccountDto extends GeneralUserDto {
         this.password = password;
     }
 
-    // GETTERS
+    public AccountDto(Account account) {
+        super(account);
+        this.password = account.getPassword();
+    }
+
+    // Setters
     public boolean setPassword(String password) {
         this.password = password;
         return true;
     }
 
+    //Getters
     public String getPassword() {
         return this.password;
     }
