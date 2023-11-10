@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.GeneralUserDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleGeneralUserDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.GeneralUserService;
 
@@ -36,10 +39,10 @@ public class GeneralUserRestController {
 
     @GetMapping(value = { "/generalUsers", "/generalUsers/" })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<GeneralUserDto> getAllGeneralUsers() {
-        return StreamSupport.stream(service.getAllGeneralUsers().spliterator(), false)
-                .map(generalUser -> new GeneralUserDto(generalUser))
-                .collect(Collectors.toList());
+    public  ResponseEntity<MultipleGeneralUserDto> getAllGeneralUsers() {
+        List<GeneralUser> generalUserList= service.getAllGeneralUsers();
+        MultipleGeneralUserDto generalUserBody = new MultipleGeneralUserDto(generalUserList);
+        return new ResponseEntity<MultipleGeneralUserDto>(generalUserBody, HttpStatus.OK);
     }
 
     @GetMapping(value = { "/generalUsers/{email}", "/generalUsers/{email}/" })
@@ -58,14 +61,13 @@ public class GeneralUserRestController {
         return new ResponseEntity<GeneralUserDto>(generalUserBody, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = { "/generalUsers/{newEmail}", "/generalUsers/{newEmail}/" })
+    @PutMapping(value = { "/generalUsers/update/{newEmail}", "/generalUsers/update/{newEmail}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<GeneralUserDto> updateGeneralUser(@RequestBody GeneralUserDto generalUserDto,
-            @PathVariable("newEmail") String newEmail) {
+    public ResponseEntity<GeneralUserDto> updateGeneralUserEmail( @PathVariable("newEmail") String newEmail,
+    @RequestBody GeneralUserDto generalUserDto) {
         GeneralUser generalUser = service.updateGeneralUserEmail(generalUserDto.getEmail(), newEmail);
-        GeneralUser generalUserDetails = service.getGeneralUser(newEmail);
-        GeneralUserDto generalUserBody = new GeneralUserDto(generalUserDetails);
-        return new ResponseEntity<GeneralUserDto>(generalUserBody, HttpStatus.OK);
+        generalUserDto.setEmail(newEmail);
+        return new ResponseEntity<GeneralUserDto>(generalUserDto, HttpStatus.OK);
     }
 
     @PostMapping(value = { "/generalUsers/delete", "/generalUsers/delete/" })

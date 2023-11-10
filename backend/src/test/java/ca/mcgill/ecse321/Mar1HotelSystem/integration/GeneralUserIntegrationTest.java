@@ -2,6 +2,9 @@ package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.contains;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
@@ -16,6 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.GeneralUserDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleGeneralUserDto;
+
+import java.util.List;
+import java.util.ArrayList;
 
 // Start the app for real so that we can send requests to it, but use a random port to avoid conflicts.
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -177,5 +184,48 @@ public class GeneralUserIntegrationTest {
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("The first name cannot be empty!", response.getBody());
 	}
+
+	@Test
+	@Order(8)
+	public void testUpdateGeneralUserValid() {	
+		
+		GeneralUserDto generalUser = createGeneralUser();
+		ResponseEntity<GeneralUserDto> response = client.postForEntity("/generalUsers/update/"+"joey@gmail.com", generalUser, GeneralUserDto.class);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals("joey@gmail.com", response.getBody().getEmail());
+	}
+
+	@Test
+	@Order(9)
+	public void testUpdateGeneralUserInvalid() {	
+		
+		GeneralUserDto generalUser = createGeneralUser();
+		ResponseEntity<String> response = client.postForEntity("/generalUsers/update/"+"joeygmail.com", generalUser, String.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		assertEquals("The new email is invalid!", response.getBody());
+	}
+
+	@Test
+	@Order(10)
+	public void testGetAllGeneralUsers() {	
+		
+		GeneralUserDto generalUser1 = createGeneralUser();
+		GeneralUserDto generalUser2 = createSecondGeneralUser();
+		ResponseEntity<MultipleGeneralUserDto> response = client.getForEntity("/generalUsers",MultipleGeneralUserDto.class);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response);
+		assertEquals(generalUser1.getFirstName(), response.getBody().getGeneralUserList().get(0).getFirstName());
+		assertEquals(generalUser1.getLastName(), response.getBody().getGeneralUserList().get(0).getLastName());
+		assertEquals(generalUser1.getEmail(), response.getBody().getGeneralUserList().get(0).getEmail());
+		assertEquals(generalUser1.getPhoneNumber(), response.getBody().getGeneralUserList().get(0).getPhoneNumber());
+		assertEquals(generalUser2.getFirstName(), response.getBody().getGeneralUserList().get(1).getFirstName());
+		assertEquals(generalUser2.getLastName(), response.getBody().getGeneralUserList().get(1).getLastName());
+		assertEquals(generalUser2.getEmail(), response.getBody().getGeneralUserList().get(1).getEmail());
+		assertEquals(generalUser2.getPhoneNumber(), response.getBody().getGeneralUserList().get(1).getPhoneNumber());
+	}
+
 
 }

@@ -118,6 +118,7 @@ public class GeneralUserService {
                 throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The new email is invalid!");
             } else {
                 generalUser.setEmail(newEmail);
+                generalUserRepository.save(generalUser);
                 return generalUser;
             }
         }

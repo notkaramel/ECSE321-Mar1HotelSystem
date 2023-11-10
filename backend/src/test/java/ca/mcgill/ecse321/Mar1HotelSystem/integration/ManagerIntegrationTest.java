@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.ManagerDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.ManagerDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleManagerDto;
 
 // Start the app for real so that we can send requests to it, but use a random port to avoid conflicts.
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -181,6 +183,36 @@ public class ManagerIntegrationTest {
 
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("The first name cannot be empty!", response.getBody());
+	}
+	@Test
+	@Order(8)
+	public void testUpdateManagerValid() {	
+		
+		ManagerDto manager = createManager();
+		ResponseEntity<ManagerDto> response = client.postForEntity("/managers/update/"+"pass", manager, ManagerDto.class);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals("pass", response.getBody().getPassword());
+	}
+
+	@Test
+	@Order(9)
+	public void testGetAllManagers() {	
+		
+		ManagerDto manager1 = createManager();
+		ManagerDto manager2 = createSecondManager();
+		ResponseEntity<MultipleManagerDto> response = client.getForEntity("/managers",MultipleManagerDto.class);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response);
+		assertEquals(manager1.getFirstName(), response.getBody().getManagerList().get(0).getFirstName());
+		assertEquals(manager1.getLastName(), response.getBody().getManagerList().get(0).getLastName());
+		assertEquals(manager1.getEmail(), response.getBody().getManagerList().get(0).getEmail());
+		assertEquals(manager1.getPhoneNumber(), response.getBody().getManagerList().get(0).getPhoneNumber());
+		assertEquals(manager2.getFirstName(), response.getBody().getManagerList().get(1).getFirstName());
+		assertEquals(manager2.getLastName(), response.getBody().getManagerList().get(1).getLastName());
+		assertEquals(manager2.getEmail(), response.getBody().getManagerList().get(1).getEmail());
+		assertEquals(manager2.getPhoneNumber(), response.getBody().getManagerList().get(1).getPhoneNumber());
 	}
 
 }

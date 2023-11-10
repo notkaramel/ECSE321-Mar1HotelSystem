@@ -23,12 +23,13 @@ public class AccountDto extends GeneralUserDto {
         this.password = account.getPassword();
     }
 
-    // GETTERS
+    // Setters
     public boolean setPassword(String password) {
         this.password = password;
         return true;
     }
 
+    //Getters
     public String getPassword() {
         return this.password;
     }

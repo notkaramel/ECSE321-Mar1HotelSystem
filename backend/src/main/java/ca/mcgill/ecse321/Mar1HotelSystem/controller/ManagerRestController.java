@@ -6,15 +6,20 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.ManagerDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleGeneralUserDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleManagerDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Manager;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.ManagerService;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import java.util.List;
 
 /**
  * The controller that handles /manager endpoint requests
@@ -33,10 +38,10 @@ public class ManagerRestController {
 
     @GetMapping(value = { "/managers", "/managers/" })
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<ManagerDto> getAllManagers() {
-        return StreamSupport.stream(service.getAllManagers().spliterator(), false)
-                .map(manager -> new ManagerDto(manager))
-                .collect(Collectors.toList());
+     public  ResponseEntity<MultipleManagerDto> getAllManagers() {
+        List<Manager> managerList= service.getAllManagers();
+        MultipleManagerDto managerBody = new MultipleManagerDto(managerList);
+        return new ResponseEntity<MultipleManagerDto>(managerBody, HttpStatus.OK);
     }
 
     @GetMapping(value = { "/managers/{email}", "/managers/{email}/" })
@@ -55,14 +60,13 @@ public class ManagerRestController {
         return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = { "/managers/{newPassword}", "/managers/{newPassword}/" })
+    @PutMapping(value = { "/managers/update/{newPassword}", "/managers/update/{newPassword}/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ManagerDto> updateManager(@RequestBody ManagerDto managerDto,
             @PathVariable("newPassword") String newPassword) {
         Manager manager = service.updateManagerPassword(managerDto.getEmail(), managerDto.getPassword(), newPassword);
-        Manager managerDetails = service.getManager(managerDto.getEmail());
-        ManagerDto managerBody = new ManagerDto(managerDetails);
-        return new ResponseEntity<ManagerDto>(managerBody, HttpStatus.OK);
+        managerDto.setPassword(newPassword);
+        return new ResponseEntity<ManagerDto>(managerDto, HttpStatus.OK);
     }
 
     @PostMapping(value = { "/managers/delete", "/managers/delete/" })
