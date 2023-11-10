@@ -72,7 +72,7 @@ public class PaymentIntegrationTest {
     public void testDeletePaymentIntegration(int id) {
         // Send a DELETE request to the controller
         ResponseEntity<Void> res = paymentClient.exchange(
-                "/payment/" + id,
+                "/payment/delete/" + id,
                 HttpMethod.DELETE,
                 null,
                 Void.class);

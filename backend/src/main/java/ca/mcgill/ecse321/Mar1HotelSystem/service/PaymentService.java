@@ -46,7 +46,6 @@ public class PaymentService {
     public void deletePaymentById(int paymentId) {
         Payment payment = this.getPaymentById(paymentId);
         paymentRepository.delete(payment);
-        
     }
 
     @Transactional 
