@@ -3,6 +3,9 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.AccountRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
@@ -22,6 +25,13 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.http.HttpStatus;
 
+/**
+ * Manager Serivce Tests
+ * 
+ * @author Lucas Pacicco (@Lucaspac5)
+ * 
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class ManagerServiceTest {
 	@Mock
@@ -29,6 +39,15 @@ public class ManagerServiceTest {
 
 	@Mock
 	private GeneralUserRepository generalUserDao;
+
+	@Mock
+	private EmployeeRepository employeeDao;
+
+	@Mock
+	private CustomerRepository customerDao;
+
+	@Mock
+	private AccountRepository accountDao;
 
 	@InjectMocks
 	private ManagerService managerService;
@@ -410,15 +429,18 @@ public class ManagerServiceTest {
 	public void testUpdateManagerThatExistOldPasswordIncorrect() {
 		setMockOutput();
 		String error = null;
+		HttpStatus error_status = null;
 		Manager manager = null;
 		try {
 			manager = managerService.updateManagerPassword("joe@gmail.com", "wrongPass", "Passed");
 		} catch (Mar1HotelSystemException e) {
 			error = e.getMessage();
+			error_status = e.getStatus();
 
 		}
 		assertNull(manager);
 		assertEquals("Incorrect old password!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
 
 	/*

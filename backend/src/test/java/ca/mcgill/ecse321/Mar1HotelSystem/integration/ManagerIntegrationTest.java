@@ -22,6 +22,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleManagerDto;
 
 @TestInstance(Lifecycle.PER_CLASS)
 
+/**
+ * Manager Integration Tests
+ * 
+ * @author Lucas Pacicco (@Lucaspac5)
+ * 
+ */
 public class ManagerIntegrationTest {
 
 	@Autowired

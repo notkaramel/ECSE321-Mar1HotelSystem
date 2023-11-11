@@ -88,6 +88,21 @@ public class Shift {
         }
     }
 
+    /**
+     * A method to set the shiftId
+     *
+     * NOTE: DO NOT USE THIS METHOD IN PRACTICE! This method is only used for mock tests in service tests, NOT for
+     * general purpose programming. The auto-generated shiftId should be left alone and not set manually.
+     *
+     * @author Liu, ZiXu (@ARandomPi)
+     * @param shiftId the shiftId to set
+     * @return true if shiftId set
+     */
+    public boolean setShiftId(int shiftId) {
+        this.shiftId = shiftId;
+        return true;
+    }
+
     public int getShiftId() {
         return this.shiftId;
     }
