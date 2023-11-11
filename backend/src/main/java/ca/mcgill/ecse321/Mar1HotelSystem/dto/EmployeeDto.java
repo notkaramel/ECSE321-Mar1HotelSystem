@@ -21,5 +21,9 @@ public class EmployeeDto extends AccountDto {
         return this.hoursWorked;
     }
 
+    public String getEmail() {
+        return super.getEmail();
+    }
+
     
 }

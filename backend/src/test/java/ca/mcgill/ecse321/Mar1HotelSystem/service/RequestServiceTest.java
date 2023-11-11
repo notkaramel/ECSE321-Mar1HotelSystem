@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RequestRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
+import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
@@ -97,7 +99,7 @@ public class RequestServiceTest {
 
         try {
             request = requestService.createRequest("Make my bed please uwu", booking, false);
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             fail();
         }
 
@@ -107,6 +109,111 @@ public class RequestServiceTest {
         assertFalse(request.getIsFufilled());
 
     }
+
+
+    @Test
+    public void testCreateRequestNullDescription() {
+
+        assertEquals(0, requestRepository.count());
+
+        Payment payment = new Payment(100);
+        GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
+        OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
+        OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
+        OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
+        OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
+        OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
+        OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        CustomHours[] customHours = {};
+        HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        Hotel Mar1Hotel = new Hotel(hotelSchedule);
+        Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
+        Booking booking = new Booking(payment, guest, room);
+
+        Request request = null;
+
+        String error = null;
+        HttpStatus status = null;
+
+        try {
+            request = requestService.createRequest(null, booking, false);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+            status = e.getStatus();
+        }
+
+        assertNull(request);
+        assertEquals("Request description cannot be null!", error);
+        assertEquals(HttpStatus.BAD_REQUEST, status);
+
+    }
+
+
+    @Test
+    public void testCreateRequestEmptyDescription() {
+
+        assertEquals(0, requestRepository.count());
+
+        Payment payment = new Payment(100);
+        GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
+        OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
+        OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
+        OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
+        OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
+        OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
+        OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        CustomHours[] customHours = {};
+        HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        Hotel Mar1Hotel = new Hotel(hotelSchedule);
+        Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
+        Booking booking = new Booking(payment, guest, room);
+
+        Request request = null;
+
+        String error = null;
+        HttpStatus status = null;
+
+        try {
+            request = requestService.createRequest("", booking, false);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+            status = e.getStatus();
+        }
+
+        assertNull(request);
+        assertEquals("Request description cannot be empty!", error);
+        assertEquals(HttpStatus.BAD_REQUEST, status);
+
+    }
+
+
+    @Test
+    public void testCreateRequestNullBooking() {
+
+        assertEquals(0, requestRepository.count());
+
+        Request request = null;
+
+        String error = null;
+        HttpStatus status = null;
+
+        try {
+            request = requestService.createRequest("Make my bed please uwu", null, false);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+            status = e.getStatus();
+        }
+
+        assertNull(request);
+        assertEquals("Booking cannot be null!", error);
+        assertEquals(HttpStatus.BAD_REQUEST, status);
+
+    }
+
 
 
     @Test
@@ -134,7 +241,7 @@ public class RequestServiceTest {
 
         try{
             request = requestService.updateRequestDescriptionByRequestId(request.getRequestId(), "Gimme towels please uwu");
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             fail();
         }
 
@@ -143,6 +250,128 @@ public class RequestServiceTest {
     }
 
 
+    @Test
+    public void testUpdateNullRequestDescription() {
+        Request request = null;
+
+        Payment payment = new Payment(100);
+        GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
+        OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
+        OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
+        OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
+        OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
+        OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
+        OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        CustomHours[] customHours = {};
+        HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        Hotel Mar1Hotel = new Hotel(hotelSchedule);
+        Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
+        Booking booking = new Booking(payment, guest, room);
+
+        request = requestService.createRequest("Make my bed please uwu", booking, false);
+        request.setRequestId(REQUEST_KEY);
+
+        String error = null;
+        HttpStatus status = null;
+
+        try{
+            request = requestService.updateRequestDescriptionByRequestId(request.getRequestId(), null);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+            status = e.getStatus();
+        }
+
+        assertNotNull(request);
+        assertEquals("Make my bed please uwu", request.getDescription());
+        assertEquals(booking, request.getBooking());
+        assertEquals("Request description cannot be null!", error);
+        assertEquals(HttpStatus.BAD_REQUEST, status);
+
+    }
+
+
+    @Test
+    public void testUpdateRequestBooking() {
+        Request request = null;
+
+        Payment payment1 = new Payment(100);
+        GeneralUser guest1 = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
+        OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
+        OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
+        OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
+        OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
+        OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
+        OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        CustomHours[] customHours = {};
+        HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        Hotel Mar1Hotel = new Hotel(hotelSchedule);
+        Room room1 = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
+        Booking booking1 = new Booking(payment1, guest1, room1);
+
+        Payment payment2 = new Payment(200);
+        Customer guest2 = new Customer("Customery", "Customer", "omgimsuchatourist@awesome.com", 8008135, "supersecurepassword");
+        Room room2 = new Room(RoomType.Deluxe, BedType.Queen, true, 200, 2, Mar1Hotel);
+        Booking booking2 = new Booking(payment2, guest2, room2);
+
+
+        request = requestService.createRequest("Make my bed please uwu", booking1, false);
+        request.setRequestId(REQUEST_KEY);
+
+        try{
+            request = requestService.updateBookingByRequestId(request.getRequestId(), booking2);
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+
+        assertNotNull(request);
+        assertEquals(booking2, request.getBooking());
+    }
+
+
+    @Test
+    public void testUpdateNullRequestBooking() {
+        Request request = null;
+
+        Payment payment1 = new Payment(100);
+        GeneralUser guest1 = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
+        OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
+        OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
+        OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
+        OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
+        OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
+        OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        CustomHours[] customHours = {};
+        HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        Hotel Mar1Hotel = new Hotel(hotelSchedule);
+        Room room1 = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
+        Booking booking1 = new Booking(payment1, guest1, room1);
+
+
+        request = requestService.createRequest("Make my bed please uwu", booking1, false);
+        request.setRequestId(REQUEST_KEY);
+
+        String error = null;
+        HttpStatus status = null;
+
+        try{
+            request = requestService.updateBookingByRequestId(request.getRequestId(), null);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+            status = e.getStatus();
+        }
+
+        assertNotNull(request);
+        assertEquals("Make my bed please uwu", request.getDescription());
+        assertEquals(booking1, request.getBooking());
+        assertEquals("Booking cannot be null!", error);
+        assertEquals(HttpStatus.BAD_REQUEST, status);
+    }
 
     @Test
     public void testDeleteRequest() {
@@ -171,12 +400,51 @@ public class RequestServiceTest {
 
         try {
             isDeleted = requestService.deleteRequestById(request.getRequestId());
-        } catch (IllegalArgumentException e) {
+        } catch (Mar1HotelSystemException e) {
             fail();
         }
 
         assertTrue(isDeleted);
-        assertEquals(0, requestRepository.count());
+    }
+
+
+    @Test
+    public void testDeleteNonexistingRequest() {
+
+
+        boolean isDeleted = false;
+
+        Payment payment = new Payment(100);
+        GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
+        OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
+        OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
+        OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
+        OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
+        OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
+        OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        CustomHours[] customHours = {};
+        HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        Hotel Mar1Hotel = new Hotel(hotelSchedule);
+        Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
+        Booking booking = new Booking(payment, guest, room);
+
+        Request request = requestService.createRequest("Make my bed please uwu", booking, false);
+        request.setRequestId(REQUEST_KEY);
+
+        String error = null;
+        HttpStatus status = null;
+
+        try {
+            isDeleted = requestService.deleteRequestById(NONEXISTING_KEY);
+        } catch (Mar1HotelSystemException e) {
+            error =  e.getMessage();
+            status = e.getStatus();
+        }
+
+        assertEquals("Request with id " + NONEXISTING_KEY + " does not exist!", error);
+        assertEquals(HttpStatus.NOT_FOUND, status);
     }
 
 
@@ -186,13 +454,34 @@ public class RequestServiceTest {
         Request request = null;
 
         try{
-            request = requestRepository.findRequestByRequestId(REQUEST_KEY);
-        } catch (IllegalArgumentException e) {
+            request = requestService.getRequestById(REQUEST_KEY);
+        } catch (Mar1HotelSystemException e) {
             fail();
         }
 
         assertNotNull(request);
         assertEquals(REQUEST_KEY, request.getRequestId());
+
+    }
+
+    @Test
+    public void testGetRequestByInvalidId() {
+
+        Request request = null;
+
+        String error = null;
+        HttpStatus status = null;
+
+        try{
+            request = requestService.getRequestById(NONEXISTING_KEY);
+        } catch (Mar1HotelSystemException e) {
+            error =  e.getMessage();
+            status = e.getStatus();
+        }
+
+        assertNull(request);
+        assertEquals("Request with id " + NONEXISTING_KEY + " does not exist!", error);
+        assertEquals(HttpStatus.NOT_FOUND, status);
 
     }
 
@@ -203,8 +492,8 @@ public class RequestServiceTest {
         ArrayList<Request> requests = new ArrayList<Request>();
 
         try{
-            requests = (ArrayList<Request>) requestRepository.findAll();
-        } catch (IllegalArgumentException e) {
+            requests = (ArrayList<Request>) requestService.getAllRequests();
+        } catch (Mar1HotelSystemException e) {
             fail();
         }
 
@@ -214,6 +503,24 @@ public class RequestServiceTest {
 
     }
 
+
+    @Test
+    public void testDeleteAllRequests() {
+
+
+
+        boolean isDeleted = false;
+
+        try{
+            isDeleted = requestService.deleteAllRequests();
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+
+        assertTrue(isDeleted);
+
+
+    }
 
     // That's all I can come up with rn
 
