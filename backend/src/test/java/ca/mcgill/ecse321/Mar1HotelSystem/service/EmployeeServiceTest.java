@@ -942,7 +942,7 @@ public class EmployeeServiceTest {
      * Test creating shift with end time before start time
      */
     @Test
-    public void createShiftEndTimeBeforeStartTime() {
+    public void testCreateShiftEndTimeBeforeStartTime() {
         Shift shift = null;
         String error = null;
         try {
