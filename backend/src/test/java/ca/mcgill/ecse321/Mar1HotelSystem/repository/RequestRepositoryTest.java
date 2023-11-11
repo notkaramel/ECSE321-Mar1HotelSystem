@@ -164,7 +164,7 @@ public class RequestRepositoryTest {
 
         assertNotNull(request);
         assertEquals(description, request.getDescription());
-        assertEquals(fulfilled, request.getIsFufilled());
+        assertEquals(fulfilled, request.getIsFulfilled());
         assertEquals(booking.getBookingId(), request.getBooking().getBookingId());
 
     }

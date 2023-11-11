@@ -8,7 +8,7 @@ public class RequestResponseDto {
     // VARIABLES
     private int requestId;
     private String description;
-    private boolean isFufilled;
+    private boolean isFulfilled;
     private Booking booking;
 
     // CONSTRUCTORS
@@ -16,11 +16,11 @@ public class RequestResponseDto {
     }
 
     // Request constructor requiring description, employee, booking, and isFufilled
-    public RequestResponseDto(int requestId, String description, Booking booking, boolean isFufilled) {
+    public RequestResponseDto(int requestId, String description, Booking booking, boolean isFulfilled) {
         this.requestId = requestId;
         this.description = description;
         this.booking = booking;
-        this.isFufilled = isFufilled;
+        this.isFulfilled = isFulfilled;
     }
 
     // GETTERS 
@@ -29,9 +29,9 @@ public class RequestResponseDto {
         return this.description;
     }
 
-    // Method to get isFufilled, returns isFufilled
-    public Boolean getIsFufilled() {
-        return this.isFufilled;
+    // Method to get isFulfilled, returns isFulfilled
+    public Boolean getIsFulfilled() {
+        return this.isFulfilled;
     }
 
     // Method to get booking, returns booking

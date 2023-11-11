@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.RequestService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
@@ -42,7 +42,6 @@ public class RequestRestController {
     @Autowired
 	private RequestService requestService;
 
-
     @GetMapping(value = { "/requests", "/requests/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<RequestResponseDto>> getAllRequests() {
@@ -51,48 +50,46 @@ public class RequestRestController {
         List<RequestResponseDto> requestResponseDtoList = new ArrayList<RequestResponseDto>();
 
         for (Request request : requests) {
-            RequestResponseDto requestResponseDto = new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFufilled());
+            RequestResponseDto requestResponseDto = new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled());
             requestResponseDtoList.add(requestResponseDto);
         }
-
 
         return new ResponseEntity<List<RequestResponseDto>>(requestResponseDtoList, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = { "/requests/{requestId}", "/requests/{requestId}/" })
+    @DeleteMapping(value = { "/requests/delete/{requestId}", "/requests/delete/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public void deleteRequestById(@PathVariable int requestId) {
+    public void deleteRequestById(@PathVariable("requestId") int requestId) {
         requestService.deleteRequestById(requestId);
     }
 
     @GetMapping(value = { "/requests/{requestId}", "/requests/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<RequestResponseDto> getRequestById(@PathVariable int requestId) {
+    public ResponseEntity<RequestResponseDto> getRequestById(@PathVariable("requestId") int requestId) {
         Request request = requestService.getRequestById(requestId);
-        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFufilled()), HttpStatus.OK);
+        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled()), HttpStatus.OK);
     
     }
 
     @PostMapping(value = { "/request/create" })
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<RequestResponseDto> createRequest(@RequestBody RequestRequestDto requestRequestDto) {
-
         String description = requestRequestDto.getDescription();
-        boolean isFufilled = requestRequestDto.getIsFufilled();
         int bookingId = requestRequestDto.getBookingId();
+        boolean isFufilled = requestRequestDto.getIsFulfilled();
 
         Request request = requestService.createRequest(description, bookingId, isFufilled);
-
-        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFufilled()), HttpStatus.CREATED);
+        RequestResponseDto requestResponseDto = new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled());
+        return new ResponseEntity<RequestResponseDto>(requestResponseDto, HttpStatus.CREATED);
     }
 
 
-    @PutMapping(value = { "/requests/{requestId}", "/requests/{requestId}/" })
+    @PutMapping(value = { "/requests/update/{requestId}", "/requests/update/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<RequestResponseDto> updateRequest(@PathVariable int requestId, @RequestBody RequestResponseDto requestDto) {
+    public ResponseEntity<RequestResponseDto> updateRequest(@PathVariable("requestId") int requestId, @RequestBody RequestResponseDto requestDto) {
 
         String description = requestDto.getDescription();
-        boolean isFufilled = requestDto.getIsFufilled();
+        boolean isFufilled = requestDto.getIsFulfilled();
         Booking booking = requestDto.getBooking();
 
         requestService.updateRequestDescriptionByRequestId(requestId, description);
@@ -101,10 +98,6 @@ public class RequestRestController {
 
         Request request = requestService.getRequestById(requestId);
 
-        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFufilled()), HttpStatus.OK);
-
+        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled()), HttpStatus.OK);
     }
-
-
-
 }
