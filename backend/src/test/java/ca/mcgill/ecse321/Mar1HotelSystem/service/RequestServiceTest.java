@@ -3,13 +3,9 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RequestRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
@@ -22,18 +18,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 
 /**

@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +26,6 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

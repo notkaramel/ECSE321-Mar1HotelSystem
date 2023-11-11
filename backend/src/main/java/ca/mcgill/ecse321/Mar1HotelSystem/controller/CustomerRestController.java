@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.*;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.*;
-import ca.mcgill.ecse321.Mar1HotelSystem.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +30,7 @@ public class CustomerRestController {
     
     @Autowired
 	private CustomerService customerService;
-    @Autowired
-    private BookingService bookingService;
+
 
     // GET MAPPINGS
     @GetMapping(value = { "/customer/{email}", "/customer/{email}/" })
