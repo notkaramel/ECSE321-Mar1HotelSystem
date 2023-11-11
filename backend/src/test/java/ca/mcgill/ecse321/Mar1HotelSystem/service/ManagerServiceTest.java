@@ -29,7 +29,6 @@ import org.springframework.http.HttpStatus;
  * Manager Serivce Tests
  * 
  * @author Lucas Pacicco (@Lucaspac5)
- * 
  */
 @ExtendWith(MockitoExtension.class)
 public class ManagerServiceTest {

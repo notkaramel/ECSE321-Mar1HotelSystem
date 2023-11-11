@@ -17,6 +17,11 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Hotel;
 
+/**
+ * Hotel Service Test
+ * 
+ * @author Antoine Phan (@notkaramel)
+ */
 @ExtendWith(MockitoExtension.class)
 public class HotelServiceTest {
 
