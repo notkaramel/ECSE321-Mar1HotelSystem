@@ -9,7 +9,8 @@ public class PaymentDto {
     public PaymentDto() {
     }
 
-    public PaymentDto(int amount) {
+    public PaymentDto(int paymentId, int amount) {
+        this.paymentId = paymentId;
         this.amount = amount;
     }
 
