@@ -3,9 +3,11 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.transaction.Transactional;
 /**
@@ -16,7 +18,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class PaymentService {
     @Autowired
-    PaymentRepository paymentRepository;
+    private PaymentRepository paymentRepository;
 
     @Transactional
     public Payment createPayment(int amount) {
@@ -28,7 +30,11 @@ public class PaymentService {
 
     @Transactional
     public Payment getPaymentById(int paymentId) {
-        return paymentRepository.findPaymentByPaymentId(paymentId);
+       Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
+        if(payment == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Payment with id " + paymentId + " does not exist.");
+        }
+        return payment;
     }
 
     @Transactional
@@ -37,13 +43,15 @@ public class PaymentService {
     }
 
     @Transactional
-    public boolean deletePaymentById(int paymentId) {
-        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
-        try {
-            paymentRepository.delete(payment);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public void deletePaymentById(int paymentId) {
+        Payment payment = this.getPaymentById(paymentId);
+        paymentRepository.delete(payment);
+    }
+
+    @Transactional 
+    public void updatePayment(int paymentId, int amount) {
+        Payment payment = this.getPaymentById(paymentId);
+        payment.setAmount(amount);
+        paymentRepository.save(payment);
     }
 }

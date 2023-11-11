@@ -15,6 +15,4 @@ public class Mar1HotelSystemException extends RuntimeException {
     public HttpStatus getStatus() {
         return status;
     }
-
-
 }

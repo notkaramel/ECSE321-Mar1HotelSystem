@@ -46,23 +46,24 @@ public class RoomServiceTest {
 
     /**
      * Set mock behaviour for Repository methods
-     */ 
+     */
     @BeforeEach
     public void setMockOutput() {
         Hotel hotel = new Hotel();
-        lenient().when(hotelRepository.findHotelByHotelName(isA(String.class))).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals("Mar-1 Hotel")) {
-                return hotel;
-            } else {
-                return null;
-            }
-        });
+        lenient().when(hotelRepository.findHotelByHotelName(isA(String.class)))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    if (invocation.getArgument(0).equals("Mar-1 Hotel")) {
+                        return hotel;
+                    } else {
+                        return null;
+                    }
+                });
 
         Room roomSuite1 = new Room(RoomType.Suite, BedType.King, true, 400, 8, hotel);
         Room roomSuite2 = new Room(RoomType.Suite, BedType.King, true, 300, 6, hotel);
         roomSuite1.setRoomId(1);
         roomSuite2.setRoomId(2);
-        
+
         Room roomDeluxe3 = new Room(RoomType.Deluxe, BedType.Queen, true, 200, 3, hotel);
         Room roomDeluxe4 = new Room(RoomType.Deluxe, BedType.Queen, true, 100, 2, hotel);
         roomDeluxe3.setRoomId(3);
@@ -74,43 +75,45 @@ public class RoomServiceTest {
         roomRegular6.setRoomId(6);
 
         // Mock finding methods
-        lenient().when(roomRepository.findRoomsByRoomType(isA(Room.RoomType.class))).thenAnswer((InvocationOnMock invocation) -> {
-            ArrayList<Room> rooms = new ArrayList<Room>();
-            if (invocation.getArgument(0).equals(RoomType.Deluxe)) {
-                rooms.add(roomDeluxe3);
-                rooms.add(roomDeluxe4);
-                return rooms;
-            } else if (invocation.getArgument(0).equals(RoomType.Deluxe)) {
-                rooms.add(roomSuite1);
-                rooms.add(roomSuite2);
-                return rooms;
-            } else if (invocation.getArgument(0).equals(RoomType.Regular)) {
-                rooms.add(roomRegular5);
-                rooms.add(roomRegular6);
-                return rooms;
-            } else {
-                return null;
-            }
-        });
+        lenient().when(roomRepository.findRoomsByRoomType(isA(Room.RoomType.class)))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    ArrayList<Room> rooms = new ArrayList<Room>();
+                    if (invocation.getArgument(0).equals(RoomType.Deluxe)) {
+                        rooms.add(roomDeluxe3);
+                        rooms.add(roomDeluxe4);
+                        return rooms;
+                    } else if (invocation.getArgument(0).equals(RoomType.Deluxe)) {
+                        rooms.add(roomSuite1);
+                        rooms.add(roomSuite2);
+                        return rooms;
+                    } else if (invocation.getArgument(0).equals(RoomType.Regular)) {
+                        rooms.add(roomRegular5);
+                        rooms.add(roomRegular6);
+                        return rooms;
+                    } else {
+                        return null;
+                    }
+                });
 
-        lenient().when(roomRepository.findRoomsByBedType(isA(Room.BedType.class))).then((InvocationOnMock invocation) -> {
-            ArrayList<Room> rooms = new ArrayList<Room>();
-            if (invocation.getArgument(0).equals(BedType.Queen)) {
-                rooms.add(roomDeluxe3);
-                rooms.add(roomDeluxe4);
-                rooms.add(roomRegular5);
-                return rooms;
-            } else if (invocation.getArgument(0).equals(BedType.King)) {
-                rooms.add(roomSuite1);
-                rooms.add(roomSuite2);
-                return rooms;
-            } else if (invocation.getArgument(0).equals(BedType.Doubles)) {
-                rooms.add(roomRegular6);
-                return rooms;
-            } else {
-                return null;
-            }
-        });
+        lenient().when(roomRepository.findRoomsByBedType(isA(Room.BedType.class)))
+                .then((InvocationOnMock invocation) -> {
+                    ArrayList<Room> rooms = new ArrayList<Room>();
+                    if (invocation.getArgument(0).equals(BedType.Queen)) {
+                        rooms.add(roomDeluxe3);
+                        rooms.add(roomDeluxe4);
+                        rooms.add(roomRegular5);
+                        return rooms;
+                    } else if (invocation.getArgument(0).equals(BedType.King)) {
+                        rooms.add(roomSuite1);
+                        rooms.add(roomSuite2);
+                        return rooms;
+                    } else if (invocation.getArgument(0).equals(BedType.Doubles)) {
+                        rooms.add(roomRegular6);
+                        return rooms;
+                    } else {
+                        return null;
+                    }
+                });
         lenient().when(roomRepository.findRoomByRoomId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             int roomId = invocation.getArgument(0);
             return switch (roomId) {
@@ -141,7 +144,7 @@ public class RoomServiceTest {
         });
 
         lenient().when(roomRepository.findRoomsByIsAvailable(anyBoolean())).then((InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(true)) {
+            if (invocation.getArgument(0).equals(true)) {
                 ArrayList<Room> rooms = new ArrayList<Room>();
                 rooms.add(roomSuite1);
                 rooms.add(roomSuite2);
@@ -156,7 +159,6 @@ public class RoomServiceTest {
             }
         });
     }
-
 
     @Test
     public void testGetAllRooms() {
@@ -238,7 +240,7 @@ public class RoomServiceTest {
         assertEquals(200, room.getPricePerNight());
         assertEquals(5, room.getMaxCapacity());
     }
-    
+
     @Test
     public void testGetRoomByBedType() {
         ArrayList<Room> rooms = new ArrayList<Room>();
@@ -255,8 +257,9 @@ public class RoomServiceTest {
         lenient().when(hotelRepository.findHotelByHotelName(anyString())).then((InvocationOnMock invocation) -> {
             return null;
         });
-        
-        Room room = roomService.createRoom(nullTestRoom.getRoomType(), nullTestRoom.getBedType(), nullTestRoom.getIsAvailable(), nullTestRoom.getPricePerNight(), nullTestRoom.getMaxCapacity());
+
+        Room room = roomService.createRoom(nullTestRoom.getRoomType(), nullTestRoom.getBedType(),
+                nullTestRoom.getIsAvailable(), nullTestRoom.getPricePerNight(), nullTestRoom.getMaxCapacity());
         assertNotNull(room.getHotel());
     }
 

@@ -11,4 +11,12 @@ public class Mar1HotelSystemApplication {
 		SpringApplication.run(Mar1HotelSystemApplication.class, args);
 	}
 
+    public Object getStatus() {
+        return null;
+    }
+
+    public Object getMessage() {
+        return null;
+    }
+
 }
