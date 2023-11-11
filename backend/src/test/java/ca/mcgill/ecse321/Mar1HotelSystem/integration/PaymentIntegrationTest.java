@@ -21,8 +21,13 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.PaymentService;
 
+/**
+ * Payment Integration Tests
+ * 
+ * @author Bilar Mokhtari (@bmokhtari)
+ * @author Antoine Phan (@notkaramel)
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
 public class PaymentIntegrationTest {
 
     @Autowired

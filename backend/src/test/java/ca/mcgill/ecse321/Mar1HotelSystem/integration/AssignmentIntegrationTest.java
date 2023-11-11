@@ -228,7 +228,8 @@ public class AssignmentIntegrationTest {
         String assigneeId = createAssignee("EvanMoore@Funnie.com");
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
-        // It's a bit cursed but it works :) Otherwise you can create a simple MultipleAssignmentResponseDto
+        // It's a bit cursed but it works :) Otherwise you can create a simple
+        // MultipleAssignmentResponseDto
         ResponseEntity<List<AssignmentResponseDto>> response = assignmentClient.exchange("/assignments/all",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<AssignmentResponseDto>>() {
                 });

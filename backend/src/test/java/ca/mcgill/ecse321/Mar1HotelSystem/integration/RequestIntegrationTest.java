@@ -28,6 +28,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
+/**
+ * Request Integration Tests
+ * 
+ * @author Adam Corbier (@Ad2Am2)
+ * @author Antoine Phan (@notkaramel)
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RequestIntegrationTest {
     @Autowired
@@ -44,7 +50,7 @@ public class RequestIntegrationTest {
 
     @Autowired
     private RoomRepository roomRepository;
-    
+
     @Autowired
     private GeneralUserRepository generalUserRepository;
 
@@ -133,7 +139,7 @@ public class RequestIntegrationTest {
         int bookingId = createDemoBooking(email, roomId, paymentId);
         String description = "I want a pineapple on my pizza please!";
         boolean isFufilled = false;
-        
+
         int requestId = createDemoRequest(description, bookingId, isFufilled);
 
         // getForObject: return the object (body of response) directly
@@ -165,7 +171,7 @@ public class RequestIntegrationTest {
         getDemoRequest(requestId1);
         getDemoRequest(requestId2);
     }
-    
+
     private void deleteDemoRequest(int requestId) {
         requestClient.delete("/requests/delete/" + requestId);
     }
@@ -183,7 +189,7 @@ public class RequestIntegrationTest {
         int bookingId = createDemoBooking(email, roomId, paymentId);
         String description = "I want a pineapple on my pizza please!";
         boolean isFufilled = false;
-        
+
         int requestId = createDemoRequest(description, bookingId, isFufilled);
 
         deleteDemoRequest(requestId);
@@ -199,7 +205,7 @@ public class RequestIntegrationTest {
         int bookingId = createDemoBooking(email, roomId, paymentId);
         String description = "I want a pineapple on my pizza please!";
         boolean isFufilled = false;
-        
+
         int requestId = createDemoRequest(description, bookingId, isFufilled);
 
         String newDescription = "I want a pineapple on my pizza please! And I want it now!";

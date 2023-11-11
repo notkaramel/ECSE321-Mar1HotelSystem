@@ -33,9 +33,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursMultipleResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
+/**
+ * Schedule Integration Tests
+ * 
+ * @author Emma Friesen (@emma-friesen)
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-// Reuse the same class for all the tests (instead of creating a new class each
-// time).
 public class ScheduleIntegrationTest {
     @Autowired
     private TestRestTemplate client;
@@ -229,7 +232,8 @@ public class ScheduleIntegrationTest {
     }
 
     public void getCustomHourById(int id) {
-        ResponseEntity<CustomHoursResponseDto> response = client.getForEntity("/customHours/id/" + id,CustomHoursResponseDto.class);
+        ResponseEntity<CustomHoursResponseDto> response = client.getForEntity("/customHours/id/" + id,
+                CustomHoursResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -252,7 +256,8 @@ public class ScheduleIntegrationTest {
     // --- HOTEL SCHEDULE INTEGRATION TESTS ---
 
     public void createHotelSchedule(HotelScheduleRequestDto hotelScheduleRequestDto) {
-        ResponseEntity<HotelScheduleResponseDto> response = client.postForEntity("/hotelSchedule/create", hotelScheduleRequestDto,
+        ResponseEntity<HotelScheduleResponseDto> response = client.postForEntity("/hotelSchedule/create",
+                hotelScheduleRequestDto,
                 HotelScheduleResponseDto.class);
 
         assertNotNull(response);
@@ -261,8 +266,10 @@ public class ScheduleIntegrationTest {
         HotelScheduleResponseDto hs = response.getBody();
         assertNotNull(hs);
         assertEquals(hotelScheduleRequestDto.getYear(), hs.getYear());
-        assertEquals(hotelScheduleRequestDto.getOperatingHoursIdList()[0], hs.getOperatingHoursList().get(0).getOperatingHoursId());
-        assertEquals(hotelScheduleRequestDto.getCustomHoursIdList()[0], hs.getCustomHoursList().get(0).getCustomHoursId());
+        assertEquals(hotelScheduleRequestDto.getOperatingHoursIdList()[0],
+                hs.getOperatingHoursList().get(0).getOperatingHoursId());
+        assertEquals(hotelScheduleRequestDto.getCustomHoursIdList()[0],
+                hs.getCustomHoursList().get(0).getCustomHoursId());
     }
 
     @Test

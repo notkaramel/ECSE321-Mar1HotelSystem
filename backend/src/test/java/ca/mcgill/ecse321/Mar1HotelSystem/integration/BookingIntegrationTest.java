@@ -27,6 +27,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
+/**
+ * Booking Integration Tests
+ *
+ * @author Bilar Mokhtari (@bmokhtari)
+ * @author Antoine Phan (@notkaramel)
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookingIntegrationTest {
     @Autowired
@@ -93,7 +99,8 @@ public class BookingIntegrationTest {
     }
 
     private Booking getDemoBookingById(int id) {
-        ResponseEntity<BookingResponseDto> response = bookingClient.getForEntity("/booking/" + id, BookingResponseDto.class);
+        ResponseEntity<BookingResponseDto> response = bookingClient.getForEntity("/booking/" + id,
+                BookingResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -152,13 +159,13 @@ public class BookingIntegrationTest {
         bookingClient.put("/booking/update/" + id, bookingRequestDto);
     }
 
-    @Test 
+    @Test
     public void testCreateAndUpdateBookingById() {
         int roomId = createDemoRoom();
         int paymentId = createDemoPayment();
         String email = createDemoGeneralUser();
         int bookingId = createDemoBooking(email, roomId, paymentId);
-        
+
         // Create new BookingRequestDto to update
         int newRoomId = createDemoRoom();
         int newPaymentId = createDemoPayment();

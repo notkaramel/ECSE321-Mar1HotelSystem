@@ -10,6 +10,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Simple main system integration tests
+ * 
+ * @author Antoine Phan (@notkaramel)
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class Mar1HotelSystemIntegrationTest {
     @Autowired
@@ -34,5 +39,5 @@ public class Mar1HotelSystemIntegrationTest {
         assertNotNull(response.getBody());
         assertEquals(response.getStatusCode(), HttpStatus.I_AM_A_TEAPOT);
     }
-    
+
 }

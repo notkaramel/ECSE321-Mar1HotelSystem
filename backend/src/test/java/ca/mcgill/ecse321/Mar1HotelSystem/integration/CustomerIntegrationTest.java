@@ -28,25 +28,25 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class CustomerIntegrationTest {
-        @Autowired
-        private TestRestTemplate restTemplate;
-        @Autowired
-        private CustomerService customerService;
-        @Autowired
-        private EmployeeService employeeService;
+    @Autowired
+    private TestRestTemplate restTemplate;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private EmployeeService employeeService;
 
-        @BeforeEach
-        @AfterEach
-        public void clearDatabase() {
-            ArrayList<Customer> customers = new ArrayList<>(customerService.getAllCustomers());
-            for (Customer customer : customers) {
-                customerService.deleteCustomer(customer.getEmail());
-            }
-            ArrayList<Employee> employees = new ArrayList<>(employeeService.getAllEmployees());
-            for (Employee employee : employees) {
-                employeeService.deleteEmployee(employee.getEmail());
-            }
+    @BeforeEach
+    @AfterEach
+    public void clearDatabase() {
+        ArrayList<Customer> customers = new ArrayList<>(customerService.getAllCustomers());
+        for (Customer customer : customers) {
+            customerService.deleteCustomer(customer.getEmail());
         }
+        ArrayList<Employee> employees = new ArrayList<>(employeeService.getAllEmployees());
+        for (Employee employee : employees) {
+            employeeService.deleteEmployee(employee.getEmail());
+        }
+    }
 
     /**
      * Test for getting all customers
@@ -101,7 +101,8 @@ public class CustomerIntegrationTest {
         assertNotNull(customerDto, "The customer should not be null!");
         assertEquals(
                 "a@mail.com",
-                customerDto.getEmail(), "The email should be the same between DTO and the domain object!");
+                customerDto.getEmail(),
+                "The email should be the same between DTO and the domain object!");
     }
 
     /**
@@ -109,94 +110,94 @@ public class CustomerIntegrationTest {
      */
     @Test
     public void testCreateCustomer() {
-            CustomerDto customerDto = new CustomerDto(
-                    "ARandom",
-                    "Pi",
-                    "boiNotRandom@mail.com",
-                    555555,
-                    "password1234");
-            ResponseEntity<CustomerDto> responseEntity = restTemplate.postForEntity(
-                    "/customer",
-                    customerDto,
-                    CustomerDto.class);
-            assertNotNull(responseEntity);
-            assertEquals(
-                    HttpStatus.CREATED,
-                    responseEntity.getStatusCode(),
-                    "The status code should be Created!");
-            CustomerDto responseCustomerDto = responseEntity.getBody();
-            assertNotNull(responseCustomerDto, "The response body should not be null!");
-            assertEquals(
-                    customerDto.getFirstName(),
-                    responseCustomerDto.getFirstName(),
-                    "The first name should be the same between DTOs!");
-            assertEquals(
-                    customerDto.getLastName(),
-                    responseCustomerDto.getLastName(),
-                    "The last name should be the same between DTOs!");
-            assertEquals(
-                    customerDto.getEmail(),
-                    responseCustomerDto.getEmail(),
-                    "The email should be the same between DTOs!");
-            assertEquals(
-                    customerDto.getPhoneNumber(),
-                    responseCustomerDto.getPhoneNumber(),
-                    "The phone number should be the same between DTOs!");
-            assertEquals(
-                    customerDto.getPassword(),
-                    responseCustomerDto.getPassword(),
-                    "The password should be the same between DTOs!");
-            Customer customer = customerService.getCustomer(customerDto.getEmail());
-            assertNotNull(customer, "The customer should not be null!");
-            assertEquals(
-                    customerDto.getFirstName(),
-                    customer.getFirstName(),
-                    "The first name should be the same between DTO and the domain object!");
-            assertEquals(
-                    customerDto.getLastName(),
-                    customer.getLastName(),
-                    "The last name should be the same between DTO and the domain object!");
-            assertEquals(
-                    customerDto.getEmail(),
-                    customer.getEmail(),
-                    "The email should be the same between DTO and the domain object!");
-            assertEquals(
-                    customerDto.getPhoneNumber(),
-                    customer.getPhoneNumber(),
-                    "The phone number should be the same between DTO and the domain object!");
-            assertEquals(
-                    customerDto.getPassword(),
-                    customer.getPassword(),
-                    "The password should be the same between DTO and the domain object!");
+        CustomerDto customerDto = new CustomerDto(
+                "ARandom",
+                "Pi",
+                "boiNotRandom@mail.com",
+                555555,
+                "password1234");
+        ResponseEntity<CustomerDto> responseEntity = restTemplate.postForEntity(
+                "/customer",
+                customerDto,
+                CustomerDto.class);
+        assertNotNull(responseEntity);
+        assertEquals(
+                HttpStatus.CREATED,
+                responseEntity.getStatusCode(),
+                "The status code should be Created!");
+        CustomerDto responseCustomerDto = responseEntity.getBody();
+        assertNotNull(responseCustomerDto, "The response body should not be null!");
+        assertEquals(
+                customerDto.getFirstName(),
+                responseCustomerDto.getFirstName(),
+                "The first name should be the same between DTOs!");
+        assertEquals(
+                customerDto.getLastName(),
+                responseCustomerDto.getLastName(),
+                "The last name should be the same between DTOs!");
+        assertEquals(
+                customerDto.getEmail(),
+                responseCustomerDto.getEmail(),
+                "The email should be the same between DTOs!");
+        assertEquals(
+                customerDto.getPhoneNumber(),
+                responseCustomerDto.getPhoneNumber(),
+                "The phone number should be the same between DTOs!");
+        assertEquals(
+                customerDto.getPassword(),
+                responseCustomerDto.getPassword(),
+                "The password should be the same between DTOs!");
+        Customer customer = customerService.getCustomer(customerDto.getEmail());
+        assertNotNull(customer, "The customer should not be null!");
+        assertEquals(
+                customerDto.getFirstName(),
+                customer.getFirstName(),
+                "The first name should be the same between DTO and the domain object!");
+        assertEquals(
+                customerDto.getLastName(),
+                customer.getLastName(),
+                "The last name should be the same between DTO and the domain object!");
+        assertEquals(
+                customerDto.getEmail(),
+                customer.getEmail(),
+                "The email should be the same between DTO and the domain object!");
+        assertEquals(
+                customerDto.getPhoneNumber(),
+                customer.getPhoneNumber(),
+                "The phone number should be the same between DTO and the domain object!");
+        assertEquals(
+                customerDto.getPassword(),
+                customer.getPassword(),
+                "The password should be the same between DTO and the domain object!");
 
-        }
+    }
 
     /**
      * Test for creating a customer with an invalid email
      */
     @Test
     public void testCreateCustomerEmailTaken() {
-            customerService.createCustomer(
-                    "git",
-                    "gud",
-                    "boiNotRandom2@mail.com",
-                    5555552,
-                    "password12342");
-            CustomerDto customerDto = new CustomerDto(
-                    "ARandom2",
-                    "Pi2",
-                    "boiNotRandom2@mail.com",
-                    5555552,
-                    "password12342");
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                    "/customer",
-                    customerDto,
-                    String.class);
-            assertNotNull(responseEntity);
-            assertEquals(
-                    "User using that email already exists!",
-                    responseEntity.getBody());
-        }
+        customerService.createCustomer(
+                "git",
+                "gud",
+                "boiNotRandom2@mail.com",
+                5555552,
+                "password12342");
+        CustomerDto customerDto = new CustomerDto(
+                "ARandom2",
+                "Pi2",
+                "boiNotRandom2@mail.com",
+                5555552,
+                "password12342");
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                "/customer",
+                customerDto,
+                String.class);
+        assertNotNull(responseEntity);
+        assertEquals(
+                "User using that email already exists!",
+                responseEntity.getBody());
+    }
 
     /**
      * Test for updating a customer
