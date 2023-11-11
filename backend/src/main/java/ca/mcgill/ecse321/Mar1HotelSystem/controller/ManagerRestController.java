@@ -19,9 +19,6 @@ import java.util.List;
 
 /**
  * The controller that handles /manager endpoint requests
- * Required functionalities:
- * - Fire an employee (delete employee)
- * - etc.
  * 
  * @author Lucas Paccico @Lucaspac5
  */
