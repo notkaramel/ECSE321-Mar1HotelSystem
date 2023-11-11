@@ -1,6 +1,9 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 
 /**
@@ -12,13 +15,14 @@ import jakarta.persistence.*;
  */
 
 @Entity
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int requestId;
 
     private String description;
-    private boolean isFufilled;
+    private boolean isFulfilled;
 
     @ManyToOne
     private Booking booking;
@@ -28,9 +32,9 @@ public class Request {
     }
 
     // Request constructor requiring description, employee, booking, and isFufilled
-    public Request(String description, Booking booking, boolean isFufilled) {
+    public Request(String description, Booking booking, boolean isFulfilled) {
         this.description = description;
-        this.isFufilled = isFufilled;
+        this.isFulfilled = isFulfilled;
 
         if (setBooking(booking) == false) {
             throw new RuntimeException("Need an booking class to be instatiated; need a booking");
@@ -44,8 +48,8 @@ public class Request {
     }
 
     // Method to get isFufilled, returns isFufilled
-    public Boolean getIsFufilled() {
-        return this.isFufilled;
+    public Boolean getIsFulfilled() {
+        return this.isFulfilled;
     }
 
     // Method to get booking, returns booking
@@ -60,19 +64,19 @@ public class Request {
         return true;
     }
 
-    // Method to set isFufilled, returns true if isFufilled set
-    public boolean setIsFufilled(boolean isFufilled) {
-        this.isFufilled = isFufilled;
+    // Method to set isFulfilled, returns true if isFulfilled set
+    public boolean setIsFulfilled(boolean isFulfilled) {
+        this.isFulfilled = isFulfilled;
         return true;
     }
 
     // Method to set booking, returns true if booking set
     public boolean setBooking(Booking booking) {
-        if (booking != null) {
+        if (booking == null) {
+            return false;
+        } else {
             this.booking = booking;
             return true;
-        } else {
-            return false;
         }
     }
 

@@ -33,4 +33,8 @@ public class AccountDto extends GeneralUserDto {
     public String getPassword() {
         return this.password;
     }
+
+    public String getEmail() {
+        return super.getEmail();
+    }
 }
