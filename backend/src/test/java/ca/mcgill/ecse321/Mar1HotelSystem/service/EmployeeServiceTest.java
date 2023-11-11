@@ -661,7 +661,7 @@ public class EmployeeServiceTest {
      * Test updating an employee with a negative hours worked.
      */
     @Test
-    public void testUpdateEmployeeNegativeEmail() {
+    public void testUpdateEmployeeNegativeHoursWorked() {
         String newFirstName = "Dolan";
         String newLastName = "Duck";
         long newPhoneNumber = 123;
