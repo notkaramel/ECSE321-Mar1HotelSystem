@@ -33,6 +33,11 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 
+/**
+ * Room Service Tests
+ * 
+ * @author Antoine Phan (@notkaramel)
+ */
 @ExtendWith(MockitoExtension.class)
 public class RoomServiceTest {
     @InjectMocks

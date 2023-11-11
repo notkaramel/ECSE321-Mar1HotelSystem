@@ -33,6 +33,11 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.lenient;
 
+/**
+ * Schedule Service Tests
+ * 
+ * @author Emma Friesen (@emma-friesen)
+ */
 @ExtendWith(MockitoExtension.class)
 public class ScheduleServiceTest {
 

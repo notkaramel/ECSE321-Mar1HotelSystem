@@ -19,6 +19,11 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 
+/**
+ * Payment Service Tests
+ * 
+ * @author Bilar Mokhtari (@bmokhtari)
+ */
 @SpringBootTest
 public class PaymentServiceTest {
 
@@ -115,6 +120,7 @@ public class PaymentServiceTest {
         } catch (Mar1HotelSystemException e) {
             error = e;
         }
+        assertNotNull(error);
         assertEquals(HttpStatus.NOT_FOUND, error.getStatus());
         assertEquals("Payment with id 132 does not exist.", error.getMessage());
     }
@@ -128,6 +134,7 @@ public class PaymentServiceTest {
         } catch (Mar1HotelSystemException e) {
             error = e;
         }
+        assertNotNull(error);
         assertEquals(HttpStatus.NOT_FOUND, error.getStatus());
         assertEquals("Payment with id 1 does not exist.", error.getMessage());
     }

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 /**
  * Service tests for the Customer class.
  *
- * @author Liu, ZiXu
+ * @author Liu, ZiXu (@ARandomPi)
  */
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
@@ -70,21 +70,18 @@ public class CustomerServiceTest {
                     "Deb",
                     CUSTOMER_INITIAL_KEY_1,
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
             customers.add(customer1);
             Customer customer2 = new Customer(
                     "Seth",
                     "Royal",
                     CUSTOMER_INITIAL_KEY_2,
                     1231232312,
-                    "TestPassword2"
-            );
+                    "TestPassword2");
             customers.add(customer2);
             return customers;
         });
-        Answer<?> returnParameterAsAnswer =
-                (InvocationOnMock invocation) -> invocation.getArgument(0);
+        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(customerDao.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
     }
 
@@ -100,8 +97,7 @@ public class CustomerServiceTest {
                     "Deb",
                     CUSTOMER_KEY,
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             // Check that no error occurred
             fail();
@@ -123,8 +119,7 @@ public class CustomerServiceTest {
                     "",
                     "",
                     0,
-                    ""
-            );
+                    "");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -147,8 +142,7 @@ public class CustomerServiceTest {
                     null,
                     null,
                     0,
-                    null
-            );
+                    null);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -171,8 +165,7 @@ public class CustomerServiceTest {
                     "Deb",
                     CUSTOMER_KEY,
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -195,8 +188,7 @@ public class CustomerServiceTest {
                     null,
                     CUSTOMER_KEY,
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -219,8 +211,7 @@ public class CustomerServiceTest {
                     " ",
                     CUSTOMER_KEY,
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -243,8 +234,7 @@ public class CustomerServiceTest {
                     "Deb",
                     " ",
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -267,8 +257,7 @@ public class CustomerServiceTest {
                     "Deb",
                     "joshdebmcgill.ca",
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -291,8 +280,7 @@ public class CustomerServiceTest {
                     "Deb",
                     "joshdeb@mcgillca",
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -338,8 +326,7 @@ public class CustomerServiceTest {
                     "Deb",
                     CUSTOMER_KEY,
                     1234567890,
-                    ""
-            );
+                    "");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -362,8 +349,7 @@ public class CustomerServiceTest {
                     "Deb",
                     CUSTOMER_INITIAL_KEY_1,
                     1234567890,
-                    "TestPassword"
-            );
+                    "TestPassword");
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -396,7 +382,7 @@ public class CustomerServiceTest {
     public void testGetAllCustomers() {
         ArrayList<Customer> listOfCustomers = (ArrayList<Customer>) customerService.getAllCustomers();
         assertEquals(2, listOfCustomers.size());
-        for(Customer customer : listOfCustomers) {
+        for (Customer customer : listOfCustomers) {
             assertNotNull(customer);
         }
     }

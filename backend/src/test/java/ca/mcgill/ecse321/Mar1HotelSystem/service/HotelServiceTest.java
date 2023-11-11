@@ -83,6 +83,5 @@ public class HotelServiceTest {
         // Making sure that Exception was thrown correctly
         assertEquals(HttpStatus.BAD_REQUEST, errorStatus);
     }
-    
-    
+
 }

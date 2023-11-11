@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 /**
  * Service tests for the Employee class.
  *
- * @author Liu, ZiXu
+ * @author Liu, ZiXu @ARandomPi
  */
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
@@ -63,8 +63,7 @@ public class EmployeeServiceTest {
                 EMPLOYEE_INITIAL_KEY_1,
                 1234567890,
                 "TestPassword",
-                0
-        );
+                0);
         employees.add(employee1);
         Employee employee2 = new Employee(
                 "TestFirstName2",
@@ -72,8 +71,7 @@ public class EmployeeServiceTest {
                 EMPLOYEE_INITIAL_KEY_2,
                 1234567890,
                 "TestPassword2",
-                0
-        );
+                0);
         employees.add(employee2);
         lenient().when(employeeDao.findEmployeeByEmail(anyString())).thenAnswer((invocation) -> {
             if (invocation.getArgument(0).equals(EMPLOYEE_INITIAL_KEY_1)) {
@@ -83,24 +81,21 @@ public class EmployeeServiceTest {
             }
         });
         lenient().when(employeeDao.findAll()).thenAnswer((invocation) -> employees);
-        Answer<?> returnParameterAsAnswer =
-                (InvocationOnMock invocation) -> invocation.getArgument(0);
+        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(employeeDao.save(any(Employee.class))).thenAnswer(returnParameterAsAnswer);
         ArrayList<Shift> shifts = new ArrayList<>();
         Shift shift1 = new Shift(
                 employee1,
-                new Date(2000, Calendar.JANUARY,1),
+                new Date(2000, Calendar.JANUARY, 1),
                 1,
-                2
-        );
+                2);
         shift1.setShiftId(SHIFT_KEY_INITIAL_1);
         shifts.add(shift1);
         Shift shift2 = new Shift(
                 employee2,
-                new Date(2000, Calendar.JANUARY,1),
+                new Date(2000, Calendar.JANUARY, 1),
                 2,
-                3
-        );
+                3);
         shift2.setShiftId(SHIFT_KEY_INITIAL_2);
         shifts.add(shift2);
         lenient().when(shiftDao.findShiftByShiftId(anyInt())).thenAnswer((invocation) -> {
@@ -127,8 +122,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_KEY,
                     1234567891,
                     "password123",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             fail();
         }
@@ -152,8 +146,7 @@ public class EmployeeServiceTest {
                     null,
                     1234567891,
                     null,
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -177,8 +170,7 @@ public class EmployeeServiceTest {
                     "",
                     1234567891,
                     "",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -202,8 +194,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_KEY,
                     1234567891,
                     " ",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -227,8 +218,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_KEY,
                     1234567891,
                     " 1",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -252,8 +242,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_KEY,
                     1234567891,
                     " 1",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -277,8 +266,7 @@ public class EmployeeServiceTest {
                     "",
                     1234567891,
                     " 1",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -302,8 +290,7 @@ public class EmployeeServiceTest {
                     "boi",
                     1234567891,
                     " 1",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -327,8 +314,7 @@ public class EmployeeServiceTest {
                     "boi@boi",
                     1234567891,
                     " 1",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -352,8 +338,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_KEY,
                     -1,
                     " 1",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -377,8 +362,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_KEY,
                     1234567891,
                     "",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -402,8 +386,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_KEY,
                     1234567891,
                     " 1",
-                    -1
-            );
+                    -1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -427,8 +410,7 @@ public class EmployeeServiceTest {
                     EMPLOYEE_INITIAL_KEY_1,
                     1234567891,
                     " 1",
-                    0
-            );
+                    0);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -461,7 +443,7 @@ public class EmployeeServiceTest {
     public void testGetAllEmployees() {
         ArrayList<Employee> listOfEmployees = (ArrayList<Employee>) employeeService.getAllEmployees();
         assertEquals(2, listOfEmployees.size());
-        for(Employee employee : listOfEmployees) {
+        for (Employee employee : listOfEmployees) {
             assertNotNull(employee);
         }
     }
@@ -471,25 +453,25 @@ public class EmployeeServiceTest {
      */
     @Test
     public void testUpdateEmployee() {
-    	String newFirstName = "Dolan";
+        String newFirstName = "Dolan";
         String newLastName = "Duck";
         String newPassword = "password123";
         long newPhoneNumber = 123;
-    	Employee employee = null;
-    	try {
-    		employee = employeeService.updateEmployee(
+        Employee employee = null;
+        try {
+            employee = employeeService.updateEmployee(
                     newFirstName,
                     newLastName,
                     EMPLOYEE_INITIAL_KEY_1,
                     newPhoneNumber,
                     newPassword,
                     1);
-    	} catch (Mar1HotelSystemException e) {
-    		fail();
-    	}
-    	// Check not null
+        } catch (Mar1HotelSystemException e) {
+            fail();
+        }
+        // Check not null
         assertNotNull(employee);
-    	assertEquals(newFirstName, employee.getFirstName());
+        assertEquals(newFirstName, employee.getFirstName());
         assertEquals(newLastName, employee.getLastName());
         assertEquals(newPhoneNumber, employee.getPhoneNumber());
         assertEquals(newPassword, employee.getPassword());
@@ -500,26 +482,26 @@ public class EmployeeServiceTest {
      */
     @Test
     public void testUpdateEmployeeInvalidFirstName() {
-        	String newFirstName = "";
-            String newLastName = "Duck";
-            long newPhoneNumber = 123;
-            String newPassword = "password123";
-        	Employee employee = null;
-        	String error = null;
-        	try {
-        		employee = employeeService.updateEmployee(
-                        newFirstName,
-                        newLastName,
-                        EMPLOYEE_INITIAL_KEY_1,
-                        newPhoneNumber,
-                        newPassword,
-                        1);
-        	} catch (Mar1HotelSystemException e) {
-        		error = e.getMessage();
-        	}
-        	// Check null
-            assertNull(employee);
-        	assertEquals("The first name cannot be empty!", error);
+        String newFirstName = "";
+        String newLastName = "Duck";
+        long newPhoneNumber = 123;
+        String newPassword = "password123";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    EMPLOYEE_INITIAL_KEY_1,
+                    newPhoneNumber,
+                    newPassword,
+                    1);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The first name cannot be empty!", error);
     }
 
     /**
@@ -527,26 +509,26 @@ public class EmployeeServiceTest {
      */
     @Test
     public void testUpdateEmployeeInvalidLastName() {
-        	String newFirstName = "Dolan";
-            String newLastName = "";
-            long newPhoneNumber = 123;
-            String newPassword = "password123";
-        	Employee employee = null;
-        	String error = null;
-        	try {
-        		employee = employeeService.updateEmployee(
-                        newFirstName,
-                        newLastName,
-                        EMPLOYEE_INITIAL_KEY_1,
-                        newPhoneNumber,
-                        newPassword,
-                        1);
-        	} catch (Mar1HotelSystemException e) {
-        		error = e.getMessage();
-        	}
-        	// Check null
-            assertNull(employee);
-        	assertEquals("The last name cannot be empty!", error);
+        String newFirstName = "Dolan";
+        String newLastName = "";
+        long newPhoneNumber = 123;
+        String newPassword = "password123";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    EMPLOYEE_INITIAL_KEY_1,
+                    newPhoneNumber,
+                    newPassword,
+                    1);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The last name cannot be empty!", error);
     }
 
     /**
@@ -554,26 +536,26 @@ public class EmployeeServiceTest {
      */
     @Test
     public void testUpdateEmployeeInvalidPhoneNumber() {
-            String newFirstName = "Dolan";
-            String newLastName = "Duck";
-            long newPhoneNumber = -1;
-            String newPassword = "password123";
-            Employee employee = null;
-            String error = null;
-            try {
-                employee = employeeService.updateEmployee(
-                        newFirstName,
-                        newLastName,
-                        EMPLOYEE_INITIAL_KEY_1,
-                        newPhoneNumber,
-                        newPassword,
-                        1);
-            } catch (Mar1HotelSystemException e) {
-                error = e.getMessage();
-            }
-            // Check null
-            assertNull(employee);
-            assertEquals("The phone number must be above 0!", error);
+        String newFirstName = "Dolan";
+        String newLastName = "Duck";
+        long newPhoneNumber = -1;
+        String newPassword = "password123";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    EMPLOYEE_INITIAL_KEY_1,
+                    newPhoneNumber,
+                    newPassword,
+                    1);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The phone number must be above 0!", error);
     }
 
     /**
@@ -689,26 +671,26 @@ public class EmployeeServiceTest {
      */
     @Test
     public void testUpdateEmployeeEmailNotFound() {
-        	String newFirstName = "Dolan";
-            String newLastName = "Duck";
-            long newPhoneNumber = 123;
-            String newPassword = "password123";
-        	Employee employee = null;
-        	String error = null;
-        	try {
-        		employee = employeeService.updateEmployee(
-                        newFirstName,
-                        newLastName,
-                        NONEXISTING_KEY,
-                        newPhoneNumber,
-                        newPassword,
-                        1);
-        	} catch (Mar1HotelSystemException e) {
-        		error = e.getMessage();
-        	}
-        	// Check null
-            assertNull(employee);
-        	assertEquals("The employee does not exist!", error);
+        String newFirstName = "Dolan";
+        String newLastName = "Duck";
+        long newPhoneNumber = 123;
+        String newPassword = "password123";
+        Employee employee = null;
+        String error = null;
+        try {
+            employee = employeeService.updateEmployee(
+                    newFirstName,
+                    newLastName,
+                    NONEXISTING_KEY,
+                    newPhoneNumber,
+                    newPassword,
+                    1);
+        } catch (Mar1HotelSystemException e) {
+            error = e.getMessage();
+        }
+        // Check null
+        assertNull(employee);
+        assertEquals("The employee does not exist!", error);
     }
 
     /**
@@ -835,11 +817,10 @@ public class EmployeeServiceTest {
         Shift shift = null;
         try {
             shift = employeeService.createShift(
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     1,
                     2,
-                    EMPLOYEE_INITIAL_KEY_1
-            );
+                    EMPLOYEE_INITIAL_KEY_1);
         } catch (Mar1HotelSystemException e) {
             fail();
         }
@@ -859,11 +840,10 @@ public class EmployeeServiceTest {
         String error = null;
         try {
             shift = employeeService.createShift(
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     -1,
                     2,
-                    EMPLOYEE_INITIAL_KEY_1
-            );
+                    EMPLOYEE_INITIAL_KEY_1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -881,11 +861,10 @@ public class EmployeeServiceTest {
         String error = null;
         try {
             shift = employeeService.createShift(
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     25,
                     2,
-                    EMPLOYEE_INITIAL_KEY_1
-            );
+                    EMPLOYEE_INITIAL_KEY_1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -903,11 +882,10 @@ public class EmployeeServiceTest {
         String error = null;
         try {
             shift = employeeService.createShift(
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     1,
                     -1,
-                    EMPLOYEE_INITIAL_KEY_1
-            );
+                    EMPLOYEE_INITIAL_KEY_1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -925,11 +903,10 @@ public class EmployeeServiceTest {
         String error = null;
         try {
             shift = employeeService.createShift(
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     1,
                     25,
-                    EMPLOYEE_INITIAL_KEY_1
-            );
+                    EMPLOYEE_INITIAL_KEY_1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -947,11 +924,10 @@ public class EmployeeServiceTest {
         String error = null;
         try {
             shift = employeeService.createShift(
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     2,
                     1,
-                    EMPLOYEE_INITIAL_KEY_1
-            );
+                    EMPLOYEE_INITIAL_KEY_1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -969,11 +945,10 @@ public class EmployeeServiceTest {
         String error = null;
         try {
             shift = employeeService.createShift(
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     1,
                     2,
-                    NONEXISTING_KEY
-            );
+                    NONEXISTING_KEY);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -991,10 +966,9 @@ public class EmployeeServiceTest {
         try {
             shift = employeeService.updateShift(
                     SHIFT_KEY_INITIAL_1,
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     4,
-                    5
-            );
+                    5);
         } catch (Mar1HotelSystemException e) {
             fail();
         }
@@ -1004,7 +978,7 @@ public class EmployeeServiceTest {
         assertEquals(5, shift.getEndTime());
         assertEquals(SHIFT_KEY_INITIAL_1, shift.getShiftId());
         assertEquals(EMPLOYEE_INITIAL_KEY_1, shift.getEmployee().getEmail());
-        assertEquals(new Date(2000, Calendar.JANUARY,1), shift.getDate());
+        assertEquals(new Date(2000, Calendar.JANUARY, 1), shift.getDate());
     }
 
     /**
@@ -1017,10 +991,9 @@ public class EmployeeServiceTest {
         try {
             shift = employeeService.updateShift(
                     SHIFT_KEY_INITIAL_1,
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     -1,
-                    5
-            );
+                    5);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -1039,10 +1012,9 @@ public class EmployeeServiceTest {
         try {
             shift = employeeService.updateShift(
                     SHIFT_KEY_INITIAL_1,
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     25,
-                    5
-            );
+                    5);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -1061,10 +1033,9 @@ public class EmployeeServiceTest {
         try {
             shift = employeeService.updateShift(
                     SHIFT_KEY_INITIAL_1,
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     1,
-                    -1
-            );
+                    -1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -1083,10 +1054,9 @@ public class EmployeeServiceTest {
         try {
             shift = employeeService.updateShift(
                     SHIFT_KEY_INITIAL_1,
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     1,
-                    25
-            );
+                    25);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -1105,10 +1075,9 @@ public class EmployeeServiceTest {
         try {
             shift = employeeService.updateShift(
                     SHIFT_KEY_INITIAL_1,
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     2,
-                    1
-            );
+                    1);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }
@@ -1127,10 +1096,9 @@ public class EmployeeServiceTest {
         try {
             shift = employeeService.updateShift(
                     NONEXISTING_SHIFT_KEY,
-                    new Date(2000, Calendar.JANUARY,1),
+                    new Date(2000, Calendar.JANUARY, 1),
                     1,
-                    2
-            );
+                    2);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
         }

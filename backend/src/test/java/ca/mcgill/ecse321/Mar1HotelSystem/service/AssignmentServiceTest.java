@@ -27,11 +27,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 
-
 /**
  * This class contains test cases for the AssignmentService class.
  * 
- * @author Adam (@Ad2Am2)
+ * @author Adam Corbier (@Ad2Am2)
  */
 
 @ExtendWith(MockitoExtension.class)
@@ -67,7 +66,6 @@ public class AssignmentServiceTest {
         });
     }
 
-
     @Test
     public void testCreateAssignment() {
         assertEquals(0, assignmentRepository.count());
@@ -75,15 +73,22 @@ public class AssignmentServiceTest {
         Payment payment = new Payment(100);
         GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
         // OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
-        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
-        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
-        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8,
+        // 23);
+        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8,
+        // 23);
+        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8,
+        // 23);
         // OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
-        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8,
+        // 23);
         // OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
-        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT,
+        // operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS,
+        // operatingHoursU};
         // CustomHours[] customHours = {};
-        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours,
+        // customHours);
         Hotel Mar1Hotel = new Hotel();
         Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
         Booking booking = new Booking(payment, guest, room);
@@ -106,15 +111,22 @@ public class AssignmentServiceTest {
         Payment payment = new Payment(100);
         GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
         // OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
-        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
-        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
-        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8,
+        // 23);
+        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8,
+        // 23);
+        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8,
+        // 23);
         // OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
-        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8,
+        // 23);
         // OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
-        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT,
+        // operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS,
+        // operatingHoursU};
         // CustomHours[] customHours = {};
-        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours,
+        // customHours);
         Hotel Mar1Hotel = new Hotel();
         Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
         Booking booking = new Booking(payment, guest, room);
@@ -156,7 +168,6 @@ public class AssignmentServiceTest {
         assertEquals("Request cannot be null!", error);
         assertEquals(HttpStatus.BAD_REQUEST, errorStatus);
 
-        
     }
 
     @Test
@@ -167,15 +178,22 @@ public class AssignmentServiceTest {
         Payment payment = new Payment(100);
         GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
         // OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
-        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
-        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
-        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8,
+        // 23);
+        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8,
+        // 23);
+        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8,
+        // 23);
         // OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
-        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8,
+        // 23);
         // OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
-        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT,
+        // operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS,
+        // operatingHoursU};
         // CustomHours[] customHours = {};
-        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours,
+        // customHours);
         Hotel Mar1Hotel = new Hotel();
         Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
         Booking booking = new Booking(payment, guest, room);
@@ -186,7 +204,7 @@ public class AssignmentServiceTest {
 
         assignment = assignmentService.createAssignment(assignee1, request1);
         assignment.setAssignmentID(ASSIGNMENT_KEY);
-        
+
         try {
             assignment = assignmentService.updateAssignment(ASSIGNMENT_KEY, assignee2, request2);
         } catch (Mar1HotelSystemException e) {
@@ -198,7 +216,6 @@ public class AssignmentServiceTest {
         assertEquals(ASSIGNMENT_KEY, assignment.getAssignmentId());
     }
 
-
     @Test
     public void testUpdateAssignmentNullAssignee() {
         Assignment assignment = null;
@@ -207,15 +224,22 @@ public class AssignmentServiceTest {
         Payment payment = new Payment(100);
         GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
         // OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
-        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
-        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
-        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8,
+        // 23);
+        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8,
+        // 23);
+        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8,
+        // 23);
         // OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
-        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8,
+        // 23);
         // OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
-        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT,
+        // operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS,
+        // operatingHoursU};
         // CustomHours[] customHours = {};
-        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours,
+        // customHours);
         Hotel Mar1Hotel = new Hotel();
         Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
         Booking booking = new Booking(payment, guest, room);
@@ -229,7 +253,7 @@ public class AssignmentServiceTest {
         String error = null;
         HttpStatus errorStatus = null;
 
-        try{
+        try {
             assignment = assignmentService.updateAssignment(ASSIGNMENT_KEY, null, request2);
         } catch (Mar1HotelSystemException e) {
             error = e.getMessage();
@@ -240,9 +264,7 @@ public class AssignmentServiceTest {
         assertEquals("Assignee cannot be null!", error);
         assertEquals(HttpStatus.BAD_REQUEST, errorStatus);
 
-
     }
-
 
     @Test
     public void testUpdateAssignmentNullRequest() {
@@ -252,15 +274,22 @@ public class AssignmentServiceTest {
         Payment payment = new Payment(100);
         GeneralUser guest = new GeneralUser("Guesty", "Guest", "guesty.guest@gmail.com", 1234567890);
         // OperatingHours operatingHoursM = new OperatingHours(DayOfWeek.Monday, 8, 23);
-        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8, 23);
-        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8, 23);
-        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8, 23);
+        // OperatingHours operatingHoursT = new OperatingHours(DayOfWeek.Tuesday, 8,
+        // 23);
+        // OperatingHours operatingHoursW = new OperatingHours(DayOfWeek.Wednesday, 8,
+        // 23);
+        // OperatingHours operatingHoursR = new OperatingHours(DayOfWeek.Thursday, 8,
+        // 23);
         // OperatingHours operatingHoursF = new OperatingHours(DayOfWeek.Friday, 8, 23);
-        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8, 23);
+        // OperatingHours operatingHoursS = new OperatingHours(DayOfWeek.Saturday, 8,
+        // 23);
         // OperatingHours operatingHoursU = new OperatingHours(DayOfWeek.Sunday, 8, 23);
-        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT, operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS, operatingHoursU};
+        // OperatingHours[] operatingHours = {operatingHoursM, operatingHoursT,
+        // operatingHoursW, operatingHoursR, operatingHoursF, operatingHoursS,
+        // operatingHoursU};
         // CustomHours[] customHours = {};
-        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours, customHours);
+        // HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHours,
+        // customHours);
         Hotel Mar1Hotel = new Hotel();
         Room room = new Room(RoomType.Regular, BedType.King, true, 100, 2, Mar1Hotel);
         Booking booking = new Booking(payment, guest, room);
@@ -286,8 +315,6 @@ public class AssignmentServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, errorStatus);
     }
 
-
-
     @Test
     public void testGetAssignmentById() {
         Assignment assignment = null;
@@ -299,7 +326,6 @@ public class AssignmentServiceTest {
         assertNotNull(assignment);
         assertEquals(ASSIGNMENT_KEY, assignment.getAssignmentId());
     }
-
 
     @Test
     public void testGetAssignmentByInvalidId() {
@@ -318,13 +344,11 @@ public class AssignmentServiceTest {
 
     }
 
-
     @Test
     public void testGetAllAssignments() {
         assertEquals(1, assignmentService.getAllAssignments().size());
         assertEquals(ASSIGNMENT_KEY, assignmentService.getAllAssignments().get(0).getAssignmentId());
     }
-
 
     @Test
     public void testDeleteAssignment() {
@@ -345,9 +369,7 @@ public class AssignmentServiceTest {
             fail();
         }
         assertTrue(deleted);
-        }
-
-
+    }
 
     @Test
     public void testDeleteNonExistingAssignment() {
@@ -371,9 +393,8 @@ public class AssignmentServiceTest {
             errorStatus = e.getStatus();
         }
 
-
         assertFalse(deleted);
         assertEquals("No assignment found with ID: " + NONEXISTING_KEY, error);
         assertEquals(HttpStatus.NOT_FOUND, errorStatus);
-    }    
+    }
 }
