@@ -410,15 +410,18 @@ public class ManagerServiceTest {
 	public void testUpdateManagerThatExistOldPasswordIncorrect() {
 		setMockOutput();
 		String error = null;
+		HttpStatus error_status = null;
 		Manager manager = null;
 		try {
 			manager = managerService.updateManagerPassword("joe@gmail.com", "wrongPass", "Passed");
 		} catch (Mar1HotelSystemException e) {
 			error = e.getMessage();
+			error_status = e.getStatus();
 
 		}
 		assertNull(manager);
 		assertEquals("Incorrect old password!", error);
+		assertEquals(HttpStatus.BAD_REQUEST, error_status);
 	}
 
 	/*
