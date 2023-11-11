@@ -20,7 +20,7 @@ public class Customer extends Account {
 
     // Customer constructor requiring firstName, lastName, email, phoneNumber,
     // password
-    public Customer(String firstName, String lastName, String email, int phoneNumber, String password) {
+    public Customer(String firstName, String lastName, String email, long phoneNumber, String password) {
         super(firstName, lastName, email, phoneNumber, password);
     }
 

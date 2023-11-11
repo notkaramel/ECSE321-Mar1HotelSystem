@@ -12,6 +12,7 @@ public class BookingDto {
     public BookingDto() {
     }
 
+
     public BookingDto(PaymentDto payment, GeneralUserDto generalUser, RoomResponseDto room) {
         this.payment = payment;
         this.generalUser = generalUser;

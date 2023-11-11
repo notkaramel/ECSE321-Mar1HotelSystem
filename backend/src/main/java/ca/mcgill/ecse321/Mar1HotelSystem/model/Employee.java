@@ -18,7 +18,7 @@ public class Employee extends Account {
         super();
     }
     // Employee constructor requiring requiring firstName, lastName, email, phoneNumber, password and hoursWorked
-    public Employee(String firstName, String lastName, String email, int phoneNumber, String password,
+    public Employee(String firstName, String lastName, String email, long phoneNumber, String password,
             int hoursWorked) {
         super(firstName, lastName, email, phoneNumber, password);
         this.hoursWorked = hoursWorked;

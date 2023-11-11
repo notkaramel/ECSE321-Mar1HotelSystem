@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class ShiftDto {
     
