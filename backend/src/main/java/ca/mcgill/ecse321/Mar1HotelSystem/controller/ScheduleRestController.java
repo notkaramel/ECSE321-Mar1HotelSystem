@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,7 +63,7 @@ public class ScheduleRestController {
         return new ResponseEntity<OperatingHoursResponseDto>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = {"/operatingHours/update"})
+    @PostMapping(value = {"/operatingHours/update"})
     public ResponseEntity<OperatingHoursResponseDto> updateOperatingHours(@RequestBody OperatingHoursRequestDto request) {
         DayOfWeek day = request.getDayOfWeek();
         int openingHour = request.getOpeningHour();

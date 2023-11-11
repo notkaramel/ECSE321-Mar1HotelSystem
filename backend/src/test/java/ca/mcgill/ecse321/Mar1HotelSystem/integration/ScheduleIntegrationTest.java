@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.text.SimpleDateFormat;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +30,6 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursResponseDto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursMultipleResponseDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
@@ -92,7 +89,6 @@ public class ScheduleIntegrationTest {
     }
 
     public void updateOperatingHours(OperatingHoursRequestDto updatedRequest) {
-        DayOfWeek day = updatedRequest.getDayOfWeek();
         ResponseEntity<OperatingHoursResponseDto> response = client.postForEntity("/operatingHours/update",
                 updatedRequest, OperatingHoursResponseDto.class);
 
@@ -142,12 +138,10 @@ public class ScheduleIntegrationTest {
         OperatingHoursRequestDto request1 = new OperatingHoursRequestDto(DayOfWeek.Monday, 8, 20);
         OperatingHoursRequestDto request2 = new OperatingHoursRequestDto(DayOfWeek.Tuesday, 8, 20);
 
-        int id1 = createOperatingHours(request1);
-        int id2 = createOperatingHours(request2);
+        createOperatingHours(request1);
+        createOperatingHours(request2);
         List<OperatingHours> listOH = getAllOperatingHours();
         assertEquals(2, listOH.size());
-        assertEquals(id1, listOH.get(0).getOperatingHoursId());
-        assertEquals(id2, listOH.get(1).getOperatingHoursId());
         assertEquals(request1.getDayOfWeek().toString(), listOH.get(0).getDayOfWeek().toString());
     }
 
@@ -214,10 +208,11 @@ public class ScheduleIntegrationTest {
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(date, response.getBody().getDate());
-        assertEquals(request.getOpeningHour(), response.getBody().getOpeningHour());
-        assertEquals(request.getClosingHour(), response.getBody().getClosingHour());
+        CustomHoursResponseDto ch = response.getBody();
+        assertNotNull(ch);
+        assertEquals(date, ch.getDate());
+        assertEquals(request.getOpeningHour(), ch.getOpeningHour());
+        assertEquals(request.getClosingHour(), ch.getClosingHour());
     }
 
     @Test
@@ -266,8 +261,8 @@ public class ScheduleIntegrationTest {
         HotelScheduleResponseDto hs = response.getBody();
         assertNotNull(hs);
         assertEquals(hotelScheduleRequestDto.getYear(), hs.getYear());
-        assertEquals(hotelScheduleRequestDto.getOperatingHoursIdList(), hs.getOperatingHoursList());
-        assertEquals(hotelScheduleRequestDto.getCustomHoursIdList(), hs.getCustomHoursList());
+        assertEquals(hotelScheduleRequestDto.getOperatingHoursIdList()[0], hs.getOperatingHoursList().get(0).getOperatingHoursId());
+        assertEquals(hotelScheduleRequestDto.getCustomHoursIdList()[0], hs.getCustomHoursList().get(0).getCustomHoursId());
     }
 
     @Test

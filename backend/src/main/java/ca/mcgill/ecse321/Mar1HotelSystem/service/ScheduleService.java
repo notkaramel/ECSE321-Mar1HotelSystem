@@ -172,22 +172,27 @@ public class ScheduleService {
     public HotelSchedule createHotelSchedule(HotelScheduleRequestDto hotelScheduleRequestDto) {
         int year = hotelScheduleRequestDto.getYear();
 
-        // Find all OperatingHours and CustomHours in the database, based on the list of
-        // Ids in request
-        List<CustomHours> customHoursList = new ArrayList<>();
-        for (int chId : hotelScheduleRequestDto.getCustomHoursIdList()) {
-            CustomHours ch = this.getCustomHoursById(chId);
-            customHoursList.add(ch);
-        }
-
+        // Find all OperatingHours and CustomHours in the database,
+        // based on the list of Ids in request
         List<OperatingHours> operatingHoursList = new ArrayList<>();
         for (int ohId : hotelScheduleRequestDto.getOperatingHoursIdList()) {
             OperatingHours oh = this.getOperatingHoursById(ohId); 
             operatingHoursList.add(oh);
         }
         
-        HotelSchedule newHS = new HotelSchedule(year, operatingHoursList, customHoursList);        hotelScheduleRepository.save(newHS);
-        return newHS;
+        List<CustomHours> customHoursList = new ArrayList<>();
+        for (int chId : hotelScheduleRequestDto.getCustomHoursIdList()) {
+            CustomHours ch = this.getCustomHoursById(chId);
+            customHoursList.add(ch);
+        }
+
+        HotelSchedule newHS = new HotelSchedule(year, operatingHoursList, customHoursList);
+        try {
+            hotelScheduleRepository.save(newHS);
+            return newHS;
+        } catch (Exception e) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Cannot create HotelSchedule of year " + year + ".");
+        }
     }
 
     @Transactional
