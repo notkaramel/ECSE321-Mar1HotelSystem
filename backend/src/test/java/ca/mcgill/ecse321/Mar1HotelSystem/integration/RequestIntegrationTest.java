@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RequestRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
@@ -52,6 +53,9 @@ public class RequestIntegrationTest {
     private RoomRepository roomRepository;
 
     @Autowired
+    private HotelRepository hotelRepository;
+
+    @Autowired
     private GeneralUserRepository generalUserRepository;
 
     @BeforeEach
@@ -61,6 +65,7 @@ public class RequestIntegrationTest {
         bookingRepository.deleteAll();
         paymentRepository.deleteAll();
         roomRepository.deleteAll();
+        hotelRepository.deleteAll();
         generalUserRepository.deleteAll();
     }
 

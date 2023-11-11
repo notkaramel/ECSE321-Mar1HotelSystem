@@ -45,6 +45,7 @@ public class RoomIntegrationTest {
     @AfterEach
     public void clearDatabase() {
         roomRepository.deleteAll();
+        hotelRepository.deleteAll();
     }
 
     private Iterable<RoomRequestDto> generateRequests() {

@@ -19,8 +19,9 @@ import org.springframework.http.ResponseEntity;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
-
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.RoomRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.CustomHoursRequestDto;
@@ -52,12 +53,21 @@ public class ScheduleIntegrationTest {
     @Autowired
     private OperatingHoursRepository operatingHoursRepo;
 
+    @Autowired
+    private HotelRepository hotelRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    // Clears the database before and after each test
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
+        roomRepository.deleteAll();
+        hotelRepository.deleteAll();
         hotelScheduleRepo.deleteAll();
-        customHoursRepo.deleteAll();
         operatingHoursRepo.deleteAll();
+        customHoursRepo.deleteAll();
     }
 
     public int createOperatingHours(OperatingHoursRequestDto request) {
