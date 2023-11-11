@@ -106,7 +106,7 @@ public class RequestServiceTest {
         assertNotNull(request);
         assertEquals(booking, request.getBooking());
         assertEquals("Make my bed please uwu", request.getDescription());
-        assertFalse(request.getIsFufilled());
+        assertFalse(request.getIsFulfilled());
 
     }
 

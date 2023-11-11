@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.apache.catalina.connector.Response;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
+
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 
@@ -170,8 +165,6 @@ public class AssignmentIntegrationTest {
 
         assertNotNull(assignmentId);
         assertEquals(1, assignmentRepository.count());
-
-
     }
 
 
