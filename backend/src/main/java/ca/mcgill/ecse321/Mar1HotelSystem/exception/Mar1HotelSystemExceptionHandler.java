@@ -11,5 +11,4 @@ public class Mar1HotelSystemExceptionHandler extends ResponseEntityExceptionHand
     public ResponseEntity<String> handleMar1HotelSystemException(Mar1HotelSystemException e) {
         return new ResponseEntity<String>(e.getMessage(), e.getStatus());
     }
-    
 }
