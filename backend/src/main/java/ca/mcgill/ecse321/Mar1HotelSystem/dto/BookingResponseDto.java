@@ -31,31 +31,15 @@ public class BookingResponseDto {
         return bookingId;
     }
 
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
-    }
-
     public Payment getPayment() {
         return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
     }
 
     public GeneralUser getGeneralUser() {
         return generalUser;
     }
 
-    public void setGeneralUser(GeneralUser generalUser) {
-        this.generalUser = generalUser;
-    }
-
     public Room getRoom() {
         return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 }

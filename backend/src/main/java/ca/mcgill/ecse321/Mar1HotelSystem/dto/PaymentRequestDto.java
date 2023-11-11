@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
-import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotBlank;
 
 public class PaymentRequestDto {
-    @Nonnull
+    @NotBlank
     private int amount;
 
     public PaymentRequestDto() {
@@ -13,12 +13,8 @@ public class PaymentRequestDto {
         this.amount = amount;
     }
 
-    // Getters and Setters
+    // Getters
     public int getAmount() {
         return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 }

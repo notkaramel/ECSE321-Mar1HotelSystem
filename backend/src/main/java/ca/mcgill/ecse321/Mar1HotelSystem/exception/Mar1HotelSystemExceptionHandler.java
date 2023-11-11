@@ -9,8 +9,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class Mar1HotelSystemExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Mar1HotelSystemException.class)
-    public ResponseEntity<String> handleException(Mar1HotelSystemException e) {
-        return new ResponseEntity<>(e.getMessage(), e.getStatus());
+    public ResponseEntity<String> handleMar1HotelSystemException(Mar1HotelSystemException e) {
+        return new ResponseEntity<String>(e.getMessage(), e.getStatus());
     }
     
 }

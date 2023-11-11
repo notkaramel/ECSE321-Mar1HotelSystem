@@ -41,8 +41,7 @@ public class PaymentIntegrationTest {
     }
 
     public int testCreatePaymentIntegration() {
-        PaymentRequestDto paymentRequestDto = new PaymentRequestDto();
-        paymentRequestDto.setAmount(100);
+        PaymentRequestDto paymentRequestDto = new PaymentRequestDto(100);
         ResponseEntity<PaymentResponseDto> res = paymentClient.postForEntity("/payment/create", paymentRequestDto,
                 PaymentResponseDto.class);
         assertNotNull(res);

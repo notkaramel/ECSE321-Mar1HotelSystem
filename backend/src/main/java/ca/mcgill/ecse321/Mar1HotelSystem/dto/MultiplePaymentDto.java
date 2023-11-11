@@ -22,8 +22,4 @@ public class MultiplePaymentDto {
     public List<PaymentResponseDto> getPaymentList() {
         return this.paymentList;
     }
-
-    public void setPaymentList(List<PaymentResponseDto> paymentList) {
-        this.paymentList = paymentList;
-    }
 }

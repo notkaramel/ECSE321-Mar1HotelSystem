@@ -24,7 +24,6 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RoomResponseDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 

@@ -1,11 +1,11 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
-import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotBlank;
 
 public class PaymentResponseDto {
     private int paymentId;
-    @Nonnull
+    @NotBlank
     private int amount;
 
     public PaymentResponseDto() {
@@ -18,7 +18,7 @@ public class PaymentResponseDto {
         }
     }
 
-    // Getters and Setters
+    // Getters
     public int getPaymentId() {
         return paymentId;
     }

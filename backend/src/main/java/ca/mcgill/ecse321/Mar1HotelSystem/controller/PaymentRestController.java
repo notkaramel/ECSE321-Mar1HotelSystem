@@ -11,6 +11,16 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.PaymentResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.PaymentService;
 
+/**
+ * The controller that handles /payment endpoint requests
+ * Required functionalities:
+ * - Recieve payment request (POST)
+ * - Return payment result as DTO
+ * DTOs might used:
+ * - PaymentDTO
+ * 
+ * @author Lucas Paccico @Lucaspac5
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class PaymentRestController {
