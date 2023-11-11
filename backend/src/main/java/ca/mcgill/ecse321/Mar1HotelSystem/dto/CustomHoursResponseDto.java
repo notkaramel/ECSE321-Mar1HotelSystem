@@ -23,9 +23,11 @@ public class CustomHoursResponseDto {
     public Date getDate() {
         return this.date;
     }
+
     public int getOpeningHour() {
         return this.openingHour;
     }
+
     public int getClosingHour() {
         return this.closingHour;
     }

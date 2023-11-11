@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 import java.util.List;
 
 public class HotelDto {
-    
+
     // VARIABLES
     final private String hotelName = "Mar-1 Hotel";
     private HotelScheduleResponseDto hotelSchedule;

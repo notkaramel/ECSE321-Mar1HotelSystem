@@ -8,7 +8,9 @@ public class EmployeeDto extends AccountDto {
     public EmployeeDto() {
         super();
     }
-    // Employee constructor requiring requiring firstName, lastName, email, phoneNumber, password and hoursWorked
+
+    // Employee constructor requiring requiring firstName, lastName, email,
+    // phoneNumber, password and hoursWorked
     public EmployeeDto(String firstName, String lastName, String email, long phoneNumber, String password,
             int hoursWorked) {
         super(firstName, lastName, email, phoneNumber, password);
@@ -25,5 +27,4 @@ public class EmployeeDto extends AccountDto {
         return super.getEmail();
     }
 
-    
 }

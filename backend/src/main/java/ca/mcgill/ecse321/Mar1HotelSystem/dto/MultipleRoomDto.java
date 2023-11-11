@@ -6,11 +6,11 @@ import java.util.List;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
 public class MultipleRoomDto {
-    private Iterable<RoomResponseDto> roomList;
+	private Iterable<RoomResponseDto> roomList;
 
 	public MultipleRoomDto() {
 	}
-	
+
 	public MultipleRoomDto(Iterable<Room> rooms) {
 		List<RoomResponseDto> roomDtoList = new ArrayList<RoomResponseDto>();
 		for (Room r : rooms) {
@@ -18,7 +18,7 @@ public class MultipleRoomDto {
 		}
 		this.roomList = roomDtoList;
 	}
-	
+
 	public Iterable<RoomResponseDto> getRoomList() {
 		return this.roomList;
 	}

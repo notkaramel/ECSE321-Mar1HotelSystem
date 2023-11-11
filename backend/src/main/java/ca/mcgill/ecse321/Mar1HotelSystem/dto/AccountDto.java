@@ -29,7 +29,7 @@ public class AccountDto extends GeneralUserDto {
         return true;
     }
 
-    //Getters
+    // Getters
     public String getPassword() {
         return this.password;
     }

@@ -36,5 +36,5 @@ public class AssignmentResponseDto {
     public int getAssignmentId() {
         return this.assignmentId;
     }
-    
+
 }

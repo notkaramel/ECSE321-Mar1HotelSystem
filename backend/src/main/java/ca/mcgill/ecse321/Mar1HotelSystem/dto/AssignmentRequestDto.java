@@ -1,13 +1,14 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
-import io.micrometer.common.lang.NonNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class AssignmentRequestDto {
 
     // VARIABLES
-    @NonNull
+    @NotNull
     private String employeeId;
-    @NonNull
+    @NotBlank
     private int requestId;
 
     // CONSTRUCTORS

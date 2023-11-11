@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author Antoine Phan (@notkaramel)
  */
 public class RoomRequestDto {
-    
+
     // VARIABLES
     @NotBlank(message = "room_type must be Deluxe, Regular, or Suite")
     private Room.RoomType roomType;
@@ -31,7 +31,8 @@ public class RoomRequestDto {
     public RoomRequestDto() {
     }
 
-    public RoomRequestDto(Room.RoomType roomType, Room.BedType bedType, boolean isAvailable, int pricePerNight, int maxCapacity) {
+    public RoomRequestDto(Room.RoomType roomType, Room.BedType bedType, boolean isAvailable, int pricePerNight,
+            int maxCapacity) {
         this.roomType = roomType;
         this.bedType = bedType;
         this.isAvailable = isAvailable;

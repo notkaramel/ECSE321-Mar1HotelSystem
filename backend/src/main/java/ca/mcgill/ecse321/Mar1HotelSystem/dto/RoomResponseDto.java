@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
  * @author Antoine Phan (@notkaramel)
  */
 public class RoomResponseDto {
-    
+
     // VARIABLES
     @NotEmpty(message = "Room ID cannot be empty")
     private int roomId;

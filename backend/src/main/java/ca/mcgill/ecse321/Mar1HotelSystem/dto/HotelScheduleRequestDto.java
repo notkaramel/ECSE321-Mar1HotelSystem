@@ -18,9 +18,11 @@ public class HotelScheduleRequestDto {
     public int getYear() {
         return this.year;
     }
+
     public int[] getOperatingHoursIdList() {
         return this.operatingHoursIdList;
     }
+
     public int[] getCustomHoursIdList() {
         return this.customHoursIdList;
     }

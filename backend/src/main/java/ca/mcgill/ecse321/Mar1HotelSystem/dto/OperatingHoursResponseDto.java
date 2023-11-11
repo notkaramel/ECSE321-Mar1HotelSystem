@@ -22,13 +22,15 @@ public class OperatingHoursResponseDto {
     public int getOperatingHoursId() {
         return this.operatingHoursId;
     }
-    
+
     public DayOfWeek getDayOfWeek() {
         return this.dayOfWeek;
     }
+
     public int getOpeningHour() {
         return this.openingHour;
     }
+
     public int getClosingHour() {
         return this.closingHour;
     }

@@ -20,7 +20,7 @@ public class HotelScheduleResponseDto {
         this.customHoursList = hotelSchedule.getCustomHours();
     }
 
-	public int getYear() {
+    public int getYear() {
         return this.year;
     }
 
@@ -32,5 +32,4 @@ public class HotelScheduleResponseDto {
         return this.customHoursList;
     }
 
-    
 }

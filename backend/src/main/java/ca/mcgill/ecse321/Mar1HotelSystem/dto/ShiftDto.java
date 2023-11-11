@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 import java.util.Date;
 
 public class ShiftDto {
-    
+
     // VARIABLES
     private int shiftId;
     private Date date;
@@ -23,7 +23,7 @@ public class ShiftDto {
         this.endTime = endTime;
     }
 
-    // GETTERS 
+    // GETTERS
     // Method to get employee, returns employee
     public EmployeeDto getEmployee() {
         return this.employee;
@@ -49,4 +49,3 @@ public class ShiftDto {
     }
 
 }
-

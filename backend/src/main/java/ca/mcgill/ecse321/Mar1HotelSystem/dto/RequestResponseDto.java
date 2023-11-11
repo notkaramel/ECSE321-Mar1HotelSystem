@@ -2,9 +2,8 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 
-
 public class RequestResponseDto {
-    
+
     // VARIABLES
     private int requestId;
     private String description;
@@ -23,7 +22,7 @@ public class RequestResponseDto {
         this.isFulfilled = isFulfilled;
     }
 
-    // GETTERS 
+    // GETTERS
     // Method to get description, returns description
     public String getDescription() {
         return this.description;

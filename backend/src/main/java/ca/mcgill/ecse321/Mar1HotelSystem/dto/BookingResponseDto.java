@@ -6,7 +6,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 
 public class BookingResponseDto {
-    
+
     private int bookingId;
     private Payment payment;
     private GeneralUser generalUser;
