@@ -67,7 +67,6 @@ public class CustomerService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email is invalid!");
         }
         // Check if email is already used
-        // Note: why must customer be fore employee?
         if(customerRepository.findCustomerByEmail(emailTrimmed) != null
                 || employeeRepository.findEmployeeByEmail(emailTrimmed) != null
                 || managerRepository.findManagerByEmail(emailTrimmed) != null
