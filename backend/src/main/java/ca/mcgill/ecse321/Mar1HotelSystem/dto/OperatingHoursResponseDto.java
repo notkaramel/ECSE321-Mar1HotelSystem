@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
 public class OperatingHoursResponseDto {
+    private int OperatingHoursId;
     private DayOfWeek dayOfWeek;
     private int openingHour;
     private int closingHour;
@@ -12,21 +13,16 @@ public class OperatingHoursResponseDto {
     }
 
     public OperatingHoursResponseDto(OperatingHours operatingHours) {
+        this.OperatingHoursId = operatingHours.getOperatingHoursId();
         this.dayOfWeek = operatingHours.getDayOfWeek();
         this.openingHour = operatingHours.getOpeningHour();
         this.closingHour = operatingHours.getClosingHour();
     }
 
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    public int getOperatingHoursId() {
+        return this.OperatingHoursId;
     }
-    public void setOpeningHour(int openingHour) {
-        this.openingHour = openingHour;
-    }
-    public void setClosingHour(int closingHour) {
-        this.closingHour = closingHour;
-    }
-
+    
     public DayOfWeek getDayOfWeek() {
         return this.dayOfWeek;
     }

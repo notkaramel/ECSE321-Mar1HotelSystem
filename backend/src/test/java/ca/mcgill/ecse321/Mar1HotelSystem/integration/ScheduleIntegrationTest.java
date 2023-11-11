@@ -3,10 +3,13 @@ package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +32,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursResponseDto;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.OperatingHoursMultipleResponseDto;
-
+import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
@@ -57,20 +60,22 @@ public class ScheduleIntegrationTest {
         operatingHoursRepo.deleteAll();
     }
 
-    public void CreateOperatingHours(OperatingHoursRequestDto request) {
-
+    public int createOperatingHours(OperatingHoursRequestDto request) {
         ResponseEntity<OperatingHoursResponseDto> response = client.postForEntity("/operatingHours/create", request,
                 OperatingHoursResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(request.getDayOfWeek(), response.getBody().getDayOfWeek());
-        assertEquals(request.getOpeningHour(), response.getBody().getOpeningHour());
-        assertEquals(request.getClosingHour(), response.getBody().getClosingHour());
+
+        OperatingHoursResponseDto oh = response.getBody();
+        assertNotNull(oh);
+        assertEquals(request.getDayOfWeek(), oh.getDayOfWeek());
+        assertEquals(request.getOpeningHour(), oh.getOpeningHour());
+        assertEquals(request.getClosingHour(), oh.getClosingHour());
+        return oh.getOperatingHoursId();
     }
 
-    public void GetOperatingHoursByDay(OperatingHoursRequestDto request) {
+    public void getOperatingHoursByDay(OperatingHoursRequestDto request) {
         DayOfWeek day = request.getDayOfWeek();
 
         ResponseEntity<OperatingHoursResponseDto> response = client.getForEntity("/operatingHours/day/" + day,
@@ -78,81 +83,87 @@ public class ScheduleIntegrationTest {
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(request.getDayOfWeek(), response.getBody().getDayOfWeek());
-        assertEquals(request.getOpeningHour(), response.getBody().getOpeningHour());
-        assertEquals(request.getClosingHour(), response.getBody().getClosingHour());
+
+        OperatingHoursResponseDto oh = response.getBody();
+        assertNotNull(oh);
+        assertEquals(request.getDayOfWeek(), oh.getDayOfWeek());
+        assertEquals(request.getOpeningHour(), oh.getOpeningHour());
+        assertEquals(request.getClosingHour(), oh.getClosingHour());
     }
 
-    public void UpdateOperatingHours(OperatingHoursRequestDto updatedRequest) {
+    public void updateOperatingHours(OperatingHoursRequestDto updatedRequest) {
         DayOfWeek day = updatedRequest.getDayOfWeek();
         ResponseEntity<OperatingHoursResponseDto> response = client.postForEntity("/operatingHours/update",
                 updatedRequest, OperatingHoursResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(updatedRequest.getDayOfWeek(), response.getBody().getDayOfWeek());
-        assertEquals(updatedRequest.getOpeningHour(), response.getBody().getOpeningHour());
-        assertEquals(updatedRequest.getClosingHour(), response.getBody().getClosingHour());
+        OperatingHoursResponseDto oh = response.getBody();
+        assertNotNull(oh);
+        assertEquals(updatedRequest.getDayOfWeek(), oh.getDayOfWeek());
+        assertEquals(updatedRequest.getOpeningHour(), oh.getOpeningHour());
+        assertEquals(updatedRequest.getClosingHour(), oh.getClosingHour());
     }
 
-    public void GetAllOperatingHours() {
-
+    public List<OperatingHours> getAllOperatingHours() {
         ResponseEntity<OperatingHoursMultipleResponseDto> response = client.getForEntity("/operatingHours",
                 OperatingHoursMultipleResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+        OperatingHoursMultipleResponseDto multiOH = response.getBody();
+        assertNotNull(multiOH);
+        assertNotNull(multiOH.getOperatingHoursList());
+        assertEquals(2, multiOH.getOperatingHoursList().size());
         assertEquals(2, operatingHoursRepo.count());
+
+        List<OperatingHours> operatingHoursList = new ArrayList<OperatingHours>();
+        for (OperatingHoursResponseDto ohRD : multiOH.getOperatingHoursList()) {
+            OperatingHours operatingHoursModel = new OperatingHours(ohRD.getDayOfWeek(), ohRD.getOpeningHour(),
+                    ohRD.getClosingHour());
+            operatingHoursList.add(operatingHoursModel);
+        }
+
+        return operatingHoursList;
     }
 
     @Test
     public void testCreateUpdateAndGetOperatingHours() {
-        OperatingHoursRequestDto request = new OperatingHoursRequestDto();
-        request.setDayOfWeek(OperatingHours.DayOfWeek.Monday);
-        request.setOpeningHour(8);
-        request.setClosingHour(20);
+        OperatingHoursRequestDto request = new OperatingHoursRequestDto(DayOfWeek.Monday, 8, 20);
+        OperatingHoursRequestDto updatedRequest = new OperatingHoursRequestDto(DayOfWeek.Monday, 10, 22);
 
-        OperatingHoursRequestDto updatedRequest = new OperatingHoursRequestDto();
-        updatedRequest.setDayOfWeek(OperatingHours.DayOfWeek.Monday);
-        updatedRequest.setOpeningHour(10);
-        updatedRequest.setClosingHour(22);
-
-        CreateOperatingHours(request);
-        GetOperatingHoursByDay(request);
-        UpdateOperatingHours(updatedRequest);
+        createOperatingHours(request);
+        getOperatingHoursByDay(request);
+        updateOperatingHours(updatedRequest);
     }
 
     @Test
-    public void testGetAllOH() {
-        OperatingHoursRequestDto request = new OperatingHoursRequestDto();
-        request.setDayOfWeek(OperatingHours.DayOfWeek.Monday);
-        request.setOpeningHour(8);
-        request.setClosingHour(20);
-        CreateOperatingHours(request);
+    public void testCreateAndGetAllOH() {
+        OperatingHoursRequestDto request1 = new OperatingHoursRequestDto(DayOfWeek.Monday, 8, 20);
+        OperatingHoursRequestDto request2 = new OperatingHoursRequestDto(DayOfWeek.Tuesday, 8, 20);
 
-        OperatingHoursRequestDto request2 = new OperatingHoursRequestDto();
-        request2.setDayOfWeek(OperatingHours.DayOfWeek.Tuesday);
-        request2.setOpeningHour(8);
-        request2.setClosingHour(20);
-        CreateOperatingHours(request2);
-
-        GetAllOperatingHours();
+        int id1 = createOperatingHours(request1);
+        int id2 = createOperatingHours(request2);
+        List<OperatingHours> listOH = getAllOperatingHours();
+        assertEquals(2, listOH.size());
+        assertEquals(id1, listOH.get(0).getOperatingHoursId());
+        assertEquals(id2, listOH.get(1).getOperatingHoursId());
+        assertEquals(request1.getDayOfWeek().toString(), listOH.get(0).getDayOfWeek().toString());
     }
 
     // custom hours
-    public void CreateCustomHours(CustomHoursRequestDto request) {
+    public int createCustomHours(CustomHoursRequestDto request) {
         ResponseEntity<CustomHoursResponseDto> response = client.postForEntity("/customHours/create", request,
                 CustomHoursResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(request.getDate(), response.getBody().getDate());
-        assertEquals(request.getOpeningHour(), response.getBody().getOpeningHour());
-        assertEquals(request.getClosingHour(), response.getBody().getClosingHour());
+        CustomHoursResponseDto ch = response.getBody();
+        assertNotNull(ch);
+        assertEquals(request.getDate(), ch.getDate());
+        assertEquals(request.getOpeningHour(), ch.getOpeningHour());
+        assertEquals(request.getClosingHour(), ch.getClosingHour());
+        return ch.getCustomHoursId();
     }
 
     @Test
@@ -161,15 +172,12 @@ public class ScheduleIntegrationTest {
         calendar.set(2023, Calendar.FEBRUARY, 20);
         Date date = calendar.getTime();
 
-        CustomHoursRequestDto request = new CustomHoursRequestDto();
-        request.setDate(date);
-        request.setOpeningHour(8);
-        request.setClosingHour(20);
+        CustomHoursRequestDto request = new CustomHoursRequestDto(date, 8, 20);
 
-        CreateCustomHours(request);
+        createCustomHours(request);
     }
 
-    public void GetAllCustomHours() {
+    public void getAllCustomHours() {
         ResponseEntity<CustomHoursMultipleResponseDto> response = client.getForEntity("/customHours",
                 CustomHoursMultipleResponseDto.class);
 
@@ -182,27 +190,20 @@ public class ScheduleIntegrationTest {
     @Test
     public void testGetAllCustomHours() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2023, Calendar.FEBRUARY, 20, 0, 0, 0);
+        calendar.set(2023, Calendar.FEBRUARY, 20);
         Date date = calendar.getTime();
 
-        CustomHoursRequestDto request = new CustomHoursRequestDto();
-        request.setDate(date);
-        request.setOpeningHour(8);
-        request.setClosingHour(20);
+        CustomHoursRequestDto request = new CustomHoursRequestDto(date, 8, 20);
 
-        CreateCustomHours(request);
+        createCustomHours(request);
 
         calendar.set(2023, Calendar.FEBRUARY, 21, 0, 0, 0);
         Date date2 = calendar.getTime();
 
-        CustomHoursRequestDto request2 = new CustomHoursRequestDto();
-        request2.setDate(date2);
-        request2.setOpeningHour(8);
-        request2.setClosingHour(20);
+        CustomHoursRequestDto request2 = new CustomHoursRequestDto(date2, 8, 20);
 
-        CreateCustomHours(request2);
-
-        GetAllCustomHours();
+        createCustomHours(request2);
+        getAllCustomHours();
     }
 
     public void updateCustomHours(CustomHoursRequestDto request) {
@@ -225,146 +226,105 @@ public class ScheduleIntegrationTest {
         calendar.set(2023, Calendar.FEBRUARY, 20);
         Date date = calendar.getTime();
 
-        CustomHoursRequestDto ch = new CustomHoursRequestDto();
-        ch.setDate(date);
-        ch.setOpeningHour(8);
-        ch.setClosingHour(20);
-
-        CreateCustomHours(ch);
-
-        CustomHoursRequestDto request = new CustomHoursRequestDto();
-        request.setDate(date);
-        request.setOpeningHour(10);
-        request.setClosingHour(22);
-
+        CustomHoursRequestDto ch = new CustomHoursRequestDto(date, 8, 20);
+        createCustomHours(ch);
+        CustomHoursRequestDto request = new CustomHoursRequestDto(date, 10, 22);
         updateCustomHours(request);
 
     }
 
-    // hotel schedule
-
-    public void deleteCustomHourByDate(CustomHoursRequestDto request) {
-        Date date = request.getDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(date);
-
-        ResponseEntity<CustomHoursResponseDto> response = client.postForEntity("customHours/{date}" + dateString,
-                request, CustomHoursResponseDto.class); // TODO: fix issue with accessing based on date
+    public void getCustomHourById(int id) {
+        ResponseEntity<CustomHoursResponseDto> response = client.getForEntity("/customHours/id/" + id,CustomHoursResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(date, response.getBody().getDate());
-        assertEquals(request.getOpeningHour(), response.getBody().getOpeningHour());
-        assertEquals(request.getClosingHour(), response.getBody().getClosingHour());
+        CustomHoursResponseDto ch = response.getBody();
+        assertNotNull(ch);
+        assertEquals(id, ch.getCustomHoursId());
     }
 
-    @Test // TODO: try to use ID instead of date
-    public void testDeleteCustomHourByDate() {
+    @Test
+    public void testGetCustomHourById() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2023, Calendar.FEBRUARY, 20);
         Date date = calendar.getTime();
 
-        CustomHoursRequestDto ch = new CustomHoursRequestDto();
-        ch.setDate(date);
-        ch.setOpeningHour(8);
-        ch.setClosingHour(20);
-
-        CreateCustomHours(ch);
-
-        deleteCustomHourByDate(ch);
+        CustomHoursRequestDto ch = new CustomHoursRequestDto(date, 8, 20);
+        int ch_id = createCustomHours(ch);
+        getCustomHourById(ch_id);
     }
 
-    public void createHotelSchedule(HotelScheduleRequestDto request) {
+    // --- HOTEL SCHEDULE INTEGRATION TESTS ---
 
-        ResponseEntity<HotelScheduleResponseDto> response = client.postForEntity("/hotelSchedule/create", request,
+    public void createHotelSchedule(HotelScheduleRequestDto hotelScheduleRequestDto) {
+        ResponseEntity<HotelScheduleResponseDto> response = client.postForEntity("/hotelSchedule/create", hotelScheduleRequestDto,
                 HotelScheduleResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(request.getYear(), response.getBody().getYear());
-        assertEquals(request.getOperatingHoursIdList(), response.getBody().getOperatingHoursList());
-        assertEquals(request.getCustomHoursIdList(), response.getBody().getCustomHoursList());
+
+        HotelScheduleResponseDto hs = response.getBody();
+        assertNotNull(hs);
+        assertEquals(hotelScheduleRequestDto.getYear(), hs.getYear());
+        assertEquals(hotelScheduleRequestDto.getOperatingHoursIdList(), hs.getOperatingHoursList());
+        assertEquals(hotelScheduleRequestDto.getCustomHoursIdList(), hs.getCustomHoursList());
     }
 
-    // @Test
-    // public void testCreateHotelSchedule(){
-    // Calendar calendar = Calendar.getInstance();
-    // calendar.set(2023, Calendar.FEBRUARY, 20);
-    // Date date1 = calendar.getTime();
+    @Test
+    public void testCreateHotelSchedule() {
+        OperatingHoursRequestDto oh1 = new OperatingHoursRequestDto(DayOfWeek.Monday, 8, 20);
+        OperatingHoursRequestDto oh2 = new OperatingHoursRequestDto(DayOfWeek.Tuesday, 8, 20);
+        OperatingHoursRequestDto oh3 = new OperatingHoursRequestDto(DayOfWeek.Wednesday, 8, 16);
 
-    // CustomHours ch1 = new CustomHours();
-    // ch1.setDate(date1);
-    // ch1.setOpeningHour(10);
-    // ch1.setClosingHour(11);
+        int id_oh1 = createOperatingHours(oh1);
+        int id_oh2 = createOperatingHours(oh2);
+        int id_oh3 = createOperatingHours(oh3);
+        int[] ids_oh = { id_oh1, id_oh2, id_oh3 };
 
-    // OperatingHours oh1 = new OperatingHours();
-    // oh1.setDayOfWeek(OperatingHours.DayOfWeek.Monday);
-    // oh1.setOpeningHour(8);
-    // oh1.setClosingHour(20);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2023, Calendar.FEBRUARY, 20);
+        Date date = calendar.getTime();
+        CustomHoursRequestDto ch1 = new CustomHoursRequestDto(date, 10, 24);
 
-    // OperatingHours oh2 = new OperatingHours();
-    // oh2.setDayOfWeek(OperatingHours.DayOfWeek.Tuesday);
-    // oh2.setOpeningHour(8);
-    // oh2.setClosingHour(20);
+        int id_ch1 = createCustomHours(ch1);
+        int[] ids_ch = { id_ch1 };
 
-    // OperatingHours[] operatingHoursArray = {oh1, oh2};
-    // CustomHours[] customHoursArray = {ch1};
+        HotelScheduleRequestDto hotelScheduleRequest = new HotelScheduleRequestDto(2023, ids_oh, ids_ch);
+        createHotelSchedule(hotelScheduleRequest);
+    }
 
-    // HotelScheduleRequestDto request = new HotelScheduleRequestDto();
-    // request.setOperatingHoursList(operatingHoursArray);
-    // request.setCustomHoursList(customHoursArray);
-    // request.setYear(2023);
-
-    // createHotelSchedule(request);
-
-    // }
-
-    public void getHotelScheduleByYear(HotelScheduleRequestDto request) {
-        int year = request.getYear();
-
+    public void getHotelScheduleByYear(int year) {
         ResponseEntity<HotelScheduleResponseDto> response = client.getForEntity("/hotelSchedule/year/" + year,
                 HotelScheduleResponseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(request.getYear(), response.getBody().getYear());
-        assertEquals(request.getOperatingHoursIdList(), response.getBody().getOperatingHoursList());
-        assertEquals(request.getCustomHoursIdList(), response.getBody().getCustomHoursList());
+        HotelScheduleResponseDto hs = response.getBody();
+        assertNotNull(hs);
+        assertEquals(year, hs.getYear());
     }
 
-    // @Test
-    // public void testGetHotelScheduleByYear(){
-    // Calendar calendar = Calendar.getInstance();
-    // calendar.set(2023, Calendar.FEBRUARY, 20);
-    // Date date1 = calendar.getTime();
+    @Test
+    public void testGetHotelScheduleByYear() {
+        OperatingHoursRequestDto oh1 = new OperatingHoursRequestDto(DayOfWeek.Monday, 8, 20);
+        OperatingHoursRequestDto oh2 = new OperatingHoursRequestDto(DayOfWeek.Tuesday, 8, 20);
+        OperatingHoursRequestDto oh3 = new OperatingHoursRequestDto(DayOfWeek.Wednesday, 8, 16);
 
-    // CustomHours ch1 = new CustomHours();
-    // ch1.setDate(date1);
-    // ch1.setOpeningHour(10);
-    // ch1.setClosingHour(11);
+        int id_oh1 = createOperatingHours(oh1);
+        int id_oh2 = createOperatingHours(oh2);
+        int id_oh3 = createOperatingHours(oh3);
+        int[] ids_oh = { id_oh1, id_oh2, id_oh3 };
 
-    // OperatingHours oh1 = new OperatingHours();
-    // oh1.setDayOfWeek(OperatingHours.DayOfWeek.Monday);
-    // oh1.setOpeningHour(8);
-    // oh1.setClosingHour(20);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2023, Calendar.FEBRUARY, 20);
+        Date date = calendar.getTime();
+        CustomHoursRequestDto ch1 = new CustomHoursRequestDto(date, 10, 24);
 
-    // OperatingHours oh2 = new OperatingHours();
-    // oh2.setDayOfWeek(OperatingHours.DayOfWeek.Tuesday);
-    // oh2.setOpeningHour(8);
-    // oh2.setClosingHour(20);
+        int id_ch1 = createCustomHours(ch1);
+        int[] ids_ch = { id_ch1 };
 
-    // OperatingHours[] operatingHoursArray = {oh1, oh2};
-    // CustomHours[] customHoursArray = {ch1};
-
-    // HotelScheduleRequestDto request = new HotelScheduleRequestDto();
-    // request.setOperatingHoursList(operatingHoursArray);
-    // request.setCustomHoursList(customHoursArray);
-    // request.setYear(2023);
-
-    // createHotelSchedule(request);
-    // getHotelScheduleByYear(request);
-    // }
+        HotelScheduleRequestDto hotelScheduleRequest = new HotelScheduleRequestDto(2023, ids_oh, ids_ch);
+        createHotelSchedule(hotelScheduleRequest);
+        getHotelScheduleByYear(2023);
+    }
 }

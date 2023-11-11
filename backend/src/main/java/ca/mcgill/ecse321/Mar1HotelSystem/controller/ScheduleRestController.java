@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +38,7 @@ public class ScheduleRestController {
     @Autowired
     private ScheduleService service;
 
-    //operating hours
+    // Operating Hours
     @GetMapping(value = {"/operatingHours/day/{day}"}) 
     public ResponseEntity<OperatingHoursResponseDto> getOperatingHoursByDay(@PathVariable("day") DayOfWeek day) {
         OperatingHours oh = service.getOperatingHoursByDay(day);
@@ -45,18 +47,16 @@ public class ScheduleRestController {
 
     @GetMapping(value = {"/operatingHours"}) 
     public ResponseEntity<OperatingHoursMultipleResponseDto> getAllOperatingHours() {
-        Iterable<OperatingHours> ohList = service.getAllOperatingHours();
+        List<OperatingHours> ohList = service.getAllOperatingHours();
         OperatingHoursMultipleResponseDto ohResponse = new OperatingHoursMultipleResponseDto(ohList);
         return new ResponseEntity<OperatingHoursMultipleResponseDto>(ohResponse, HttpStatus.OK);
     }
     
     @PostMapping(value = {"/operatingHours/create"}) 
     public ResponseEntity<OperatingHoursResponseDto> createOperatingHours(@RequestBody OperatingHoursRequestDto request) {
-        OperatingHours ohToCreate = request.toModel();
-
-        DayOfWeek day = ohToCreate.getDayOfWeek();
-        int openingHour = ohToCreate.getOpeningHour();
-        int closingHour = ohToCreate.getClosingHour();
+        DayOfWeek day = request.getDayOfWeek();
+        int openingHour = request.getOpeningHour();
+        int closingHour = request.getClosingHour();
 
         OperatingHours oh = service.createOperatingHours(day, openingHour, closingHour);
     
@@ -64,25 +64,36 @@ public class ScheduleRestController {
         return new ResponseEntity<OperatingHoursResponseDto>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = {"/operatingHours/update"})
+    @PutMapping(value = {"/operatingHours/update"})
     public ResponseEntity<OperatingHoursResponseDto> updateOperatingHours(@RequestBody OperatingHoursRequestDto request) {
-        OperatingHours ohToUpdate = request.toModel();
-
-        DayOfWeek day = ohToUpdate.getDayOfWeek();
-        int openingHour = ohToUpdate.getOpeningHour();
-        int closingHour = ohToUpdate.getClosingHour();
+        DayOfWeek day = request.getDayOfWeek();
+        int openingHour = request.getOpeningHour();
+        int closingHour = request.getClosingHour();
 
         OperatingHours oh = service.updateOperatingHoursByDay(day, openingHour, closingHour);
     
         OperatingHoursResponseDto response = new OperatingHoursResponseDto(oh);
         return new ResponseEntity<OperatingHoursResponseDto>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping(value = {"/operatingHours/delete/{day}"})
+    public ResponseEntity<OperatingHoursResponseDto> deleteOperatingHoursByDay(@PathVariable("day") DayOfWeek day) {
+        OperatingHours deletedOperatingHours = service.deleteOperatingHoursByDay(day);
+        return new ResponseEntity<OperatingHoursResponseDto>(new OperatingHoursResponseDto(deletedOperatingHours), HttpStatus.OK);
+    }
+
     
 
-    //custom hours
+    // Custom Hours
     @GetMapping( value = {"/customHours/date/{date}"})
     public ResponseEntity<CustomHoursResponseDto> getCustomHoursByDate(@PathVariable("date") Date date) {
         CustomHours ch = service.getCustomHoursByDate(date);
+        return new ResponseEntity<CustomHoursResponseDto>(new CustomHoursResponseDto(ch), HttpStatus.OK);
+    }
+
+    @GetMapping("/customHours/id/{id}")
+    public ResponseEntity<CustomHoursResponseDto> getCustomHoursById(@PathVariable("id") int id) {
+        CustomHours ch = service.getCustomHoursById(id);
         return new ResponseEntity<CustomHoursResponseDto>(new CustomHoursResponseDto(ch), HttpStatus.OK);
     }
 
@@ -121,7 +132,7 @@ public class ScheduleRestController {
         return new ResponseEntity<CustomHoursResponseDto>(response, HttpStatus.OK);
     }
     
-    @DeleteMapping(value = {"customHours/{date}"})
+    @DeleteMapping(value = {"customHours/delete/{date}"})
     public ResponseEntity<CustomHoursResponseDto> deleteCustomHoursByDate(@PathVariable("date") Date date) {
         CustomHours deletedCustomHours = service.deleteCustomHoursByDate(date);
         return new ResponseEntity<CustomHoursResponseDto>(new CustomHoursResponseDto(deletedCustomHours), HttpStatus.OK);
@@ -142,8 +153,8 @@ public class ScheduleRestController {
     }
 
     @PostMapping(value = {"/hotelSchedule/create"})
-    public ResponseEntity<HotelScheduleResponseDto> createHotelSchedule(@RequestBody HotelScheduleRequestDto request) {
-        HotelSchedule hs = service.createHotelSchedule(request);
+    public ResponseEntity<HotelScheduleResponseDto> createHotelSchedule(@RequestBody HotelScheduleRequestDto hotelScheduleRequestDto) {
+        HotelSchedule hs = service.createHotelSchedule(hotelScheduleRequestDto);
         HotelScheduleResponseDto response = new HotelScheduleResponseDto(hs);
         return new ResponseEntity<HotelScheduleResponseDto>(response, HttpStatus.CREATED);
     }

@@ -1,36 +1,35 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
+import java.util.List;
+
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 
 public class HotelScheduleResponseDto {
     private int year;
-    private CustomHours[] customHoursList;
-    private OperatingHours[] operatingHoursList;
+    private List<OperatingHours> operatingHoursList;
+    private List<CustomHours> customHoursList;
 
     public HotelScheduleResponseDto() {
     }
 
-    public HotelScheduleResponseDto(int year, CustomHours[] customHoursList, OperatingHours[] operatingHoursList) {
-        this.year = year;
-        this.customHoursList = customHoursList;
-        this.operatingHoursList = operatingHoursList;
+    public HotelScheduleResponseDto(HotelSchedule hotelSchedule) {
+        this.year = hotelSchedule.getYear();
+        this.operatingHoursList = hotelSchedule.getOperatingHours();
+        this.customHoursList = hotelSchedule.getCustomHours();
     }
-
-    public HotelScheduleResponseDto(Boolean hs) {} 
-
-    public HotelScheduleResponseDto(HotelSchedule i) {
-	}
 
 	public int getYear() {
         return this.year;
     }
-    public CustomHours[] getCustomHoursList() {
-        return this.customHoursList;
-    }
-    public OperatingHours[] getOperatingHoursList() {
+
+    public List<OperatingHours> getOperatingHoursList() {
         return this.operatingHoursList;
+    }
+
+    public List<CustomHours> getCustomHoursList() {
+        return this.customHoursList;
     }
 
     

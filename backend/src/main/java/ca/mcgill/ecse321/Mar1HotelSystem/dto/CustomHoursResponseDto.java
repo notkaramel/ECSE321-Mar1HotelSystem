@@ -5,6 +5,7 @@ import java.util.Date;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 
 public class CustomHoursResponseDto {
+    private int customHoursId;
     private Date date;
     private int openingHour;
     private int closingHour;
@@ -13,6 +14,7 @@ public class CustomHoursResponseDto {
     }
 
     public CustomHoursResponseDto(CustomHours customHour) {
+        this.customHoursId = customHour.getCustomHoursId();
         this.date = customHour.getDate();
         this.openingHour = customHour.getOpeningHour();
         this.closingHour = customHour.getClosingHour();
@@ -26,6 +28,10 @@ public class CustomHoursResponseDto {
     }
     public int getClosingHour() {
         return this.closingHour;
+    }
+
+    public int getCustomHoursId() {
+        return this.customHoursId;
     }
 
 }

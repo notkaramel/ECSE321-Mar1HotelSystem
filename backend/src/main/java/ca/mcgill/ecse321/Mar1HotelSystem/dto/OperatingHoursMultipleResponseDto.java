@@ -7,20 +7,20 @@ import java.util.List;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 
 public class OperatingHoursMultipleResponseDto {
-     private Iterable<OperatingHoursResponseDto> operatingHours;
+    private List<OperatingHoursResponseDto> operatingHoursList;
 
-     public OperatingHoursMultipleResponseDto() {
+    public OperatingHoursMultipleResponseDto() {
     }
 
-     public OperatingHoursMultipleResponseDto(Iterable<OperatingHours> operatingHours) {
-        List<OperatingHoursResponseDto> operatingHoursDtos = new ArrayList<OperatingHoursResponseDto>();
-        for (OperatingHours i : operatingHours) {
-            operatingHoursDtos.add(new OperatingHoursResponseDto(i));
+    public OperatingHoursMultipleResponseDto(List<OperatingHours> operatingHours) {
+        List<OperatingHoursResponseDto> operatingHoursDtoList = new ArrayList<>();
+        for (OperatingHours oh_i : operatingHours) {
+            operatingHoursDtoList.add(new OperatingHoursResponseDto(oh_i));
         }
-        this.operatingHours = operatingHoursDtos;
-     }
+        this.operatingHoursList = operatingHoursDtoList;
+    }
 
-     public Iterable<OperatingHoursResponseDto> getAllOperatingHours() {
-         return this.operatingHours;
-     } 
+    public List<OperatingHoursResponseDto> getOperatingHoursList() {
+        return this.operatingHoursList;
+    }
 }

@@ -7,7 +7,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 
 public class CustomHoursMultipleResponseDto {
 
-    private Iterable<CustomHoursResponseDto> customHours;
+    private Iterable<CustomHoursResponseDto> customHoursList;
 
     public CustomHoursMultipleResponseDto() {
     }
@@ -17,10 +17,10 @@ public class CustomHoursMultipleResponseDto {
         for (CustomHours i : customHours) {
             customHoursDtos.add(new CustomHoursResponseDto(i));
         }
-        this.customHours = customHoursDtos;
+        this.customHoursList = customHoursDtos;
     }
 
     public Iterable<CustomHoursResponseDto> getAllCustomHours() {
-        return this.customHours;
+        return this.customHoursList;
     }
 }

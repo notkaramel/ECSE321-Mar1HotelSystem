@@ -12,26 +12,24 @@ public class CustomHoursRequestDto {
     public CustomHoursRequestDto() {
     }
 
-    public void setDate(Date date) {
+    public CustomHoursRequestDto(Date date, int openingHour, int closingHour) {
         this.date = date;
-    }
-    public void setOpeningHour(int operatingHour) {
-        this.openingHour = operatingHour;
-    }
-    public void setClosingHour(int closingHour) {
+        this.openingHour = openingHour;
         this.closingHour = closingHour;
     }
 
     public Date getDate() {
         return this.date;
     }
+
     public int getOpeningHour() {
         return this.openingHour;
     }
+
     public int getClosingHour() {
         return this.closingHour;
     }
-    
+
     public CustomHours toModel() {
         CustomHours customHours = new CustomHours();
         customHours.setDate(this.date);

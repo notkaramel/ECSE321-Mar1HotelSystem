@@ -64,10 +64,7 @@ public class ScheduleService {
 
     @Transactional
     public OperatingHours updateOperatingHoursByDay(DayOfWeek day, int openingHour, int closingHour) {
-        OperatingHours toBeChangedOH = operatingHoursRepository.findOperatingHoursByDay(day);
-        if (toBeChangedOH == null){
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours on " + day + ".");
-        }
+        OperatingHours toBeChangedOH = this.getOperatingHoursByDay(day);
         toBeChangedOH.setOpeningHour(openingHour);
         toBeChangedOH.setClosingHour(closingHour);
         operatingHoursRepository.save(toBeChangedOH);
@@ -77,16 +74,23 @@ public class ScheduleService {
     @Transactional
     public OperatingHours getOperatingHoursByDay(DayOfWeek day) {
         OperatingHours oh = operatingHoursRepository.findOperatingHoursByDay(day);
-        if (oh == null){
+        if (oh == null) {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours on " + day + ".");
         }
         return oh;
     }
 
     @Transactional
+    public OperatingHours deleteOperatingHoursByDay(DayOfWeek day) {
+        OperatingHours toBeDeletedOH = this.getOperatingHoursByDay(day);
+        operatingHoursRepository.delete(toBeDeletedOH);
+        return toBeDeletedOH;
+    }
+
+    @Transactional
     public OperatingHours getOperatingHoursById(int id) {
         OperatingHours oh = operatingHoursRepository.findOperatingHoursByOperatingHoursId(id);
-        if (oh == null){
+        if (oh == null) {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours of id " + id + ".");
         }
         return oh;
@@ -103,6 +107,26 @@ public class ScheduleService {
         CustomHours newCH = new CustomHours(date, openingHour, closingHour);
         customHoursRepository.save(newCH);
         return newCH;
+    }
+
+    @Transactional
+    public CustomHours getCustomHoursByDate(Date date) {
+        // Note that getting CustomHours by date is more complicated for the Controller
+        // to handle, so we suggest using `getCustomHoursById` instead
+        CustomHours ch = customHoursRepository.findCustomHoursByDate(date);
+        if (ch == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours on " + date + ".");
+        }
+        return ch;
+    }
+
+    @Transactional
+    public CustomHours getCustomHoursById(int id) {
+        CustomHours ch = customHoursRepository.findCustomHoursByCustomHoursId(id);
+        if (ch == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours of id " + id + ".");
+        }
+        return ch;
     }
 
     @Transactional
@@ -124,72 +148,54 @@ public class ScheduleService {
     }
 
     @Transactional
-    public CustomHours getCustomHoursByDate(Date date) {
-        CustomHours ch = customHoursRepository.findCustomHoursByDate(date);
-        if (ch == null){
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours on " + date + ".");
-        }
-        return ch;
-    }
-
-    @Transactional
-    public CustomHours getCustomHoursById(int id) {
-        CustomHours ch = customHoursRepository.findCustomHoursByCustomHoursId(id);
-        if (ch == null){
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours of id " + id + ".");
-        }
-        return ch;
-    }
-
-    @Transactional
     public List<CustomHours> getAllCustomHours() {
         return ServiceUtils.toList(customHoursRepository.findAll());
     }
 
     @Transactional
     public CustomHours deleteCustomHoursByDate(Date date) {
-        CustomHours toBeDeletedCH = customHoursRepository.findCustomHoursByDate(date);
-        if (toBeDeletedCH == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours on " + date + ".");
-        }
+        // Similar warning as `getCustomHoursByDate`
+        CustomHours toBeDeletedCH = this.getCustomHoursByDate(date);
+        customHoursRepository.delete(toBeDeletedCH);
+        return toBeDeletedCH;
+    }
+
+    @Transactional
+    public CustomHours deleteCustomHoursById(int id) {
+        CustomHours toBeDeletedCH = this.getCustomHoursById(id);
         customHoursRepository.delete(toBeDeletedCH);
         return toBeDeletedCH;
     }
 
     // Hotel Schedule Service Methods
     @Transactional
-    public HotelSchedule createHotelSchedule(HotelScheduleRequestDto request) {
-        int year = request.getYear();
+    public HotelSchedule createHotelSchedule(HotelScheduleRequestDto hotelScheduleRequestDto) {
+        int year = hotelScheduleRequestDto.getYear();
 
-        // Find all OperatingHours and CustomHours in the database, based on the list of Ids in request
+        // Find all OperatingHours and CustomHours in the database, based on the list of
+        // Ids in request
         List<CustomHours> customHoursList = new ArrayList<>();
-        for (int chId : request.getCustomHoursIdList()) {
-            CustomHours ch = customHoursRepository.findCustomHoursByCustomHoursId(chId);
-            if (ch == null) {
-                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours of id " + chId + ".");
-            }
+        for (int chId : hotelScheduleRequestDto.getCustomHoursIdList()) {
+            CustomHours ch = this.getCustomHoursById(chId);
             customHoursList.add(ch);
         }
 
         List<OperatingHours> operatingHoursList = new ArrayList<>();
-        for (int ohId : request.getOperatingHoursIdList()) {
-            OperatingHours oh = operatingHoursRepository.findOperatingHoursByOperatingHoursId(ohId);
-            if (oh == null) {
-                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours of id " + ohId + ".");
-            }
+        for (int ohId : hotelScheduleRequestDto.getOperatingHoursIdList()) {
+            OperatingHours oh = this.getOperatingHoursById(ohId); 
             operatingHoursList.add(oh);
         }
-        HotelSchedule newHS = new HotelSchedule(year, operatingHoursList, customHoursList);
-
-        hotelScheduleRepository.save(newHS);
+        
+        HotelSchedule newHS = new HotelSchedule(year, operatingHoursList, customHoursList);        hotelScheduleRepository.save(newHS);
         return newHS;
     }
 
     @Transactional
     public HotelSchedule getHotelScheduleByYear(int year) {
         HotelSchedule hs = hotelScheduleRepository.findHotelScheduleByYear(year);
-        if (hs == null){
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find HotelSchedule of year " + year + ".");
+        if (hs == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "Could not find HotelSchedule of year " + year + ".");
         }
         return hs;
     }
@@ -205,7 +211,8 @@ public class ScheduleService {
         try {
             hotelScheduleRepository.delete(deletedHS);
         } catch (Exception e) {
-            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Could not delete HotelSchedule of year " + year + ".");
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST,
+                    "Could not delete HotelSchedule of year " + year + ".");
         }
         return deletedHS;
     }

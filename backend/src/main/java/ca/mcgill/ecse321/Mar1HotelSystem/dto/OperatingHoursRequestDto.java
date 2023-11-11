@@ -1,5 +1,4 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.dto;
-import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 
 public class OperatingHoursRequestDto{
@@ -10,14 +9,10 @@ public class OperatingHoursRequestDto{
 
     public OperatingHoursRequestDto() {
     }
-    
-    public void setDayOfWeek(DayOfWeek day) {
+
+    public OperatingHoursRequestDto(DayOfWeek day, int openingHour, int closingHour) {
         this.dayOfWeek = day;
-    }
-    public void setOpeningHour(int openingHour) {
         this.openingHour = openingHour;
-    }
-    public void setClosingHour(int closingHour) {
         this.closingHour = closingHour;
     }
 
@@ -29,13 +24,5 @@ public class OperatingHoursRequestDto{
     }
     public int getClosingHour() {
         return this.closingHour;
-    }
-
-    public OperatingHours toModel() {
-        OperatingHours operatingHours = new OperatingHours();
-        operatingHours.setDayOfWeek(this.dayOfWeek);
-        operatingHours.setOpeningHour(this.openingHour);
-        operatingHours.setClosingHour(this.closingHour);
-        return operatingHours;
     }
 }
