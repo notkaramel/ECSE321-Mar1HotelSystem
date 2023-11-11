@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,7 +72,7 @@ public class ScheduleRestController {
         int openingHour = ohToUpdate.getOpeningHour();
         int closingHour = ohToUpdate.getClosingHour();
 
-        OperatingHours oh = service.updateOperatingHours(day, openingHour, closingHour);
+        OperatingHours oh = service.updateOperatingHoursByDay(day, openingHour, closingHour);
     
         OperatingHoursResponseDto response = new OperatingHoursResponseDto(oh);
         return new ResponseEntity<OperatingHoursResponseDto>(response, HttpStatus.OK);
@@ -116,7 +115,7 @@ public class ScheduleRestController {
         int openingHour = chToUpdate.getOpeningHour();
         int closingHour = chToUpdate.getClosingHour();
 
-        CustomHours ch = service.updateCustomHours(date, openingHour, closingHour);
+        CustomHours ch = service.updateCustomHoursByDate(date, openingHour, closingHour);
     
         CustomHoursResponseDto response = new CustomHoursResponseDto(ch);
         return new ResponseEntity<CustomHoursResponseDto>(response, HttpStatus.OK);
@@ -124,8 +123,8 @@ public class ScheduleRestController {
     
     @DeleteMapping(value = {"customHours/{date}"})
     public ResponseEntity<CustomHoursResponseDto> deleteCustomHoursByDate(@PathVariable("date") Date date) {
-        Boolean isDeleted = service.deleteCustomHours(date);
-        return new ResponseEntity<CustomHoursResponseDto>(new CustomHoursResponseDto(isDeleted), HttpStatus.OK);
+        CustomHours deletedCustomHours = service.deleteCustomHoursByDate(date);
+        return new ResponseEntity<CustomHoursResponseDto>(new CustomHoursResponseDto(deletedCustomHours), HttpStatus.OK);
     }
 
     //hotel schedule
@@ -144,30 +143,18 @@ public class ScheduleRestController {
 
     @PostMapping(value = {"/hotelSchedule/create"})
     public ResponseEntity<HotelScheduleResponseDto> createHotelSchedule(@RequestBody HotelScheduleRequestDto request) {
-        HotelSchedule hsToCreate = request.toModel();
-
-        int year = hsToCreate.getYear();
-        List<OperatingHours> ohList = hsToCreate.getOperatingHours();
-        List<CustomHours> chList = hsToCreate.getCustomHours();
-        
-        OperatingHours[] operatingHoursArray = ohList.toArray(new OperatingHours[0]);
-        CustomHours[] customHoursArray = chList.toArray(new CustomHours[0]);
-
-        HotelSchedule hs = service.createHotelSchedule(year, operatingHoursArray, customHoursArray);
-    
+        HotelSchedule hs = service.createHotelSchedule(request);
         HotelScheduleResponseDto response = new HotelScheduleResponseDto(hs);
         return new ResponseEntity<HotelScheduleResponseDto>(response, HttpStatus.CREATED);
     }
 
     @PostMapping(value = {"/hotelSchedule/delete"})
     public ResponseEntity<HotelScheduleResponseDto> deleteHotelSchedule(@RequestBody HotelScheduleRequestDto request) {
-        HotelSchedule hsToDelete = request.toModel();
+        int year = request.getYear();
 
-        int year = hsToDelete.getYear();
-
-        boolean hs = service.deleteHotelSchedule(year);
+        HotelSchedule deletedHs = service.deleteHotelSchedule(year);
     
-        HotelScheduleResponseDto response = new HotelScheduleResponseDto(hs); 
+        HotelScheduleResponseDto response = new HotelScheduleResponseDto(deletedHs); 
         return new ResponseEntity<HotelScheduleResponseDto>(response, HttpStatus.OK); 
     }
 }

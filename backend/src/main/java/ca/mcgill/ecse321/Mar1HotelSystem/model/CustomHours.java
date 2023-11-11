@@ -35,6 +35,9 @@ public class CustomHours {
     }
 
     // Getters
+    public int getCustomHoursId() {
+        return this.customHoursId;
+    }
     // Method to get date, returns date
     public Date getDate() {
         return this.date;
@@ -52,6 +55,11 @@ public class CustomHours {
 
     // Setters
     // Method to set date, returns true if date set
+    public boolean setCustomHoursId(int customHoursId) {
+        this.customHoursId = customHoursId;
+        return true;
+    }
+    
     public boolean setDate(Date date) {
         this.date = date;
         return true;

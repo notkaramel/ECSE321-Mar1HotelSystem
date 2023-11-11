@@ -3,7 +3,9 @@ package ca.mcgill.ecse321.Mar1HotelSystem.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,13 +98,11 @@ public class BookingRepositoryTest {
         CustomHours customHours = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
 
-        CustomHours[] customHoursArray = new CustomHours[1];
-        OperatingHours[] operatingHoursArray = new OperatingHours[1];
         customHoursRepository.save(customHours);
         operatingHoursRepository.save(operatingHours);
 
-        customHoursArray[0] = customHours;
-        operatingHoursArray[0] = operatingHours;
+        List<CustomHours> customHoursArray = Arrays.asList(customHours);
+        List<OperatingHours> operatingHoursArray = Arrays.asList(operatingHours);
 
         // Create and Save HotelSchedule and Hotel Object
         HotelSchedule hotelSchedule = hotelScheduleRepository.findHotelScheduleByYear(2023);

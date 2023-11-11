@@ -1,14 +1,17 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.annotations.TimeZoneStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
@@ -60,8 +63,11 @@ public class ScheduleService {
     }
 
     @Transactional
-    public OperatingHours updateOperatingHours(DayOfWeek day, int openingHour, int closingHour) {
+    public OperatingHours updateOperatingHoursByDay(DayOfWeek day, int openingHour, int closingHour) {
         OperatingHours toBeChangedOH = operatingHoursRepository.findOperatingHoursByDay(day);
+        if (toBeChangedOH == null){
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours on " + day + ".");
+        }
         toBeChangedOH.setOpeningHour(openingHour);
         toBeChangedOH.setClosingHour(closingHour);
         operatingHoursRepository.save(toBeChangedOH);
@@ -70,7 +76,20 @@ public class ScheduleService {
 
     @Transactional
     public OperatingHours getOperatingHoursByDay(DayOfWeek day) {
-        return operatingHoursRepository.findOperatingHoursByDay(day);
+        OperatingHours oh = operatingHoursRepository.findOperatingHoursByDay(day);
+        if (oh == null){
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours on " + day + ".");
+        }
+        return oh;
+    }
+
+    @Transactional
+    public OperatingHours getOperatingHoursById(int id) {
+        OperatingHours oh = operatingHoursRepository.findOperatingHoursByOperatingHoursId(id);
+        if (oh == null){
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours of id " + id + ".");
+        }
+        return oh;
     }
 
     @Transactional
@@ -87,8 +106,17 @@ public class ScheduleService {
     }
 
     @Transactional
-    public CustomHours updateCustomHours(Date date, int openingHour, int closingHour) {
-        CustomHours toBeChangedCH = customHoursRepository.findCustomHoursByDate(date);
+    public CustomHours updateCustomHoursByDate(Date date, int openingHour, int closingHour) {
+        CustomHours toBeChangedCH = this.getCustomHoursByDate(date);
+        toBeChangedCH.setOpeningHour(openingHour);
+        toBeChangedCH.setClosingHour(closingHour);
+        customHoursRepository.save(toBeChangedCH);
+        return toBeChangedCH;
+    }
+
+    @Transactional
+    public CustomHours updateCustomHoursById(int id, int openingHour, int closingHour) {
+        CustomHours toBeChangedCH = this.getCustomHoursById(id);
         toBeChangedCH.setOpeningHour(openingHour);
         toBeChangedCH.setClosingHour(closingHour);
         customHoursRepository.save(toBeChangedCH);
@@ -97,7 +125,20 @@ public class ScheduleService {
 
     @Transactional
     public CustomHours getCustomHoursByDate(Date date) {
-        return customHoursRepository.findCustomHoursByDate(date);
+        CustomHours ch = customHoursRepository.findCustomHoursByDate(date);
+        if (ch == null){
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours on " + date + ".");
+        }
+        return ch;
+    }
+
+    @Transactional
+    public CustomHours getCustomHoursById(int id) {
+        CustomHours ch = customHoursRepository.findCustomHoursByCustomHoursId(id);
+        if (ch == null){
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours of id " + id + ".");
+        }
+        return ch;
     }
 
     @Transactional
@@ -106,30 +147,44 @@ public class ScheduleService {
     }
 
     @Transactional
-    public boolean deleteCustomHours(Date date) {
+    public CustomHours deleteCustomHoursByDate(Date date) {
         CustomHours toBeDeletedCH = customHoursRepository.findCustomHoursByDate(date);
         if (toBeDeletedCH == null) {
-            return false;
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours on " + date + ".");
         }
         customHoursRepository.delete(toBeDeletedCH);
-        return true;
+        return toBeDeletedCH;
     }
 
     // Hotel Schedule Service Methods
     @Transactional
-    public HotelSchedule createHotelSchedule(int year,
-            OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
+    public HotelSchedule createHotelSchedule(HotelScheduleRequestDto request) {
         HotelSchedule newHS = new HotelSchedule();
-        newHS.setYear(year);
+        newHS.setYear(request.getYear());
+
+        // Find all OperatingHours and CustomHours in the database, based on the list of Ids in request
+        List<CustomHours> customHoursList = new ArrayList<>();
+        for (int chId : request.getCustomHoursIdList()) {
+            CustomHours ch = customHoursRepository.findCustomHoursByCustomHoursId(chId);
+            if (ch == null) {
+                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find CustomHours of id " + chId + ".");
+            }
+            customHoursList.add(ch);
+        }
+
+        List<OperatingHours> operatingHoursList = new ArrayList<>();
+        for (int ohId : request.getOperatingHoursIdList()) {
+            OperatingHours oh = operatingHoursRepository.findOperatingHoursByOperatingHoursId(ohId);
+            if (oh == null) {
+                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find OperatingHours of id " + ohId + ".");
+            }
+            operatingHoursList.add(oh);
+        }
         newHS.setOperatingHours(operatingHoursList);
         newHS.setCustomHours(customHoursList);
+
         hotelScheduleRepository.save(newHS);
         return newHS;
-    }
-
-    @Transactional
-    public List<HotelSchedule> getAllHotelSchedules() {
-        return ServiceUtils.toList(hotelScheduleRepository.findAll());
     }
 
     @Transactional
@@ -138,14 +193,22 @@ public class ScheduleService {
     }
 
     @Transactional
-    public boolean deleteHotelSchedule(int year) {
-        HotelSchedule toBeDeletedHS = hotelScheduleRepository.findHotelScheduleByYear(year);
-        try {
-            hotelScheduleRepository.delete(toBeDeletedHS);
-        } catch (Exception e) {
-            return false;
+    public List<HotelSchedule> getAllHotelSchedules() {
+        return ServiceUtils.toList(hotelScheduleRepository.findAll());
+    }
+
+    @Transactional
+    public HotelSchedule deleteHotelSchedule(int year) {
+        HotelSchedule deletedHS = hotelScheduleRepository.findHotelScheduleByYear(year);
+        if (deletedHS == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find HotelSchedule of year " + year + ".");
         }
-        return true;
+        try {
+            hotelScheduleRepository.delete(deletedHS);
+        } catch (Exception e) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Could not delete HotelSchedule of year " + year + ".");
+        }
+        return deletedHS;
     }
 
 }

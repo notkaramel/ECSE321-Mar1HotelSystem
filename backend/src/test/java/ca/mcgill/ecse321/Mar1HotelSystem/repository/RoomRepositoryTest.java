@@ -57,15 +57,13 @@ public class RoomRepositoryTest {
         Date date = new Date();
         CustomHours customHours = new CustomHours(date, 8, 20);
         OperatingHours operatingHours = new OperatingHours(DayOfWeek.Monday, 8, 20);
-        CustomHours[] customHoursArray = new CustomHours[1];
-        OperatingHours[] operatingHoursArray = new OperatingHours[1];
+        List<CustomHours> customHoursArray = Arrays.asList(customHours);
+        List<OperatingHours> operatingHoursArray = Arrays.asList(operatingHours);
         customHoursRepository.save(customHours);
         customHours = customHoursRepository.findCustomHoursByDate(date);
         operatingHoursRepository.save(operatingHours);
         operatingHours = operatingHoursRepository.findOperatingHoursByOperatingHoursId(operatingHours.getOperatingHoursId());
 
-        customHoursArray[0] = customHours;
-        operatingHoursArray[0] = operatingHours;
         //=-=-=-=-=-=-Creating hotelSchedule object & Saving hotelSchedule object-=-=-=-=-=-=//
         HotelSchedule hotelSchedule = new HotelSchedule(2023, operatingHoursArray, customHoursArray);
         hotelScheduleRepository.save(hotelSchedule);

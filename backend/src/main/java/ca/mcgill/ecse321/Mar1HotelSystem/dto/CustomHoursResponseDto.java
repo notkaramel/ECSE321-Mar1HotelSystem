@@ -18,11 +18,6 @@ public class CustomHoursResponseDto {
         this.closingHour = customHour.getClosingHour();
     }
 
-    public CustomHoursResponseDto(Boolean isDeleted) {
-        //todo: maybe add something here??
-    } 
-
-
     public Date getDate() {
         return this.date;
     }

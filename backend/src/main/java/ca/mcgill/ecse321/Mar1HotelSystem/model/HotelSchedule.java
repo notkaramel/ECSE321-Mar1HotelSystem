@@ -2,7 +2,6 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,10 +30,10 @@ public class HotelSchedule {
 
     // HotelSchedule constructor requiring year, list of operatingHours, list
     // customHours
-    public HotelSchedule(int year, OperatingHours[] operatingHoursList, CustomHours[] customHoursList) {
+    public HotelSchedule(int year, List<OperatingHours> operatingHoursList, List<CustomHours> customHoursList) {
         this.year = year;
-        this.customHoursList = new ArrayList<CustomHours>(Arrays.asList(customHoursList));
-        this.operatingHoursList = new ArrayList<OperatingHours>(Arrays.asList(operatingHoursList));
+        this.customHoursList = customHoursList;
+        this.operatingHoursList = operatingHoursList;
     }
 
     // Getters
@@ -68,7 +67,7 @@ public class HotelSchedule {
         return 7;
     }
 
-    public boolean setOperatingHours(OperatingHours[] newOperatingHours) {
+    public boolean setOperatingHours(List<OperatingHours> newOperatingHours) {
         ArrayList<OperatingHours> theOperatingHoursList = new ArrayList<OperatingHours>();
 
         for (OperatingHours aOperatingHour : newOperatingHours) {
@@ -77,7 +76,7 @@ public class HotelSchedule {
             }
             theOperatingHoursList.add(aOperatingHour);
         }
-        if (theOperatingHoursList.size() != newOperatingHours.length
+        if (theOperatingHoursList.size() != newOperatingHours.size()
                 || theOperatingHoursList.size() != requiredNumberOfOperatingHours()) {
             return false;
         }
@@ -104,7 +103,7 @@ public class HotelSchedule {
         return 366;
     }
 
-    public boolean setCustomHours(CustomHours[] newCustomHours) {
+    public boolean setCustomHours(List<CustomHours> newCustomHours) {
         boolean wasSet = false;
         ArrayList<CustomHours> verifiedCustomHours = new ArrayList<CustomHours>();
         for (CustomHours aCustomHour : newCustomHours) {
@@ -113,7 +112,7 @@ public class HotelSchedule {
             }
             verifiedCustomHours.add(aCustomHour);
         }
-        if (verifiedCustomHours.size() != newCustomHours.length
+        if (verifiedCustomHours.size() != newCustomHours.size()
                 || verifiedCustomHours.size() != maximumNumberOfCustomHours()) {
             return wasSet;
         }
