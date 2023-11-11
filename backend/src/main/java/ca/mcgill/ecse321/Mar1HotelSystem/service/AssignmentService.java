@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.AssignmentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
@@ -47,7 +46,6 @@ public class AssignmentService {
         return assignment;
     }
 
-
     @Transactional
     public Assignment createAssignment(String assigneeId, int requestId) {
 
@@ -60,7 +58,6 @@ public class AssignmentService {
         assignmentRepository.save(assignment);
         return assignment;
     }
-
 
     @Transactional
     public Assignment getAssignmentById(int assignmentId) {
@@ -97,7 +94,6 @@ public class AssignmentService {
         } else if (request == null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Request cannot be null!");
         }
-
 
         Assignment assignment = assignmentRepository.findAssignmentByAssignmentId(assignmentId);
         if (assignment == null) {

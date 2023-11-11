@@ -28,7 +28,7 @@ public class RequestService {
 
     @Transactional
     public Request createRequest(String description, Booking booking, boolean isFulfilled) {
-        
+
         if (description == null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Request description cannot be null!");
         } else if (description.trim().length() == 0) {
@@ -51,8 +51,8 @@ public class RequestService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Request description cannot be null!");
         } else if (description.trim().length() == 0) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Request description cannot be empty!");
-        } 
-        
+        }
+
         Booking booking = bookingService.getBookingById(bookingId);
 
         Request newRequest = new Request(description, booking, isFulfilled);
@@ -63,7 +63,7 @@ public class RequestService {
     @Transactional
     public Request updateRequestDescriptionByRequestId(int requestId, String requestDescription) {
 
-        if (requestDescription == null){
+        if (requestDescription == null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Request description cannot be null!");
         } else if (requestDescription.trim().length() == 0) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Request description cannot be empty!");
@@ -139,7 +139,6 @@ public class RequestService {
         return true;
     }
 
-
     @Transactional
     public Request getRequestById(int requestId) {
         Request request = requestRepository.findRequestByRequestId(requestId);
@@ -151,7 +150,6 @@ public class RequestService {
 
         return request;
     }
-    
 
     @Transactional
     public boolean deleteAllRequests() {

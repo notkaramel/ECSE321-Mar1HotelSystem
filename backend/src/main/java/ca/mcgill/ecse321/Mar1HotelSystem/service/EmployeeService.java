@@ -89,7 +89,7 @@ public class EmployeeService {
         // Check if password is empty
         if (password == null || password.isEmpty()) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
-        }// Check if the hours worked is not negative
+        } // Check if the hours worked is not negative
         if (hoursWorked < 0) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The hours worked must not be negative!");
         }
@@ -105,49 +105,50 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee updateEmployee(String newFirstName, String newLastName, String email, long newPhoneNumber, String newPassword, int newHoursWorked) {
-            // Check if firstName is empty
-            if (newFirstName == null || newFirstName.trim().isEmpty()) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The first name cannot be empty!");
-            }
-            // Check if lastName is empty
-            if (newLastName == null || newLastName.trim().isEmpty()) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The last name cannot be empty!");
-            }
-            // Check if email is empty
-            if (email == null || email.trim().isEmpty()) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
-            }
-            // Check if email is valid
-            String emailTrimmed = email.trim();
-            Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
-            Matcher matcher = pattern.matcher(emailTrimmed);
-            if (!matcher.find()) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email is invalid!");
-            }
-            if (newPhoneNumber <= 0) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The phone number must be above 0!");
-            }
-            // Check if password is empty
-            if (newPassword == null || newPassword.isEmpty()) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
-            }
-            // Getting the employee
-            Employee employee = getEmployee(emailTrimmed);
-            if (employee == null) {
-                throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The employee does not exist!");
-            }
-            // Check if the hours worked is not negative
-            if (newHoursWorked < 0) {
-                throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The hours worked must not be negative!");
-            }
-            // Updating the employee
-            employee.setFirstName(newFirstName.trim());
-            employee.setLastName(newLastName.trim());
-            employee.setPhoneNumber(newPhoneNumber);
-            employee.setPassword(newPassword);
-            employee.setHoursWorked(newHoursWorked);
-            return employeeRepository.save(employee);
+    public Employee updateEmployee(String newFirstName, String newLastName, String email, long newPhoneNumber,
+            String newPassword, int newHoursWorked) {
+        // Check if firstName is empty
+        if (newFirstName == null || newFirstName.trim().isEmpty()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The first name cannot be empty!");
+        }
+        // Check if lastName is empty
+        if (newLastName == null || newLastName.trim().isEmpty()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The last name cannot be empty!");
+        }
+        // Check if email is empty
+        if (email == null || email.trim().isEmpty()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
+        }
+        // Check if email is valid
+        String emailTrimmed = email.trim();
+        Pattern pattern = Pattern.compile("^(\\S+)@(\\S+)\\.((com)|(ca))$");
+        Matcher matcher = pattern.matcher(emailTrimmed);
+        if (!matcher.find()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email is invalid!");
+        }
+        if (newPhoneNumber <= 0) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The phone number must be above 0!");
+        }
+        // Check if password is empty
+        if (newPassword == null || newPassword.isEmpty()) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
+        }
+        // Getting the employee
+        Employee employee = getEmployee(emailTrimmed);
+        if (employee == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The employee does not exist!");
+        }
+        // Check if the hours worked is not negative
+        if (newHoursWorked < 0) {
+            throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The hours worked must not be negative!");
+        }
+        // Updating the employee
+        employee.setFirstName(newFirstName.trim());
+        employee.setLastName(newLastName.trim());
+        employee.setPhoneNumber(newPhoneNumber);
+        employee.setPassword(newPassword);
+        employee.setHoursWorked(newHoursWorked);
+        return employeeRepository.save(employee);
     }
 
     @Transactional
@@ -164,6 +165,7 @@ public class EmployeeService {
     public List<Shift> getAllShifts() {
         return ServiceUtils.toList(shiftRepository.findAll());
     }
+
     @Transactional
     public List<Shift> getShiftsEmployee(String email) {
         Employee employee = employeeRepository.findEmployeeByEmail(email);
@@ -175,7 +177,7 @@ public class EmployeeService {
         ArrayList<Shift> shifts = (ArrayList<Shift>) shiftRepository.findAll();
         ArrayList<Shift> employeeShifts = new ArrayList<Shift>();
         // Filter the shifts to only the ones that belong to the employee
-        for (Shift s: shifts) {
+        for (Shift s : shifts) {
             if (Objects.equals(s.getEmployee().getEmail(), email)) {
                 employeeShifts.add(s);
             }

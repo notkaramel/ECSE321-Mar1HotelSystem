@@ -67,7 +67,7 @@ public class CustomerService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email is invalid!");
         }
         // Check if email is already used
-        if(customerRepository.findCustomerByEmail(emailTrimmed) != null
+        if (customerRepository.findCustomerByEmail(emailTrimmed) != null
                 || employeeRepository.findEmployeeByEmail(emailTrimmed) != null
                 || managerRepository.findManagerByEmail(emailTrimmed) != null
                 || generalUserRepository.findGeneralUserByEmail(emailTrimmed) != null
@@ -88,7 +88,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer updateCustomer(String newFirstName, String newLastName, long newPhoneNumber, String newPassword, String email) {
+    public Customer updateCustomer(String newFirstName, String newLastName, long newPhoneNumber, String newPassword,
+            String email) {
         // Check if firstName is empty
         if (newFirstName == null || newFirstName.trim().isEmpty()) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The first name cannot be empty!");
@@ -113,7 +114,7 @@ public class CustomerService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The phone number must be above 0!");
         }
         // Check if password is empty
-        if (newPassword == null || newPassword.isEmpty() ) {
+        if (newPassword == null || newPassword.isEmpty()) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The password cannot be empty!");
         }
         // Get Customer

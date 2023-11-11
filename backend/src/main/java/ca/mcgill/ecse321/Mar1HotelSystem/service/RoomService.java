@@ -15,6 +15,12 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.BedType;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room.RoomType;
 import jakarta.transaction.Transactional;
 
+/**
+ * This class contains methods that are used to create, get, update, and delete
+ * rooms.
+ * 
+ * @author Antoine Phan (@notkaramel)
+ */
 @Service
 public class RoomService {
     @Autowired

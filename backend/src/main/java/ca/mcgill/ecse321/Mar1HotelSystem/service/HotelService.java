@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
  * Functionalities:
  * - Handle Hotel (e.g., Send Hotel Object)
  * 
- * @author Antoine Phan (@notkaramel) 
+ * @author Antoine Phan (@notkaramel)
  */
 @Service
 public class HotelService {
@@ -27,7 +27,7 @@ public class HotelService {
         if (hotel != null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "Can't create hotel");
         }
-        
+
         hotel = new Hotel();
         hotelRepository.save(hotel);
         return hotel;

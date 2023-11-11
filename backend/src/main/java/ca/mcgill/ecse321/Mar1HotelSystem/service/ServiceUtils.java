@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Utility Class to avoid code duplication.
  * 

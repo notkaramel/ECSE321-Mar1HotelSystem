@@ -16,6 +16,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Room;
 
 import java.util.List;
+
 /**
  * Service class to manage Booking Entities
  * 
@@ -42,18 +43,21 @@ public class BookingService {
     @Transactional
     public Booking createBooking(String generalUserEmail, int roomId, int paymentId) {
         Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
-        if(payment == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "On create booking: Payment with id " + paymentId + " cannot be found.");
+        if (payment == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "On create booking: Payment with id " + paymentId + " cannot be found.");
         }
-        
+
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(generalUserEmail);
         if (generalUser == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "On create booking: General user with email " + generalUserEmail + " cannot be found.");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "On create booking: General user with email " + generalUserEmail + " cannot be found.");
         }
-        
+
         Room room = roomRepository.findRoomByRoomId(roomId);
         if (room == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "On create booking: Room with id " + roomId + " cannot be found.");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "On create booking: Room with id " + roomId + " cannot be found.");
         }
         Booking booking = new Booking(payment, generalUser, room);
         bookingRepository.save(booking);
@@ -66,29 +70,33 @@ public class BookingService {
     @Transactional
     public Booking updateBooking(int bookingId, String generalUserEmail, int roomId, int paymentId) {
         Booking bookingToUpdate = bookingRepository.findBookingByBookingId(bookingId);
-        if(bookingToUpdate == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "On update booking: booking with id " + bookingId + " cannot be found.");
+        if (bookingToUpdate == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "On update booking: booking with id " + bookingId + " cannot be found.");
         }
 
         Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
         if (payment == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "On update booking: payment with id " + paymentId + " cannot be found.");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "On update booking: payment with id " + paymentId + " cannot be found.");
         }
 
         GeneralUser generalUser = generalUserRepository.findGeneralUserByEmail(generalUserEmail);
         if (generalUser == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "On update booking: general user with email " + generalUserEmail + " cannot be found.");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "On update booking: general user with email " + generalUserEmail + " cannot be found.");
         }
 
         Room room = roomRepository.findRoomByRoomId(roomId);
         if (room == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "On update booking: room with id " + roomId + " cannot be found.");
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "On update booking: room with id " + roomId + " cannot be found.");
         }
-        
+
         bookingToUpdate.setPayment(payment);
         bookingToUpdate.setGeneralUser(generalUser);
         bookingToUpdate.setRoom(room);
-        
+
         return bookingRepository.save(bookingToUpdate);
     }
 
