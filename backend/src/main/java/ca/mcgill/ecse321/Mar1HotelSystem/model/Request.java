@@ -1,6 +1,9 @@
 // Umple was used a guide and generated some code in this project
 package ca.mcgill.ecse321.Mar1HotelSystem.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 
 /**
@@ -12,6 +15,7 @@ import jakarta.persistence.*;
  */
 
 @Entity
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

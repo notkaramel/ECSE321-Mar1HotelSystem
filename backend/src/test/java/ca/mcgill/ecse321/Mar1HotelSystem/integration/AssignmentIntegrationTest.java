@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.apache.catalina.connector.Response;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,17 +63,17 @@ public class AssignmentIntegrationTest {
     private PaymentRepository paymentRepository;
 
 
-
     // Clear database before and after each test
     @BeforeEach
+    @AfterEach
     public void clearDatabase() {
         requestRepository.deleteAll();
-        bookingRepository.deleteAll();
-        paymentRepository.deleteAll();
-        roomRepository.deleteAll();
-        employeeRepository.deleteAll();
-        generalUserRepository.deleteAll();
         assignmentRepository.deleteAll();
+        employeeRepository.deleteAll();
+        bookingRepository.deleteAll();
+        roomRepository.deleteAll();
+        paymentRepository.deleteAll();
+        generalUserRepository.deleteAll();
     }
 
     // Create assignee
@@ -136,7 +136,6 @@ public class AssignmentIntegrationTest {
     }
 
 
-
     private int createRequest() {
         int bookingId = createBooking();
         RequestRequestDto requestRequestDto = new RequestRequestDto("I need a towel", bookingId, false); 
@@ -175,7 +174,7 @@ public class AssignmentIntegrationTest {
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
-        ResponseEntity<AssignmentResponseDto> response = assignmentClient.getForEntity("/assignment/" + assignmentId, AssignmentResponseDto.class);
+        ResponseEntity<AssignmentResponseDto> response = assignmentClient.getForEntity("/assignments/" + assignmentId, AssignmentResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -187,19 +186,19 @@ public class AssignmentIntegrationTest {
 
     @Test
     public void testUpdateAssignment() {
-
         String assigneeId = createAssignee();
+        String newAssigneeId = createAssignee();
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
-        AssignmentRequestDto assignmentRequestDto = new AssignmentRequestDto(assigneeId, requestId);
-        ResponseEntity<AssignmentResponseDto> response = assignmentClient.postForEntity("/assignment/update/" + assignmentId, assignmentRequestDto, AssignmentResponseDto.class);
-        assertNotNull(response);
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(assignmentId, response.getBody().getAssignmentId());
-        assertEquals(assigneeId, response.getBody().getEmployee().getEmail());
-        assertEquals(requestId, response.getBody().getRequest().getRequestId());
+        AssignmentRequestDto assignmentRequestDto = new AssignmentRequestDto(newAssigneeId, requestId);
+        assignmentClient.put("/assignment/update/" + assignmentId, assignmentRequestDto, AssignmentResponseDto.class);
+
+        AssignmentResponseDto assignment = assignmentClient.getForObject("/assignments/" + assignmentId, AssignmentResponseDto.class);
+        assertNotNull(assignment);
+        assertEquals(assignmentId, assignment.getAssignmentId());
+        assertEquals(assigneeId, assignment.getEmployee().getEmail());
+        assertEquals(requestId, assignment.getRequest().getRequestId());
 
     }
 
@@ -210,12 +209,9 @@ public class AssignmentIntegrationTest {
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
-        ResponseEntity<Response> response = assignmentClient.getForEntity("/assignment/delete/" + assignmentId, Response.class);
-        assertNotNull(response);
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assignmentClient.delete("/assignment/delete/" + assignmentId);
+        
         assertEquals(0, assignmentRepository.count());
-
     }
 
 
@@ -226,7 +222,7 @@ public class AssignmentIntegrationTest {
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
-        ResponseEntity<AssignmentResponseDto[]> response = assignmentClient.getForEntity("/assignment/all", AssignmentResponseDto[].class);
+        ResponseEntity<AssignmentResponseDto[]> response = assignmentClient.getForEntity("/assignments/all", AssignmentResponseDto[].class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());

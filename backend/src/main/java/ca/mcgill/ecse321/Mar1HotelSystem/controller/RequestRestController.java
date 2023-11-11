@@ -57,15 +57,15 @@ public class RequestRestController {
         return new ResponseEntity<List<RequestResponseDto>>(requestResponseDtoList, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = { "/requests/{requestId}", "/requests/{requestId}/" })
+    @DeleteMapping(value = { "/requests/delete/{requestId}", "/requests/delete/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public void deleteRequestById(@PathVariable int requestId) {
+    public void deleteRequestById(@PathVariable("requestId") int requestId) {
         requestService.deleteRequestById(requestId);
     }
 
     @GetMapping(value = { "/requests/{requestId}", "/requests/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<RequestResponseDto> getRequestById(@PathVariable int requestId) {
+    public ResponseEntity<RequestResponseDto> getRequestById(@PathVariable("requestId") int requestId) {
         Request request = requestService.getRequestById(requestId);
         return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled()), HttpStatus.OK);
     
@@ -84,12 +84,12 @@ public class RequestRestController {
     }
 
 
-    @PutMapping(value = { "/requests/{requestId}", "/requests/{requestId}/" })
+    @PutMapping(value = { "/requests/update/{requestId}", "/requests/update/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<RequestResponseDto> updateRequest(@PathVariable int requestId, @RequestBody RequestResponseDto requestDto) {
+    public ResponseEntity<RequestResponseDto> updateRequest(@PathVariable("requestId") int requestId, @RequestBody RequestResponseDto requestDto) {
 
         String description = requestDto.getDescription();
-        boolean isFufilled = requestDto.getIsFufilled();
+        boolean isFufilled = requestDto.getIsFulfilled();
         Booking booking = requestDto.getBooking();
 
         requestService.updateRequestDescriptionByRequestId(requestId, description);

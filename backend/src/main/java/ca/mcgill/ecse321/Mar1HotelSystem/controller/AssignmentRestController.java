@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.AssignmentService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.AssignmentRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.AssignmentResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Assignment;
@@ -45,7 +45,7 @@ public class AssignmentRestController {
 	private AssignmentService assignmentService;
 
 
-    @GetMapping(value = { "/assignments", "/assignments/" })
+    @GetMapping(value = { "/assignments/all", "/assignments/all/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<AssignmentResponseDto>> getAllAssignments() {
 
@@ -74,7 +74,7 @@ public class AssignmentRestController {
         return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(), assignment.getAssignee(), assignment.getRequest()), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(value = { "/assignment/create", "/assignments/create/" })
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AssignmentResponseDto> createAssignment(@RequestBody AssignmentRequestDto assignmentRequestDto) {
 
@@ -85,8 +85,6 @@ public class AssignmentRestController {
 
         return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(), assignment.getAssignee(), assignment.getRequest()), HttpStatus.CREATED);
     }
-
-
 
 
     @PutMapping(value = { "/assignments/{assignmentId}", "/assignments/{assignmentId}/" })
