@@ -21,6 +21,13 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.MultipleGeneralUserDto;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 
 @TestInstance(Lifecycle.PER_CLASS)
+
+/**
+ * General User Integration Tests
+ * 
+ * @author Lucas Pacicco (@Lucaspac5)
+ * 
+ */
 public class GeneralUserIntegrationTest {
 
 	@Autowired

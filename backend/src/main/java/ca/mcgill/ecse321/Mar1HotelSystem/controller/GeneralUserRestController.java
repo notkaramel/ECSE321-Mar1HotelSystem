@@ -17,15 +17,8 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.GeneralUserService;
 
 /**
- * The controller that handles /guest endpoint requests
- * Required functionalities:
- * - Display guest's booking (GET)
- * - etc.
- * DTOs might used:
- * - CustomerDto
- * - BookingDto
- * - RoomDto
- * - etc. * @author Lucas Paccico @Lucaspac5
+ * The controller that handles /general user endpoint requests
+ * @author Lucas Paccico @Lucaspac5
  */
 @CrossOrigin(origins = "*")
 @RestController
@@ -39,8 +32,8 @@ public class GeneralUserRestController {
      */
     @GetMapping(value = { "/generalUsers", "/generalUsers/" })
     @ResponseStatus(HttpStatus.OK)
-    public  ResponseEntity<MultipleGeneralUserDto> getAllGeneralUsers() {
-        List<GeneralUser> generalUserList= service.getAllGeneralUsers();
+    public ResponseEntity<MultipleGeneralUserDto> getAllGeneralUsers() {
+        List<GeneralUser> generalUserList = service.getAllGeneralUsers();
         MultipleGeneralUserDto generalUserBody = new MultipleGeneralUserDto(generalUserList);
         return new ResponseEntity<MultipleGeneralUserDto>(generalUserBody, HttpStatus.OK);
     }
