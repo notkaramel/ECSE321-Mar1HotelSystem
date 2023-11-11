@@ -93,7 +93,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomer() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         Customer customer = null;
         try {
             customer = customerService.createCustomer(
@@ -116,7 +115,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerEmpty() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -141,7 +139,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerNull() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -166,7 +163,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerFirstNameSpaces() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -191,7 +187,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerLastNameNull() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -216,7 +211,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerLastNameSpaces() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -241,7 +235,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerEmailSpaces() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -266,7 +259,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerEmailNoA() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -291,7 +283,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerEmailNoPeriod() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
@@ -339,7 +330,6 @@ public class CustomerServiceTest {
      */
     @Test
     public void testCreateCustomerPasswordSpaces() {
-        //assertEquals(0, customerService.getAllCustomers().size());
         String error = null;
         Customer customer = null;
         try {
