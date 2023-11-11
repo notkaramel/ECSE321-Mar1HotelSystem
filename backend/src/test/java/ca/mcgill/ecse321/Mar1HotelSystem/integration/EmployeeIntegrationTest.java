@@ -259,10 +259,10 @@ public class EmployeeIntegrationTest {
     }
 
     /**
-     * Test creating an employee with an invalid email
+     * Test creating an employee with an email that is taken
      */
     @Test
-    public void testCreateEmployeeInvalidEmail() {
+    public void testCreateEmployeeEmailTaken() {
         createEmployeesAndCustomers();
         EmployeeDto employeeDto = new EmployeeDto(
                 "A",
