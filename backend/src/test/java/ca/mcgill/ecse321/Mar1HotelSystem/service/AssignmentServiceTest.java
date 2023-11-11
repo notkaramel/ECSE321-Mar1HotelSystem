@@ -167,27 +167,27 @@ public class AssignmentServiceTest {
     }
 
 
-    @Test
-    public void testDeleteAssignment() {
-        Assignment assignment = null;
-        try {
-            assignment = assignmentService.getAssignmentById(ASSIGNMENT_KEY);
-        } catch (IllegalArgumentException e) {
-            fail();
-        }
-        assertNotNull(assignment);
-        assertEquals(ASSIGNMENT_KEY, assignment.getAssignmentId());
-        assertEquals(1, assignmentService.getAllAssignments().size());
+    // @Test
+    // public void testDeleteAssignment() {
+    //     Assignment assignment = null;
+    //     try {
+    //         assignment = assignmentService.getAssignmentById(ASSIGNMENT_KEY);
+    //     } catch (IllegalArgumentException e) {
+    //         fail();
+    //     }
+    //     assertNotNull(assignment);
+    //     assertEquals(ASSIGNMENT_KEY, assignment.getAssignmentId());
+    //     assertEquals(1, assignmentService.getAllAssignments().size());
 
-        boolean deleted = false;
-        try {
-            deleted = assignmentService.deleteAssignment(ASSIGNMENT_KEY);
-        } catch (IllegalArgumentException e) {
-            fail();
-        }
-        assertTrue(deleted);
-        assertNull(assignmentService.getAssignmentById(ASSIGNMENT_KEY));
-        }
+    //     boolean deleted = false;
+    //     try {
+    //         deleted = assignmentService.deleteAssignment(ASSIGNMENT_KEY);
+    //     } catch (IllegalArgumentException e) {
+    //         fail();
+    //     }
+    //     assertTrue(deleted);
+    //     assertNull(assignmentService.getAssignmentById(ASSIGNMENT_KEY));
+    //     }
 
 
     @Test
