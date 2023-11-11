@@ -37,8 +37,8 @@ public class ManagerRestController {
      */
     @GetMapping(value = { "/managers", "/managers/" })
     @ResponseStatus(HttpStatus.OK)
-     public  ResponseEntity<MultipleManagerDto> getAllManagers() {
-        List<Manager> managerList= service.getAllManagers();
+    public ResponseEntity<MultipleManagerDto> getAllManagers() {
+        List<Manager> managerList = service.getAllManagers();
         MultipleManagerDto managerBody = new MultipleManagerDto(managerList);
         return new ResponseEntity<MultipleManagerDto>(managerBody, HttpStatus.OK);
     }

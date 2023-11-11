@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.AccountRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -27,6 +30,15 @@ public class ManagerService {
 
     @Autowired
     GeneralUserRepository generalUserRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Transactional
     public List<Manager> getAllManagers() {
@@ -83,7 +95,10 @@ public class ManagerService {
         }
         // Check if user already exists
         else if (generalUserRepository.findGeneralUserByEmail(email) != null
-                || managerRepository.findManagerByEmail(email) != null) {
+                || managerRepository.findManagerByEmail(email) != null
+                || customerRepository.findCustomerByEmail(email) != null
+                || employeeRepository.findEmployeeByEmail(email) != null
+                || accountRepository.findAccountByEmail(email) != null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "User with that email already exists!");
         } else {
             String emailTrimmed = email.trim();

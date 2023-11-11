@@ -4,7 +4,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.AccountRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomerRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.ManagerRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.GeneralUser;
 import jakarta.transaction.Transactional;
@@ -24,6 +29,18 @@ import java.util.regex.Pattern;
 public class GeneralUserService {
     @Autowired
     GeneralUserRepository generalUserRepository;
+
+    @Autowired
+    ManagerRepository managerRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Transactional
     public List<GeneralUser> getAllGeneralUsers() {
@@ -83,7 +100,11 @@ public class GeneralUserService {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "The email cannot be empty!");
         }
         // Check if user already exists
-        else if (generalUserRepository.findGeneralUserByEmail(email) != null) {
+        else if (generalUserRepository.findGeneralUserByEmail(email) != null
+                || managerRepository.findManagerByEmail(email) != null
+                || customerRepository.findCustomerByEmail(email) != null
+                || employeeRepository.findEmployeeByEmail(email) != null
+                || accountRepository.findAccountByEmail(email) != null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "User with that email already exists!");
         } else {
             String emailTrimmed = email.trim();
@@ -110,7 +131,11 @@ public class GeneralUserService {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "User Not Found");
         }
         // Check if user already has new email
-        else if (generalUserRepository.findGeneralUserByEmail(newEmail) != null) {
+        else if (generalUserRepository.findGeneralUserByEmail(newEmail) != null
+                || managerRepository.findManagerByEmail(newEmail) != null
+                || customerRepository.findCustomerByEmail(newEmail) != null
+                || employeeRepository.findEmployeeByEmail(newEmail) != null
+                || accountRepository.findAccountByEmail(newEmail) != null) {
             throw new Mar1HotelSystemException(HttpStatus.BAD_REQUEST, "User with that email already exists!");
         } else {
             String emailTrimmed = newEmail.trim();

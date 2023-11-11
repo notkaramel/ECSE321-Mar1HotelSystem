@@ -39,8 +39,8 @@ public class GeneralUserRestController {
      */
     @GetMapping(value = { "/generalUsers", "/generalUsers/" })
     @ResponseStatus(HttpStatus.OK)
-    public  ResponseEntity<MultipleGeneralUserDto> getAllGeneralUsers() {
-        List<GeneralUser> generalUserList= service.getAllGeneralUsers();
+    public ResponseEntity<MultipleGeneralUserDto> getAllGeneralUsers() {
+        List<GeneralUser> generalUserList = service.getAllGeneralUsers();
         MultipleGeneralUserDto generalUserBody = new MultipleGeneralUserDto(generalUserList);
         return new ResponseEntity<MultipleGeneralUserDto>(generalUserBody, HttpStatus.OK);
     }
