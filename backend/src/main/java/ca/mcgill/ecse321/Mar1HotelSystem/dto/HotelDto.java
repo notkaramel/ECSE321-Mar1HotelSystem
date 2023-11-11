@@ -6,7 +6,7 @@ public class HotelDto {
     
     // VARIABLES
     final private String hotelName = "Mar-1 Hotel";
-    private HotelScheduleDto hotelSchedule;
+    private HotelScheduleResponseDto hotelSchedule;
     private List<RoomResponseDto> allRooms;
 
     // CONSTRUCTORS
@@ -17,14 +17,14 @@ public class HotelDto {
         this.allRooms = allRooms;
     }
 
-    public HotelDto(HotelScheduleDto hotelScheduleDto, List<RoomResponseDto> allRooms) {
+    public HotelDto(HotelScheduleResponseDto hotelScheduleDto, List<RoomResponseDto> allRooms) {
         this.hotelSchedule = hotelScheduleDto;
         this.allRooms = allRooms;
     }
 
     // GETTERS
     // Method to get hotelSchedule, returns hotelSchedule
-    public HotelScheduleDto getHotelSchedule() {
+    public HotelScheduleResponseDto getHotelSchedule() {
         return this.hotelSchedule;
     }
 

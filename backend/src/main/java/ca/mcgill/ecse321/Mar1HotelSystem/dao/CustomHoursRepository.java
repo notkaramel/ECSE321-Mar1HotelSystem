@@ -13,6 +13,13 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
  */
 public interface CustomHoursRepository extends CrudRepository<CustomHours, Integer> {
     /**
+     * Find a CustomHours object by its unique Id.
+     * @param customHoursId
+     * @return the corresponding CustomHours object
+     */
+    public CustomHours findCustomHoursByCustomHoursId(int customHoursId);
+
+    /**
      * Find a CustomHours object by its date.
      * 
      * @param date

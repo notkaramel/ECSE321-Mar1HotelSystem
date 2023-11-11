@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This is the test class for the request repository.
@@ -112,8 +114,8 @@ public class RequestRepositoryTest {
 
         // Creating a new hotel schedule
         int year = 2022;
-        CustomHours[] customHoursList = {customHours};
-        OperatingHours[] operatingHoursList = {operatingHours};
+        List<CustomHours> customHoursList = Arrays.asList(customHours);
+        List<OperatingHours> operatingHoursList = Arrays.asList(operatingHours);
         HotelSchedule hotelSchedule = new HotelSchedule(year, operatingHoursList, customHoursList);
 
         // Adding to the database
