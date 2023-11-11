@@ -18,6 +18,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.service.GeneralUserService;
 
 /**
  * The controller that handles /general user endpoint requests
+ * 
  * @author Lucas Paccico @Lucaspac5
  */
 @CrossOrigin(origins = "*")

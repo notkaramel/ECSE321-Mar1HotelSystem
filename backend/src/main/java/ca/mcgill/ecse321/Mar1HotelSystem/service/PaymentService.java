@@ -10,6 +10,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Payment;
 import jakarta.transaction.Transactional;
+
 /**
  * Service class/methods for the Payment features
  * 
@@ -30,9 +31,10 @@ public class PaymentService {
 
     @Transactional
     public Payment getPaymentById(int paymentId) {
-       Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
-        if(payment == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Payment with id " + paymentId + " does not exist.");
+        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
+        if (payment == null) {
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND,
+                    "Payment with id " + paymentId + " does not exist.");
         }
         return payment;
     }
@@ -48,7 +50,7 @@ public class PaymentService {
         paymentRepository.delete(payment);
     }
 
-    @Transactional 
+    @Transactional
     public void updatePayment(int paymentId, int amount) {
         Payment payment = this.getPaymentById(paymentId);
         payment.setAmount(amount);

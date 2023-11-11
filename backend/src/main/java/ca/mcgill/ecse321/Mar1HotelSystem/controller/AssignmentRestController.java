@@ -24,9 +24,6 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Assignment;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
 
-
-
-
 /**
  * The controller that handles /assignment endpoint requests
  * Required functionalities:
@@ -40,10 +37,9 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
 @CrossOrigin(origins = "*")
 @RestController
 public class AssignmentRestController {
-    
-    @Autowired
-	private AssignmentService assignmentService;
 
+    @Autowired
+    private AssignmentService assignmentService;
 
     @GetMapping(value = { "/assignments/all", "/assignments/all/" })
     @ResponseStatus(HttpStatus.OK)
@@ -51,12 +47,12 @@ public class AssignmentRestController {
 
         List<Assignment> assignments = assignmentService.getAllAssignments();
         List<AssignmentResponseDto> assignmentResponseDtoList = new ArrayList<AssignmentResponseDto>();
-        
+
         for (Assignment assignment : assignments) {
-            AssignmentResponseDto assignmentResponseDto = new AssignmentResponseDto(assignment.getAssignmentId(), assignment.getAssignee(), assignment.getRequest());
+            AssignmentResponseDto assignmentResponseDto = new AssignmentResponseDto(assignment.getAssignmentId(),
+                    assignment.getAssignee(), assignment.getRequest());
             assignmentResponseDtoList.add(assignmentResponseDto);
         }
-
 
         return new ResponseEntity<List<AssignmentResponseDto>>(assignmentResponseDtoList, HttpStatus.OK);
     }
@@ -71,36 +67,38 @@ public class AssignmentRestController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AssignmentResponseDto> getAssignmentById(@PathVariable int assignmentId) {
         Assignment assignment = assignmentService.getAssignmentById(assignmentId);
-        return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(), assignment.getAssignee(), assignment.getRequest()), HttpStatus.OK);
+        return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(),
+                assignment.getAssignee(), assignment.getRequest()), HttpStatus.OK);
     }
 
     @PostMapping(value = { "/assignment/create", "/assignments/create/" })
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<AssignmentResponseDto> createAssignment(@RequestBody AssignmentRequestDto assignmentRequestDto) {
+    public ResponseEntity<AssignmentResponseDto> createAssignment(
+            @RequestBody AssignmentRequestDto assignmentRequestDto) {
 
         String employeeId = assignmentRequestDto.getEmployeeId();
         int requestId = assignmentRequestDto.getRequestId();
 
         Assignment assignment = assignmentService.createAssignment(employeeId, requestId);
 
-        return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(), assignment.getAssignee(), assignment.getRequest()), HttpStatus.CREATED);
+        return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(),
+                assignment.getAssignee(), assignment.getRequest()), HttpStatus.CREATED);
     }
-
 
     @PutMapping(value = { "/assignments/update/{assignmentId}", "/assignments/update/{assignmentId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AssignmentResponseDto> updateAssignment(@PathVariable int assignmentId, @RequestBody AssignmentResponseDto assignmentDto) {
+    public ResponseEntity<AssignmentResponseDto> updateAssignment(@PathVariable int assignmentId,
+            @RequestBody AssignmentResponseDto assignmentDto) {
 
         Employee employee = assignmentDto.getEmployee();
         Request request = assignmentDto.getRequest();
 
-
         assignmentService.updateAssignment(assignmentId, employee, request);
-        
-        Assignment assignment = assignmentService.getAssignmentById(assignmentId);
-        
-        return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(), assignment.getAssignee(), assignment.getRequest()), HttpStatus.OK);
-    }
 
+        Assignment assignment = assignmentService.getAssignmentById(assignmentId);
+
+        return new ResponseEntity<AssignmentResponseDto>(new AssignmentResponseDto(assignment.getAssignmentId(),
+                assignment.getAssignee(), assignment.getRequest()), HttpStatus.OK);
+    }
 
 }

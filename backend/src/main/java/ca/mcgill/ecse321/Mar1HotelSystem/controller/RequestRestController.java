@@ -23,7 +23,6 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
 
-
 /**
  * The controller that handles /request endpoint requests
  * Required functionalities:
@@ -38,9 +37,9 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.Request;
 @CrossOrigin(origins = "*")
 @RestController
 public class RequestRestController {
-    
+
     @Autowired
-	private RequestService requestService;
+    private RequestService requestService;
 
     @GetMapping(value = { "/requests", "/requests/" })
     @ResponseStatus(HttpStatus.OK)
@@ -50,7 +49,8 @@ public class RequestRestController {
         List<RequestResponseDto> requestResponseDtoList = new ArrayList<RequestResponseDto>();
 
         for (Request request : requests) {
-            RequestResponseDto requestResponseDto = new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled());
+            RequestResponseDto requestResponseDto = new RequestResponseDto(request.getRequestId(),
+                    request.getDescription(), request.getBooking(), request.getIsFulfilled());
             requestResponseDtoList.add(requestResponseDto);
         }
 
@@ -67,8 +67,9 @@ public class RequestRestController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<RequestResponseDto> getRequestById(@PathVariable("requestId") int requestId) {
         Request request = requestService.getRequestById(requestId);
-        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled()), HttpStatus.OK);
-    
+        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(),
+                request.getDescription(), request.getBooking(), request.getIsFulfilled()), HttpStatus.OK);
+
     }
 
     @PostMapping(value = { "/request/create" })
@@ -79,14 +80,15 @@ public class RequestRestController {
         boolean isFufilled = requestRequestDto.getIsFulfilled();
 
         Request request = requestService.createRequest(description, bookingId, isFufilled);
-        RequestResponseDto requestResponseDto = new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled());
+        RequestResponseDto requestResponseDto = new RequestResponseDto(request.getRequestId(), request.getDescription(),
+                request.getBooking(), request.getIsFulfilled());
         return new ResponseEntity<RequestResponseDto>(requestResponseDto, HttpStatus.CREATED);
     }
 
-
     @PutMapping(value = { "/requests/update/{requestId}", "/requests/update/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<RequestResponseDto> updateRequest(@PathVariable("requestId") int requestId, @RequestBody RequestResponseDto requestDto) {
+    public ResponseEntity<RequestResponseDto> updateRequest(@PathVariable("requestId") int requestId,
+            @RequestBody RequestResponseDto requestDto) {
 
         String description = requestDto.getDescription();
         boolean isFufilled = requestDto.getIsFulfilled();
@@ -98,6 +100,7 @@ public class RequestRestController {
 
         Request request = requestService.getRequestById(requestId);
 
-        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(), request.getDescription(), request.getBooking(), request.getIsFulfilled()), HttpStatus.OK);
+        return new ResponseEntity<RequestResponseDto>(new RequestResponseDto(request.getRequestId(),
+                request.getDescription(), request.getBooking(), request.getIsFulfilled()), HttpStatus.OK);
     }
 }

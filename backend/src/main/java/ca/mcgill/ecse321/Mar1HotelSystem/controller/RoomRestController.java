@@ -105,13 +105,15 @@ public class RoomRestController {
     @PutMapping("/room/setAvailable/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<RoomResponseDto> setRoomAvailable(@PathVariable("roomId") int roomId) {
-        return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(roomService.setRoomAvailable(roomId)), HttpStatus.OK);
+        return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(roomService.setRoomAvailable(roomId)),
+                HttpStatus.OK);
     }
 
     @PutMapping("/room/setUnavailable/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<RoomResponseDto> setRoomUnavailable(@PathVariable("roomId") int roomId) {
-        return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(roomService.setRoomUnavialable(roomId)), HttpStatus.OK);
+        return new ResponseEntity<RoomResponseDto>(new RoomResponseDto(roomService.setRoomUnavialable(roomId)),
+                HttpStatus.OK);
     }
 
     @PutMapping("/room/update/{roomId}")

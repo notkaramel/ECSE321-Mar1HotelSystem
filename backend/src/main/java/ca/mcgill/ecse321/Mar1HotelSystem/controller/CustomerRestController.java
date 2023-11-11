@@ -21,16 +21,16 @@ import java.util.stream.Collectors;
  * - Delete a customer (DELETE)
  * DTOs that might be used:
  * - CustomerDto
+ * 
  * @author Lucas Paccico (@Lucaspac5)
  * @author ZiXu Liu (@ARandomPi)
  */
 @CrossOrigin(origins = "*")
 @RestController
 public class CustomerRestController {
-    
-    @Autowired
-	private CustomerService customerService;
 
+    @Autowired
+    private CustomerService customerService;
 
     // GET MAPPINGS
     @GetMapping(value = { "/customer/{email}", "/customer/{email}/" })
@@ -78,6 +78,7 @@ public class CustomerRestController {
 
     /**
      * Helper method to convert a Customer to a CustomerDto
+     * 
      * @param customer the customer to convert
      * @return the converted CustomerDto
      */

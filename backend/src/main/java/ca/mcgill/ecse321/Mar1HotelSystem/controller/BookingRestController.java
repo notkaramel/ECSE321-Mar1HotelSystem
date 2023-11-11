@@ -27,9 +27,9 @@ import ca.mcgill.ecse321.Mar1HotelSystem.service.HotelService;
  * - Get all bookings (GET /bookings)
  * - Get booking by ID (GET /bookings/{bookingId})
  * - Create a booking (POST /bookings)
- *   - Request body: BookingRequestDto schema
+ * - Request body: BookingRequestDto schema
  * - Update a booking (PUT /bookings/{bookingId})
- *   - Request body: BookingRequestDto schema
+ * - Request body: BookingRequestDto schema
  * - Delete a booking (DELETE /bookings/{bookingId})
  * 
  * @author: Bilar Mokhtari (@bmokhtari)
@@ -42,7 +42,7 @@ public class BookingRestController {
     private BookingService bookingService;
 
     @Autowired
-    HotelService hotelService; 
+    HotelService hotelService;
 
     @DeleteMapping(value = { "/booking/delete/{bookingId}", "/booking/{bookingId}/" })
     @ResponseStatus(HttpStatus.OK)
@@ -62,7 +62,7 @@ public class BookingRestController {
     public ResponseEntity<List<BookingResponseDto>> getAllBookings() {
         List<Booking> bookingList = bookingService.getAllBookings();
         List<BookingResponseDto> bookingResponseDtoList = new ArrayList<BookingResponseDto>();
-        
+
         for (Booking booking : bookingList) {
             bookingResponseDtoList.add(new BookingResponseDto(booking));
         }
@@ -72,14 +72,17 @@ public class BookingRestController {
     @PostMapping(value = { "/booking/create", "/booking/create" })
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookingResponseDto> createBooking(@RequestBody BookingRequestDto bookingRequestDto) {
-        Booking booking = bookingService.createBooking(bookingRequestDto.getGeneralUserEmail(), bookingRequestDto.getRoomId(), bookingRequestDto.getPaymentId());
+        Booking booking = bookingService.createBooking(bookingRequestDto.getGeneralUserEmail(),
+                bookingRequestDto.getRoomId(), bookingRequestDto.getPaymentId());
         return new ResponseEntity<BookingResponseDto>(new BookingResponseDto(booking), HttpStatus.CREATED);
     }
 
     @PutMapping(value = { "/booking/update/{bookingId}", "/booking/update/{bookingId}/" })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<BookingResponseDto> updateBooking(@PathVariable int bookingId, @RequestBody BookingRequestDto bookingRequestDto) {
-        Booking booking = bookingService.updateBooking(bookingId, bookingRequestDto.getGeneralUserEmail(), bookingRequestDto.getRoomId(), bookingRequestDto.getPaymentId());
+    public ResponseEntity<BookingResponseDto> updateBooking(@PathVariable int bookingId,
+            @RequestBody BookingRequestDto bookingRequestDto) {
+        Booking booking = bookingService.updateBooking(bookingId, bookingRequestDto.getGeneralUserEmail(),
+                bookingRequestDto.getRoomId(), bookingRequestDto.getPaymentId());
         return new ResponseEntity<BookingResponseDto>(new BookingResponseDto(booking), HttpStatus.OK);
     }
- }
+}

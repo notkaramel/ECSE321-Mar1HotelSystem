@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RestController
 public class EmployeeRestController {
     @Autowired
-	private EmployeeService employeeService;
+    private EmployeeService employeeService;
 
     // GET MAPPINGS
     @GetMapping(value = { "/employee/{email}", "/employee/{email}/" })
@@ -79,8 +79,7 @@ public class EmployeeRestController {
                 employeeDto.getEmail(),
                 employeeDto.getPhoneNumber(),
                 employeeDto.getPassword(),
-                employeeDto.getHoursWorked()
-        ));
+                employeeDto.getHoursWorked()));
     }
 
     @PostMapping(value = { "/employee/{email}/shift", "/employee/{email}/shift/" })
@@ -90,8 +89,7 @@ public class EmployeeRestController {
                 shiftDto.getDate(),
                 shiftDto.getStartTime(),
                 shiftDto.getEndTime(),
-                email)
-        );
+                email));
     }
 
     // UPDATE (PUT) MAPPINGS
@@ -104,8 +102,7 @@ public class EmployeeRestController {
                 employeeDto.getEmail(),
                 employeeDto.getPhoneNumber(),
                 employeeDto.getPassword(),
-                employeeDto.getHoursWorked()
-        ));
+                employeeDto.getHoursWorked()));
     }
 
     @PutMapping(value = { "/employee/shift/{shiftId}", "/employee/shift/{shiftId}/" })
@@ -115,9 +112,7 @@ public class EmployeeRestController {
                 shiftId,
                 shiftDto.getDate(),
                 shiftDto.getStartTime(),
-                shiftDto.getEndTime()
-                )
-        );
+                shiftDto.getEndTime()));
     }
 
     // DELETE MAPPINGS
@@ -135,6 +130,7 @@ public class EmployeeRestController {
 
     /**
      * Helper method to convert an employee to an employee DTO
+     * 
      * @param employee the employee to convert
      * @return the employee DTO
      */
@@ -148,12 +144,12 @@ public class EmployeeRestController {
                 employee.getEmail(),
                 employee.getPhoneNumber(),
                 employee.getPassword(),
-                employee.getHoursWorked()
-        );
+                employee.getHoursWorked());
     }
 
     /**
      * Helper method to convert a shift to a shift DTO
+     * 
      * @param shift the shift to convert
      * @return the shift DTO
      */
@@ -165,7 +161,6 @@ public class EmployeeRestController {
                 convertToDto(shift.getEmployee()),
                 shift.getDate(),
                 shift.getStartTime(),
-                shift.getEndTime()
-        );
+                shift.getEndTime());
     }
 }
