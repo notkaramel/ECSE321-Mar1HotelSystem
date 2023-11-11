@@ -61,7 +61,7 @@ public class AssignmentRestController {
         return new ResponseEntity<List<AssignmentResponseDto>>(assignmentResponseDtoList, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = { "/assignments/{assignmentId}", "/assignments/{assignmentId}/" })
+    @DeleteMapping(value = { "/assignments/delete/{assignmentId}", "/assignments/delete/{assignmentId}/" })
     @ResponseStatus(HttpStatus.OK)
     public void deleteAssignmentById(@PathVariable int assignmentId) {
         assignmentService.deleteAssignment(assignmentId);
@@ -87,7 +87,7 @@ public class AssignmentRestController {
     }
 
 
-    @PutMapping(value = { "/assignments/{assignmentId}", "/assignments/{assignmentId}/" })
+    @PutMapping(value = { "/assignments/update/{assignmentId}", "/assignments/update/{assignmentId}/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AssignmentResponseDto> updateAssignment(@PathVariable int assignmentId, @RequestBody AssignmentResponseDto assignmentDto) {
 

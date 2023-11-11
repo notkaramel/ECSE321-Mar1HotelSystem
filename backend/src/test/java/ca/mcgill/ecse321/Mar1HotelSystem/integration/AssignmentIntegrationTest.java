@@ -9,8 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.AssignmentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
@@ -55,72 +60,74 @@ public class AssignmentIntegrationTest {
 
     @Autowired
     private RequestRepository requestRepository;
-    
+
     @Autowired
     private GeneralUserRepository generalUserRepository;
 
     @Autowired
     private PaymentRepository paymentRepository;
 
-
     // Clear database before and after each test
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        requestRepository.deleteAll();
         assignmentRepository.deleteAll();
-        employeeRepository.deleteAll();
+        requestRepository.deleteAll();
         bookingRepository.deleteAll();
-        roomRepository.deleteAll();
+        employeeRepository.deleteAll();
         paymentRepository.deleteAll();
+        roomRepository.deleteAll();
+        // hotelRepository.deleteAll();
+        // hotelScheduleRepository.deleteAll();
+        // customHoursRepository.deleteAll();
+        // operatingHoursRepository.deleteAll();
         generalUserRepository.deleteAll();
     }
 
     // Create assignee
-    private String createAssignee() {
-
-        EmployeeDto employeeDto = new EmployeeDto("Funny", "Dude", "funnyude@hahaha.ca", 1234567890, "password", 40);
-        ResponseEntity<EmployeeDto> response = assignmentClient.postForEntity("/employee", employeeDto, EmployeeDto.class);
+    private String createAssignee(String uniqueEmail) {
+        EmployeeDto employeeDto = new EmployeeDto("Funny", "Dude", uniqueEmail, 1234567890, "password", 40);
+        ResponseEntity<EmployeeDto> response = assignmentClient.postForEntity("/employee", employeeDto,
+                EmployeeDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         return response.getBody().getEmail();
-    
-    }
 
+    }
 
     // Create payment
     private int createPayment() {
         PaymentRequestDto paymentRequestDto = new PaymentRequestDto(100);
-        ResponseEntity<PaymentResponseDto> response = assignmentClient.postForEntity("/payment/create", paymentRequestDto, PaymentResponseDto.class);
+        ResponseEntity<PaymentResponseDto> response = assignmentClient.postForEntity("/payment/create",
+                paymentRequestDto, PaymentResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         return response.getBody().getPaymentId();
     }
 
-
     // Create general user
     private String createGeneralUser() {
         GeneralUserDto generalUserDto = new GeneralUserDto("Funny", "Dude", "dude@funny.com", 1234567890);
-        ResponseEntity<GeneralUserDto> response = assignmentClient.postForEntity("/generalUsers/create", generalUserDto, GeneralUserDto.class);
+        ResponseEntity<GeneralUserDto> response = assignmentClient.postForEntity("/generalUsers/create", generalUserDto,
+                GeneralUserDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         return response.getBody().getEmail();
     }
 
-
     // Create room
     private int createRoom() {
         RoomRequestDto roomRequestDto = new RoomRequestDto(RoomType.Deluxe, BedType.Queen, true, 100, 2);
-        ResponseEntity<RoomResponseDto> response = assignmentClient.postForEntity("/room/create", roomRequestDto, RoomResponseDto.class);
+        ResponseEntity<RoomResponseDto> response = assignmentClient.postForEntity("/room/create", roomRequestDto,
+                RoomResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         return response.getBody().getRoomId();
     }
-
 
     // Create booking
     private int createBooking() {
@@ -128,18 +135,19 @@ public class AssignmentIntegrationTest {
         String generalUserId = createGeneralUser();
         int roomId = createRoom();
         BookingRequestDto bookingRequestDto = new BookingRequestDto(generalUserId, roomId, paymentId);
-        ResponseEntity<BookingResponseDto> response = assignmentClient.postForEntity("/booking/create", bookingRequestDto, BookingResponseDto.class);
+        ResponseEntity<BookingResponseDto> response = assignmentClient.postForEntity("/booking/create",
+                bookingRequestDto, BookingResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         return response.getBody().getBookingId();
     }
 
-
     private int createRequest() {
         int bookingId = createBooking();
-        RequestRequestDto requestRequestDto = new RequestRequestDto("I need a towel", bookingId, false); 
-        ResponseEntity<RequestResponseDto> response = assignmentClient.postForEntity("/request/create", requestRequestDto, RequestResponseDto.class);
+        RequestRequestDto requestRequestDto = new RequestRequestDto("I need a towel", bookingId, false);
+        ResponseEntity<RequestResponseDto> response = assignmentClient.postForEntity("/request/create",
+                requestRequestDto, RequestResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -148,7 +156,8 @@ public class AssignmentIntegrationTest {
 
     private int createAssignment(String assigneeId, int requestId) {
         AssignmentRequestDto assignmentRequestDto = new AssignmentRequestDto(assigneeId, requestId);
-        ResponseEntity<AssignmentResponseDto> response = assignmentClient.postForEntity("/assignment/create", assignmentRequestDto, AssignmentResponseDto.class);
+        ResponseEntity<AssignmentResponseDto> response = assignmentClient.postForEntity("/assignment/create",
+                assignmentRequestDto, AssignmentResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -158,7 +167,7 @@ public class AssignmentIntegrationTest {
     @Test
     public void testCreateAssignment() {
 
-        String assigneeId = createAssignee();
+        String assigneeId = createAssignee("funny@hello.com");
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
@@ -166,15 +175,15 @@ public class AssignmentIntegrationTest {
         assertEquals(1, assignmentRepository.count());
     }
 
-
     @Test
     public void testGetAssignment() {
 
-        String assigneeId = createAssignee();
+        String assigneeId = createAssignee("funny@hello.com");
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
-        ResponseEntity<AssignmentResponseDto> response = assignmentClient.getForEntity("/assignments/" + assignmentId, AssignmentResponseDto.class);
+        ResponseEntity<AssignmentResponseDto> response = assignmentClient.getForEntity("/assignments/" + assignmentId,
+                AssignmentResponseDto.class);
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -186,15 +195,16 @@ public class AssignmentIntegrationTest {
 
     @Test
     public void testUpdateAssignment() {
-        String assigneeId = createAssignee();
-        String newAssigneeId = createAssignee();
+        String assigneeId = createAssignee("funny@hello.com");
+        String newAssigneeId = createAssignee("EvanMoore@Funnie.com");
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
         AssignmentRequestDto assignmentRequestDto = new AssignmentRequestDto(newAssigneeId, requestId);
-        assignmentClient.put("/assignment/update/" + assignmentId, assignmentRequestDto, AssignmentResponseDto.class);
+        assignmentClient.put("/assignments/update/" + assignmentId, assignmentRequestDto);
 
-        AssignmentResponseDto assignment = assignmentClient.getForObject("/assignments/" + assignmentId, AssignmentResponseDto.class);
+        AssignmentResponseDto assignment = assignmentClient.getForObject("/assignments/" + assignmentId,
+                AssignmentResponseDto.class);
         assertNotNull(assignment);
         assertEquals(assignmentId, assignment.getAssignmentId());
         assertEquals(assigneeId, assignment.getEmployee().getEmail());
@@ -204,34 +214,35 @@ public class AssignmentIntegrationTest {
 
     @Test
     public void testDeleteAssignment() {
-
-        String assigneeId = createAssignee();
+        String assigneeId = createAssignee("EvanMoore@Funnie.com");
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
 
-        assignmentClient.delete("/assignment/delete/" + assignmentId);
-        
+        assignmentClient.delete("/assignments/delete/" + assignmentId);
+
         assertEquals(0, assignmentRepository.count());
     }
-
 
     @Test
     public void testGetAllAssignments() {
 
-        String assigneeId = createAssignee();
+        String assigneeId = createAssignee("EvanMoore@Funnie.com");
         int requestId = createRequest();
         int assignmentId = createAssignment(assigneeId, requestId);
-
-        ResponseEntity<AssignmentResponseDto[]> response = assignmentClient.getForEntity("/assignments/all", AssignmentResponseDto[].class);
+        // It's a bit cursed but it works :) Otherwise you can create a simple MultipleAssignmentResponseDto
+        ResponseEntity<List<AssignmentResponseDto>> response = assignmentClient.exchange("/assignments/all",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<AssignmentResponseDto>>() {
+                });
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1, response.getBody().length);
-        assertEquals(assignmentId, response.getBody()[0].getAssignmentId());
-        assertEquals(assigneeId, response.getBody()[0].getEmployee().getEmail());
-        assertEquals(requestId, response.getBody()[0].getRequest().getRequestId());
+        List<AssignmentResponseDto> assignmentResponseDtoList = response.getBody();
+        assertNotNull(assignmentResponseDtoList);
+        assertEquals(1, assignmentResponseDtoList.size());
+        assertEquals(assignmentId, assignmentResponseDtoList.get(0).getAssignmentId());
+        assertEquals(assigneeId, assignmentResponseDtoList.get(0).getEmployee().getEmail());
+        assertEquals(requestId, assignmentResponseDtoList.get(0).getRequest().getRequestId());
 
     }
 
-    
 }
