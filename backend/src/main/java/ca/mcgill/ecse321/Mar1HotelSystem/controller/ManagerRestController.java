@@ -69,8 +69,7 @@ public class ManagerRestController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ManagerDto> updateManager(@RequestBody ManagerDto managerDto,
             @PathVariable("newPassword") String newPassword) {
-        Manager manager = service.updateManagerPassword(managerDto.getEmail(), managerDto.getPassword(), newPassword);
-        managerDto.setPassword(newPassword);
+        service.updateManagerPassword(managerDto.getEmail(), managerDto.getPassword(), newPassword);
         return new ResponseEntity<ManagerDto>(managerDto, HttpStatus.OK);
     }
 

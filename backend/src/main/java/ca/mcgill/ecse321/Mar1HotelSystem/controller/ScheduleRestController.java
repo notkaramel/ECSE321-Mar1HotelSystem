@@ -29,6 +29,13 @@ import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours.DayOfWeek;
 import ca.mcgill.ecse321.Mar1HotelSystem.service.ScheduleService;
 
+/**
+ * This controller handles everything related to the schedule of the hotel.
+ * It is responsible for creating, updating, deleting, and retrieving the operating hours, custom hours, and hotel schedule.
+ * 
+ * @author: Emma Friesen (@emma-friesen)
+ * @author: Antoine Phan (@notkaramel)
+ */
 @CrossOrigin(origins="*")
 @RestController
 
