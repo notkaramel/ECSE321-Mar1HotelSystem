@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.Mar1HotelSystem.dao.CustomHoursRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.HotelScheduleRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.OperatingHoursRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.HotelScheduleRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.CustomHours;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.HotelSchedule;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.OperatingHours;
@@ -21,10 +22,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -73,13 +75,7 @@ public class ScheduleServiceTest {
         hotelSchedule.setCustomHours(customHoursArray);
 
         // MOCK Finding methods
-        lenient().when(hotelScheduleDao.findHotelScheduleByYear(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(YEAR_KEY)) {
-                return hotelSchedule;
-            } else {
-                return null;
-            }
-        });
+        lenient().when(hotelScheduleDao.findHotelScheduleByYear(YEAR_KEY)).thenReturn(hotelSchedule);
 
         lenient().when(customHoursDao.findCustomHoursByDate(isA(Date.class)))
                 .thenAnswer((InvocationOnMock invocation) -> {
@@ -284,25 +280,58 @@ public class ScheduleServiceTest {
     @Test
     public void testGetCustomHoursByDate() {
         try {
-            int openingHour = 9;
-            int closingHour = 14;
             CustomHours retrievedHours = scheduleService.getCustomHoursByDate(DATE);
             assertNotNull(retrievedHours);
             assertEquals(DATE, retrievedHours.getDate());
-            assertEquals(openingHour, retrievedHours.getOpeningHour());
-            assertEquals(closingHour, retrievedHours.getClosingHour());
+            assertEquals(11, retrievedHours.getOpeningHour());
+            assertEquals(13, retrievedHours.getClosingHour());
         } catch (IllegalArgumentException e) {
             fail();
         }
+    }
 
+    @Test
+    public void testGetCustomHoursById() {
+        try {
+            CustomHours retrievedHours = scheduleService.getCustomHoursById(CH_ID);
+            assertNotNull(retrievedHours);
+            assertEquals(DATE, retrievedHours.getDate());
+            assertEquals(11, retrievedHours.getOpeningHour());
+            assertEquals(13, retrievedHours.getClosingHour());
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testUpdateCustomHoursById() {
+        try {
+            int initialOpeningHour = 8; // 8:00am
+            int initialClosingHour = 21; // 9:00pm
+
+            int updatedOpeningHour = 9; // 8:00am
+            int updatedClosingHour = 22; // 9:00pm
+            CustomHours updatedCustomHours = scheduleService.updateCustomHoursById(CH_ID, updatedOpeningHour,
+                    updatedClosingHour);
+            assertNotNull(updatedCustomHours);
+            assertEquals(DATE, updatedCustomHours.getDate());
+
+            assertNotEquals(initialOpeningHour, updatedCustomHours.getOpeningHour());
+            assertNotEquals(initialClosingHour, updatedCustomHours.getClosingHour());
+
+            assertEquals(updatedOpeningHour, updatedCustomHours.getOpeningHour());
+            assertEquals(updatedClosingHour, updatedCustomHours.getClosingHour());
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
     }
 
     @Test
     public void testDeleteCustomHours() {
         try {
             CustomHours deletedCustomHours = scheduleService.deleteCustomHoursByDate(DATE);
-            assertNull(scheduleService.getCustomHoursByDate(DATE));
             assertNotNull(deletedCustomHours);
+            assertEquals(CH_ID, deletedCustomHours.getCustomHoursId());
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -364,17 +393,26 @@ public class ScheduleServiceTest {
 
     @Test
     public void testGetHotelScheduleByYear() {
-        HotelSchedule retrievedHotelSchedule = null;
-
         try {
-            retrievedHotelSchedule = scheduleService.getHotelScheduleByYear(YEAR_KEY);
-
+            HotelSchedule retrievedHotelSchedule = scheduleService.getHotelScheduleByYear(YEAR_KEY);
+            assertNotNull(retrievedHotelSchedule);
         } catch (IllegalArgumentException e) {
             fail();
         }
-        ;
+    }
 
-        assertNotNull(retrievedHotelSchedule);
+    @Test
+    public void testGetHotelScheduleByYearInvalid() {
+        Mar1HotelSystemException error = null;
+        try {
+            scheduleService.getHotelScheduleByYear(YEAR_KEY + 1);
+            fail();
+        } catch (Mar1HotelSystemException e) {
+            error = e;
+        }
+        assertNotNull(error);
+        assertEquals(HttpStatus.NOT_FOUND, error.getStatus());
+        assertEquals("Could not find HotelSchedule of year " + (YEAR_KEY + 1) + ".", error.getMessage());
     }
 
     @Test
@@ -391,10 +429,11 @@ public class ScheduleServiceTest {
         }
     }
 
+    @Test
     public void testDeleteHotelHours() {
         try {
             HotelSchedule hs = scheduleService.deleteHotelSchedule(YEAR_KEY);
-            assertNull(hs);
+            assertEquals(hs, scheduleService.getHotelScheduleByYear(YEAR_KEY));
         } catch (IllegalArgumentException e) {
             fail();
         }

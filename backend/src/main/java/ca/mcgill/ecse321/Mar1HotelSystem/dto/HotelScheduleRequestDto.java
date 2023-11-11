@@ -9,7 +9,7 @@ public class HotelScheduleRequestDto {
     public HotelScheduleRequestDto() {
     }
 
-    public HotelScheduleRequestDto(int year, int[] customHoursIdList, int[] operatingHoursIdList) {
+    public HotelScheduleRequestDto(int year, int[] operatingHoursIdList, int[] customHoursIdList) {
         this.year = year;
         this.customHoursIdList = customHoursIdList;
         this.operatingHoursIdList = operatingHoursIdList;

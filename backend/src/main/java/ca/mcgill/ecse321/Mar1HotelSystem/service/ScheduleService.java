@@ -159,8 +159,7 @@ public class ScheduleService {
     // Hotel Schedule Service Methods
     @Transactional
     public HotelSchedule createHotelSchedule(HotelScheduleRequestDto request) {
-        HotelSchedule newHS = new HotelSchedule();
-        newHS.setYear(request.getYear());
+        int year = request.getYear();
 
         // Find all OperatingHours and CustomHours in the database, based on the list of Ids in request
         List<CustomHours> customHoursList = new ArrayList<>();
@@ -180,8 +179,7 @@ public class ScheduleService {
             }
             operatingHoursList.add(oh);
         }
-        newHS.setOperatingHours(operatingHoursList);
-        newHS.setCustomHours(customHoursList);
+        HotelSchedule newHS = new HotelSchedule(year, operatingHoursList, customHoursList);
 
         hotelScheduleRepository.save(newHS);
         return newHS;
@@ -189,7 +187,11 @@ public class ScheduleService {
 
     @Transactional
     public HotelSchedule getHotelScheduleByYear(int year) {
-        return hotelScheduleRepository.findHotelScheduleByYear(year);
+        HotelSchedule hs = hotelScheduleRepository.findHotelScheduleByYear(year);
+        if (hs == null){
+            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find HotelSchedule of year " + year + ".");
+        }
+        return hs;
     }
 
     @Transactional
@@ -199,10 +201,7 @@ public class ScheduleService {
 
     @Transactional
     public HotelSchedule deleteHotelSchedule(int year) {
-        HotelSchedule deletedHS = hotelScheduleRepository.findHotelScheduleByYear(year);
-        if (deletedHS == null) {
-            throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "Could not find HotelSchedule of year " + year + ".");
-        }
+        HotelSchedule deletedHS = this.getHotelScheduleByYear(year);
         try {
             hotelScheduleRepository.delete(deletedHS);
         } catch (Exception e) {
