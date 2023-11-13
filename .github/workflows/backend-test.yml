@@ -1,15 +1,19 @@
-name: Service Testing
+name: Backend Testing
 
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "backend/**"
   pull_request:
+    paths:
+      - "backend/**"
   
-
 permissions:
   contents: read
 
 jobs:
+  # service test job
   service-test:
     name: "Service Tests"
     env:
@@ -29,8 +33,9 @@ jobs:
     - name: "Run all service tests"
       run: |
         gradle test --tests '*Service*'
-      working-directory: ${{ env.working-directory }}
-  
+        working-directory: ${{ env.working-directory }}
+        
+  # integration test job
   integration-test:
     name: "Integration Tests"
     env:
@@ -53,4 +58,3 @@ jobs:
       working-directory: ${{ env.working-directory }}
 
 
-# integration test job

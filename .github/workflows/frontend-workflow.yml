@@ -1,0 +1,50 @@
+name: Frontend Build & Lint
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+
+jobs:
+  lint-frontend:
+    name: Code Linting 
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Lint app
+      run: |
+        cd frontend
+        npm run lint
+
+  build-frontend:
+    name: Build Website
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Build app
+      run: |
+        cd frontend
+        npm run build
