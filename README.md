@@ -21,16 +21,12 @@ cd project-group-05
 ```bash
 cd backend
 
-# for UNIX-based OS (Linux, macOS, etc.)
+# for UNIX-like OS (Linux, macOS, etc.)
 chmod +x gradlew 
 ./gradlew build 
-./gradlew build -xtest # Build without testing
-./gradlew test  # Run the tests
 
 # for Windows
 gradlew.bat build # Build + test 
-gradlew.bat build -xtest # Build the project without testing
-gradlew.bat test # Run the tests
 ```
 
 - Our database is [open to the public and pre-configured](https://github.com/McGill-ECSE321-Fall2023/project-group-05/wiki/0.-Developer-Guide#database-privacy-concerns), so you don't need to configure anything to run the project. However, if you want to run the project locally, you can change the database configuration in `backend/src/main/resources/application.properties`: (replace `YOUR_DATABASE` and `PASSWORD` with your own database name and password)
@@ -45,11 +41,13 @@ spring.datasource.username=postgres
 spring.datasource.password=PASSWORD
 ```
 
-### Frontend (To Be Implemented)
+### Frontend
 - To start
 ```bash
 cd frontend
-npm install
+npm install # to install dependencies
+npm run dev # to start the development server
+npm run build # to build the project for production
 ```
 
 ## Project structure

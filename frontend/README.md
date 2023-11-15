@@ -52,15 +52,14 @@ npm run build
 - If you're curious on how I (@notkaramel) started this project, here's what I did:
 ```sh
 cd frontend
-npm create vue@latest .
+npm create vue@latest 
 ```
-> Note that the `.` at the end of the command is because we already have a `frontend` folder. You can see [Vue guide](https://vuejs.org/guide/quick-start.html#creating-a-vue-application) for a more general guide, where the `.` is not needed.
-> 
-> Another note is that the `Project name` below value is `.` so that npm doesn't create a new folder but instead overwrite the current folder.
+> Since we're already in the frontend folder, we can just use put the `Project name` field below to be `.`
 ```zsh
 Vue.js - The Progressive JavaScript Framework
 
 ✔ Project name: … .
+✔ Package name: … mar1hotel-website
 ✔ Add TypeScript? … No / [Yes]
 ✔ Add JSX Support? … [No] / Yes
 ✔ Add Vue Router for Single Page Application development? … No / [Yes]
@@ -70,12 +69,22 @@ Vue.js - The Progressive JavaScript Framework
 ✔ Add ESLint for code quality? … No / [Yes]
 ✔ Add Prettier for code formatting? … [No] / Yes
 
-Scaffolding project in [...]/project-group-05/frontend/frontend...
+Scaffolding project in [...]/project-group-05/frontend...
 
 Done. Now run:
 
-  cd frontend
   npm install
   npm run dev
 ```
-> NOTE: `cd frontend` step is unnecessary if you're already in the frontend folder
+> If the **Project name** was different, `npm` would create a folder with the package name for you instead. **Project name** is different from **Package name**.
+
+- After that, I added the following dependencies:
+```sh
+npm install --save axios # for http requests
+npm install flowbite flowbite-vue # CSS Utility Library
+npm install -D tailwindcss postcss autoprefixer # CSS plugin and preprocessor
+```
+
+- For TailwindCSS setup, I follow their guide on [setting up tailwindcss with Vue](https://tailwindcss.com/docs/guides/vue-3-vite). 
+
+
