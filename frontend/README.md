@@ -49,7 +49,7 @@ npm run build
 ```
 
 ## Pre-setup of the project
-- If you're curious on how I (@notkaramel) started this project, here's what I did:
+- In case you're interested in how the project was initialized:
 ```sh
 cd frontend
 npm create vue@latest 
@@ -78,13 +78,13 @@ Done. Now run:
 ```
 > If the **Project name** was different, `npm` would create a folder with the package name for you instead. **Project name** is different from **Package name**.
 
-- After that, I added the following dependencies:
+- After that, we can add the following dependencies:
 ```sh
 npm install --save axios # for http requests
 npm install flowbite flowbite-vue # CSS Utility Library
 npm install -D tailwindcss postcss autoprefixer # CSS plugin and preprocessor
 ```
 
-- For TailwindCSS setup, I follow their guide on [setting up tailwindcss with Vue](https://tailwindcss.com/docs/guides/vue-3-vite). 
+- For TailwindCSS setup, follow the guide on [setting up tailwindcss with Vue](https://tailwindcss.com/docs/guides/vue-3-vite) to configure `tailwind.config.js` (and more!)
 
 
