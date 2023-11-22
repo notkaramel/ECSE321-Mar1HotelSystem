@@ -16,6 +16,9 @@
                 <fwb-navbar-link link="/schedule">
                     Schedule
                 </fwb-navbar-link>
+                <fwb-navbar-link link="/employees">
+                    Employees
+                </fwb-navbar-link>
                 <fwb-navbar-link link="/contact">
                     Contact
                 </fwb-navbar-link>
