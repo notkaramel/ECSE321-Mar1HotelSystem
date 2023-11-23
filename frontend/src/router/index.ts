@@ -17,7 +17,7 @@ const router = createRouter({
       component: RoomView
     },
     {
-      path: '/Manager',
+      path: '/manager',
       name: 'manager',
       component: ManagerView
     }

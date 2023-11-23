@@ -19,8 +19,8 @@ let EmployeeList:any[] = await getEmployees();
 console.log(EmployeeList[0]);
 export default {
     components: {
-        //UserTable
-        EmployeeList
+        UserTable
+        //EmployeeList
     },
     data() {
         return {
@@ -33,7 +33,7 @@ export default {
 <template>
     <main class="flex flex-row items-center">
         <div v-for="employee in employeeList" :key="employee.email">
-            <UserTable :email="employee.email"/>
+            <UserTable :email="employee.email" :firstName="employee.firstName" :lastName="employee.lastName" :phoneNumber="employee.phoneNumber"/>
         </div>
     </main>
 </template>
