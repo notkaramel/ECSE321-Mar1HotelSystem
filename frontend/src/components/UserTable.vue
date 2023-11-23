@@ -1,0 +1,81 @@
+<script lang="ts">
+  
+  import {
+    FwbA,
+    FwbTable,
+    FwbTableBody,
+    FwbTableCell,
+    FwbTableHead,
+    FwbTableHeadCell,
+    FwbTableRow,
+  } from 'flowbite-vue'
+
+  
+    // import { ref } from 'vue'
+    // import { FwbSelect } from 'flowbite-vue'
+    
+    // const selected = ref('')
+    // const Users_Type = [
+    // { value: 'All Users', name: 'All Users' },
+    // { value: 'employees', name: 'Employees' },
+    // { value: 'Customer', name: 'Customer' },
+    // ]
+    
+    export default {
+    props: {
+        email: String,
+        firstName: String,
+        lastName: String,
+        phoneNumber: Number
+    },
+    components: {
+    FwbA,
+    FwbTable,
+    FwbTableBody,
+    FwbTableCell,
+    FwbTableHead,
+    FwbTableHeadCell,
+    FwbTableRow,
+    }
+}
+
+  </script>
+<template>
+
+
+    <!-- <fwb-select
+    v-model="selected"
+    :options="Users_Type"
+    label="Select User Type"
+    underline
+  /> -->
+
+
+    <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Email</fwb-table-head-cell>
+        <fwb-table-head-cell>First Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <span class="sr-only">Edit</span>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row>
+          <fwb-table-cell>{{email}}</fwb-table-cell>
+          <fwb-table-cell>{{firstName}}</fwb-table-cell>
+          <fwb-table-cell>{{lastName}}</fwb-table-cell>
+          <fwb-table-cell>{{phoneNumber}}</fwb-table-cell>
+          <fwb-table-cell>
+            <fwb-a href="#">
+              Edit
+            </fwb-a>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
+  </template>
+  
+  
+  
