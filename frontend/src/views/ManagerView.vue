@@ -44,15 +44,39 @@ async function getGeneralUsers() {
     return listOfGeneralUsers;
 }
 
+async function getRequests() {
+    let listOfRequests: any[] = await axios.get(backendUrl + "/requests")
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    return listOfRequests;
+}
+
+async function getAssignments() {
+    let listOfAssignments: any[] = await axios.get(backendUrl + "/assignments/all")
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    return listOfAssignments;
+}
+const emailS= '';
 let EmployeeList:any[] = await getEmployees();
 let ManagerList:any[] = await getManagers();
 let CustomerList:any[] = await getCustomers();
 let GeneralUserList:any[] = await getGeneralUsers();
+let RequestList:any[] = await getRequests();
+let AssignmentList:any[] = await getAssignments();
+//let SearchedEmployee:any[] = await searchEmployee();
 // let DeletedEmployee = getDeletedEmployee();
 console.log(EmployeeList);
 console.log(ManagerList);
 console.log(CustomerList);
 console.log(GeneralUserList);
+console.log(RequestList);
+console.log(AssignmentList);
+// console.log(SearchedEmployee);
 export default {
     components: {
        UserTable,
@@ -65,12 +89,35 @@ export default {
             managerList: ManagerList,
             customerList: CustomerList,
             generalUserList: GeneralUserList,
+            requestList: RequestList,
+            assignmentList: AssignmentList,
+           // searchedEmployee: SearchedEmployee
+            
             // emailDelete: ''
             // deletedEmployee
         }
     }
 }
 
+async function searchEmployee(emailSearch: string, event: Event){
+    // const buttonValue = event.target?.addEventListener;
+    let searchedEmployee= await axios.get(backendUrl + "/employee/"+emailSearch)
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    console.log(searchedEmployee);
+    window.location.reload();
+    //event.target?.addEventListener
+    event.target
+    return searchedEmployee;
+}
+
+// async function searchedEmployee(event: Event) {
+//     let searchedEmployeeResults = event.target;
+
+//     searchEmployee();
+// }
 
 // async function getDeletedEmployee() {
 //     message
@@ -83,6 +130,7 @@ async function deleteEmployee(emailDelete: string) {
             console.log(err)
         });
     console.log(deletedEmployee);
+    window.location.reload();
     return deletedEmployee;
 }
 
@@ -93,6 +141,7 @@ async function deleteManager(emailDelete: string) {
             console.log(err)
         });
     console.log(deletedManager);
+    window.location.reload();
     return deletedManager;
 }
 
@@ -103,6 +152,7 @@ async function deleteCustomer(emailDelete: string) {
             console.log(err)
         });
     console.log(deletedCustomer);
+    window.location.reload();
     return deletedCustomer;
 }
 
@@ -113,6 +163,7 @@ async function deleteGeneralUser(emailDelete: string) {
             console.log(err)
         });
     console.log(deletedGeneralUser);
+    window.location.reload();
     return deletedGeneralUser;
 }
 
@@ -124,6 +175,7 @@ async function createEmployee(firstName: string, lastName: string, email: string
             console.log(err)
         });
     console.log(createdEmployee);
+    window.location.reload();
     return createdEmployee;
 }
 
@@ -134,6 +186,7 @@ async function createManager(firstName: string, lastName: string, email: string,
             console.log(err)
         });
     console.log(createdManager);
+    window.location.reload();
     return createdManager;
 }
 
@@ -144,6 +197,7 @@ async function createCustomer(firstName: string, lastName: string, email: string
             console.log(err)
         });
     console.log(createdCustomer);
+    window.location.reload();
     return createdCustomer;
 }
 
@@ -154,8 +208,24 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
             console.log(err)
         });
     console.log(createdGeneralUser);
+    window.location.reload();
     return createdGeneralUser;
 }
+
+// async function searchEmployee(emailSearch: string) {
+//     let searchedEmployee= await axios.get(backendUrl + "/employee/"+emailSearch)
+//         .then(response => response.data)
+//         .catch(err => {
+//             console.log(err)
+//         });
+//     console.log(searchedEmployee);
+//     window.location.reload();
+//     return searchedEmployee;
+// }
+
+// async function searchedEmployee() {
+//     searchEmployee(messageSearchEmployee);
+// }
 
 // async function deleteEmployeeSpecific(){
 //     deleteEmployee(message)
@@ -209,6 +279,9 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
   const generalUserLastName = ref('')
   const generalUserEmail = ref('')
   const generalUserPhoneNumber = ref('')
+
+  const messageSearchEmployee = ref('')
+  const messageSearchEmployeeResult = ref('')
  
   
 //   function delete(){
@@ -512,6 +585,42 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         />
         
         <fwb-button @click="createGeneralUser(generalUserFirstName, generalUserLastName, generalUserEmail, parseInt(generalUserPhoneNumber))" color="green">Create GeneralUser</fwb-button>
+    </div>
+     </main>
+
+     <main class="flex flex-row items-center-top">
+        <div>
+        <fwb-badge type="default">Search Employee</fwb-badge>
+        <fwb-textarea
+            v-model="messageSearchEmployee"
+            :rows="2"
+            label="Search Employee"
+            placeholder="Input employee email of employee you want to search..."
+            />
+            <fwb-button @click=" searchEmployee(messageSearchEmployee, $event)" color="green">Search</fwb-button>
+            
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Email</fwb-table-head-cell>
+        <fwb-table-head-cell>First Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
+        <fwb-table-head-cell>Hours Worked</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row>
+          <fwb-table-cell> @searchedEmployee </fwb-table-cell>
+          <!-- <fwb-table-cell>{{employee}}</fwb-table-cell>
+          <fwb-table-cell>{{employee}}</fwb-table-cell>
+          <fwb-table-cell>{{employee}}</fwb-table-cell>
+          <fwb-table-cell>{{employee}}</fwb-table-cell> -->
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
     </div>
      </main>
 
