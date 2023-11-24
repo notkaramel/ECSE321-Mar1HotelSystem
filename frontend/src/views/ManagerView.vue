@@ -489,26 +489,26 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         v-model="generalUserFirstName"
         :rows="2"
         label="Enter GeneralUser First Name"
-        placeholder="Input generalUser first name..."
+        placeholder="Input general user first name..."
         />
         <fwb-textarea
         v-model="generalUserLastName"
         :rows="2"
         label="Enter GeneralUser Last Name"
-        placeholder="Input generalUser last name..."
+        placeholder="Input general user last name..."
         />
         <fwb-textarea
         v-model="generalUserEmail"
         :rows="2"
         label="Enter GeneralUser Email"
-        placeholder="Input generalUser email..."
+        placeholder="Input general user email..."
         />
 
         <fwb-textarea
         v-model="generalUserPhoneNumber"
         :rows="2"
         label="Enter GeneralUser Phone Number"
-        placeholder="Input generalUser phone Number..."
+        placeholder="Input general user phone Number..."
         />
         
         <fwb-button @click="createGeneralUser(generalUserFirstName, generalUserLastName, generalUserEmail, parseInt(generalUserPhoneNumber))" color="green">Create GeneralUser</fwb-button>
