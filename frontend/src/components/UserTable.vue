@@ -31,7 +31,8 @@
         email: String,
         firstName: String,
         lastName: String,
-        phoneNumber: Number
+        phoneNumber: Number,
+        userList: Array
     },
     components: {
     FwbA,
@@ -45,6 +46,16 @@
     }
 }
 
+let emailList = new Array()
+// const emailList = new Array()
+function listOfEmails(list:any[]) {
+  for (let i = 0; i < list.length; i++) {
+    if(list[i].keys == "email"){
+        emailList[i] = list[i].value + "<br>";
+    }
+    
+}
+}
   </script>
 
   <script setup lang="ts">
@@ -52,8 +63,6 @@
 </script>
 
 <template>
-
-
     <!-- <fwb-select
     v-model="selected"
     :options="Users_Type"
@@ -73,8 +82,9 @@
         </fwb-table-head-cell>
       </fwb-table-head>
       <fwb-table-body>
+        <!-- <fwb-table-row v-for="email in listOfEmails(userList)"> -->
         <fwb-table-row>
-          <fwb-table-cell id ={{email}}> {{email}}</fwb-table-cell>
+          <fwb-table-cell> {{email}}</fwb-table-cell>
           <fwb-table-cell>{{firstName}}</fwb-table-cell>
           <fwb-table-cell>{{lastName}}</fwb-table-cell>
           <fwb-table-cell>{{phoneNumber}}</fwb-table-cell>
