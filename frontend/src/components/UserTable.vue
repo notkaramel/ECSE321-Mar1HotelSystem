@@ -8,8 +8,12 @@
     FwbTableHead,
     FwbTableHeadCell,
     FwbTableRow,
+    FwbCheckbox,
+    FwbButton,
   } from 'flowbite-vue'
 
+  import { ref } from 'vue'
+  
   
     // import { ref } from 'vue'
     // import { FwbSelect } from 'flowbite-vue'
@@ -20,6 +24,7 @@
     // { value: 'employees', name: 'Employees' },
     // { value: 'Customer', name: 'Customer' },
     // ]
+    
     
     export default {
     props: {
@@ -36,10 +41,16 @@
     FwbTableHead,
     FwbTableHeadCell,
     FwbTableRow,
+    FwbCheckbox,
     }
 }
 
   </script>
+
+  <script setup lang="ts">
+  const deleteEmployee = ref("vue.js")
+</script>
+
 <template>
 
 
@@ -58,19 +69,18 @@
         <fwb-table-head-cell>Last Name</fwb-table-head-cell>
         <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
         <fwb-table-head-cell>
-          <span class="sr-only">Edit</span>
+          <!-- <span class="sr-only">check</span> -->
         </fwb-table-head-cell>
       </fwb-table-head>
       <fwb-table-body>
         <fwb-table-row>
-          <fwb-table-cell>{{email}}</fwb-table-cell>
+          <fwb-table-cell id ={{email}}> {{email}}</fwb-table-cell>
           <fwb-table-cell>{{firstName}}</fwb-table-cell>
           <fwb-table-cell>{{lastName}}</fwb-table-cell>
           <fwb-table-cell>{{phoneNumber}}</fwb-table-cell>
           <fwb-table-cell>
-            <fwb-a href="#">
-              Edit
-            </fwb-a>
+            <!-- <fwb-checkbox v-model="check"/> -->
+            <!-- <fwb-button @click="deleteEmployee" color="red">Delete</fwb-button> -->
           </fwb-table-cell>
         </fwb-table-row>
       </fwb-table-body>
