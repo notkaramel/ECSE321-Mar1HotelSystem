@@ -170,6 +170,16 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
   import { FwbTextarea } from 'flowbite-vue'
   import { FwbButton } from 'flowbite-vue'
   import { FwbBadge } from 'flowbite-vue'
+  import {
+    FwbA,
+    FwbTable,
+    FwbTableBody,
+    FwbTableCell,
+    FwbTableHead,
+    FwbTableHeadCell,
+    FwbTableRow,
+    FwbCheckbox
+  } from 'flowbite-vue'
 
   const messageEmployee = ref('')
   const messageManager = ref('')
@@ -194,6 +204,11 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
   const customerEmail = ref('')
   const customerPhoneNumber = ref('')
   const customerPassword = ref('')
+
+  const generalUserFirstName = ref('')
+  const generalUserLastName = ref('')
+  const generalUserEmail = ref('')
+  const generalUserPhoneNumber = ref('')
  
   
 //   function delete(){
@@ -215,9 +230,30 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
 
 <template>
     <main class="flex flex-row items-center-top">
-        <fwb-badge type="default">View Employees</fwb-badge>
-        <div v-for="employee in employeeList" :key="employee.email">
-            <UserTable :email="employee.email" :firstName="employee.firstName" :lastName="employee.lastName" :phoneNumber="employee.phoneNumber" :userList="employee"/>
+        <div>
+            <fwb-badge type="default">View Employees</fwb-badge>
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Email</fwb-table-head-cell>
+        <fwb-table-head-cell>First Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
+        <fwb-table-head-cell>Hours Worked</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="employee in employeeList">
+          <fwb-table-cell> {{employee.email}}</fwb-table-cell>
+          <fwb-table-cell>{{employee.firstName}}</fwb-table-cell>
+          <fwb-table-cell>{{employee.lastName}}</fwb-table-cell>
+          <fwb-table-cell>{{employee.phoneNumber}}</fwb-table-cell>
+          <fwb-table-cell>{{employee.hoursWorked}}</fwb-table-cell>
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
             <fwb-textarea
             v-model="messageEmployee"
             :rows="2"
@@ -275,9 +311,28 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
      </main>
      
      <main class="flex flex-row items-center-top">
-        <fwb-badge type="default">View Managers</fwb-badge>
-        <div v-for="manager in managerList" :key="manager.email">
-                <UserTable :email="manager.email" :firstName="manager.firstName" :lastName="manager.lastName" :phoneNumber="manager.phoneNumber"/>
+        <div>
+                <fwb-badge type="default">View Managers</fwb-badge>
+                <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Email</fwb-table-head-cell>
+        <fwb-table-head-cell>First Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="manager in managerList">
+          <fwb-table-cell> {{manager.email}}</fwb-table-cell>
+          <fwb-table-cell>{{manager.firstName}}</fwb-table-cell>
+          <fwb-table-cell>{{manager.lastName}}</fwb-table-cell>
+          <fwb-table-cell>{{manager.phoneNumber}}</fwb-table-cell>
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
                 <fwb-textarea
                 v-model="messageManager"
                 :rows="2"
@@ -328,9 +383,28 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
      </main>
 
      <main class="flex flex-row items-center-top">
-        <fwb-badge type="default">View Customers</fwb-badge>
-        <div v-for="customer in customerList" :key="customer.email">
-            <UserTable :email="customer.email" :firstName="customer.firstName" :lastName="customer.lastName" :phoneNumber="customer.phoneNumber"/>
+        <div>
+            <fwb-badge type="default">View Customers</fwb-badge>
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Email</fwb-table-head-cell>
+        <fwb-table-head-cell>First Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="customer in customerList">
+          <fwb-table-cell> {{customer.email}}</fwb-table-cell>
+          <fwb-table-cell>{{customer.firstName}}</fwb-table-cell>
+          <fwb-table-cell>{{customer.lastName}}</fwb-table-cell>
+          <fwb-table-cell>{{customer.phoneNumber}}</fwb-table-cell>
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
             <fwb-textarea
             v-model="messageCustomer"
             :rows="2"
@@ -380,9 +454,28 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
      </main>
 
      <main class="flex flex-row items-center-top">
-        <div v-for="generalUser in generalUserList" :key="generalUser.email">
+        <div>
             <fwb-badge type="default">View All Users</fwb-badge>
-            <UserTable :email="generalUser.email" :firstName="generalUser.firstName" :lastName="generalUser.lastName" :phoneNumber="generalUser.phoneNumber" :userList="generalUser"/>
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Email</fwb-table-head-cell>
+        <fwb-table-head-cell>First Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="generalUser in generalUserList">
+          <fwb-table-cell> {{generalUser.email}}</fwb-table-cell>
+          <fwb-table-cell>{{generalUser.firstName}}</fwb-table-cell>
+          <fwb-table-cell>{{generalUser.lastName}}</fwb-table-cell>
+          <fwb-table-cell>{{generalUser.phoneNumber}}</fwb-table-cell>
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
             <fwb-textarea
             v-model="messageGeneralUser"
             :rows="2"
@@ -391,6 +484,35 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
             />
             <fwb-button @click="deleteGeneralUser(messageGeneralUser)" color="red">Delete</fwb-button>
         </div>
+        <div class="CreatingGeneralUser">
+    <fwb-textarea
+        v-model="generalUserFirstName"
+        :rows="2"
+        label="Enter GeneralUser First Name"
+        placeholder="Input generalUser first name..."
+        />
+        <fwb-textarea
+        v-model="generalUserLastName"
+        :rows="2"
+        label="Enter GeneralUser Last Name"
+        placeholder="Input generalUser last name..."
+        />
+        <fwb-textarea
+        v-model="generalUserEmail"
+        :rows="2"
+        label="Enter GeneralUser Email"
+        placeholder="Input generalUser email..."
+        />
+
+        <fwb-textarea
+        v-model="generalUserPhoneNumber"
+        :rows="2"
+        label="Enter GeneralUser Phone Number"
+        placeholder="Input generalUser phone Number..."
+        />
+        
+        <fwb-button @click="createGeneralUser(generalUserFirstName, generalUserLastName, generalUserEmail, parseInt(generalUserPhoneNumber))" color="green">Create GeneralUser</fwb-button>
+    </div>
      </main>
 
 
