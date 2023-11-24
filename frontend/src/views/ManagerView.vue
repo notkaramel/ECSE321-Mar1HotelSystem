@@ -64,6 +64,8 @@ async function createEmployee(firstName: string, lastName: string, email: string
 //     deleteEmployee(message)
 // }
 
+
+
 </script>
 
 <script setup lang="ts">
@@ -89,14 +91,18 @@ async function createEmployee(firstName: string, lastName: string, email: string
 //   }
 // }
   </script>
+
+<!-- <style scoped lang="postcss">
+        #deleteEmployee {
+            @apply content-center;
+        }
+</style> -->
+
 <template>
-    
-    <main class="flex flex-row items-center">
+    <main class="flex flex-row items-center-top">
         <div v-for="employee in employeeList" :key="employee.email">
             <UserTable :email="employee.email" :firstName="employee.firstName" :lastName="employee.lastName" :phoneNumber="employee.phoneNumber"/>
-        </div>
-        <div>
-        <fwb-textarea
+            <fwb-textarea
             v-model="message"
             :rows="2"
             label="Delete Employee"
@@ -104,50 +110,57 @@ async function createEmployee(firstName: string, lastName: string, email: string
             />
             <fwb-button @click="deleteEmployee(message)" color="red">Delete</fwb-button>
         </div>
-
-        <div>
+        
+        <div class="CreatingEmployee">
+    <fwb-textarea
+        v-model="employeeFirstName"
+        :rows="2"
+        label="Enter Employee First Name"
+        placeholder="Input employee first name..."
+        />
         <fwb-textarea
-            v-model="employeeFirstName"
-            :rows="2"
-            label="Enter Employee First Name"
-            placeholder="Input employee first name..."
-            />
-            <fwb-textarea
-            v-model="employeeLastName"
-            :rows="2"
-            label="Enter Employee Last Name"
-            placeholder="Input employee last name..."
-            />
-            <fwb-textarea
-            v-model="employeeEmail"
-            :rows="2"
-            label="Enter Employee Email"
-            placeholder="Input employee email..."
-            />
+        v-model="employeeLastName"
+        :rows="2"
+        label="Enter Employee Last Name"
+        placeholder="Input employee last name..."
+        />
+        <fwb-textarea
+        v-model="employeeEmail"
+        :rows="2"
+        label="Enter Employee Email"
+        placeholder="Input employee email..."
+        />
 
-            <fwb-textarea
-            v-model="employeePhoneNumber"
-            :rows="2"
-            label="Enter Employee Phone Number"
-            placeholder="Input employee phone Number..."
-            />
+        <fwb-textarea
+        v-model="employeePhoneNumber"
+        :rows="2"
+        label="Enter Employee Phone Number"
+        placeholder="Input employee phone Number..."
+        />
 
-            <fwb-textarea
-            v-model="employeePassword"
-            :rows="2"
-            label="Enter Employee Password"
-            placeholder="Input employee password..."
-            />
+        <fwb-textarea
+        v-model="employeePassword"
+        :rows="2"
+        label="Enter Employee Password"
+        placeholder="Input employee password..."
+        />
 
-            <fwb-textarea
-            v-model="employeeHoursWorked"
-            :rows="2"
-            label="Enter Employee hours worked"
-            placeholder="Input employee hours worked..."
-            />
-            
-            <fwb-button @click="createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
-            employeePassword, parseInt(employeeHoursWorked))" color="green">Create Employee</fwb-button>
-        </div>
+        <fwb-textarea
+        v-model="employeeHoursWorked"
+        :rows="2"
+        label="Enter Employee hours worked"
+        placeholder="Input employee hours worked..."
+        />
+        
+        <fwb-button @click="createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
+        employeePassword, parseInt(employeeHoursWorked))" color="green">Create Employee</fwb-button>
+    </div>
      </main>
+     
+     <main class="flex flex-row items-center-top">
+        
+     </main>
+
+     
+
 </template>
