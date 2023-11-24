@@ -13,6 +13,9 @@
                 <fwb-navbar-link link="/rooms">
                     Room Options
                 </fwb-navbar-link>
+                <fwb-navbar-link link="/manager">
+                    Manager
+                </fwb-navbar-link>
                 <fwb-navbar-link link="/schedule">
                     Schedule
                 </fwb-navbar-link>
