@@ -171,6 +171,28 @@ async function deleteGeneralUser(emailDelete: string) {
     return deletedGeneralUser;
 }
 
+async function deleteRequest(requestId: number) {
+    let deletedRequest = await axios.delete(backendUrl + "/requests/delete/"+requestId)
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    console.log(deletedRequest);
+    window.location.reload();
+    return deletedRequest;
+}
+
+async function deleteAssignment(assignmentId: number) {
+    let deletedAssignment = await axios.delete(backendUrl + "/assignments/"+assignmentId)
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    console.log(deleteAssignment);
+    window.location.reload();
+    return deletedAssignment;
+}
+
 
 async function createEmployee(firstName: string, lastName: string, email: string, phoneNumber: number, password: string, hoursWorked: number) {
     let createdEmployee = await axios.post(backendUrl + "/employee/", {"email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked})
@@ -263,6 +285,8 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
   const messageManager = ref('')
   const messageCustomer = ref('')
   const messageGeneralUser = ref('')
+  const messageRequest = ref('')
+  const messageAssignment = ref('')
 
   const employeeFirstName = ref('')
   const employeeLastName = ref('')
@@ -686,13 +710,13 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         </fwb-table-row>
       </fwb-table-body>
     </fwb-table>
-            <!-- <fwb-textarea
-            v-model="messageGeneralUser"
+            <fwb-textarea
+            v-model="messageRequest"
             :rows="2"
-            label="Delete General User"
-            placeholder="Input generalUser email of generalUser you want to delete..."
+            label="Delete Request"
+            placeholder="Input request id of request you want to delete..."
             />
-            <fwb-button @click="deleteGeneralUser(messageGeneralUser)" color="red">Delete</fwb-button> -->
+            <fwb-button @click="deleteRequest(parseInt(messageRequest))" color="red">Delete</fwb-button>
         </div>
      </main>
     
@@ -701,7 +725,46 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     <fwb-accordion-panel>
       <fwb-accordion-header>Assignments</fwb-accordion-header>
       <fwb-accordion-content>
-
+        <main class="flex flex-row items-center-top">
+        <div>
+            <fwb-badge type="default">View All Users</fwb-badge>
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Request Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Description</fwb-table-head-cell>
+        <fwb-table-head-cell>Is Fufilled</fwb-table-head-cell>
+        <fwb-table-head-cell>Booking Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Room Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Customer Email</fwb-table-head-cell>
+        <fwb-table-head-cell>Employee Email</fwb-table-head-cell>
+        <fwb-table-head-cell>Assignment Id</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="assignment in assignmentList">
+          <fwb-table-cell> {{assignment["request"].requestId}}</fwb-table-cell>
+          <fwb-table-cell>{{assignment["request"].description}}</fwb-table-cell>
+          <fwb-table-cell>{{assignment["request"].isFulfilled}}</fwb-table-cell>
+          <fwb-table-cell>{{assignment["request"]["booking"].bookingId}}</fwb-table-cell>
+          <fwb-table-cell>{{assignment["request"]["booking"]["room"].roomId}}</fwb-table-cell>
+          <fwb-table-cell>{{assignment["request"]["booking"]["generalUser"].email}}</fwb-table-cell>
+          <fwb-table-cell>{{assignment["employee"].email}}</fwb-table-cell>
+          <fwb-table-cell>{{assignment.assignmentId}}</fwb-table-cell>
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
+            <fwb-textarea
+            v-model="messageAssignment"
+            :rows="2"
+            label="Delete Assignment"
+            placeholder="Input assignment id of assignment you want to delete..."
+            />
+            <fwb-button @click="deleteRequest(parseInt(messageAssignment))" color="red">Delete</fwb-button>
+        </div>
+     </main>
       </fwb-accordion-content>
     </fwb-accordion-panel>
     <fwb-accordion-panel>
