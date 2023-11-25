@@ -248,7 +248,11 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     FwbTableHead,
     FwbTableHeadCell,
     FwbTableRow,
-    FwbCheckbox
+    FwbCheckbox,
+    FwbAccordion,
+  FwbAccordionContent,
+  FwbAccordionHeader,
+  FwbAccordionPanel,
   } from 'flowbite-vue'
 
   const messageEmployee = ref('')
@@ -302,6 +306,10 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
 </style> -->
 
 <template>
+    <fwb-accordion>
+    <fwb-accordion-panel>
+      <fwb-accordion-header>Employees</fwb-accordion-header>
+      <fwb-accordion-content>
     <main class="flex flex-row items-center-top">
         <div>
             <fwb-badge type="default">View Employees</fwb-badge>
@@ -382,7 +390,47 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         employeePassword, parseInt(employeeHoursWorked))" color="green">Create Employee</fwb-button>
     </div>
      </main>
-     
+     <main class="flex flex-row items-center-top">
+        <div>
+        <fwb-badge type="default">Search Employee</fwb-badge>
+        <fwb-textarea
+            v-model="messageSearchEmployee"
+            :rows="2"
+            label="Search Employee"
+            placeholder="Input employee email of employee you want to search..."
+            />
+            <fwb-button @click=" searchEmployee(messageSearchEmployee, $event)" color="green">Search</fwb-button>
+            
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Email</fwb-table-head-cell>
+        <fwb-table-head-cell>First Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
+        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
+        <fwb-table-head-cell>Hours Worked</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row>
+          <fwb-table-cell> @searchedEmployee </fwb-table-cell>
+          <!-- <fwb-table-cell>{{employee}}</fwb-table-cell>
+          <fwb-table-cell>{{employee}}</fwb-table-cell>
+          <fwb-table-cell>{{employee}}</fwb-table-cell>
+          <fwb-table-cell>{{employee}}</fwb-table-cell> -->
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
+    </div>
+     </main>
+    </fwb-accordion-content>
+    </fwb-accordion-panel>
+    <fwb-accordion-panel>
+    <fwb-accordion-header>Managers</fwb-accordion-header>
+    <fwb-accordion-content>
+    
      <main class="flex flex-row items-center-top">
         <div>
                 <fwb-badge type="default">View Managers</fwb-badge>
@@ -455,6 +503,12 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     </div>
      </main>
 
+    </fwb-accordion-content>
+    </fwb-accordion-panel>
+    <fwb-accordion-panel>
+      <fwb-accordion-header>Customers</fwb-accordion-header>
+      <fwb-accordion-content>
+
      <main class="flex flex-row items-center-top">
         <div>
             <fwb-badge type="default">View Customers</fwb-badge>
@@ -526,6 +580,11 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     </div>
      </main>
 
+    </fwb-accordion-content>
+    </fwb-accordion-panel>
+    <fwb-accordion-panel>
+      <fwb-accordion-header>All Users</fwb-accordion-header>
+      <fwb-accordion-content>
      <main class="flex flex-row items-center-top">
         <div>
             <fwb-badge type="default">View All Users</fwb-badge>
@@ -588,41 +647,9 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     </div>
      </main>
 
-     <main class="flex flex-row items-center-top">
-        <div>
-        <fwb-badge type="default">Search Employee</fwb-badge>
-        <fwb-textarea
-            v-model="messageSearchEmployee"
-            :rows="2"
-            label="Search Employee"
-            placeholder="Input employee email of employee you want to search..."
-            />
-            <fwb-button @click=" searchEmployee(messageSearchEmployee, $event)" color="green">Search</fwb-button>
-            
-            <fwb-table hoverable>
-      <fwb-table-head>
-        <fwb-table-head-cell>Email</fwb-table-head-cell>
-        <fwb-table-head-cell>First Name</fwb-table-head-cell>
-        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
-        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
-        <fwb-table-head-cell>Hours Worked</fwb-table-head-cell>
-        <fwb-table-head-cell>
-        </fwb-table-head-cell>
-      </fwb-table-head>
-      <fwb-table-body>
-        <fwb-table-row>
-          <fwb-table-cell> @searchedEmployee </fwb-table-cell>
-          <!-- <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell> -->
-          <fwb-table-cell>
-          </fwb-table-cell>
-        </fwb-table-row>
-      </fwb-table-body>
-    </fwb-table>
-    </div>
-     </main>
+    </fwb-accordion-content>
+    </fwb-accordion-panel>
+</fwb-accordion>
 
 
      
