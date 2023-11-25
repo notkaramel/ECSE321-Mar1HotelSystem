@@ -47,6 +47,9 @@ async function getGeneralUsers() {
 async function getRequests() {
     let listOfRequests: any[] = await axios.get(backendUrl + "/requests")
         .then(response => response.data)
+        // .then(response => response.data["room"])
+        // .then(response => response.data["generalUser"])
+        // .then(response => response.data)
         .catch(err => {
             console.log(err)
         });
@@ -91,7 +94,7 @@ export default {
             generalUserList: GeneralUserList,
             requestList: RequestList,
             assignmentList: AssignmentList,
-           // searchedEmployee: SearchedEmployee
+            searchedEmployeeRes: ''
             
             // emailDelete: ''
             // deletedEmployee
@@ -109,7 +112,8 @@ async function searchEmployee(emailSearch: string, event: Event){
     console.log(searchedEmployee);
     window.location.reload();
     //event.target?.addEventListener
-    event.target
+    
+  
     return searchedEmployee;
 }
 
@@ -306,7 +310,10 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
 </style> -->
 
 <template>
-    <fwb-accordion>
+    <title>
+        Manager
+    </title>
+    <fwb-accordion :open-first-item="false">
     <fwb-accordion-panel>
       <fwb-accordion-header>Employees</fwb-accordion-header>
       <fwb-accordion-content>
@@ -412,8 +419,8 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         </fwb-table-head-cell>
       </fwb-table-head>
       <fwb-table-body>
-        <fwb-table-row>
-          <fwb-table-cell> @searchedEmployee </fwb-table-cell>
+        <fwb-table-row v-for="searchedEmployee in searchedEmployeeRes">
+          <fwb-table-cell>  searchedEmployee </fwb-table-cell>
           <!-- <fwb-table-cell>{{employee}}</fwb-table-cell>
           <fwb-table-cell>{{employee}}</fwb-table-cell>
           <fwb-table-cell>{{employee}}</fwb-table-cell>
@@ -646,6 +653,61 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         <fwb-button @click="createGeneralUser(generalUserFirstName, generalUserLastName, generalUserEmail, parseInt(generalUserPhoneNumber))" color="green">Create GeneralUser</fwb-button>
     </div>
      </main>
+
+    </fwb-accordion-content>
+    </fwb-accordion-panel>
+    <fwb-accordion-panel>
+      <fwb-accordion-header>Requests</fwb-accordion-header>
+      <fwb-accordion-content>
+        <main class="flex flex-row items-center-top">
+        <div>
+            <fwb-badge type="default">View All Users</fwb-badge>
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Request Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Description</fwb-table-head-cell>
+        <fwb-table-head-cell>Is Fufilled</fwb-table-head-cell>
+        <fwb-table-head-cell>Booking Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Room Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Customer Email</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="request in requestList">
+          <fwb-table-cell> {{request.requestId}}</fwb-table-cell>
+          <fwb-table-cell>{{request.description}}</fwb-table-cell>
+          <fwb-table-cell>{{request.isFulfilled}}</fwb-table-cell>
+          <fwb-table-cell>{{request["booking"].bookingId}}</fwb-table-cell>
+          <fwb-table-cell>{{request["booking"]["room"].roomId}}</fwb-table-cell>
+          <fwb-table-cell>{{request["booking"]["generalUser"].email}}</fwb-table-cell>
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
+            <!-- <fwb-textarea
+            v-model="messageGeneralUser"
+            :rows="2"
+            label="Delete General User"
+            placeholder="Input generalUser email of generalUser you want to delete..."
+            />
+            <fwb-button @click="deleteGeneralUser(messageGeneralUser)" color="red">Delete</fwb-button> -->
+        </div>
+     </main>
+    
+      </fwb-accordion-content>
+    </fwb-accordion-panel>
+    <fwb-accordion-panel>
+      <fwb-accordion-header>Assignments</fwb-accordion-header>
+      <fwb-accordion-content>
+
+      </fwb-accordion-content>
+    </fwb-accordion-panel>
+    <fwb-accordion-panel>
+      <fwb-accordion-header>Booking</fwb-accordion-header>
+      <fwb-accordion-content>
+
 
     </fwb-accordion-content>
     </fwb-accordion-panel>
