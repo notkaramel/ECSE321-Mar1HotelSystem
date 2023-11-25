@@ -47,9 +47,6 @@ async function getGeneralUsers() {
 async function getRequests() {
     let listOfRequests: any[] = await axios.get(backendUrl + "/requests")
         .then(response => response.data)
-        // .then(response => response.data["room"])
-        // .then(response => response.data["generalUser"])
-        // .then(response => response.data)
         .catch(err => {
             console.log(err)
         });
@@ -64,6 +61,16 @@ async function getAssignments() {
         });
     return listOfAssignments;
 }
+
+async function getBookings() {
+    let listOfBookings: any[] = await axios.get(backendUrl + "/booking/all")
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    return listOfBookings;
+}
+
 const emailS= '';
 let EmployeeList:any[] = await getEmployees();
 let ManagerList:any[] = await getManagers();
@@ -71,6 +78,7 @@ let CustomerList:any[] = await getCustomers();
 let GeneralUserList:any[] = await getGeneralUsers();
 let RequestList:any[] = await getRequests();
 let AssignmentList:any[] = await getAssignments();
+let BookingList:any[] = await getBookings();
 //let SearchedEmployee:any[] = await searchEmployee();
 // let DeletedEmployee = getDeletedEmployee();
 console.log(EmployeeList);
@@ -79,6 +87,7 @@ console.log(CustomerList);
 console.log(GeneralUserList);
 console.log(RequestList);
 console.log(AssignmentList);
+console.log(BookingList);
 // console.log(SearchedEmployee);
 export default {
     components: {
@@ -94,6 +103,7 @@ export default {
             generalUserList: GeneralUserList,
             requestList: RequestList,
             assignmentList: AssignmentList,
+            bookingList: BookingList,
             searchedEmployeeRes: ''
             
             // emailDelete: ''
@@ -188,9 +198,20 @@ async function deleteAssignment(assignmentId: number) {
         .catch(err => {
             console.log(err)
         });
-    console.log(deleteAssignment);
+    console.log(deletedAssignment);
     window.location.reload();
     return deletedAssignment;
+}
+
+async function deleteBooking(bookingId: number) {
+    let deletedBooking = await axios.delete(backendUrl + "/booking/delete/"+bookingId)
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    console.log(deletedBooking);
+    window.location.reload();
+    return deletedBooking;
 }
 
 
@@ -237,6 +258,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     window.location.reload();
     return createdGeneralUser;
 }
+
 
 // async function searchEmployee(emailSearch: string) {
 //     let searchedEmployee= await axios.get(backendUrl + "/employee/"+emailSearch)
@@ -287,6 +309,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
   const messageGeneralUser = ref('')
   const messageRequest = ref('')
   const messageAssignment = ref('')
+  const messageBooking = ref('')
 
   const employeeFirstName = ref('')
   const employeeLastName = ref('')
@@ -685,7 +708,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
       <fwb-accordion-content>
         <main class="flex flex-row items-center-top">
         <div>
-            <fwb-badge type="default">View All Users</fwb-badge>
+            <fwb-badge type="default">View Requests</fwb-badge>
             <fwb-table hoverable>
       <fwb-table-head>
         <fwb-table-head-cell>Request Id</fwb-table-head-cell>
@@ -727,7 +750,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
       <fwb-accordion-content>
         <main class="flex flex-row items-center-top">
         <div>
-            <fwb-badge type="default">View All Users</fwb-badge>
+            <fwb-badge type="default">View Assignments</fwb-badge>
             <fwb-table hoverable>
       <fwb-table-head>
         <fwb-table-head-cell>Request Id</fwb-table-head-cell>
@@ -762,7 +785,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
             label="Delete Assignment"
             placeholder="Input assignment id of assignment you want to delete..."
             />
-            <fwb-button @click="deleteRequest(parseInt(messageAssignment))" color="red">Delete</fwb-button>
+            <fwb-button @click="deleteAssignment(parseInt(messageAssignment))" color="red">Delete</fwb-button>
         </div>
      </main>
       </fwb-accordion-content>
@@ -770,6 +793,40 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     <fwb-accordion-panel>
       <fwb-accordion-header>Booking</fwb-accordion-header>
       <fwb-accordion-content>
+        <main class="flex flex-row items-center-top">
+        <div>
+            <fwb-badge type="default">View Bookings</fwb-badge>
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Booking Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Payment Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Payment Amount</fwb-table-head-cell>
+        <fwb-table-head-cell>Room Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Customer Email</fwb-table-head-cell>
+        <fwb-table-head-cell>Rooms</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="booking in bookingList">
+          <fwb-table-cell> {{booking.bookingId}}</fwb-table-cell>
+          <fwb-table-cell>{{booking["payment"].paymentId}}</fwb-table-cell>
+          <fwb-table-cell>{{booking["payment"].amount}}</fwb-table-cell>
+          <fwb-table-cell>{{booking["room"].roomId}}</fwb-table-cell>
+          <fwb-table-cell>{{booking["generalUser"].email}}</fwb-table-cell>
+          <fwb-table-cell>{{booking["rooms"]}}</fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
+            <fwb-textarea
+            v-model="messageBooking"
+            :rows="2"
+            label="Delete Booking"
+            placeholder="Input booking id of booking you want to delete..."
+            />
+            <fwb-button @click="deleteBooking(parseInt(messageBooking))" color="red">Delete</fwb-button>
+        </div>
+     </main>
 
 
     </fwb-accordion-content>
