@@ -7,6 +7,7 @@ import HotelSchedule from '@/components/HotelScheduleComp.vue';
 // import DeleteUser from '@/components/DeleteUser.vue';
 
 import axios from 'axios'
+import { isBooleanAttr } from '@vue/shared'
 const backendUrl = import.meta.env.VITE_BACKEND;
 
 console.log(backendUrl)
@@ -359,7 +360,7 @@ async function createAssignment(employeeId: Number,requestId: Number) {
     return createdAssignment;
 }
 
-async function createEmployeeShift( shiftId: Number, date: String, startTime: Number, endTime: Number,
+async function createEmployeeShift(shiftId: Number, date: String, startTime: Number, endTime: Number,
   email: String, firstName: String, lastName: String, phoneNumber: Number, password: String, hoursWorked: Number) {
     let createdEmployeeShift = await axios.post(backendUrl + "/employee/"+email+"shift", {"shiftId": shiftId, "date": date, "startTime": startTime, "endTime": endTime, "employee": { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked}})
         .then(response => response.data)
@@ -468,6 +469,25 @@ async function createEmployeeShift( shiftId: Number, date: String, startTime: Nu
   const managerUpdatePhoneNumber = ref('')
   const managerUdpatePassword = ref('')
   const managerNewPassword = ref('')
+
+  const shiftId = ref('')
+  const shiftDate = ref('')
+  const shiftStartTime = ref('')
+  const shiftEndTime = ref('')
+  const shiftFirstName= ref('')
+  const shiftLastName = ref('')
+  const shiftEmail = ref('')
+  const shiftPhoneNumber = ref('')
+  const shiftPassword = ref('')
+  const shiftHoursWorked = ref('')
+  const shiftIdDelete = ref('')
+
+  const messageRequestDescription = ref('')
+  const messageRequestBookingId = ref('')
+  const messageRequestIsFufilled = ref('')
+  const messageAssignmentEmployeeId = ref('')
+  const messageAssignmentRequestId = ref('')
+  
   
 //   function delete(){
 
@@ -968,6 +988,28 @@ async function createEmployeeShift( shiftId: Number, date: String, startTime: Nu
             />
             <fwb-button @click="deleteRequest(parseInt(messageRequest))" color="red">Delete</fwb-button>
         </div>
+        <div>
+            <fwb-badge type="green">Create Requests</fwb-badge>
+            <fwb-textarea
+            v-model="messageRequestDescription"
+            :rows="2"
+            label="Request Description"
+            placeholder="Input Request Description..."
+            />
+            <fwb-textarea
+            v-model="messageRequestBookingId"
+            :rows="2"
+            label="Booking Id of Booking related to Request"
+            placeholder="Input Booking Id of Booking related to Request..."
+            />
+            <fwb-textarea
+            v-model="messageRequestIsFufilled"
+            :rows="2"
+            label="Request Status as boolean either true of false (all lower caser)"
+            placeholder="Input Request Status as boolean either true of false (all lower caser)"
+            />
+            <fwb-button @click="createRequest(messageRequestDescription, parseInt(messageRequestBookingId), isBooleanAttr(messageRequestIsFufilled))" color="green">Create Request</fwb-button>
+        </div>
      </main>
     
       </fwb-accordion-content>
@@ -1013,6 +1055,22 @@ async function createEmployeeShift( shiftId: Number, date: String, startTime: Nu
             placeholder="Input assignment id of assignment you want to delete..."
             />
             <fwb-button @click="deleteAssignment(parseInt(messageAssignment))" color="red">Delete</fwb-button>
+        </div>
+        <div>
+            <fwb-badge type="green">Create Assignment</fwb-badge>
+            <fwb-textarea
+            v-model="messageAssignmentEmployeeId"
+            :rows="2"
+            label="Employee Id of employee in charge of Assignment"
+            placeholder="Input Employee Id of employee in charge of Assignment..."
+            />
+            <fwb-textarea
+            v-model="messageAssignmentRequestId"
+            :rows="2"
+            label="Request Id of request in related of Assignment"
+            placeholder="Input Request Id of request in related of Assignment..."
+            />
+            <fwb-button @click="createAssignment(parseInt(messageAssignmentEmployeeId), parseInt(messageAssignmentEmployeeId))" color="green">Delete</fwb-button>
         </div>
      </main>
       </fwb-accordion-content>
@@ -1103,6 +1161,83 @@ async function createEmployeeShift( shiftId: Number, date: String, startTime: Nu
         </fwb-table-row>
       </fwb-table-body>
     </fwb-table>
+
+    <fwb-textarea
+        v-model="shiftIdDelete"
+        :rows="2"
+        label="Enter Shift Id to Delete Specific Shift"
+        placeholder="Input Shift Id to Delete Specific Shift..."
+        />
+                <fwb-button @click="deleteEmployeeShift(parseInt(shiftIdDelete))" color="red">Delete Employee Shift</fwb-button>                
+    </div>
+     <div>
+    <fwb-badge type="green">Create Employee Shift</fwb-badge>
+    <fwb-textarea
+        v-model="shiftId"
+        :rows="2"
+        label="Enter Employee Shift Id"
+        placeholder="Input Employee Shift Id..."
+        />
+        <fwb-textarea
+        v-model="shiftDate"
+        :rows="2"
+        label="Enter Employee Shift Date YYYY-MM-DD"
+        placeholder="Input Employee Shift Date YYYY-MM-DD.."
+        />
+        <fwb-textarea
+        v-model="shiftStartTime"
+        :rows="2"
+        label="Enter Employee Shift Start Time"
+        placeholder="Input Employee Shift Start Time..."
+        />
+
+        <fwb-textarea
+        v-model="shiftEndTime"
+        :rows="2"
+        label="Enter Employee Shift End Time"
+        placeholder="Input Employee Shift End Time..."
+        />
+    <fwb-textarea
+        v-model="shiftFirstName"
+        :rows="2"
+        label="Enter Employee First Name"
+        placeholder="Input employee first name..."
+        />
+        <fwb-textarea
+        v-model="shiftLastName"
+        :rows="2"
+        label="Enter Employee Last Name"
+        placeholder="Input employee last name..."
+        />
+        <fwb-textarea
+        v-model="shiftEmail"
+        :rows="2"
+        label="Enter Employee Email"
+        placeholder="Input employee email..."
+        />
+
+        <fwb-textarea
+        v-model="shiftPhoneNumber"
+        :rows="2"
+        label="Enter Employee Phone Number"
+        placeholder="Input employee phone Number..."
+        />
+
+        <fwb-textarea
+        v-model="shiftPassword"
+        :rows="2"
+        label="Enter Employee Password"
+        placeholder="Input employee password..."
+        />
+
+        <fwb-textarea
+        v-model="shiftHoursWorked"
+        :rows="2"
+        label="Enter Employee hours worked"
+        placeholder="Input employee hours worked..."
+        />
+                <fwb-button @click="createEmployeeShift(parseInt(shiftId), shiftDate, parseInt(shiftStartTime),
+                parseInt(shiftEndTime) ,shiftEmail, shiftFirstName, shiftLastName, parseInt(shiftPhoneNumber), shiftPassword, parseInt(shiftHoursWorked))" color="green">Create Employee Shift</fwb-button>
    </div>
 </main>
  </fwb-accordion-content>
