@@ -84,17 +84,28 @@ import { FwbRating } from 'flowbite-vue'
 // import carousel component
 import { FwbCarousel } from 'flowbite-vue'
 
-// import carousel component's images
+// import images for the carousel
+import hotel1 from '@/assets/hotel-1.png'
+import hotel2 from '@/assets/hotel-2.png'
+import hotel3 from '@/assets/hotel-3.png'
+import hotel4 from '@/assets/hotel-4.png'
+import hotel5 from '@/assets/hotel-5.png'
+import hotel6 from '@/assets/hotel-6.png'
+import hotel7 from '@/assets/hotel-7.png'
+import hotel8 from '@/assets/hotel-8.png'
+import hotel9 from '@/assets/hotel-9.png'
+
 const pictures = [
-  {src: 'src/assets/hotel-1.png', alt: 'Image 1'},
-  {src: 'src/assets/hotel-2.png', alt: 'Image 2'},
-  {src: 'src/assets/hotel-3.png', alt: 'Image 3'},
-  {src: 'src/assets/hotel-4.png', alt: 'Image 4'},
-  {src: 'src/assets/hotel-5.png', alt: 'Image 5'},
-  {src: 'src/assets/hotel-6.png', alt: 'Image 6'},
-  {src: 'src/assets/hotel-7.png', alt: 'Image 7'},
-  {src: 'src/assets/hotel-8.png', alt: 'Image 8'},
-  {src: 'src/assets/hotel-9.png', alt: 'Image 9'}]
+  {src: hotel1, alt: 'Image 1'},
+  {src: hotel2, alt: 'Image 2'},
+  {src: hotel3, alt: 'Image 3'},
+  {src: hotel4, alt: 'Image 4'},
+  {src: hotel5, alt: 'Image 5'},
+  {src: hotel6, alt: 'Image 6'},
+  {src: hotel7, alt: 'Image 7'},
+  {src: hotel8, alt: 'Image 8'},
+  {src: hotel9, alt: 'Image 9'}
+];
 
 </script>
 
