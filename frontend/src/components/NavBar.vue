@@ -10,8 +10,17 @@
                 <fwb-navbar-link is-active link="/">
                     Home
                 </fwb-navbar-link>
+                <fwb-navbar-link link="">
+                    Amenities&Spa
+                </fwb-navbar-link>
+                <fwb-navbar-link link="">
+                    Dining
+                </fwb-navbar-link>
                 <fwb-navbar-link link="/rooms">
                     Room Options
+                </fwb-navbar-link>
+                <fwb-navbar-link link="/rooms">
+                    Book Now
                 </fwb-navbar-link>
                 <fwb-navbar-link link="/schedule">
                     Schedule
@@ -24,6 +33,9 @@
         <template #right-side>
             <fwb-button>
                 Sign in
+            </fwb-button>
+            <fwb-button>
+                Join!
             </fwb-button>
         </template>
     </fwb-navbar>
