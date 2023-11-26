@@ -25,8 +25,6 @@ import {
   const messageCustomHour  = ref('')
   const messageDeleteOperatingHours = ref('')
   const messageDeleteCustomHours = ref('')
-  const messageDeleteOperatingHoursId = ref('')
-  const messageDeleteCustomHoursId = ref('')
 
   const messageUpdateDayOfWeek = ref('')
   const messageUpdateOpeningHour = ref('')
@@ -43,19 +41,6 @@ import { useRoute } from 'vue-router';
 import axios from 'axios'
 export default {
     name: 'ManagerView',
-//     props: {
-// //         dayOfWeek: String,
-// //   openingHour: Number,
-// //   closingHour: Number,
-// //   year: Number,
-// //   operatingHoursIdList: [
-// //     Number
-// //   ],
-// //   customHoursIdList: [
-// //     Number
-// //   ],
-// //   date: Date,
-//     },
     methods: {
         async setup_hotelSchedule() {
         const backend = import.meta.env.VITE_BACKEND;
@@ -84,7 +69,6 @@ export default {
         const backend = import.meta.env.VITE_BACKEND;
         let customHoursInfo = await fetch(backend + '/customHours')
                 .then(response => {
-                    // console.log(response);
                     return response.json();
                 })
                 .then(json => {
@@ -107,28 +91,12 @@ export default {
             const backend = import.meta.env.VITE_BACKEND;
             let operatingHoursInfo = await fetch(backend + '/operatingHours')
                 .then(response => {
-                    // console.log(response);
                     return response.json();
                 })
                 .then(json => {
-                    // console.log(json);
-                    // console.log(json["bookingId"]);
                     const operatingHoursList = json["operatingHoursList"];
-                    // const operatingHoursId = json["operatingHoursList"].operatingHoursId;
-                    // const dayOfWeek = json["operatingHoursList"].dayOfweek;
-                    // const openingHour = json["operatingHoursList"].openingHour;
-                    // const closingHour = json["operatingHoursList"].closingHour;
                     console.log(operatingHoursList);
-                    // console.log(operatingHoursId);
-                    // console.log(dayOfWeek);
-                    // console.log(openingHour);
-                    // console.log(closingHour);
-
                     this.operatingHours = operatingHoursList;
-                    // this.operatingHoursId = operatingHoursId ;
-                    // this.dayOfWeek = dayOfWeek;
-                    // this.openingHour = openingHour;
-                    // this.closingHour = closingHour;
                     return json;
 
                 })
@@ -147,13 +115,11 @@ export default {
                 "closingHour": closingHour
                         })
                 .then(response => {
-                    // console.log(response);
                     return response.data;
                 })
                 .then(data => {
                     const operatingHoursList = data["operatingHoursList"];
                     console.log(operatingHoursList);
-                   // this.operatingHours.push(operatingHoursInfo)
                     this.operatingHours = operatingHoursList;
                     return data;
                 })
@@ -174,13 +140,11 @@ export default {
                 "closingHour": closingHour
                         })
                 .then(response => {
-                    // console.log(response);
                     return response.data;
                 })
                 .then(data => {
                     const customHoursList = data["customHoursList"];
                     console.log(customHoursList);
-                   // this.operatingHours.push(operatingHoursInfo)
                     this.customHours = customHoursList;
                     return data;
                 })
@@ -205,13 +169,11 @@ export default {
                 "closingHoursList": closingHoursList
                         })
                 .then(response => {
-                    // console.log(response);
                     return response.data;
                 })
                 .then(data => {
                     const hotelScheduleList = data["allHoteSchedule"];
                     console.log(hotelScheduleList);
-                   // this.operatingHours.push(operatingHoursInfo)
                     this.hotelSchedule = hotelScheduleList;
                     return data;
                 })
@@ -231,13 +193,11 @@ export default {
             const backend = import.meta.env.VITE_BACKEND;
             let operatingHoursInfo = await axios.delete(backend + '/operatingHours/delete/'+ dayOfWeek)
                 .then(response => {
-                    // console.log(response);
                     return response.data;
                 })
                 .then(data => {
                     const operatingHoursList = data["operatingHoursList"];
                     console.log(operatingHoursList);
-                   // this.operatingHours.push(operatingHoursInfo)
                     this.operatingHours = operatingHoursList;
                     return data;
                 })
@@ -255,13 +215,11 @@ export default {
             const backend = import.meta.env.VITE_BACKEND;
             let customHoursInfo = await axios.post(backend + '/customHours/delete'+ date)
                 .then(response => {
-                    // console.log(response);
                     return response.data;
                 })
                 .then(data => {
                     const customHoursList = data["customHoursList"];
                     console.log(customHoursList);
-                   // this.operatingHours.push(operatingHoursInfo)
                     this.customHours = customHoursList;
                     return data;
                 })
@@ -281,13 +239,11 @@ export default {
             let operatingHoursInfo = await axios.post(backend + '/operatingHours/update/', {"dayOfWeek": dayOfWeek, "openingHour": openingHour,
                 "closingHour": closingHour})
                 .then(response => {
-                    // console.log(response);
                     return response.data;
                 })
                 .then(data => {
                     const operatingHoursList = data["operatingHoursList"];
                     console.log(operatingHoursList);
-                   // this.operatingHours.push(operatingHoursInfo)
                     this.operatingHours = operatingHoursList;
                     return data;
                 })
@@ -308,13 +264,11 @@ export default {
             let customHoursInfo = await axios.post(backend + '/customHours/udpate', {"date": date, "openingHour": openingHour,
                 "closingHour": closingHour})
                 .then(response => {
-                    // console.log(response);
                     return response.data;
                 })
                 .then(data => {
                     const customHoursList = data["customHoursList"];
                     console.log(customHoursList);
-                   // this.operatingHours.push(operatingHoursInfo)
                     this.customHours = customHoursList;
                     return data;
                 })

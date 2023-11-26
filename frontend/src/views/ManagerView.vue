@@ -1,10 +1,7 @@
 <script lang="ts">
-import UserTable from '@/components/UserTable.vue';
 
 import ManageBooking from '@/components/ManageBooking.vue';
-
 import HotelSchedule from '@/components/HotelScheduleComp.vue';
-// import DeleteUser from '@/components/DeleteUser.vue';
 
 import axios from 'axios'
 import { isBooleanAttr } from '@vue/shared'
@@ -17,8 +14,6 @@ async function getEmployees() {
         .then(response => response.data)
         .catch(err => {
             console.log(err)
-            // alert(err.response.message);
-            // return err.response.message;
         });
     return listOfEmployees;
 }
@@ -96,8 +91,6 @@ let RequestList:any[] = await getRequests();
 let AssignmentList:any[] = await getAssignments();
 let BookingList:any[] = await getBookings();
 let ShiftList:any[] = await getShifts();
-//let SearchedEmployee:any[] = await searchEmployee();
-// let DeletedEmployee = getDeletedEmployee();
 console.log(EmployeeList);
 console.log(ManagerList);
 console.log(CustomerList);
@@ -106,18 +99,10 @@ console.log(RequestList);
 console.log(AssignmentList);
 console.log(BookingList);
 console.log(ShiftList);
-// console.log(SearchedEmployee);
 export default {
-    
     components: {
-
     ManageBooking,
-
-        
-       UserTable,
-       HotelSchedule,
-    //    DeleteUser
-        //EmployeeList
+    HotelSchedule,
     },
     data() {
         return {
@@ -129,49 +114,8 @@ export default {
             assignmentList: AssignmentList,
             bookingList: BookingList,
             shiftList: ShiftList,
-            searchedEmployeeRes: ''
-            
-            // emailDelete: ''
-            // deletedEmployee
         }
     },
-    methods: {
-        update(employee: any){
-            getEmployees();
-            // this.employeeList.push(employee)
-        },
-//         async getEmployees() {
-//     let listOfEmployees: any[] = await axios.get(backendUrl + "/employees")
-//         .then(response => response.data)
-//         .catch(err => {
-//             console.log(err)
-//             // alert(err.response.message);
-//             // return err.response.message;
-//         });
-//     return listOfEmployees;
-// }
-        // updateEmployee(){
-        //     createEmployee
-        // }
-    }
-   
-}
-
-        
-
-async function searchEmployee(emailSearch: string, event: Event){
-    // const buttonValue = event.target?.addEventListener;
-    let searchedEmployee= await axios.get(backendUrl + "/employee/"+emailSearch)
-        .then(response => response.data)
-        .catch(err => {
-            console.log(err)
-        });
-    console.log(searchedEmployee);
-    window.location.reload();
-    //event.target?.addEventListener
-    
-  
-    return searchedEmployee;
 }
 
 
@@ -263,17 +207,6 @@ async function deleteAssignment(assignmentId: number) {
     return deletedAssignment;
 }
 
-async function deleteBooking(bookingId: number) {
-    let deletedBooking = await axios.delete(backendUrl + "/booking/delete/"+bookingId)
-        .then(response => response.data)
-        .catch(err => {
-            console.log(err)
-            alert(err.response["data"])
-        });
-    console.log(deletedBooking);
-    window.location.reload();
-    return deletedBooking;
-}
 
 async function deleteEmployeeShift(shiftId: number) {
     let deletedEmployeeShift = await axios.delete(backendUrl + "/employee/shift/"+shiftId)
@@ -374,27 +307,6 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
 }
 
 
-// async function searchEmployee(emailSearch: string) {
-//     let searchedEmployee= await axios.get(backendUrl + "/employee/"+emailSearch)
-//         .then(response => response.data)
-//         .catch(err => {
-//             console.log(err)
-//         });
-//     console.log(searchedEmployee);
-//     window.location.reload();
-//     return searchedEmployee;
-// }
-
-// async function searchedEmployee() {
-//     searchEmployee(messageSearchEmployee);
-// }
-
-// async function deleteEmployeeSpecific(){
-//     deleteEmployee(message)
-// }
-
-
-
 </script>
 
 <script setup lang="ts">
@@ -403,7 +315,6 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
   import { FwbButton } from 'flowbite-vue'
   import { FwbBadge } from 'flowbite-vue'
   import {
-    FwbA,
     FwbTable,
     FwbTableBody,
     FwbTableCell,
@@ -418,12 +329,9 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
   } from 'flowbite-vue'
 
   const messageEmployee = ref('')
-  const messageManager = ref('')
   const messageCustomer = ref('')
-  const messageGeneralUser = ref('')
   const messageRequest = ref('')
   const messageAssignment = ref('')
-  const messageBooking = ref('')
 
   const employeeFirstName = ref('')
   const employeeLastName = ref('')
@@ -448,9 +356,6 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
   const generalUserLastName = ref('')
   const generalUserEmail = ref('')
   const generalUserPhoneNumber = ref('')
-
-  const messageSearchEmployee = ref('')
-  const messageSearchEmployeeResult = ref('')
 
   const generalUserDeleteFirstName = ref('')
   const generalUserDeleteLastName = ref('')
@@ -487,24 +392,8 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
   const messageRequestIsFufilled = ref('')
   const messageAssignmentEmployeeId = ref('')
   const messageAssignmentRequestId = ref('')
-  
-  
-//   function delete(){
 
-//   }
-
-//   export default {
-//     props: { 
-//     message: String
-//   }
-// }
   </script>
-
-<!-- <style scoped lang="postcss">
-        #deleteEmployee {
-            @apply content-center;
-        }
-</style> -->
 
 <template>
     <title>
@@ -514,11 +403,6 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
     <fwb-accordion-panel>
       <fwb-accordion-header>Employees</fwb-accordion-header>
       <fwb-accordion-content>
-        <!-- <main class="flex flex-row items-center-top">
-            <div>
-                <HotelSchedule/>
-            </div>
-        </main> -->
         
     <main class="flex flex-row items-center-top">
         <div>
@@ -552,7 +436,7 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
             placeholder="Input employee email of employee you want to delete..."
             />
             <fwb-button @click="deleteEmployee(messageEmployee)" color="red">Delete</fwb-button>
-            <!-- <fwb-button @click="refreshDiv()" color="red">hi</fwb-button> -->
+
         </div>
         
         <div class="CreatingEmployee">
@@ -597,46 +481,11 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
         placeholder="Input employee hours worked..."
         />
         
-        <fwb-button @click=" update(createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
-        employeePassword, parseInt(employeeHoursWorked)))" color="green">Create Employee</fwb-button>
-         <!-- <fwb-button @click="updateTable()" color="green">Employee</fwb-button> -->
+        <fwb-button @click=" createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
+        employeePassword, parseInt(employeeHoursWorked))" color="green">Create Employee</fwb-button>
     </div>
      </main>
-     <main class="flex flex-row items-center-top">
-        <div>
-        <!-- <fwb-badge type="default">Search Employee</fwb-badge>
-        <fwb-textarea
-            v-model="messageSearchEmployee"
-            :rows="2"
-            label="Search Employee"
-            placeholder="Input employee email of employee you want to search..."
-            />
-            <fwb-button @click=" searchEmployee(messageSearchEmployee, $event)" color="green">Search</fwb-button>
-             -->
-            <!-- <fwb-table hoverable> -->
-      <!-- <fwb-table-head>
-        <fwb-table-head-cell>Email</fwb-table-head-cell>
-        <fwb-table-head-cell>First Name</fwb-table-head-cell>
-        <fwb-table-head-cell>Last Name</fwb-table-head-cell>
-        <fwb-table-head-cell>Phone Number</fwb-table-head-cell>
-        <fwb-table-head-cell>Hours Worked</fwb-table-head-cell>
-        <fwb-table-head-cell>
-        </fwb-table-head-cell>
-      </fwb-table-head>
-      <fwb-table-body>
-        <fwb-table-row v-for="searchedEmployee in searchEmployee">
-          <fwb-table-cell>  searchedEmployee </fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>
-          </fwb-table-cell>
-        </fwb-table-row>
-      </fwb-table-body>
-    </fwb-table> -->
-    </div>
-     </main>
+
     </fwb-accordion-content>
     </fwb-accordion-panel>
     <fwb-accordion-panel>
@@ -1075,46 +924,7 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
      </main>
       </fwb-accordion-content>
     </fwb-accordion-panel>
-    <!-- <fwb-accordion-panel>
-      <fwb-accordion-header>Booking</fwb-accordion-header>
-      <fwb-accordion-content>
-        <main class="flex flex-row items-center-top">
-        <div>
-            <fwb-badge type="default">View Bookings</fwb-badge>
-            <fwb-table hoverable>
-      <fwb-table-head>
-        <fwb-table-head-cell>Booking Id</fwb-table-head-cell>
-        <fwb-table-head-cell>Payment Id</fwb-table-head-cell>
-        <fwb-table-head-cell>Payment Amount</fwb-table-head-cell>
-        <fwb-table-head-cell>Room Id</fwb-table-head-cell>
-        <fwb-table-head-cell>Customer Email</fwb-table-head-cell>
-        <fwb-table-head-cell>Rooms</fwb-table-head-cell>
-        <fwb-table-head-cell>
-        </fwb-table-head-cell>
-      </fwb-table-head>
-      <fwb-table-body>
-        <fwb-table-row v-for="booking in bookingList">
-          <fwb-table-cell> {{booking.bookingId}}</fwb-table-cell>
-          <fwb-table-cell>{{booking["payment"].paymentId}}</fwb-table-cell>
-          <fwb-table-cell>{{booking["payment"].amount}}</fwb-table-cell>
-          <fwb-table-cell>{{booking["room"].roomId}}</fwb-table-cell>
-          <fwb-table-cell>{{booking["generalUser"].email}}</fwb-table-cell>
-          <fwb-table-cell>{{booking["rooms"]}}</fwb-table-cell>
-        </fwb-table-row>
-      </fwb-table-body>
-    </fwb-table>
-            <fwb-textarea
-            v-model="messageBooking"
-            :rows="2"
-            label="Delete Booking"
-            placeholder="Input booking id of booking you want to delete..."
-            />
-            <fwb-button @click="deleteBooking(parseInt(messageBooking))" color="red">Delete</fwb-button>
-        </div>
-     </main>
-     
-        </fwb-accordion-content>
-    </fwb-accordion-panel> -->
+    
 <fwb-accordion-panel>
  <fwb-accordion-header>Manage Booking</fwb-accordion-header>
  <fwb-accordion-content>
