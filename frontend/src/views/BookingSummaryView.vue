@@ -1,29 +1,30 @@
 <template>
-    <div class="flex flex-cbookingInfool items-center">
-        <BookingSummary :bookingId="235" :roomId="523" :paymentId="35"/>
+    <fwb-alert class="border-t-4 rounded-none" icon type="success" closable>
+        Your booking was successful! Please view the booking summary below.
+    </fwb-alert>
+    <div class="flex flex-cbookingInfool justify-center">
+        <BookingSummary :bookingId=bookingId />
     </div>
 </template>
 
-<style scoped lang="postcss">
-.BookingSummaryCard {
-    @apply m-12;
-}
-</style>
-
 <script lang="ts">
 import BookingSummary from '@/components/BookingSummary.vue';
+import { FwbAlert } from 'flowbite-vue';
 
 export default {
-    title() {
-        return 'Booking Summary';
-    },
     name: 'BookingSummaryView',
     components: {
-        BookingSummary
+        BookingSummary,
+        FwbAlert
     },
     setup() {
         return {
             BookingSummary
+        }
+    },
+    data() {
+        return {
+            bookingId: Number(this.$route.params.bookingId),
         }
     }
 }
