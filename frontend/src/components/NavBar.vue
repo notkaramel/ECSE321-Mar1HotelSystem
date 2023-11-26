@@ -10,14 +10,14 @@
                 <fwb-navbar-link is-active link="/">
                     Home
                 </fwb-navbar-link>
-                <fwb-navbar-link link="">
-                    Dining
-                </fwb-navbar-link>
                 <fwb-navbar-link link="/rooms">
-                    Book Now
+                    Room Options
                 </fwb-navbar-link>
-                <fwb-navbar-link link="/schedule">
-                    Schedule
+                <fwb-navbar-link link="/booking">
+                    Booking
+                </fwb-navbar-link>
+                <fwb-navbar-link link="/policy">
+                    Policy
                 </fwb-navbar-link>
             </fwb-navbar-collapse>
         </template>
