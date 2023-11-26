@@ -1,5 +1,8 @@
 <script lang="ts">
 import UserTable from '@/components/UserTable.vue';
+
+import ManageBooking from '@/components/ManageBooking.vue';
+
 import HotelSchedule from '@/components/HotelScheduleComp.vue';
 // import DeleteUser from '@/components/DeleteUser.vue';
 
@@ -95,6 +98,9 @@ console.log(BookingList);
 export default {
     
     components: {
+
+    ManageBooking,
+
         
        UserTable,
        HotelSchedule,
@@ -950,7 +956,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
      </main>
       </fwb-accordion-content>
     </fwb-accordion-panel>
-    <fwb-accordion-panel>
+    <!-- <fwb-accordion-panel>
       <fwb-accordion-header>Booking</fwb-accordion-header>
       <fwb-accordion-content>
         <main class="flex flex-row items-center-top">
@@ -987,10 +993,17 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
             <fwb-button @click="deleteBooking(parseInt(messageBooking))" color="red">Delete</fwb-button>
         </div>
      </main>
-
-
-    </fwb-accordion-content>
-    </fwb-accordion-panel>
+     
+        </fwb-accordion-content>
+    </fwb-accordion-panel> -->
+<fwb-accordion-panel>
+ <fwb-accordion-header>Manage Booking</fwb-accordion-header>
+ <fwb-accordion-content>
+   <div>
+     <ManageBooking/>
+   </div>
+ </fwb-accordion-content>
+</fwb-accordion-panel>
 </fwb-accordion>
 
 
