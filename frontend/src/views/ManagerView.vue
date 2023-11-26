@@ -77,6 +77,15 @@ async function getBookings() {
     return listOfBookings;
 }
 
+async function getShifts() {
+    let listOfShifts: any[] = await axios.get(backendUrl + "/employee/shifts")
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+        });
+    return listOfShifts;
+}
+
 const emailS= '';
 let EmployeeList:any[] = await getEmployees();
 let ManagerList:any[] = await getManagers();
@@ -85,6 +94,7 @@ let GeneralUserList:any[] = await getGeneralUsers();
 let RequestList:any[] = await getRequests();
 let AssignmentList:any[] = await getAssignments();
 let BookingList:any[] = await getBookings();
+let ShiftList:any[] = await getShifts();
 //let SearchedEmployee:any[] = await searchEmployee();
 // let DeletedEmployee = getDeletedEmployee();
 console.log(EmployeeList);
@@ -94,6 +104,7 @@ console.log(GeneralUserList);
 console.log(RequestList);
 console.log(AssignmentList);
 console.log(BookingList);
+console.log(ShiftList);
 // console.log(SearchedEmployee);
 export default {
     
@@ -116,6 +127,7 @@ export default {
             requestList: RequestList,
             assignmentList: AssignmentList,
             bookingList: BookingList,
+            shiftList: ShiftList,
             searchedEmployeeRes: ''
             
             // emailDelete: ''
@@ -262,6 +274,18 @@ async function deleteBooking(bookingId: number) {
     return deletedBooking;
 }
 
+async function deleteEmployeeShift(shiftId: number) {
+    let deletedEmployeeShift = await axios.delete(backendUrl + "/employee/shift/"+shiftId)
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+            alert(err.response["data"])
+        });
+    console.log(deletedEmployeeShift);
+    window.location.reload();
+    return deletedEmployeeShift;
+}
+
 
 async function createEmployee(firstName: string, lastName: string, email: string, phoneNumber: number, password: string, hoursWorked: number) {
     let createdEmployee = await axios.post(backendUrl + "/employee/", {"email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked})
@@ -271,7 +295,7 @@ async function createEmployee(firstName: string, lastName: string, email: string
             alert(err.response["data"])
         });
     console.log(createdEmployee);
-   // window.location.reload();
+    window.location.reload();
     return createdEmployee;
 }
 
@@ -309,6 +333,43 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     console.log(createdGeneralUser);
     window.location.reload();
     return createdGeneralUser;
+}
+
+async function createRequest(description: String, bookingId: Number, isFulfilled: Boolean) {
+    let createdRequest = await axios.post(backendUrl + "/request/create", {"description": description, "bookingId": bookingId, "isFulfilled": isFulfilled})
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+            alert(err.response["data"])
+        });
+    console.log(createdRequest);
+    window.location.reload();
+    return createdRequest;
+}
+
+async function createAssignment(employeeId: Number,requestId: Number) {
+    let createdAssignment = await axios.post(backendUrl + "/assingment/create", {"employeeId": employeeId,"requestId": requestId})
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+            alert(err.response["data"])
+        });
+    console.log(createdAssignment);
+    window.location.reload();
+    return createdAssignment;
+}
+
+async function createEmployeeShift( shiftId: Number, date: String, startTime: Number, endTime: Number,
+  email: String, firstName: String, lastName: String, phoneNumber: Number, password: String, hoursWorked: Number) {
+    let createdEmployeeShift = await axios.post(backendUrl + "/employee/"+email+"shift", {"shiftId": shiftId, "date": date, "startTime": startTime, "endTime": endTime, "employee": { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked}})
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+            alert(err.response["data"])
+        });
+    console.log(createdEmployeeShift);
+    window.location.reload();
+    return createdEmployeeShift;
 }
 
 
@@ -523,7 +584,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
      </main>
      <main class="flex flex-row items-center-top">
         <div>
-        <fwb-badge type="default">Search Employee</fwb-badge>
+        <!-- <fwb-badge type="default">Search Employee</fwb-badge>
         <fwb-textarea
             v-model="messageSearchEmployee"
             :rows="2"
@@ -531,7 +592,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
             placeholder="Input employee email of employee you want to search..."
             />
             <fwb-button @click=" searchEmployee(messageSearchEmployee, $event)" color="green">Search</fwb-button>
-            
+             -->
             <!-- <fwb-table hoverable> -->
       <!-- <fwb-table-head>
         <fwb-table-head-cell>Email</fwb-table-head-cell>
@@ -1010,6 +1071,40 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
    <div>
      <HotelSchedule/>
    </div>
+ </fwb-accordion-content>
+</fwb-accordion-panel>
+<fwb-accordion-panel>
+ <fwb-accordion-header>Shifts</fwb-accordion-header>
+ <fwb-accordion-content>
+    <main class="flex flex-row items-center-top">
+   <div>
+    <fwb-badge type="default">View Shifts</fwb-badge>
+            <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>Shift Id</fwb-table-head-cell>
+        <fwb-table-head-cell>Date</fwb-table-head-cell>
+        <fwb-table-head-cell>Start Time</fwb-table-head-cell>
+        <fwb-table-head-cell>End Time</fwb-table-head-cell>
+        <fwb-table-head-cell>Employee Email</fwb-table-head-cell>
+        <fwb-table-head-cell>Hours Worked</fwb-table-head-cell>
+        <fwb-table-head-cell>
+        </fwb-table-head-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="shift in shiftList">
+          <fwb-table-cell> {{shift.shiftId}}</fwb-table-cell>
+          <fwb-table-cell> {{shift.date}}</fwb-table-cell>
+          <fwb-table-cell>{{shift.startTime}}</fwb-table-cell>
+          <fwb-table-cell>{{shift.endTime}}</fwb-table-cell>
+          <fwb-table-cell>{{shift["employee"].email}}</fwb-table-cell>
+          <fwb-table-cell>{{shift["employee"].hoursWorked}}</fwb-table-cell>
+          <fwb-table-cell>
+          </fwb-table-cell>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
+   </div>
+</main>
  </fwb-accordion-content>
 </fwb-accordion-panel>
 </fwb-accordion>
