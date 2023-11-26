@@ -159,8 +159,10 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    alert(error.response["data"])
                 });
                 console.log(operatingHoursInfo);
+                window.location.reload();
             return {
                 operatingHoursInfo
             }
@@ -184,8 +186,10 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    alert(error.response["data"])
                 });
                 console.log(customHoursInfo);
+                window.location.reload();
             return {
                 customHoursInfo
             }
@@ -213,8 +217,10 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    alert(error.response["data"])
                 });
                 console.log(hotelScheduleInfo);
+                window.location.reload();
             return {
                 hotelScheduleInfo
             }
@@ -237,8 +243,10 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    alert(error.response["data"])
                 });
                 console.log(operatingHoursInfo);
+                window.location.reload();
             return {
                 operatingHoursInfo
             }
@@ -259,8 +267,10 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    alert(error.response["data"])
                 });
                 console.log(customHoursInfo);
+                window.location.reload();
             return {
                 customHoursInfo
             }
@@ -283,8 +293,10 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    alert(error.response["data"])
                 });
                 console.log(operatingHoursInfo);
+                window.location.reload();
             return {
                 operatingHoursInfo
             }
@@ -308,8 +320,10 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    alert(error.response["data"])
                 });
                 console.log(customHoursInfo);
+                window.location.reload();
             return {
                 customHoursInfo
             }

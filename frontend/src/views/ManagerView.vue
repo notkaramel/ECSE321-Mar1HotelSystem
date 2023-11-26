@@ -532,8 +532,8 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
             />
             <fwb-button @click=" searchEmployee(messageSearchEmployee, $event)" color="green">Search</fwb-button>
             
-            <fwb-table hoverable>
-      <fwb-table-head>
+            <!-- <fwb-table hoverable> -->
+      <!-- <fwb-table-head>
         <fwb-table-head-cell>Email</fwb-table-head-cell>
         <fwb-table-head-cell>First Name</fwb-table-head-cell>
         <fwb-table-head-cell>Last Name</fwb-table-head-cell>
@@ -545,15 +545,15 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
       <fwb-table-body>
         <fwb-table-row v-for="searchedEmployee in searchEmployee">
           <fwb-table-cell>  searchedEmployee </fwb-table-cell>
-          <!-- <fwb-table-cell>{{employee}}</fwb-table-cell>
           <fwb-table-cell>{{employee}}</fwb-table-cell>
           <fwb-table-cell>{{employee}}</fwb-table-cell>
-          <fwb-table-cell>{{employee}}</fwb-table-cell> -->
+          <fwb-table-cell>{{employee}}</fwb-table-cell>
+          <fwb-table-cell>{{employee}}</fwb-table-cell>
           <fwb-table-cell>
           </fwb-table-cell>
         </fwb-table-row>
       </fwb-table-body>
-    </fwb-table>
+    </fwb-table> -->
     </div>
      </main>
     </fwb-accordion-content>
