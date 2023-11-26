@@ -85,19 +85,25 @@ export default {
 <style scoped>
 .register-container {
     max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+    color: #333;
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
 }
 
 .register-form .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 input[type="text"],
@@ -105,9 +111,9 @@ input[type="email"],
 input[type="tel"],
 input[type="password"] {
     width: 100%;
-    padding: 10px;
+    padding: 0.75rem 1rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 0.375rem;
     box-sizing: border-box;
 }
 
@@ -115,21 +121,23 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
 input[type="password"]:focus {
-    border-color: #666;
+    border-color: #333; /* Adjust as per the color theme of the hotel */
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1); /* subtle focus ring */
     outline: none;
 }
 
 .btn-next {
     width: 100%;
-    padding: 10px;
-    background-color: #333;
+    padding: 0.75rem 1rem;
+    background-color: #0056b3; /* Example button color */
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.375rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn-next:hover {
-    background-color: #555;
+    background-color: #003d82; /* Darker shade on hover */
 }
 </style>
