@@ -1,5 +1,6 @@
 <script lang="ts">
 import UserTable from '@/components/UserTable.vue';
+import HotelSchedule from '@/components/HotelScheduleComp.vue';
 // import DeleteUser from '@/components/DeleteUser.vue';
 
 import axios from 'axios'
@@ -92,8 +93,11 @@ console.log(AssignmentList);
 console.log(BookingList);
 // console.log(SearchedEmployee);
 export default {
+    
     components: {
+        
        UserTable,
+       HotelSchedule,
     //    DeleteUser
         //EmployeeList
     },
@@ -112,6 +116,25 @@ export default {
             // deletedEmployee
         }
     },
+    methods: {
+        update(employee: any){
+            getEmployees();
+            // this.employeeList.push(employee)
+        },
+//         async getEmployees() {
+//     let listOfEmployees: any[] = await axios.get(backendUrl + "/employees")
+//         .then(response => response.data)
+//         .catch(err => {
+//             console.log(err)
+//             // alert(err.response.message);
+//             // return err.response.message;
+//         });
+//     return listOfEmployees;
+// }
+        // updateEmployee(){
+        //     createEmployee
+        // }
+    }
    
 }
 
@@ -147,16 +170,8 @@ async function deleteEmployee(emailDelete: string) {
 }
 
 
-async function deleteManager(emailDelete: string) {
-    let searchedManager = await axios.get(backendUrl + "/managers/" + emailDelete)
-    .then(response => response.data)
-    .catch(err => {
-            console.log(err)
-            alert(err.response["data"])
-        });
-        
-   
-    let deletedManager = await axios.post(backendUrl + "/managers/delete", {"email": searchedManager.data.email, "firstName": searchedManager.data.firstName, "lastName": searchedManager.data.lastName, "phoneNumber": searchedManager.data.phoneNumber, "password": searchedManager.data.password})
+async function deleteManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string) {
+    let deletedManager = await axios.post(backendUrl + "/managers/delete", {"email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password})
         .then(response => response.data)
         .catch(err => {
             console.log(err)
@@ -165,6 +180,19 @@ async function deleteManager(emailDelete: string) {
     console.log(deletedManager);
     window.location.reload();
     return deletedManager;
+    
+}
+
+async function updateManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string, passwordUpdate: String) {
+    let updatedManager = await axios.put(backendUrl + "/managers/update/"+passwordUpdate, {"email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password})
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err)
+            alert(err.response["data"])
+        });
+    console.log(updatedManager);
+    window.location.reload();
+    return updatedManager;
     
 }
 
@@ -180,14 +208,8 @@ async function deleteCustomer(emailDelete: string) {
     return deletedCustomer;
 }
 
-async function deleteGeneralUser(emailDelete:string) {
-    let searchedGeneralUser = await axios.get(backendUrl + "/generalUser/" + emailDelete)
-    .then(response => response.data)
-    .catch(err => {
-            console.log(err)
-            alert(err.response["data"])
-        });
-    let deletedGeneralUser = await axios.delete(backendUrl + "/generalUsers/delete"+ {"email": searchedGeneralUser.data.email, "firstName": searchedGeneralUser.data.firstName, "lastName": searchedGeneralUser.data.lastName, "phoneNumber": searchedGeneralUser.data.phoneNumber, "password": searchedGeneralUser.data.password})
+async function deleteGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
+    let deletedGeneralUser = await axios.post(backendUrl + "/generalUsers/delete", {"email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber})
         .then(response => response.data)
         .catch(err => {
             console.log(err)
@@ -361,7 +383,24 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
 
   const messageSearchEmployee = ref('')
   const messageSearchEmployeeResult = ref('')
+
+  const generalUserDeleteFirstName = ref('')
+  const generalUserDeleteLastName = ref('')
+  const generalUserDeleteEmail = ref('')
+  const generalUserDeletePhoneNumber = ref('')
  
+  const managerDeleteFirstName = ref('')
+  const managerDeleteLastName = ref('')
+  const managerDeleteEmail = ref('')
+  const managerDeletePhoneNumber = ref('')
+  const managerDeletePassword = ref('')
+
+  const managerUpdateFirstName = ref('')
+  const managerUpdateLastName = ref('')
+  const managerUpdateEmail = ref('')
+  const managerUpdatePhoneNumber = ref('')
+  const managerUdpatePassword = ref('')
+  const managerNewPassword = ref('')
   
 //   function delete(){
 
@@ -388,6 +427,12 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
     <fwb-accordion-panel>
       <fwb-accordion-header>Employees</fwb-accordion-header>
       <fwb-accordion-content>
+        <!-- <main class="flex flex-row items-center-top">
+            <div>
+                <HotelSchedule/>
+            </div>
+        </main> -->
+        
     <main class="flex flex-row items-center-top">
         <div>
             <fwb-badge type="default">View Employees</fwb-badge>
@@ -465,8 +510,8 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         placeholder="Input employee hours worked..."
         />
         
-        <fwb-button @click=" createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
-        employeePassword, parseInt(employeeHoursWorked))" color="green">Create Employee</fwb-button>
+        <fwb-button @click=" update(createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
+        employeePassword, parseInt(employeeHoursWorked)))" color="green">Create Employee</fwb-button>
          <!-- <fwb-button @click="updateTable()" color="green">Employee</fwb-button> -->
     </div>
      </main>
@@ -534,13 +579,83 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         </fwb-table-row>
       </fwb-table-body>
     </fwb-table>
+    <fwb-textarea
+        v-model="managerDeleteFirstName"
+        :rows="2"
+        label="Enter Manager First Name"
+        placeholder="Input manager first name..."
+        />
+        <fwb-textarea
+        v-model="managerDeleteLastName"
+        :rows="2"
+        label="Enter Manager Last Name"
+        placeholder="Input manager last name..."
+        />
+        <fwb-textarea
+        v-model="managerDeleteEmail"
+        :rows="2"
+        label="Enter Manager Email"
+        placeholder="Input manager email..."
+        />
+
+        <fwb-textarea
+        v-model="managerDeletePhoneNumber"
+        :rows="2"
+        label="Enter Manager Phone Number"
+        placeholder="Input manager phone Number..."
+        />
+
+        <fwb-textarea
+        v-model="managerDeletePassword"
+        :rows="2"
+        label="Enter Manager Password"
+        placeholder="Input manager password..."
+        />
+                <fwb-button @click="deleteManager(managerDeleteFirstName, managerDeleteLastName, managerDeleteEmail, parseInt(managerDeletePhoneNumber),
+        managerDeletePassword)" color="red">Delete</fwb-button>
+                <fwb-badge type="green">Update Manager</fwb-badge>
                 <fwb-textarea
-                v-model="messageManager"
-                :rows="2"
-                label="Delete Manager"
-                placeholder="Input manager email of manager you want to delete..."
-                />
-                <fwb-button @click="deleteManager(messageManager)" color="red">Delete</fwb-button>
+        v-model="managerUpdateFirstName"
+        :rows="2"
+        label="Enter Manager First Name"
+        placeholder="Input manager first name..."
+        />
+        <fwb-textarea
+        v-model="managerUpdateLastName"
+        :rows="2"
+        label="Enter Manager Last Name"
+        placeholder="Input manager last name..."
+        />
+        <fwb-textarea
+        v-model="managerUpdateEmail"
+        :rows="2"
+        label="Enter Manager Email"
+        placeholder="Input manager email..."
+        />
+
+        <fwb-textarea
+        v-model="managerUpdatePhoneNumber"
+        :rows="2"
+        label="Enter Manager Phone Number"
+        placeholder="Input manager phone Number..."
+        />
+
+        <fwb-textarea
+        v-model="managerUdpatePassword"
+        :rows="2"
+        label="Enter Manager Password"
+        placeholder="Input manager password..."
+        />
+
+        <fwb-textarea
+        v-model="managerNewPassword"
+        :rows="2"
+        label="Enter Manager New Password"
+        placeholder="Input manager new password..."
+        />
+        
+        <fwb-button @click="updateManager(managerUpdateFirstName, managerUpdateLastName, managerUpdateEmail, parseInt(managerUpdatePhoneNumber),
+        managerUdpatePassword, managerNewPassword)" color="green">Update Manager</fwb-button>
             </div>
 
             <div class="CreatingManager">
@@ -688,13 +803,32 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         </fwb-table-row>
       </fwb-table-body>
     </fwb-table>
-            <fwb-textarea
-            v-model="messageGeneralUser"
-            :rows="2"
-            label="Delete General User"
-            placeholder="Input generalUser email of generalUser you want to delete..."
-            />
-            <fwb-button @click="deleteGeneralUser(messageGeneralUser)" color="red">Delete</fwb-button>
+    <fwb-textarea
+        v-model="generalUserDeleteFirstName"
+        :rows="2"
+        label="Enter GeneralUser First Name"
+        placeholder="Input general user first name..."
+        />
+        <fwb-textarea
+        v-model="generalUserDeleteLastName"
+        :rows="2"
+        label="Enter GeneralUser Last Name"
+        placeholder="Input general user last name..."
+        />
+        <fwb-textarea
+        v-model="generalUserDeleteEmail"
+        :rows="2"
+        label="Enter GeneralUser Email"
+        placeholder="Input general user email..."
+        />
+
+        <fwb-textarea
+        v-model="generalUserDeletePhoneNumber"
+        :rows="2"
+        label="Enter GeneralUser Phone Number"
+        placeholder="Input general user phone Number..."
+        />
+            <fwb-button @click="deleteGeneralUser(generalUserDeleteFirstName, generalUserDeleteLastName, generalUserDeleteEmail, parseInt(generalUserDeletePhoneNumber))" color="red">Delete</fwb-button>
         </div>
         <div class="CreatingGeneralUser">
     <fwb-textarea
