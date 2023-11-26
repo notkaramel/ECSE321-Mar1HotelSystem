@@ -372,6 +372,7 @@ export default {
 <template>
 <main class="flex flex-row items-center-top">
     <div>
+    <fwb-badge type="default">View Operating Hours</fwb-badge>
     <fwb-table>
     <fwb-table-head>
       <fwb-table-head-cell>Operating Hours Id</fwb-table-head-cell>
@@ -397,6 +398,7 @@ export default {
             <fwb-button @click="deleteOperatingHours(messageDeleteOperatingHours)" color="red">Delete</fwb-button>
 </div>
 <div>
+    <fwb-badge type="green">Create Operating Hours</fwb-badge>
     <fwb-textarea
         v-model="messageDayOfWeek"
         :rows="2"
@@ -420,6 +422,7 @@ export default {
         
         <fwb-button @click="ceateOperatingHours(messageDayOfWeek, parseInt(messageOpeningHour), parseInt(messageClosingHour))" color="green">Create Operating Hours</fwb-button>
 
+        <fwb-badge type="green">Update Operating Hours</fwb-badge>
         <fwb-textarea
         v-model="messageUpdateDayOfWeek"
         :rows="2"
@@ -447,6 +450,7 @@ export default {
 
 <main class="flex flex-row items-center-top">
     <div>
+    <fwb-badge type="default">View Custom Hours</fwb-badge>
     <fwb-table>
     <fwb-table-head>
       <fwb-table-head-cell>Custom Hours Id</fwb-table-head-cell>
@@ -472,6 +476,7 @@ export default {
             <fwb-button @click="deleteCustomHours(messageDeleteCustomHours)" color="red">Delete</fwb-button>
 </div>
 <div>
+    <fwb-badge type="green">Create Custom Hours</fwb-badge>
     <fwb-textarea
         v-model="messageDate"
         :rows="2"
@@ -495,6 +500,7 @@ export default {
         
         <fwb-button @click="ceateCustomHours(messageDate, parseInt(messageCustomOpeningHour), parseInt(messageCustomClosingHour))" color="green">Create Custom Hours</fwb-button>
 
+        <fwb-badge type="green">Update Custom Hours</fwb-badge>
         <fwb-textarea
         v-model="messageUpdateDate"
         :rows="2"
@@ -522,6 +528,7 @@ export default {
 
 <main class="flex flex-row items-center-top">
     <div>
+    <fwb-badge type="default">View Hotel Schedule</fwb-badge>
     <fwb-table>
     <fwb-table-head>
       <fwb-table-head-cell>Year</fwb-table-head-cell>
@@ -556,28 +563,29 @@ export default {
 </main>
 <main class="flex flex-row items-center-top">
     <div>
+    <fwb-badge type="green">Create Hotel Schedule</fwb-badge>
     <fwb-textarea
         v-model="messageYear"
         :rows="2"
-        label="Enter date YYYY-MM-DD"
-        placeholder="Input day of week..."
+        label="Enter Year"
+        placeholder="Input year..."
         />
 
         <fwb-textarea
         v-model="messageOperatingHour"
         :rows="2"
-        label="Enter opening hour"
+        label="Enter operating hours id"
         placeholder="Input opening hour..."
         />
 
         <fwb-textarea
         v-model="messageCustomHour"
         :rows="2"
-        label="Enter closing hour"
+        label="Enter custom hours id"
         placeholder="Input closing hour..."
         />
         
-        <fwb-button @click="ceateHotelSchedule(parseInt(messageYear), parseInt(messageOperatingHour), parseInt(messageCustomHour))" color="green">Create Opening Hours</fwb-button>
+        <fwb-button @click="ceateHotelSchedule(parseInt(messageYear), parseInt(messageOperatingHour), parseInt(messageCustomHour))" color="green">Create Hotel Schedule</fwb-button>
 </div>
 </main>
 

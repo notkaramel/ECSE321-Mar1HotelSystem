@@ -1004,6 +1004,14 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
    </div>
  </fwb-accordion-content>
 </fwb-accordion-panel>
+<fwb-accordion-panel>
+ <fwb-accordion-header>Hotel Schedule</fwb-accordion-header>
+ <fwb-accordion-content>
+   <div>
+     <HotelSchedule/>
+   </div>
+ </fwb-accordion-content>
+</fwb-accordion-panel>
 </fwb-accordion>
 
 
