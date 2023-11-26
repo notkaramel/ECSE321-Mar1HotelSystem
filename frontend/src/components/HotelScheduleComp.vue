@@ -1,6 +1,6 @@
 <script setup lang="ts">
+// Imports and message from textbox
 import {
-  FwbA,
   FwbTable,
   FwbTableBody,
   FwbTableCell,
@@ -36,12 +36,11 @@ import {
 </script>
 
 <script lang="ts">
-import { useRoute } from 'vue-router';
-
 import axios from 'axios'
 export default {
     name: 'ManagerView',
     methods: {
+        // Get Data
         async setup_hotelSchedule() {
         const backend = import.meta.env.VITE_BACKEND;
         let hotelScheduleInfo = await fetch(backend + '/hotelSchedule')
@@ -109,6 +108,8 @@ export default {
                 operatingHoursInfo
             }
         },
+
+        // Functions for endpoints used
         async ceateOperatingHours(dayOfWeek:String, openingHour: Number, closingHour: Number){
             const backend = import.meta.env.VITE_BACKEND;
             let operatingHoursInfo = await axios.post(backend + '/operatingHours/create', { "dayOfWeek": dayOfWeek, "openingHour": openingHour,
@@ -338,6 +339,7 @@ export default {
 </script>
 
 <template>
+<!-- Hotel Schedule view flowbite for components -->
 <main class="flex flex-row items-center-top">
     <div>
     <fwb-badge type="default">View Operating Hours</fwb-badge>

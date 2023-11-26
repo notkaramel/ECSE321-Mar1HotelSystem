@@ -9,6 +9,7 @@ const backendUrl = import.meta.env.VITE_BACKEND;
 
 console.log(backendUrl)
 
+// Get the data
 async function getEmployees() {
     let listOfEmployees: any[] = await axios.get(backendUrl + "/employees")
         .then(response => response.data)
@@ -82,7 +83,8 @@ async function getShifts() {
     return listOfShifts;
 }
 
-const emailS= '';
+// Put data got in list
+
 let EmployeeList:any[] = await getEmployees();
 let ManagerList:any[] = await getManagers();
 let CustomerList:any[] = await getCustomers();
@@ -118,7 +120,7 @@ export default {
     },
 }
 
-
+// Functions for endpoints used
 async function deleteEmployee(emailDelete: string) {
     let deletedEmployee = await axios.delete(backendUrl + "/employee/"+emailDelete)
         .then(response => response.data)
@@ -309,7 +311,9 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
 
 </script>
 
+
 <script setup lang="ts">
+// Imports and messages of textboxes
   import { ref } from 'vue'
   import { FwbTextarea } from 'flowbite-vue'
   import { FwbButton } from 'flowbite-vue'
@@ -321,7 +325,6 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
     FwbTableHead,
     FwbTableHeadCell,
     FwbTableRow,
-    FwbCheckbox,
     FwbAccordion,
   FwbAccordionContent,
   FwbAccordionHeader,
@@ -399,6 +402,9 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
     <title>
         Manager
     </title>
+
+    <!-- Accordion view so each larger functionality is split, uses flow bite for components -->
+
     <fwb-accordion :open-first-item="false">
     <fwb-accordion-panel>
       <fwb-accordion-header>Employees</fwb-accordion-header>
@@ -924,7 +930,7 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
      </main>
       </fwb-accordion-content>
     </fwb-accordion-panel>
-    
+
 <fwb-accordion-panel>
  <fwb-accordion-header>Manage Booking</fwb-accordion-header>
  <fwb-accordion-content>

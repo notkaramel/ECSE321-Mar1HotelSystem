@@ -28,6 +28,7 @@
 </template>
 
 <script lang="ts">
+//Imports
 import {
     FwbTable,
     FwbTableBody,
@@ -79,7 +80,6 @@ export default {
             await axios.get(BACKEND_URL + '/booking/all')
                 .then(response => {
                     this.allBookings = response.data;
-                    // console.log(response.data);
                 })
                 .catch(error => {
                     console.log(error);
