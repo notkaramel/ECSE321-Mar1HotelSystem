@@ -12,6 +12,8 @@ async function getEmployees() {
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            // alert(err.response.message);
+            // return err.response.message;
         });
     return listOfEmployees;
 }
@@ -109,8 +111,11 @@ export default {
             // emailDelete: ''
             // deletedEmployee
         }
-    }
+    },
+   
 }
+
+        
 
 async function searchEmployee(emailSearch: string, event: Event){
     // const buttonValue = event.target?.addEventListener;
@@ -127,54 +132,66 @@ async function searchEmployee(emailSearch: string, event: Event){
     return searchedEmployee;
 }
 
-// async function searchedEmployee(event: Event) {
-//     let searchedEmployeeResults = event.target;
-
-//     searchEmployee();
-// }
-
-// async function getDeletedEmployee() {
-//     message
-// }
 
 async function deleteEmployee(emailDelete: string) {
     let deletedEmployee = await axios.delete(backendUrl + "/employee/"+emailDelete)
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(deletedEmployee);
     window.location.reload();
+    
     return deletedEmployee;
 }
 
+
 async function deleteManager(emailDelete: string) {
-    let deletedManager = await axios.delete(backendUrl + "/employee/"+emailDelete)
+    let searchedManager = await axios.get(backendUrl + "/managers/" + emailDelete)
+    .then(response => response.data)
+    .catch(err => {
+            console.log(err)
+            alert(err.response["data"])
+        });
+        
+   
+    let deletedManager = await axios.post(backendUrl + "/managers/delete", {"email": searchedManager.data.email, "firstName": searchedManager.data.firstName, "lastName": searchedManager.data.lastName, "phoneNumber": searchedManager.data.phoneNumber, "password": searchedManager.data.password})
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(deletedManager);
     window.location.reload();
     return deletedManager;
+    
 }
 
 async function deleteCustomer(emailDelete: string) {
-    let deletedCustomer = await axios.delete(backendUrl + "/employee/"+emailDelete)
+    let deletedCustomer = await axios.delete(backendUrl + "/customer/"+emailDelete)
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(deletedCustomer);
     window.location.reload();
     return deletedCustomer;
 }
 
-async function deleteGeneralUser(emailDelete: string) {
-    let deletedGeneralUser = await axios.delete(backendUrl + "/employee/"+emailDelete)
+async function deleteGeneralUser(emailDelete:string) {
+    let searchedGeneralUser = await axios.get(backendUrl + "/generalUser/" + emailDelete)
+    .then(response => response.data)
+    .catch(err => {
+            console.log(err)
+            alert(err.response["data"])
+        });
+    let deletedGeneralUser = await axios.delete(backendUrl + "/generalUsers/delete"+ {"email": searchedGeneralUser.data.email, "firstName": searchedGeneralUser.data.firstName, "lastName": searchedGeneralUser.data.lastName, "phoneNumber": searchedGeneralUser.data.phoneNumber, "password": searchedGeneralUser.data.password})
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(deletedGeneralUser);
     window.location.reload();
@@ -186,6 +203,7 @@ async function deleteRequest(requestId: number) {
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(deletedRequest);
     window.location.reload();
@@ -197,6 +215,7 @@ async function deleteAssignment(assignmentId: number) {
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(deletedAssignment);
     window.location.reload();
@@ -208,6 +227,7 @@ async function deleteBooking(bookingId: number) {
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(deletedBooking);
     window.location.reload();
@@ -220,9 +240,10 @@ async function createEmployee(firstName: string, lastName: string, email: string
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(createdEmployee);
-    window.location.reload();
+   // window.location.reload();
     return createdEmployee;
 }
 
@@ -231,6 +252,7 @@ async function createManager(firstName: string, lastName: string, email: string,
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(createdManager);
     window.location.reload();
@@ -242,6 +264,7 @@ async function createCustomer(firstName: string, lastName: string, email: string
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(createdCustomer);
     window.location.reload();
@@ -253,6 +276,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         .then(response => response.data)
         .catch(err => {
             console.log(err)
+            alert(err.response["data"])
         });
     console.log(createdGeneralUser);
     window.location.reload();
@@ -396,6 +420,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
             placeholder="Input employee email of employee you want to delete..."
             />
             <fwb-button @click="deleteEmployee(messageEmployee)" color="red">Delete</fwb-button>
+            <!-- <fwb-button @click="refreshDiv()" color="red">hi</fwb-button> -->
         </div>
         
         <div class="CreatingEmployee">
@@ -440,8 +465,9 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         placeholder="Input employee hours worked..."
         />
         
-        <fwb-button @click="createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
+        <fwb-button @click=" createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
         employeePassword, parseInt(employeeHoursWorked))" color="green">Create Employee</fwb-button>
+         <!-- <fwb-button @click="updateTable()" color="green">Employee</fwb-button> -->
     </div>
      </main>
      <main class="flex flex-row items-center-top">
@@ -466,7 +492,7 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
         </fwb-table-head-cell>
       </fwb-table-head>
       <fwb-table-body>
-        <fwb-table-row v-for="searchedEmployee in searchedEmployeeRes">
+        <fwb-table-row v-for="searchedEmployee in searchEmployee">
           <fwb-table-cell>  searchedEmployee </fwb-table-cell>
           <!-- <fwb-table-cell>{{employee}}</fwb-table-cell>
           <fwb-table-cell>{{employee}}</fwb-table-cell>
