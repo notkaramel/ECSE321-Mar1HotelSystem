@@ -1,7 +1,7 @@
 <template>
     <div class="register-container">
         <h2>Register</h2>
-        <form @submit.prevent="submitRegister" class="register-form">
+        <form @submit.prevent="submitRegistration" class="register-form">
             <div class="form-group">
                 <input type="text" id="firstName" v-model="firstName" placeholder="First Name" required>
             </div>
@@ -38,7 +38,7 @@ export default {
         };
     },
     methods: {
-        submitRegister() {
+        submitRegistration() {
             //TODO
         }
     }
