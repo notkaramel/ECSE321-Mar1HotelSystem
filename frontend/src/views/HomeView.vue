@@ -61,7 +61,7 @@
     <!--Schedule-->
     <div class="alternate-section">
       <div class="section-image">
-        <img src="@/assets/contact us.png" alt="Schedule Image" class="image" />
+        <img src="@/assets/contact-us.png" alt="Schedule Image" class="image" />
       </div>
       <div class="section-content">
         <h2 class="section-header">Opening Schedule</h2>
@@ -150,7 +150,7 @@ body {
 
 /* Image Style */
 .image {
-  max-width: 100%;
+  @apply rounded-lg shadow-lg;
 }
 </style>
 
