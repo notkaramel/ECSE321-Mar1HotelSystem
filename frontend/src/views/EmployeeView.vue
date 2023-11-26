@@ -9,14 +9,14 @@
                     <td>{{e.firstName}}</td> <td>{{e.lastName}}</td> <td>{{e.email}}</td>
                 </tr>
             </table>
-            <input placeholder="email" id="employeeEmail">
-            <button @click="count++">Get Employee {{ count }}</button>
+            <input type = "text" placeholder="email" v-model="text">
+            <button @click="getShiftsList(text)">Get Employee</button>
             <table>
                 <tr>
-                    <th>First Name</th> <th>Last Name</th> <th>Shift Time</th>
+                    <th>Shift ID</th> <th>Shift date</th> <th>Shift start time</th> <th>Shift end time</th>
                 </tr>
-                <tr v-for = "e in employeesList">
-                    <td>{{e.firstName}}</td> <td>{{e.lastName}}</td> <td>{{e.email}}</td>
+                <tr v-for = "s in shiftsList">
+                    <td>{{s.shiftId}}</td> <td>{{s.date}}</td> <td>{{s.startTime}}</td> <td>{{s.endTime}}</td>
                 </tr>
             </table>
         </div>
@@ -42,13 +42,23 @@ async function getEmployees() {
 }
 
 async function getEmployee(email: string) {
-    let employee: any = await axios.get(backendUrl + "/employees/" + email)
+    let employee: any = await axios.get(backendUrl + "/employee/" + email)
     .then(response => response.data)
     .catch(error => console.log(error));
+    console.log(employee);
     return employee;
 }
 
+async function getShifts(email: string) {
+    let shifts: any[] = await axios.get(backendUrl + "/employee/" + email + "/shifts")
+    .then(response => response.data)
+    .catch(error => console.log(error));
+    console.log(shifts);
+    return shifts;
+}
+
 let employees: any[] = await getEmployees();
+let shifts: any[] = [];
 console.log(employees);
 export default {
     components: {
@@ -57,13 +67,19 @@ export default {
     data() {
         return {
             employeesList: employees,
+            text: "",
+            shiftsList: shifts
         }
+    },
+
+    methods: {
+        getShiftsList: async function(email: string) {
+            let shifts: any[] = await getShifts(email);
+            this.shiftsList = shifts;
+        }
+        
     }
 }
-
-
-
-
 </script>
 
 <style scoped>
