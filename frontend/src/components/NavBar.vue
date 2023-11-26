@@ -11,13 +11,7 @@
                     Home
                 </fwb-navbar-link>
                 <fwb-navbar-link link="">
-                    Amenities&Spa
-                </fwb-navbar-link>
-                <fwb-navbar-link link="">
                     Dining
-                </fwb-navbar-link>
-                <fwb-navbar-link link="/rooms">
-                    Room Options
                 </fwb-navbar-link>
                 <fwb-navbar-link link="/rooms">
                     Book Now
@@ -25,17 +19,11 @@
                 <fwb-navbar-link link="/schedule">
                     Schedule
                 </fwb-navbar-link>
-                <fwb-navbar-link link="/contact">
-                    Contact
-                </fwb-navbar-link>
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
             <fwb-button>
                 Sign in
-            </fwb-button>
-            <fwb-button>
-                Join!
             </fwb-button>
         </template>
     </fwb-navbar>

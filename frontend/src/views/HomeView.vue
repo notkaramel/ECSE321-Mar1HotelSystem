@@ -2,74 +2,77 @@
   <main>
     <!--Welcome banner-->
     <div class="flex flex-col items-center py-16">
-      <br><br>
-      <p class="text-5xl font-bold mb-4">{{ welcomeMsg }}</p>
-      <fwb-rating :rating="4">
+      <br>
+      <p class="text-5xl font-bold mb-4"> Welcome to Mar-1 Hotel! </p>
+      <fwb-rating :rating="5">
         <template #besideText>
           <p class="ml-2 text-lg font-medium text-gray-500 dark:text-gray-400">
-            4 out of 5
+            4.7 out of 5
           </p>
         </template>
       </fwb-rating>
-      <br><br>
+      <!--Image carousel-->
+    </div>
+    <br><br>
+    <fwb-carousel :pictures="pictures" :slideInterval="2000" :animation="false" slide/>
+    <br>
+    <!--Spa&Amenities-->
+    <div class="alternate-section my-7">
+      <div class="section-content">
+        <h2 class="section-header">Spa & Amenities</h2>
+        <p class="section-description">Elevate your stay with our Spa & Amenities package, offering personalized spa
+          treatments and exclusive access to state-of-the-art facilities, ensuring a relaxing experience. Indulge in a
+          range of services, from soothing massages from expert massage therapist Bilar Mokhtari to revitalizing skincare
+          from ethetician Lucas Pacicco. We are dedicated to your well-being.</p>
+      </div>
+      <div class="section-image">
+        <img src="@/assets/spa.png" alt="Spa Image" class="image" />
+      </div>
     </div>
 
-    <!--Image carousel-->
-    <fwb-carousel :pictures="pictures" />
-    <br><br> 
-
-    <!--Spa&Amenities-->
-    <section class="alternate-section">
-      <div class="section-content">
-        <br><br>
-        <h2 class="section-header">Spa & Amenities</h2>
-        <p class="section-description">Elevate your stay with our Spa & Amenities package, offering personalized spa treatments and exclusive access to state-of-the-art facilities, ensuring a relaxing experience. Indulge in a range of services, from soothing massages from expert massage therapist Bilar Mokhtari to revitalizing skincare from ethetician Lucas Pacicco. We are dedicated to your well-being.</p>
-      </div>
-      <div class="section-image">
-        <img src="src/assets/spa.png" alt="Spa Image" class="image" />
-      </div>
-    </section>
-
     <!--Dining-->
-    <section>
+    <div class="alternate-section">
       <div class="section-image">
-        <img src="src/assets/restaurant.png" alt="Dining Image" class="image" />
+        <img src="@/assets/restaurant.png" alt="Dining Image" class="image" />
       </div>
       <div class="section-content">
-        <br><br>
         <h2 class="section-header">Dining</h2>
-        <p class="section-description">Experience culinary excellence with our Dining services at 3 Michelin Star Chef Antoine Phan and Sous Chef ZiXu Liu, where every meal is a journey of flavors. Enjoy a diverse menu featuring locally sourced ingredients, ensuring a fresh and delightful dining experience. Whether it's a gourmet dinner or a casual brunch, our commitment to quality and taste will make every meal memorable.</p>
+        <p class="section-description">Experience culinary excellence with our Dining services at 3 Michelin Star Chef
+          Antoine Phan and Sous Chef ZiXu Liu, where every meal is a journey of flavors. Enjoy a diverse menu featuring
+          locally sourced ingredients, ensuring a fresh and delightful dining experience. Whether it's a gourmet dinner or
+          a casual brunch, our commitment to quality and taste will make every meal memorable.</p>
       </div>
-    </section>
+    </div>
 
     <!--Local Area-->
-    <section class="alternate-section">
+    <div class="alternate-section">
       <div class="section-content">
-        <br>
         <h2 class="section-header">Local Area</h2>
-        <p class="section-description">Immerse yourself in the vibrant culture of Montreal by consulting with our expert consierge Adam Corbier, who can curate tours and provide insider recommendations to explore the city's hidden gems. From iconic landmarks to trendy neighborhoods, our concierge service ensures you discover the best of Montreal, providing an authentic and tailored experience to your preferences.</p>
+        <p class="section-description">Immerse yourself in the vibrant culture of Montreal by consulting with our expert
+          consierge Adam Corbier, who can curate tours and provide insider recommendations to explore the city's hidden
+          gems. From iconic landmarks to trendy neighborhoods, our concierge service ensures you discover the best of
+          Montreal, providing an authentic and tailored experience to your preferences.</p>
       </div>
       <div class="section-image">
-        <img src="src/assets/local-area.png" alt="Local Area Image" class="image" />
+        <img src="@/assets/local-area.png" alt="Local Area Image" class="image" />
       </div>
-    </section>
+    </div>
 
     <!--Schedule-->
-    <section>
+    <div class="alternate-section">
       <div class="section-image">
-        <img src="src/assets/contact us.png" alt="Schedule Image" class="image" />
+        <img src="@/assets/contact us.png" alt="Schedule Image" class="image" />
       </div>
       <div class="section-content">
-        <br><br>
-        <h2 class="section-header">Schedule</h2>
-        <p class="section-description">Check out our daily schedule for front desk and consierge opening hours.<br>
+        <h2 class="section-header">Opening Schedule</h2>
+        <p class="section-description">Check out our daily schedule for front desk and consierge opening hours.
           <br>
-        Weekdays: 8am-8pm<br>
-        Weekends: 9am-8pm<br>
-        Honidays: 9am-4pm<br>
-    </p>
+          Weekdays: 8am-8pm<br>
+          Weekends: 9am-8pm<br>
+          Honidays: 9am-4pm<br>
+        </p>
       </div>
-    </section>
+    </div>
 
   </main>
 </template>
@@ -96,68 +99,47 @@ const pictures = [
 </script>
 
 <script lang="ts">
-  import axios from 'axios'
+import axios from 'axios'
 
-  const backendUrl = import.meta.env.VITE_BACKEND;
+const backendUrl = import.meta.env.VITE_BACKEND;
 
-  let welcomeMsg = await axios.get(backendUrl).then((response) => response.data);
+let welcomeMsg = await axios.get(backendUrl).then((response) => response.data);
 
-  export default {
-    data() {
-      return {
-        welcomeMsg: welcomeMsg,
-      };
-    }
+export default {
+  data() {
+    return {
+      welcomeMsg: welcomeMsg,
+    };
   }
+}
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 /* Global Style */
 body {
-  margin: 0;
+  scroll-behavior: smooth;
   font-family: 'Arial', sans-serif;
 }
 
-/* Header Style */
-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.header-title {
-  font-size: 2em;
-}
-
 /* Section Style */
-section {
-  display: flex;
-  margin-bottom: 40px;
+.alternate-section {
+  @apply flex flex-row items-center py-6 mx-10 gap-12 align-baseline;
 }
 
-.section-content,
-.section-image {
-  flex: 1;
-  margin: 0 20px;
-  justify-content: flex-start; 
-  align-items: flex-start;
-}
-.section-content {
-  text-align: left;
+.section-content, .section-image {
+  @apply flex-1 text-justify;
 }
 .section-header {
-  font-size: 1.8em; 
-  margin-bottom: 10px;
-  color: #333; 
+  @apply text-3xl font-bold mb-2;
 }
+
 .section-description {
-  font-size: 1.4em; 
-  color: #333; 
+  @apply text-xl text-justify;
 }
 
 /* Image Style */
 .image {
   max-width: 100%;
-  height: auto;
-  margin-top: 20px;
 }
 </style>
 
