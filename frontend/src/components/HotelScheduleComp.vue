@@ -474,7 +474,7 @@ export default {
         <fwb-textarea
         v-model="messageUpdateDate"
         :rows="2"
-        label="Enter date YYYY-MM-DD"
+        label="Enter date YYYY-MM-DDTHH:MM:... (you can copy the date of custom hour you want to change)"
         placeholder="Input day of week..."
         />
 

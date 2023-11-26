@@ -198,7 +198,7 @@ async function deleteRequest(requestId: number) {
 }
 
 async function deleteAssignment(assignmentId: number) {
-    let deletedAssignment = await axios.delete(backendUrl + "/assignments/"+assignmentId)
+    let deletedAssignment = await axios.delete(backendUrl + "/assignments/delete/"+assignmentId)
         .then(response => response.data)
         .catch(err => {
             console.log(err)
@@ -283,15 +283,15 @@ async function createRequest(description: String, bookingId: Number, isFulfilled
     return createdRequest;
 }
 
-async function createAssignment(employeeId: Number,requestId: Number) {
-    let createdAssignment = await axios.post(backendUrl + "/assingment/create", {"employeeId": employeeId,"requestId": requestId})
+async function createAssignment(employeeId: String, requestId: Number) {
+    let createdAssignment = await axios.post(backendUrl + "/assignment/create", {"employeeId": employeeId,"requestId": requestId})
         .then(response => response.data)
         .catch(err => {
             console.log(err)
             alert(err.response["data"])
         });
     console.log(createdAssignment);
-    window.location.reload();
+    //window.location.reload();
     return createdAssignment;
 }
 
@@ -916,8 +916,8 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
             <fwb-textarea
             v-model="messageAssignmentEmployeeId"
             :rows="2"
-            label="Employee Id of employee in charge of Assignment"
-            placeholder="Input Employee Id of employee in charge of Assignment..."
+            label="Employee Id (which is the email) of employee in charge of Assignment"
+            placeholder="Input Employee Id (which is the email) of employee in charge of Assignment..."
             />
             <fwb-textarea
             v-model="messageAssignmentRequestId"
@@ -925,7 +925,7 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
             label="Request Id of request in related of Assignment"
             placeholder="Input Request Id of request in related of Assignment..."
             />
-            <fwb-button @click="createAssignment(parseInt(messageAssignmentEmployeeId), parseInt(messageAssignmentEmployeeId))" color="green">Delete</fwb-button>
+            <fwb-button @click="createAssignment(messageAssignmentEmployeeId, parseInt(messageAssignmentEmployeeId))" color="green">Create Assignment</fwb-button>
         </div>
      </main>
       </fwb-accordion-content>
@@ -991,7 +991,7 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
     <fwb-textarea
         v-model="shiftId"
         :rows="2"
-        label="Enter Employee Shift Id"
+        label="Enter Employee Shift Id (You make a unique Employee Shift Id)"
         placeholder="Input Employee Shift Id..."
         />
         <fwb-textarea
