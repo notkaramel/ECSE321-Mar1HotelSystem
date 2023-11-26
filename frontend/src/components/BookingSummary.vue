@@ -35,9 +35,9 @@
                 Payment ID: {{ payment.paymentId || "?" }}
             </p>
         </div>
-        <div id="cancel-booking">
+        <div id="cancel-booking" class="my-4 pt-4">
             <p> Booked by mistake? Cancel now with full refund! </p>
-            <button class="w-full bg-rose-600 text-white font-semibold py-3" @click="cancelBooking">
+            <button class="w-full bg-red-600 text-white font-semibold py-3" @click="cancelBooking">
                 Cancel
             </button>
         </div>
@@ -47,6 +47,7 @@
 <style scoped lang="postcss">
 .card {
     @apply block w-1/2 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100;
+    @apply p-8;
     @apply dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700;
 }
 
@@ -96,6 +97,11 @@ export default {
                     return json;
                 })
                 .catch(error => {
+                    alert("Unable to load booking summary!");
+                    if(error.response.status == 404)
+                    {
+                        alert("Unable to find booking with ID " + bookingId + "!");
+                    }
                     console.log(error);
                 });
             return {
@@ -110,6 +116,11 @@ export default {
                     return (response.status == 200 ? alert("Booking cancelled successfully!") : null);
                 })
                 .catch(error => {
+                    if(error.response.status == 404)
+                    {
+                        alert("Unable to find booking with ID " + bookingId + "!");
+                    }
+                    alert("Unable cancel booking!");
                     console.log(error);
                 });
         }
