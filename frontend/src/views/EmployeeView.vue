@@ -10,7 +10,9 @@
                 </tr>
             </table>
             <input type = "text" placeholder="email" v-model="text">
+            <input type = "text" placeholder="password" v-model="password">
             <button @click="getShiftsList(text)">Get Employee</button>
+            <button @click="checkPassword(text, password)">Check password</button>
             <table>
                 <tr>
                     <th>Shift ID</th> <th>Shift date</th> <th>Shift start time</th> <th>Shift end time</th>
@@ -68,11 +70,25 @@ export default {
         return {
             employeesList: employees,
             text: "",
-            shiftsList: shifts
+            shiftsList: shifts,
+            password: ""
         }
     },
 
     methods: {
+        checkPassword: async function(email: string, password: string) {
+            try {
+                let employee: any = await getEmployee(email);
+            if (employee.password === password) {
+                console.log("Password is correct");
+            } else {
+                console.log("Password is incorrect");
+            }
+            } catch (error: any) {
+                console.log(error.axios.message);
+            }
+            
+        },
         getShiftsList: async function(email: string) {
             let shifts: any[] = await getShifts(email);
             this.shiftsList = shifts;
