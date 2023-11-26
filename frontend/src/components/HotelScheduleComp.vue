@@ -43,19 +43,19 @@ import { useRoute } from 'vue-router';
 import axios from 'axios'
 export default {
     name: 'ManagerView',
-    props: {
-//         dayOfWeek: String,
-//   openingHour: Number,
-//   closingHour: Number,
-//   year: Number,
-//   operatingHoursIdList: [
-//     Number
-//   ],
-//   customHoursIdList: [
-//     Number
-//   ],
-//   date: Date,
-    },
+//     props: {
+// //         dayOfWeek: String,
+// //   openingHour: Number,
+// //   closingHour: Number,
+// //   year: Number,
+// //   operatingHoursIdList: [
+// //     Number
+// //   ],
+// //   customHoursIdList: [
+// //     Number
+// //   ],
+// //   date: Date,
+//     },
     methods: {
         async setup_hotelSchedule() {
         const backend = import.meta.env.VITE_BACKEND;
