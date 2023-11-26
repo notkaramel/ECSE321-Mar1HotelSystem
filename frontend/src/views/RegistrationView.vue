@@ -1,7 +1,7 @@
 <template>
     <div class="register-container">
         <h2>Register</h2>
-        <form @submit.prevent="submitRegistration" class="register-form">
+        <form @submit.prevent="submitRegister" class="register-form">
             <div class="form-group">
                 <input type="text" id="firstName" v-model="firstName" placeholder="First Name" required>
             </div>
@@ -18,7 +18,8 @@
                 <input type="password" id="password" v-model="password" placeholder="Password" required>
             </div>
             <div class="form-group">
-                <input type="password" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm Password" required>
+                <input type="password" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm Password"
+                    required>
             </div>
             <button type="submit" class="btn-next">Complete Registration</button>
         </form>
@@ -26,6 +27,9 @@
 </template>
 
 <script lang="ts">
+const backendUrl = import.meta.env.VITE_BACKEND;
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -38,12 +42,45 @@ export default {
         };
     },
     methods: {
-        submitRegistration() {
-            //TODO
+    async submitRegister() {
+        // Check if the password and the confirmation password match
+        if (this.password !== this.confirmPassword) {
+            alert('Oops! Passwords do not match.');
+            return;
         }
+
+        // If the passwords match, call the createCustomer method to create a new customer
+        // Convert phoneNumber to a number, or use 0 if it's not available
+        const createdCustomer = await this.createCustomer(
+            this.firstName,
+            this.lastName,
+            this.email,
+            this.phoneNumber ? Number(this.phoneNumber) : 0,
+            this.password
+        );
+
+        // Log the created customer
+        console.log(createdCustomer);
+    },
+
+    // This method sends a POST request to create a new customer
+    async createCustomer(firstName: String, lastName :String , email :String, phoneNumber :number, password:String) {
+        // The body of the request is an object containing the customer data
+        let createdCustomer = await axios.post(backendUrl + "/customer/", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
+            .then(response => {
+                return response.data;
+            })
+            .catch(err => {
+                console.log(err);
+                alert(err.response["data"]);
+            });
+
+        return createdCustomer;
     }
 }
+}
 </script>
+
 
 <style scoped>
 .register-container {
@@ -63,7 +100,10 @@ h2 {
     margin-bottom: 15px;
 }
 
-input[type="text"], input[type="email"], input[type="tel"], input[type="password"] {
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -71,7 +111,10 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
     box-sizing: border-box;
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="password"]:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus {
     border-color: #666;
     outline: none;
 }
