@@ -537,25 +537,21 @@ export default {
       <fwb-table-head-cell>Operating Opening Hour</fwb-table-head-cell>
       <fwb-table-head-cell>Operating Closing Hour</fwb-table-head-cell>
       <fwb-table-head-cell>Custom Hours Id</fwb-table-head-cell>
-      <fwb-table-head-cell>Operating Hours Date</fwb-table-head-cell>
-      <fwb-table-head-cell>Custom Opening Hour</fwb-table-head-cell>
-      <fwb-table-head-cell>Custom Closing Hour</fwb-table-head-cell>
-      <fwb-table-head-cell>Custom Hours Id</fwb-table-head-cell>
       <fwb-table-head-cell>Custom Hours Date</fwb-table-head-cell>
-      <fwb-table-head-cell>Opening Hour</fwb-table-head-cell>
+      <fwb-table-head-cell>Custom Opening Hour</fwb-table-head-cell>
       <fwb-table-head-cell>Closing Hour</fwb-table-head-cell>
     </fwb-table-head>
     <fwb-table-body>
       <fwb-table-row v-for="hotel in hotelSchedule">
         <fwb-table-cell>{{hotel.year}}</fwb-table-cell>
-        <!-- <fwb-table-cell v-for="operating in hotelSchedule["operatingHoursList"]">{{hotel["operatingHoursList"]}}</fwb-table-cell> -->
-        <!-- <fwb-table-cell v-for="operating in hotel["operatingHoursList"]">{{operating.dayOfWeek}}</fwb-table-cell>
-        <fwb-table-cell v-for="operating in hotel["operatingHoursList"]">{{operating.openingHour}}</fwb-table-cell>
-        <fwb-table-cell v-for="operating in hotel["operatingHoursList"]">{{operating.closingHour}}</fwb-table-cell>  
-        <fwb-table-cell v-for="custom in hotel["customHoursList"]">{{custom.customHoursId}}</fwb-table-cell>
-        <fwb-table-cell v-for="custom in hotel["customHoursList"]">{{custom.date}}</fwb-table-cell>
-        <fwb-table-cell v-for="custom in hotel["customHoursList"]">{{custom.openingHour}}</fwb-table-cell>
-        <fwb-table-cell v-for="custom in hotel["customHoursList"]">{{custom.closingHour}}</fwb-table-cell>    -->
+        <fwb-table-cell  v-for="operating in hotel.operatingHoursList" >{{operating.operatingHoursId}}</fwb-table-cell>
+        <fwb-table-cell v-for="operating in hotel.operatingHoursList">{{operating.dayOfWeek}}</fwb-table-cell>
+        <fwb-table-cell v-for="operating in hotel.operatingHoursList">{{operating.openingHour}}</fwb-table-cell>
+        <fwb-table-cell v-for="operating in hotel.operatingHoursList">{{operating.closingHour}}</fwb-table-cell>  
+        <fwb-table-cell v-for="custom in hotel.customHoursList">{{custom.customHoursId}}</fwb-table-cell>
+        <fwb-table-cell v-for="custom in hotel.customHoursList">{{custom.date}}</fwb-table-cell>
+        <fwb-table-cell v-for="custom in hotel.customHoursList">{{custom.openingHour}}</fwb-table-cell>
+        <fwb-table-cell v-for="custom in hotel.customHoursList">{{custom.closingHour}}</fwb-table-cell>   
       </fwb-table-row>
     </fwb-table-body>
   </fwb-table>
