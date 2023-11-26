@@ -1,49 +1,74 @@
 <template>
-    <fwb-card class="BookingSummaryCard" img-alt="Stock Photo" img-src="https://flowbite.com/docs/images/blog/image-4.jpg"
-        variant="horizontal">
-        <div class="p-5">
+    <div class="card">
+        <div class="p-5 my-3 w-96">
             <p class="text-2xl font-semibold">
                 Booking Summary
             </p>
             <p class="text-xl text-green-600">
-                Booking ID: {{ bookingId }} 
+                Booking ID: {{ bookingId }}
             </p>
-            <p class="text-gray-600">
-                User email: {{ user.email || " " }}
-            </p>
-            <div id="roomInfo">
-                <p class="text-gray-600">
-                    <!-- Room #{{ room || " " }} -->
+            <div class="info">
+                <h1>
+                    User Info:
+                </h1>
+                <p>
+                    User Name: {{ user.firstName || " " }} {{ user.lastName || " " }} <br />
+                    User email: {{ user.email || " " }} <br />
+                    User phone number: {{ user.phoneNumber || " " }}
                 </p>
-                <p class="text-gray-600">
+            </div>
+            <div class="info">
+                <h1>
+                    Room booked:
+                </h1>
+                <p>
+                    Room ID: {{ room.roomId || " " }} <br />
+                    Room Price Per Night: {{ room.pricePerNight || " " }}
+                </p>
+                <p>
                     Room Type: {{ room.roomType || " " }}
                 </p>
             </div>
-            <p class="text-gray-600">
-                Payment #{{ payment.paymentId || " " }}
-                Amount: {{ payment.amount || " " }}
-            </p>
+            <div class="info">
+                <h1>Payment Info</h1>
+                <p>
+                    Amount: CA${{ payment.amount || " " }} <br />
+                    Payment ID: {{ payment.paymentId || " " }}
+                </p>
+            </div>
         </div>
-    </fwb-card>
+    </div>
 </template>
 
 <style scoped lang="postcss">
+.card {
+    @apply block w-1/4 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100;
+    @apply dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700;
+}
 .BookingSummaryCard {
     @apply m-12;
+}
+
+.info {
+    @apply mt-4;
+}
+
+.info h1 {
+    @apply text-xl font-semibold;
+}
+
+.info p {
+    @apply text-lg text-gray-800;
 }
 </style>
 
 <script lang="ts">
-import { FwbCard } from 'flowbite-vue'
 import { useRoute } from 'vue-router';
-// import { ref } from 'vue';
+
 export default {
     name: 'BookingSummaryView',
     props: {
         bookingId: Number,
-    },
-    components: {
-        FwbCard
     },
     methods: {
         async setup() {
@@ -94,9 +119,9 @@ export default {
         };
 
         const RoomDTO = {
-            "roomNumber": " ",
+            "roomId": " ",
             "roomType": " ",
-            "roomPricePerNight": " ",
+            "pricePerNight": " ",
             "roomIsAvaialble": " ",
         };
 
@@ -114,5 +139,4 @@ export default {
         this.setup();
     }
 }
-
 </script>
