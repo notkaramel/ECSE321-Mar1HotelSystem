@@ -25,6 +25,9 @@
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
+            <fwb-button @click="goToCreateBooking">
+                Book Now
+            </fwb-button>
             <fwb-button @click="goToSignIn">
                 Sign in
             </fwb-button>
@@ -51,5 +54,11 @@
   const goToSignIn = () => {
     router.push('/signin');
   };
+
+  const goToCreateBooking = () => {
+    router.push('/booking/create');
+  };
+
+  
   </script>
   
