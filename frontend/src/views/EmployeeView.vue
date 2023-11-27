@@ -30,10 +30,10 @@
                 <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
                 <table>
                     <tr>
-                        <th>Request ID</th> <th>Booking</th> <th>Description</th>
+                        <th>Request ID</th> <th>Booking Id</th> <th>Description</th>
                     </tr>
-                    <tr v-for = "request in requestsList.filter(r => r.isFufilled === false)">
-                        <td>{{request.requestId}}</td> <td>{{request.bookingId}}</td> <td>{{request.description}}</td>
+                    <tr v-for = "request in requestsList.filter( (p) => p.isFulfilled === false)">
+                        <td>{{request.requestId}}</td> <td>{{request.booking.bookingId}}</td> <td>{{request.description}}</td>
                     </tr>
                 </table>
                 <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
@@ -41,7 +41,7 @@
                     <tr>
                         <th>Request ID</th> <th>Booking</th> <th>Description</th>
                     </tr>
-                    <tr v-for = "employeeRequest in employeeRequestList.filter(r => r.isFufilled === false)">
+                    <tr v-for = "employeeRequest in employeeRequestList.filter(r => r.isFulfilled === false)">
                         <td>{{employeeRequest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
                     </tr>
                 </table>
@@ -60,7 +60,7 @@
                         <th>Booking ID</th> <th>Room ID</th> <th>Customer email</th>
                     </tr>
                     <tr v-for = "booking in bookingsList">
-                        <td>{{booking.bookingId}}</td> <td>{{booking.room.roomId}}</td> <td>{{booking.description}}</td>
+                        <td>{{booking.bookingId}}</td> <td>{{booking.room.roomId}}</td> <td>{{booking.generalUser.email}}</td>
                     </tr>
                 </table>
                 <div class="centered">
@@ -109,10 +109,11 @@ async function getShifts(email: string) {
 }
 
 async function getAllRequests() {
-    let assignments: any[] = await axios.get(backendUrl + "/requests")
+    let requests: any[] = await axios.get(backendUrl + "/requests")
     .then(response => response.data)
     .catch(error => console.log(error));
-    return assignments;
+    console.log(requests);
+    return requests;
 }
 
 async function getEmployeeAssignments(email: string) {
@@ -125,6 +126,7 @@ async function getEmployeeAssignments(email: string) {
             employeeRequests.push(assignment);
         }
     }
+    console.log(employeeRequests);
     return employeeRequests;
 }
 
@@ -139,9 +141,10 @@ async function createRequest(bookingId: string, description: string) {
 }
 
 async function getBookings() {
-    let bookings: any[] = await axios.get(backendUrl + "/bookings")
+    let bookings: any[] = await axios.get(backendUrl + "/booking/all")
     .then(response => response.data)
     .catch(error => console.log(error));
+    console.log(bookings);
     return bookings;
 }
 
@@ -160,7 +163,7 @@ async function fufillChange(requestId: string) {
     request= await axios.put(backendUrl + "/requests/update/" + requestId, {
         description: request.description,
         bookingId: request.bookingId,
-        isFufilled: true
+        isFulfilled: true
     })
     
     console.log(request);
