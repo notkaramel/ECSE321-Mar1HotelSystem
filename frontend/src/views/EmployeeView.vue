@@ -9,10 +9,15 @@
                     <td>{{e.firstName}}</td> <td>{{e.lastName}}</td> <td>{{e.email}}</td>
                 </tr>
             </table>
-            <input type = "text" placeholder="email" v-model="text">
-            <input type = "password" placeholder="password" v-model="password">
-            <button @click="login(text, password)">Login</button>
-            <span class="errorDisplay">{{errorMessageDisplay}}</span>
+            <div class="centered">
+                <input type = "text" placeholder="email" v-model="text">
+                <input type = "password" placeholder="password" v-model="password">
+                <br>
+                <button @click="login(text, password)">Login</button>
+                <br>
+                <span class="errorDisplay">{{errorMessageDisplay}}</span>
+            </div>
+            
             <div v-if = canDisplay>
                 <table>
                     <tr>
@@ -22,7 +27,7 @@
                         <td>{{s.shiftId}}</td> <td>{{s.date}}</td> <td>{{s.startTime}}</td> <td>{{s.endTime}}</td>
                     </tr>
                 </table>
-                <h1> List of all requests </h1>
+                <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
                 <table>
                     <tr>
                         <th>Request ID</th> <th>Booking</th> <th>Description</th>
@@ -31,7 +36,7 @@
                         <td>{{request.requestId}}</td> <td>{{request.bookingId}}</td> <td>{{request.description}}</td>
                     </tr>
                 </table>
-                <h1> List of requests assigned to {{ currentEmployeeEmail }} </h1>
+                <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
                 <table>
                     <tr>
                         <th>Request ID</th> <th>Booking</th> <th>Description</th>
@@ -40,26 +45,35 @@
                         <td>{{employeeRequest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
                     </tr>
                 </table>
-                <h1> Selecting request </h1>
-                <input type = "text" placeholder="request id" v-model="requestId">
-                <button @click="selectRequest(requestId)">Select request</button>
-                <button @click="fufillRequest(requestId)">Fufill request</button>
-                <span class="errorDisplay">{{errorMessageDisplaySelect}}</span>
+                <div class="centered">
+                    <h1 class="centeredHeader"> Selecting request </h1>
+                    <input type = "text" placeholder="request id" v-model="requestId">
+                    <br>
+                    <button @click="selectRequest(requestId)">Select request</button>
+                    <button @click="fufillRequest(requestId)">Fufill request</button>
+                    <br>
+                    <span class="errorDisplay">{{errorMessageDisplaySelect}}</span>
+                </div>
+                <b> <h1 class="centeredHeader"> All bookings </h1> </b>
+                <table>
+                    <tr>
+                        <th>Booking ID</th> <th>Room ID</th> <th>Customer email</th>
+                    </tr>
+                    <tr v-for = "booking in bookingsList">
+                        <td>{{booking.bookingId}}</td> <td>{{booking.room.roomId}}</td> <td>{{booking.description}}</td>
+                    </tr>
+                </table>
+                <div class="centered">
+                    <h1 class="centeredHeader"> Create a request </h1>
+                    <input type = "text" placeholder="booking id" v-model="bookingId">
+                    <input type = "text" placeholder="description" v-model="descriptionRequest">
+                    <br>
+                    <button @click="createRequest(bookingId, descriptionRequest)">Create request</button>
+                    <br>
+                    <span class="errorDisplay">{{errorMessageDisplayRequest}}</span>
+                </div>
             </div>
-            <h1> All bookings </h1>
-            <table>
-                <tr>
-                    <th>Booking ID</th> <th>Room ID</th> <th>Customer email</th>
-                </tr>
-                <tr v-for = "booking in bookingsList">
-                    <td>{{booking.bookingId}}</td> <td>{{booking.room.roomId}}</td> <td>{{booking.description}}</td>
-                </tr>
-            </table>
-            <h1> Create a request </h1>
-            <input type = "text" placeholder="booking id" v-model="bookingId">
-            <input type = "text" placeholder="description" v-model="descriptionRequest">
-            <button @click="createRequest(bookingId, descriptionRequest)">Create request</button>
-            <span class="errorDisplay">{{errorMessageDisplayRequest}}</span>
+            
         </div>
     </main>
 </template>
@@ -284,6 +298,7 @@ export default {
         border-width: thin;
         width: 80%;
         text-align: center;
+        margin: auto;
     }
 
     button {
@@ -296,9 +311,27 @@ export default {
         display: inline-block;
         font-size: 16px;
         margin: 10px;
+        border-radius: 12px;
     }
 
     .errorDisplay {
         color: red;
+    }
+
+    input {
+        margin: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .centered {
+        text-align: center;
+        margin: auto;
+    }
+
+    .centeredHeader {
+        font: sans-serif;
+        text-align: center;
+        margin: auto;
+        margin-top: 50px;
     }
 </style>
