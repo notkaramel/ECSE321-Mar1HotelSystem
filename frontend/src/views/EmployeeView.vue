@@ -50,7 +50,7 @@
                     <input type = "text" placeholder="request id" v-model="requestId">
                     <br>
                     <button @click="selectRequest(requestId)">Select request</button>
-                    <button @click="fufillRequest(requestId)">Fufill request</button>
+                    <button @click="fulfillRequest(requestId)">Fulfill request</button>
                     <br>
                     <span class="errorDisplay">{{errorMessageDisplaySelect}}</span>
                 </div>
@@ -134,7 +134,7 @@ async function createRequest(bookingId: string, description: string) {
     let request: any = await axios.post(backendUrl + "/request/create", {
         bookingId: bookingId,
         description: description,
-        isFufilled: false
+        isFulfilled: false
     })
     .then(response => response.data)
     return request;
@@ -158,7 +158,7 @@ async function createAssignment(requestId: string, employeeEmail: string) {
     return assignment;
 }
 
-async function fufillChange(requestId: string) {
+async function fulfillChange(requestId: string) {
     let request: any = await axios.get(backendUrl + "/requests/" + requestId)
     request= await axios.put(backendUrl + "/requests/update/" + requestId, {
         description: request.description,
@@ -275,11 +275,11 @@ export default {
             }
         },
 
-        fufillRequest: async function(requestId: string) {
+        fulfillRequest: async function(requestId: string) {
             try {
-                let request: any = await fufillChange(requestId);
+                let request: any = await fulfillChange(requestId);
                 console.log(request);
-                alert("Request fufilled");
+                alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
             } catch (error: AxiosError) {
                 if (error.response?.status === 404) {
