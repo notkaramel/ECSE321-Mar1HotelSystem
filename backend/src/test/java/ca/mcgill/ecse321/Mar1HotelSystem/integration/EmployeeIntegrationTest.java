@@ -2,7 +2,8 @@ package ca.mcgill.ecse321.Mar1HotelSystem.integration;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.ShiftRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.EmployeeDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.ShiftDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.ShiftRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.ShiftResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Customer;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
@@ -137,12 +138,12 @@ public class EmployeeIntegrationTest {
     @Test
     public void testGetAllShifts() {
         createEmployeesAndCustomers();
-        ResponseEntity<ShiftDto[]> responseEntity = restTemplate.getForEntity(
+        ResponseEntity<ShiftResponseDto[]> responseEntity = restTemplate.getForEntity(
                 "/employee/shifts",
-                ShiftDto[].class);
+                ShiftResponseDto[].class);
         assertNotNull(responseEntity);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        ShiftDto[] shifts = responseEntity.getBody();
+        ShiftResponseDto[] shifts = responseEntity.getBody();
         assertNotNull(shifts);
         assertEquals(1, shifts.length);
         assertEquals(0, shifts[0].getShiftId());
@@ -155,12 +156,12 @@ public class EmployeeIntegrationTest {
     public void testGetAllShiftsByEmail() {
         createEmployeesAndCustomers();
         String url = "/employee/" + EMPLOYEE_KEY + "/shifts";
-        ResponseEntity<ShiftDto[]> responseEntity = restTemplate.getForEntity(
+        ResponseEntity<ShiftResponseDto[]> responseEntity = restTemplate.getForEntity(
                 url,
-                ShiftDto[].class);
+                ShiftResponseDto[].class);
         assertNotNull(responseEntity);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        ShiftDto[] shifts = responseEntity.getBody();
+        ShiftResponseDto[] shifts = responseEntity.getBody();
         assertNotNull(shifts);
         assertEquals(1, shifts.length);
         assertEquals(0, shifts[0].getShiftId());
@@ -203,14 +204,14 @@ public class EmployeeIntegrationTest {
          */
         int id = employeeService.getAllShifts().get(0).getShiftId();
         String url = "/employee/shift/" + id;
-        ResponseEntity<ShiftDto> responseEntity = restTemplate.exchange(
+        ResponseEntity<ShiftResponseDto> responseEntity = restTemplate.exchange(
                 url,
                 org.springframework.http.HttpMethod.GET,
                 null,
-                ShiftDto.class);
+                ShiftResponseDto.class);
         assertNotNull(responseEntity);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        ShiftDto shift = responseEntity.getBody();
+        ShiftResponseDto shift = responseEntity.getBody();
         assertNotNull(shift);
         assertEquals(0, shift.getShiftId());
     }
@@ -305,18 +306,18 @@ public class EmployeeIntegrationTest {
     @Test
     public void testCreateShift() {
         createEmployeesAndCustomers();
-        ShiftDto shiftDto = new ShiftDto(
-                convertToDto(employeeService.getEmployee(EMPLOYEE_KEY)),
+        ShiftRequestDto shiftDto = new ShiftRequestDto(
+                EMPLOYEE_KEY,
                 new Date(2000, Calendar.JANUARY, 20),
                 1,
                 3);
-        ResponseEntity<ShiftDto> responseEntity = restTemplate.postForEntity(
+        ResponseEntity<ShiftResponseDto> responseEntity = restTemplate.postForEntity(
                 "/employee/" + EMPLOYEE_KEY + "/shift",
                 shiftDto,
-                ShiftDto.class);
+                ShiftResponseDto.class);
         assertNotNull(responseEntity);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        ShiftDto shift = responseEntity.getBody();
+        ShiftResponseDto shift = responseEntity.getBody();
         assertNotNull(shift);
         assertEquals(0, shift.getShiftId());
         assertEquals(1, shift.getStartTime());
@@ -329,7 +330,7 @@ public class EmployeeIntegrationTest {
     @Test
     public void testCreateShiftInvalidEmail() {
         createEmployeesAndCustomers();
-        ShiftDto shiftDto = new ShiftDto(
+        ShiftRequestDto shiftDto = new ShiftRequestDto(
                 null,
                 new Date(2000, Calendar.JANUARY, 20),
                 1,
@@ -399,8 +400,8 @@ public class EmployeeIntegrationTest {
     @Test
     public void testUpdateShift() {
         createEmployeesAndCustomers();
-        ShiftDto shiftDto = new ShiftDto(
-                convertToDto(employeeService.getEmployee(EMPLOYEE_KEY)),
+        ShiftRequestDto shiftDto = new ShiftRequestDto(
+                EMPLOYEE_KEY,
                 new Date(2000, Calendar.FEBRUARY, 20),
                 1,
                 3);
@@ -420,14 +421,14 @@ public class EmployeeIntegrationTest {
          * and add that id to the url.
          */
         int url = employeeService.getAllShifts().get(0).getShiftId();
-        ResponseEntity<ShiftDto> responseEntity = restTemplate.exchange(
+        ResponseEntity<ShiftResponseDto> responseEntity = restTemplate.exchange(
                 "/employee/shift/" + url,
                 org.springframework.http.HttpMethod.PUT,
                 new HttpEntity<>(shiftDto),
-                ShiftDto.class);
+                ShiftResponseDto.class);
         assertNotNull(responseEntity);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        ShiftDto shift = responseEntity.getBody();
+        ShiftResponseDto shift = responseEntity.getBody();
         assertNotNull(shift);
         assertEquals(0, shift.getShiftId());
         assertEquals(1, shift.getStartTime());
@@ -440,8 +441,8 @@ public class EmployeeIntegrationTest {
     @Test
     public void testUpdateShiftInvalidId() {
         createEmployeesAndCustomers();
-        ShiftDto shiftDto = new ShiftDto(
-                convertToDto(employeeService.getEmployee(EMPLOYEE_KEY)),
+        ShiftRequestDto shiftDto = new ShiftRequestDto(
+                EMPLOYEE_KEY,
                 new Date(2000, Calendar.FEBRUARY, 20),
                 1,
                 3);
