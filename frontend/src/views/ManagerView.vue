@@ -398,13 +398,22 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
 
   </script>
 
+<style scoped lang="postcss">
+.manager-tab{
+    @apply block bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100;
+    @apply p-8;
+    @apply dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700;
+    
+}
+</style>
+
 <template>
     <title>
         Manager
     </title>
 
     <!-- Accordion view so each larger functionality is split, uses flow bite for components -->
-
+    <div class = "manager-tab">
     <fwb-accordion :open-first-item="false">
     <fwb-accordion-panel>
       <fwb-accordion-header>Employees</fwb-accordion-header>
@@ -1059,6 +1068,7 @@ async function createEmployeeShift(shiftId: Number, date: String, startTime: Num
  </fwb-accordion-content>
 </fwb-accordion-panel>
 </fwb-accordion>
+</div>
 
 
      
