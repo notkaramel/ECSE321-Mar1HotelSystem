@@ -64,7 +64,7 @@
                     <tr>
                         <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th> <th>Description</th>
                     </tr>
-                    <tr v-for = "employeeRequest in employeeRequestList">
+                    <tr v-for="employeeRequest in employeeRequestList" v-bind:key="employeeRequest.assignmentId">
                         <td>{{ employeeRequest.assignmentId }}</td> <td>{{employeeRequest.reqest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
                     </tr>
                 </table>
@@ -154,7 +154,7 @@ async function getAllRequests() {
 // Get all requests assigned to employee
 async function getEmployeeAssignments(email: string) {
     let employeeRequests: any[] = [];
-    let assignments: any[] = await axios.get(backendUrl + "/assignments/all")
+    await axios.get(backendUrl + "/assignments/all")
     .then((response) => {
         console.log(response.data instanceof Array);
         return response.data}).then((response => response.filter((assignment: any) => assignment.employee.email === email)))
