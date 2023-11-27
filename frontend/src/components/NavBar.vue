@@ -1,7 +1,10 @@
 <template>
     <fwb-navbar>
         <template #logo>
-            <fwb-navbar-logo>
+            <fwb-navbar-logo
+                alt="Mar-1 logo"
+                image-url="../assets/kanaan.jpg"
+                link="#">
                 Mar-1 Hotel
             </fwb-navbar-logo>
         </template>
@@ -22,6 +25,10 @@
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
+            <fwb-button>
+                Book now
+            </fwb-button>
+            <!-- TODO how to add a space?? They are stuck together -->
             <fwb-button>
                 Sign in
             </fwb-button>
