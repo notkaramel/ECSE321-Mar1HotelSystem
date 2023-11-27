@@ -10,7 +10,7 @@
                 </tr>
             </table>
             <input type = "text" placeholder="email" v-model="text">
-            <input type = "text" placeholder="password" v-model="password">
+            <input type = "password" placeholder="password" v-model="password">
             <button @click="login(text, password)">Login</button>
             <span class="errorDisplay">{{errorMessageDisplay}}</span>
             <div v-if = canDisplay>
@@ -28,7 +28,7 @@
                         <th>Request ID</th> <th>Booking</th> <th>Description</th> <th>Assignee</th>
                     </tr>
                     <tr v-for = "employeeRequest in employeeRequestList">
-                        <td>{{employeeRequest.requestId}}</td> <td>{{employeeRequest.booking.bookingId}}</td> <td>{{employeeRequest.description}}</td> <td>{{employeeRequest.employee}} </td>
+                        <td>{{employeeRequest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td> <td>{{employeeRequest.employee}} </td>
                     </tr>
                 </table>
             </div>
