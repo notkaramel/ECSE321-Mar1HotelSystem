@@ -127,8 +127,22 @@ export default {
         alert('Failed to update information. Please try again later.'); 
       }
     },
-  },
 
+    async fetchCustomerInfo(email :String) {
+      try {
+        const response = await axios.get(`${backendUrl}/customer/${email}`);
+        if (response.status === 200) {
+          this.customer = response.data;
+        }
+      } catch (error) {
+        console.error('Error fetching customer data', error);
+      }
+    }
+  },
+  created() {
+    this.fetchCustomerInfo(this.$route.params.email.toString());
+
+  },
 };
 </script>
 
