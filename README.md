@@ -42,10 +42,20 @@ spring.datasource.password=PASSWORD
 ```
 
 ### Frontend
+- All the frontend files are in the `frontend` folder.
 - To start
 ```bash
 cd frontend
 npm install # to install dependencies
+```
+- We use [Vite](https://vitejs.dev/) to develop and build our frontend. Our project requires an `.env` file to be able to connect to the backend. You can create a `.env` file in the `frontend` folder and add the following line to it:
+```
+VITE_BACKEND = "http://localhost:8080" 
+```
+> Note that localhost:8080 is the default backend URL. Please change the URL if you are using a different backend URL. 
+
+- To start the development server, run:
+```bash
 npm run dev # to start the development server
 npm run build # to build the project for production
 ```
