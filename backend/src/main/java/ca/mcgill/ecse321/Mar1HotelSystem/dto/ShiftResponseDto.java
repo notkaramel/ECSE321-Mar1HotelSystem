@@ -2,8 +2,7 @@ package ca.mcgill.ecse321.Mar1HotelSystem.dto;
 
 import java.util.Date;
 
-public class ShiftDto {
-
+public class ShiftResponseDto {
     // VARIABLES
     private int shiftId;
     private Date date;
@@ -12,11 +11,11 @@ public class ShiftDto {
     private EmployeeDto employee;
 
     // CONSTRUCTORS
-    public ShiftDto() {
+    public ShiftResponseDto() {
     }
 
     // Shift constructor requiring employee, date, startTime, endTime
-    public ShiftDto(EmployeeDto employee, Date date, int startTime, int endTime) {
+    public ShiftResponseDto(EmployeeDto employee, Date date, int startTime, int endTime) {
         this.employee = employee;
         this.date = date;
         this.startTime = startTime;

@@ -25,21 +25,31 @@
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
-            <fwb-button>
+            <fwb-button @click="goToSignIn">
                 Sign in
             </fwb-button>
         </template>
     </fwb-navbar>
-</template>
+  </template>
   
-<script setup lang="ts">
-import {
+  <script setup lang="ts">
+  import { useRouter } from 'vue-router';
+  import {
     FwbButton,
     FwbNavbar,
     FwbNavbarCollapse,
     FwbNavbarLink,
-    FwbNavbarLogo
-} from 'flowbite-vue'
+    FwbNavbarLogo,
+  } from 'flowbite-vue';
+  
+  import logo from '@/assets/logo.svg'
 
-import logo from '@/assets/logo.svg'
-</script>
+  // Use Vue Router's useRouter hook to get access to the router instance
+  const router = useRouter();
+  
+  // Define the goToSignIn function using the router instance
+  const goToSignIn = () => {
+    router.push('/signin');
+  };
+  </script>
+  
