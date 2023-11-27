@@ -3,17 +3,6 @@ title "Mar-1 Hotel System (MHS) Architecture"
 ' Using PlantUML Deployment Diagram
 
 rectangle Frontend as "Frontend Layer" {
-    note as UN
-    UI is implemented using
-    VueJS framework, with:
-    # <b>Axios</b>: to send HTTP Request
-    # <b>Vue-router</b>: to navigate between pages
-    # <b>Flowbite-vue</b>: UI components library
-    # <b>TypeScript</b>: to type-check our codebase
-    # <b>TailwindCSS</b>: to style our UI with
-    premade classes and utilities
-    end note
-
     node Pages as "Views/Pages" {
         rectangle "Welcome" as wc #LightBlue
         rectangle "Login" as l #LightBlue
