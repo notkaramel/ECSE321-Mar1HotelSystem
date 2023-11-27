@@ -1,9 +1,47 @@
 @startuml BackendArchitecture
-title "Mar-1 Hotel System (MHS) Backend Architecture"
+title "Mar-1 Hotel System (MHS) Architecture"
 ' Using PlantUML Deployment Diagram
+
+rectangle Frontend as "Client Layer" {
+    node UI as "Frontend UI" {
+        note as UN
+        UI is implemented using
+        VueJS framework, with:
+        # <b>Axios</b>: to send HTTP Request
+        # <b>Vue-router</b>: to navigate between pages
+        # <b>Flowbite-vue</b>: UI components library
+        # <b>TypeScript</b>: to type-check our codebase
+        # <b>TailwindCSS</b>: to style our UI with
+        premade classes and utilities
+        end note
+
+        node Pages as "Views/Pages" {
+            rectangle "Welcome" as wc #LightBlue
+            rectangle "Login" as l #LightBlue
+            rectangle "Register" as r #LightBlue
+            rectangle "Booking" as b #LightBlue
+            rectangle "Booking Summary" as bs #LightBlue
+            rectangle "Customer\nDashboard" as c #LightBlue
+            rectangle "Manager\nDashboard" as m #LightBlue
+            rectangle "Employee\nDashboard" as e #LightBlue
+
+            wc --> b : booking a room
+            wc --> l : logging in
+            wc --> r: signing up
+
+            b -down-> bs : booking successful
+            r <-left-> l
+
+            l -down-> c
+            l --> m
+            l --> e
+
+        }
+    }
+}
+
 rectangle Backend as "Backend Layer" {
     together {
-
         package DM as "Domain Model" {
             file DM_C as "Classes" {
                 card "JPA annotation" #LightBlue
@@ -26,7 +64,7 @@ rectangle Backend as "Backend Layer" {
             end note
         }
         DAO -up-> Service : "returns data as Object"
-        Service --> DAO : "uses"
+        Service -left-> DAO : "uses"
     }
     package Controller as "Controller Layer: /endpoint" {
         note as CN
@@ -38,37 +76,19 @@ rectangle Backend as "Backend Layer" {
         end note
 
         node DTO as "Data Transfer Object (DTO)" {
-            card "Somewhat similar to Classes" #LightBlue
+            card "RequestDTOs" #LightBlue
+            card "ResponseDTOs" #LightBlue
         }
 
-    } 
-
-    Service -up[#blue,bold]-> DTO : (2) converts Object to
-    Service <-up[#blue,bold]- Controller : (1) calls service methods
-}
-
-rectangle Frontend as "Client Layer" {
-    node UI as "Frontend UI" {
-        card VueJS #LightGreen [
-        VueJS
-        ---
-        HTML | CSS | JS
-        ]
     }
 
+
+    Service -up[#blue,bold]-> DTO : (2) converts Object to
+    Service <-left[#blue,bold]- Controller : (1) calls service methods
 }
-Controller --up[#blue,bold]-> Frontend : (3) HTTP Response
-Controller <-[#red]- Frontend : HTTP Request
-' Controller --- HR
-' HR -left-> Frontend
 
-
-
-' node HTTPResponse [
-' <b> HTTP Response
-' ---
-' 200 | 404 | 500
-' ]
+Controller --[#blue,bold]up-> Frontend : (3) HTTP Response
+Backend <-[#red]down- Frontend : (0) HTTP Request
 
 skinparam Linetype ortho
 
