@@ -4,21 +4,25 @@
             <!-- Table for all employees -->
             <table>
                 <tr>
-                    <th>First Name</th> <th>Last Name</th> <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
                 </tr>
-                <tr v-for = "e in employeesList">
-                    <td>{{e.firstName}}</td> <td>{{e.lastName}}</td> <td>{{e.email}}</td>
+                <tr v-for="e in employeesList" v-bind:key="e.email">
+                    <td>{{ e.firstName }}</td>
+                    <td>{{ e.lastName }}</td>
+                    <td>{{ e.email }}</td>
                 </tr>
             </table>
 
             <!-- Login form -->
             <div class="centered">
-                <input type = "text" placeholder="email" v-model="text">
-                <input type = "password" placeholder="password" v-model="password">
+                <input type="text" placeholder="email" v-model="text">
+                <input type="password" placeholder="password" v-model="password">
                 <br>
                 <button @click="login(text, password)">Login</button>
                 <br>
-                <span class="errorDisplay">{{errorMessageDisplay}}</span>
+                <span class="errorDisplay">{{ errorMessageDisplay }}</span>
             </div>
             
             <!-- Section that opens when an employee logs in -->
@@ -27,10 +31,16 @@
                 <!-- Table for all shifts -->
                 <table>
                     <tr>
-                        <th>Shift ID</th> <th>Shift date</th> <th>Shift start time</th> <th>Shift end time</th>
+                        <th>Shift ID</th>
+                        <th>Shift date</th>
+                        <th>Shift start time</th>
+                        <th>Shift end time</th>
                     </tr>
-                    <tr v-for = "s in shiftsList">
-                        <td>{{s.shiftId}}</td> <td>{{s.date}}</td> <td>{{s.startTime}}</td> <td>{{s.endTime}}</td>
+                    <tr v-for="s in shiftsList" v-bind:key="s.shiftId">
+                        <td>{{ s.shiftId }}</td>
+                        <td>{{ s.date }}</td>
+                        <td>{{ s.startTime }}</td>
+                        <td>{{ s.endTime }}</td>
                     </tr>
                 </table>
                 <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
@@ -40,8 +50,11 @@
                     <tr>
                         <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
                     </tr>
-                    <tr v-for = "request in requestsList.filter( (p) => p.isFulfilled === false)">
-                        <td>{{request.requestId}}</td> <td>{{request.booking.bookingId}}</td> <td>{{request.description}}</td>
+                    <tr v-for="request in requestsList.filter((p) => p.isFulfilled === false)"
+                        v-bind:key="request.requestId">
+                        <td>{{ request.requestId }}</td>
+                        <td>{{ request.booking.bookingId }}</td>
+                        <td>{{ request.description }}</td>
                     </tr>
                 </table>
                 <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
@@ -59,47 +72,47 @@
                 <!-- Selecting request -->
                 <div class="centered">
                     <h1 class="centeredHeader"> Selecting request </h1>
-                    <input type = "text" placeholder="request id" v-model="requestId">
+                    <input type="text" placeholder="request id" v-model="requestId">
                     <br>
                     <button @click="selectRequest(requestId)">Select request</button>
                     <button @click="fulfillRequest(requestId)">Fulfill request</button>
                     <br>
-                    <span class="errorDisplay">{{errorMessageDisplaySelect}}</span>
+                    <span class="errorDisplay">{{ errorMessageDisplaySelect }}</span>
                 </div>
                 <b> <h1 class="centeredHeader"> All bookings </h1> </b>
 
                 <!-- Table for all bookings -->
                 <table>
                     <tr>
-                        <th>Booking ID</th> <th>Room ID</th> <th>Customer email</th>
+                        <th>Booking ID</th>
+                        <th>Room ID</th>
+                        <th>Customer email</th>
                     </tr>
-                    <tr v-for = "booking in bookingsList">
-                        <td>{{booking.bookingId}}</td> <td>{{booking.room.roomId}}</td> <td>{{booking.generalUser.email}}</td>
+                    <tr v-for="booking in bookingsList" v-bind:key="booking.bookingId">
+                        <td>{{ booking.bookingId }}</td>
+                        <td>{{ booking.room.roomId }}</td>
+                        <td>{{ booking.generalUser.email }}</td>
                     </tr>
                 </table>
 
                 <!-- Creating request -->
                 <div class="centered">
                     <h1 class="centeredHeader"> Create a request </h1>
-                    <input type = "text" placeholder="booking id" v-model="bookingId">
-                    <input type = "text" placeholder="description" v-model="descriptionRequest">
+                    <input type="text" placeholder="booking id" v-model="bookingId">
+                    <input type="text" placeholder="description" v-model="descriptionRequest">
                     <br>
                     <button @click="createRequest(bookingId, descriptionRequest)">Create request</button>
                     <br>
-                    <span class="errorDisplay">{{errorMessageDisplayRequest}}</span>
+                    <span class="errorDisplay">{{ errorMessageDisplayRequest }}</span>
                 </div>
             </div>
-            
+
         </div>
     </main>
 </template>
 
-<script setup lang="ts">
-
-</script>
-
 <script lang="ts">
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 const backendUrl = import.meta.env.VITE_BACKEND;
 
@@ -108,25 +121,23 @@ const backendUrl = import.meta.env.VITE_BACKEND;
 // Get all employees
 async function getEmployees() {
     let employees: any[] = await axios.get(backendUrl + "/employees")
-    .then((response) => {
-        console.log(response.data);
-        return response.data})
-    .catch(error => console.log(error));
+        .then(response => response.data)
+        .catch(error => console.log(error));
     return employees;
 }
 
 // Get employee by email
 async function getEmployee(email: string) {
     let employee: any = await axios.get(backendUrl + "/employee/" + email)
-    .then(response => response.data)
+        .then(response => response.data)
     return employee;
 }
 
 // Get shifts by employee email
 async function getShifts(email: string) {
     let shifts: any[] = await axios.get(backendUrl + "/employee/" + email + "/shifts")
-    .then(response => response.data)
-    .catch(error => console.log(error));
+        .then(response => response.data)
+        .catch(error => console.log(error));
     console.log(shifts);
     return shifts;
 }
@@ -134,8 +145,8 @@ async function getShifts(email: string) {
 // Get all requests
 async function getAllRequests() {
     let requests: any[] = await axios.get(backendUrl + "/requests")
-    .then(response => response.data)
-    .catch(error => console.log(error));
+        .then(response => response.data)
+        .catch(error => console.log(error));
     console.log(requests);
     return requests;
 }
@@ -165,15 +176,15 @@ async function createRequest(bookingId: string, description: string) {
         description: description,
         isFulfilled: false
     })
-    .then(response => response.data)
+        .then(response => response.data)
     return request;
 }
 
 // Get all bookings
 async function getBookings() {
     let bookings: any[] = await axios.get(backendUrl + "/booking/all")
-    .then(response => response.data)
-    .catch(error => console.log(error));
+        .then(response => response.data)
+        .catch(error => console.log(error));
     console.log(bookings);
     return bookings;
 }
@@ -184,7 +195,7 @@ async function createAssignment(requestId: string, employeeEmail: string) {
         employeeId: employeeEmail,
         requestId: requestId
     })
-    .then(response => response.data)
+        .then(response => response.data)
     console.log(assignment);
     return assignment;
 }
@@ -211,8 +222,7 @@ let assignments: any[] = [];
 console.log(employees);
 export default {
     components: {
-    employees
-},
+    },
     data() {
         return {
             employeesList: employees,
@@ -253,9 +263,10 @@ export default {
                     this.errorMessageDisplay = "Password is incorrect";
                     this.canDisplay = false;
                 }
-            } catch (error: AxiosError) {
+                // } catch (error: AxiosError) {
+            } catch (error: any) {
                 if (error.response?.status === 404) {
-                    this.errorMessageDisplay= "Employee not found";
+                    this.errorMessageDisplay = "Employee not found";
                     this.canDisplay = false;
                 }
                 else {
@@ -263,7 +274,7 @@ export default {
                     this.canDisplay = false;
                 }
             }
-            
+
         },
         // Get shifts by employee email
         getShiftsList: async function(email: string) {
@@ -287,7 +298,7 @@ export default {
                 this.errorMessageDisplayRequest = "";
                 this.requestsList.push(request);
                 this.login(this.currentEmployeeEmail, this.password);
-            } catch (error: AxiosError) {
+            } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
                 }
@@ -303,7 +314,9 @@ export default {
                 console.log(assignment);
                 alert("Request selected");
                 this.errorMessageDisplaySelect = "";
-            } catch (error: AxiosError) {
+                // } catch (error: AxiosError) {
+            } catch (error: any) {
+
                 if (error.response?.status === 404) {
                     this.errorMessageDisplaySelect = "Request not found";
                 }
@@ -319,7 +332,9 @@ export default {
                 console.log(request);
                 alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
-            } catch (error: AxiosError) {
+                // } catch (error:AxiosError) {
+            } catch (error: any) {
+
                 if (error.response?.status === 404) {
                     this.errorMessageDisplaySelect = "Request not found";
                 }
@@ -333,46 +348,46 @@ export default {
 </script>
 
 <style scoped>
-    table {
-        font-family: arial, sans-serif;
-        border-color: black;
-        border-width: thin;
-        width: 80%;
-        text-align: center;
-        margin: auto;
-    }
+table {
+    font-family: arial, sans-serif;
+    border-color: black;
+    border-width: thin;
+    width: 80%;
+    text-align: center;
+    margin: auto;
+}
 
-    button {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 10px;
-        border-radius: 12px;
-    }
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 12px;
+}
 
-    .errorDisplay {
-        color: red;
-    }
+.errorDisplay {
+    color: red;
+}
 
-    input {
-        margin: 10px;
-        border: 1px solid #ccc;
-    }
+input {
+    margin: 10px;
+    border: 1px solid #ccc;
+}
 
-    .centered {
-        text-align: center;
-        margin: auto;
-    }
+.centered {
+    text-align: center;
+    margin: auto;
+}
 
-    .centeredHeader {
-        font: sans-serif;
-        text-align: center;
-        margin: auto;
-        margin-top: 50px;
-    }
+.centeredHeader {
+    font: sans-serif;
+    text-align: center;
+    margin: auto;
+    margin-top: 50px;
+}
 </style>
