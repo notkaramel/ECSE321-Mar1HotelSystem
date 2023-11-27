@@ -8,6 +8,7 @@
             <fwb-table-head-cell>Room Type</fwb-table-head-cell>
             <fwb-table-head-cell>Guest Email</fwb-table-head-cell>
             <fwb-table-head-cell>Guest Last Name</fwb-table-head-cell>
+            <fwb-table-head-cell></fwb-table-head-cell>
         </fwb-table-head>
         <fwb-table-body>
             <fwb-table-row v-for="booking in allBookings" :key="booking.bookingId">
@@ -18,6 +19,7 @@
                 <fwb-table-cell>{{ booking.room.roomType }}</fwb-table-cell>
                 <fwb-table-cell>{{ booking.generalUser.email }}</fwb-table-cell>
                 <fwb-table-cell>{{ booking.generalUser.lastName }}</fwb-table-cell>
+                <fwb-table-head-cell></fwb-table-head-cell>
             </fwb-table-row>
         </fwb-table-body>
     </fwb-table>
@@ -47,7 +49,6 @@ export default {
         FwbTableHead,
         FwbTableHeadCell,
         FwbTableRow,
-        FwbButton,
     },
     data() {
         // define DTO
