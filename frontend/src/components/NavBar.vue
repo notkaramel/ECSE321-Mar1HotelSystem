@@ -19,6 +19,9 @@
                 <fwb-navbar-link link="/booking">
                     Booking
                 </fwb-navbar-link>
+                <fwb-navbar-link link="/employees">
+                    Employees
+                </fwb-navbar-link>
                 <fwb-navbar-link link="/policy">
                     Policy
                 </fwb-navbar-link>
