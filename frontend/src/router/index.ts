@@ -7,6 +7,7 @@ import SignInView from '../views/SignInView.vue'
 import RegistrationView from '../views/RegistrationView.vue'
 import ManagerView from '../views/ManagerView.vue'
 import AccountView from '../views/AccountView.vue';
+import BookingView from '../views/BookingView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +32,11 @@ const router = createRouter({
       name: 'Booking Summary View',
       component: ViewBookingView,
       props: route => ({ query: route.query.bookingId })
+    },
+    {
+      path: '/booking',
+      name: 'Find Booking View',
+      component: BookingView,
     },
     {
       path: '/signin',

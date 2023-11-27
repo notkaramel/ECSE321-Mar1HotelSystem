@@ -85,8 +85,9 @@ async function createBooking(email:string, roomId: string, paymentId: number) {
             error.value = true;
             errorMessage.value = err.response.data;
         });
-        let createdBookingId = createdBooking.bookingId;
-        return createdBookingId;
+    if (error.value) return;
+    let createdBookingId = createdBooking.bookingId;
+    return createdBookingId;
 }
 
 async function getRoomOfType(roomType:string) {
@@ -171,10 +172,6 @@ async function createRequest(requestDescription:string, bookingId:number) {
 
 }
 
-async function makeError() {
-  error.value = true;
-  errorMessage.value = "womp womp";
-}
 
 async function clearError() {
   error.value = false;
@@ -224,6 +221,8 @@ async function submitBooking() {
   if (error.value) return;
   let paymentId = await createPayment(cost);
   if (error.value) return;
+  console.log(paymentId);
+  console.log(roomId);
   let bookingId = await createBooking(email.value, roomId, paymentId);
   if (error.value) return;
 
