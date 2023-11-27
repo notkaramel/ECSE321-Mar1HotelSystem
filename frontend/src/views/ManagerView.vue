@@ -291,13 +291,13 @@ async function createAssignment(employeeId: String, requestId: Number) {
             alert(err.response["data"])
         });
     console.log(createdAssignment);
-    //window.location.reload();
+    window.location.reload();
     return createdAssignment;
 }
 
 async function createEmployeeShift(shiftId: Number, date: String, startTime: Number, endTime: Number,
   email: String, firstName: String, lastName: String, phoneNumber: Number, password: String, hoursWorked: Number) {
-    let createdEmployeeShift = await axios.post(backendUrl + "/employee/"+email+"shift", {"shiftId": shiftId, "date": date, "startTime": startTime, "endTime": endTime, "employee": { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked}})
+    let createdEmployeeShift = await axios.post(backendUrl + "/employee/"+email+"/shift", {"shiftId": shiftId, "date": date, "startTime": startTime, "endTime": endTime, "employee": { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked}})
         .then(response => response.data)
         .catch(err => {
             console.log(err)
