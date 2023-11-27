@@ -18,6 +18,7 @@ import java.util.List;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.AssignmentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
+import ca.mcgill.ecse321.Mar1HotelSystem.dao.ShiftRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;

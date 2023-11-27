@@ -1,7 +1,8 @@
 package ca.mcgill.ecse321.Mar1HotelSystem.controller;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.EmployeeDto;
-import ca.mcgill.ecse321.Mar1HotelSystem.dto.ShiftDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.ShiftRequestDto;
+import ca.mcgill.ecse321.Mar1HotelSystem.dto.ShiftResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.exception.Mar1HotelSystemException;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Employee;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Shift;
@@ -53,20 +54,20 @@ public class EmployeeRestController {
 
     @GetMapping(value = { "/employee/{email}/shifts", "/employee/{email}/shifts/" })
     @ResponseStatus(value = HttpStatus.OK)
-    public List<ShiftDto> getEmployeeShifts(@PathVariable("email") String email) {
-        return employeeService.getShiftsEmployee(email).stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<ShiftResponseDto> getEmployeeShifts(@PathVariable("email") String email) {
+        return employeeService.getShiftsEmployee(email).stream().map(this::convertToDtoResponse).collect(Collectors.toList());
     }
 
     @GetMapping(value = { "/employee/shifts", "/employee/shifts/" })
     @ResponseStatus(value = HttpStatus.OK)
-    public List<ShiftDto> getShifts() {
-        return employeeService.getAllShifts().stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<ShiftResponseDto> getShifts() {
+        return employeeService.getAllShifts().stream().map(this::convertToDtoResponse).collect(Collectors.toList());
     }
 
     @GetMapping(value = { "/employee/shift/{shiftId}", "/employee/shift/{shiftId}/" })
     @ResponseStatus(value = HttpStatus.OK)
-    public ShiftDto getShift(@PathVariable("shiftId") int shiftId) {
-        return convertToDto(employeeService.getShift(shiftId));
+    public ShiftResponseDto getShift(@PathVariable("shiftId") int shiftId) {
+        return convertToDtoResponse(employeeService.getShift(shiftId));
     }
 
     // POST MAPPINGS
@@ -84,8 +85,8 @@ public class EmployeeRestController {
 
     @PostMapping(value = { "/employee/{email}/shift", "/employee/{email}/shift/" })
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ShiftDto createShift(@PathVariable("email") String email, @RequestBody ShiftDto shiftDto) {
-        return convertToDto(employeeService.createShift(
+    public ShiftResponseDto createShift(@PathVariable("email") String email, @RequestBody ShiftRequestDto shiftDto) {
+        return convertToDtoResponse(employeeService.createShift(
                 shiftDto.getDate(),
                 shiftDto.getStartTime(),
                 shiftDto.getEndTime(),
@@ -107,8 +108,8 @@ public class EmployeeRestController {
 
     @PutMapping(value = { "/employee/shift/{shiftId}", "/employee/shift/{shiftId}/" })
     @ResponseStatus(value = HttpStatus.OK)
-    public ShiftDto updateShift(@PathVariable("shiftId") int shiftId, @RequestBody ShiftDto shiftDto) {
-        return convertToDto(employeeService.updateShift(
+    public ShiftResponseDto updateShift(@PathVariable("shiftId") int shiftId, @RequestBody ShiftRequestDto shiftDto) {
+        return convertToDtoResponse(employeeService.updateShift(
                 shiftId,
                 shiftDto.getDate(),
                 shiftDto.getStartTime(),
@@ -147,17 +148,19 @@ public class EmployeeRestController {
                 employee.getHoursWorked());
     }
 
+
     /**
-     * Helper method to convert a shift to a shift DTO
+     * Helper method to convert a shift to a shift DTO (response)
      * 
      * @param shift the shift to convert
      * @return the shift DTO
      */
-    private ShiftDto convertToDto(Shift shift) {
+    private ShiftResponseDto convertToDtoResponse(Shift shift) {
         if (shift == null) {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The shift does not exist!");
         }
-        return new ShiftDto(
+        return new ShiftResponseDto(
+                shift.getShiftId(),
                 convertToDto(shift.getEmployee()),
                 shift.getDate(),
                 shift.getStartTime(),
