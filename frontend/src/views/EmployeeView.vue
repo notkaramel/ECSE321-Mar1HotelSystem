@@ -109,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 const backendUrl = import.meta.env.VITE_BACKEND;
 
@@ -243,7 +243,8 @@ export default {
                     this.errorMessageDisplay = "Password is incorrect";
                     this.canDisplay = false;
                 }
-            } catch (error: AxiosError) {
+                // } catch (error: AxiosError) {
+            } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplay = "Employee not found";
                     this.canDisplay = false;
@@ -274,7 +275,7 @@ export default {
                 console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
-            } catch (error: AxiosError) {
+            } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
                 }
@@ -290,7 +291,9 @@ export default {
                 console.log(assignment);
                 alert("Request selected");
                 this.errorMessageDisplaySelect = "";
-            } catch (error: AxiosError) {
+                // } catch (error: AxiosError) {
+            } catch (error: any) {
+
                 if (error.response?.status === 404) {
                     this.errorMessageDisplaySelect = "Request not found";
                 }
@@ -306,7 +309,9 @@ export default {
                 console.log(request);
                 alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
-            } catch (error:AxiosError) {
+                // } catch (error:AxiosError) {
+            } catch (error: any) {
+
                 if (error.response?.status === 404) {
                     this.errorMessageDisplaySelect = "Request not found";
                 }
@@ -361,4 +366,5 @@ input {
     text-align: center;
     margin: auto;
     margin-top: 50px;
-}</style>
+}
+</style>
