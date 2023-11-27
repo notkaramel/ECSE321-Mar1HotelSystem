@@ -142,8 +142,8 @@ async function createAssignment(requestId: string, employeeEmail: string) {
 }
 
 async function fufillChange(requestId: string) {
-    let request: any = await axios.get(backendUrl + "/request/" + requestId)
-    request= await axios.put(backendUrl + "/request/update/" + requestId, {
+    let request: any = await axios.get(backendUrl + "/requests/" + requestId)
+    request= await axios.put(backendUrl + "/requests/update/" + requestId, {
         description: request.description,
         bookingId: request.bookingId,
         isFufilled: true
@@ -282,7 +282,7 @@ export default {
         font-family: arial, sans-serif;
         border-color: black;
         border-width: thin;
-        width: 100%;
+        width: 80%;
         text-align: center;
     }
 
@@ -295,6 +295,7 @@ export default {
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
+        margin: 10px;
     }
 
     .errorDisplay {
