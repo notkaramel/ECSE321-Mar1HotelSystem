@@ -8,25 +8,19 @@ public class ShiftRequestDto {
     private Date date;
     private int startTime;
     private int endTime;
-    private String email;
 
     // CONSTRUCTORS
     public ShiftRequestDto() {
     }
 
     // Shift constructor requiring employee, date, startTime, endTime
-    public ShiftRequestDto(String employeeEmail, Date date, int startTime, int endTime) {
-        this.email = employeeEmail;
+    public ShiftRequestDto(Date date, int startTime, int endTime) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
     // GETTERS
-    // Method to get employee, returns employee
-    public String getEmail() {
-        return this.email;
-    }
 
     // Method to get date, returns date
     public Date getDate() {

@@ -307,7 +307,6 @@ public class EmployeeIntegrationTest {
     public void testCreateShift() {
         createEmployeesAndCustomers();
         ShiftRequestDto shiftDto = new ShiftRequestDto(
-                EMPLOYEE_KEY,
                 new Date(2000, Calendar.JANUARY, 20),
                 1,
                 3);
@@ -331,7 +330,6 @@ public class EmployeeIntegrationTest {
     public void testCreateShiftInvalidEmail() {
         createEmployeesAndCustomers();
         ShiftRequestDto shiftDto = new ShiftRequestDto(
-                null,
                 new Date(2000, Calendar.JANUARY, 20),
                 1,
                 3);
@@ -401,7 +399,6 @@ public class EmployeeIntegrationTest {
     public void testUpdateShift() {
         createEmployeesAndCustomers();
         ShiftRequestDto shiftDto = new ShiftRequestDto(
-                EMPLOYEE_KEY,
                 new Date(2000, Calendar.FEBRUARY, 20),
                 1,
                 3);
@@ -442,7 +439,6 @@ public class EmployeeIntegrationTest {
     public void testUpdateShiftInvalidId() {
         createEmployeesAndCustomers();
         ShiftRequestDto shiftDto = new ShiftRequestDto(
-                EMPLOYEE_KEY,
                 new Date(2000, Calendar.FEBRUARY, 20),
                 1,
                 3);
