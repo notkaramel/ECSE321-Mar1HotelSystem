@@ -43,6 +43,28 @@ const errorMessage = ref('')
 const requests = ref<string[]>([])
 
 
+async function getGeneralUserExists(email:string) {
+    let output = true;
+    let generalUser = await axios.get(backendUrl + "/generalUsers/" + email)
+        .then(response => response.data)
+        .catch(err => {
+            output = false;
+        });
+    return output;
+}
+
+async function getGeneralUser(email:string) {
+    let generalUser = await axios.get(backendUrl + "/generalUsers/" + email)
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err);
+            error.value = true;
+            errorMessage.value = err.response.data;
+        });
+    return generalUser.email;
+  
+}
+
 async function createGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
     let createdGeneralUser = await axios.post(backendUrl + "/generalUsers/create", {"email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber})
         .then(response => response.data)
@@ -180,7 +202,18 @@ async function submitBooking() {
   clearError();
 
   if (guest.value) {
-    let guestId = await createGeneralUser(firstName.value, lastName.value, email.value, phoneNumber.value);
+    if (firstName.value == "" || lastName.value == "" || email.value == "" || phoneNumber.value == "") {
+      error.value = true;
+      errorMessage.value = "Please make sure all fields are filled out!";
+      return;
+    }
+    // if guest already exists under  this email, add the booking to their account
+    let returning = await getGeneralUserExists(email.value);
+    if (!returning) {
+      let guestId = await createGeneralUser(firstName.value, lastName.value, email.value, phoneNumber.value);
+    } else {
+      let guestId = await getGeneralUser(email.value);
+    }
   } else {
     getCustomerInfo();
   }
@@ -224,96 +257,76 @@ async function addRequests(bookingId:number) {
 
 
 <template>
-  <div class="form-container">
-    <h1 class="main-heading">Book a Room</h1>
-    <div v-if="guest" class="personal-info">
-      <h2 class="sub-heading">Personal Information </h2>
-      <fwb-input
-        v-model="firstName"
-        placeholder="Enter your first name"
-        label="First name"
-      />
+  <div class="form-container bg-gray-100 p-8 rounded-lg shadow-md max-w-md mx-auto">
+    <h1 class="text-3xl font-bold mb-4">Book a Room</h1>
 
-      <fwb-input
-        v-model="lastName"
-        placeholder="Enter your last name"
-        label="Last name"
-        type="text"
-      />
-
-      <fwb-input
-        v-model="email"
-        placeholder="Enter your email address"
-        label="Email"
-        type="email"
-      />
-
-      <fwb-input
-        v-model="phoneNumber"
-        placeholder="Enter your phone number"
-        label="Phone number"
-        type="number"
-      />
-      
-    </div>
-
-    <div class="room-info">
-      <h2 class="sub-heading">Room Information </h2>
-      <fwb-select
-        v-model="roomType"
-        placeholder="Select a room type"
-        label="Room type"
-        :options="[
-          { value: 'Regular', name: 'Regular ($40/night)' },
-          { value: 'Suite', name: 'Suite ($60/night)' },
-          { value: 'Deluxe', name: 'Deluxe ($80/night)' },
-        ]"
-      />
-
-      <fwb-input
-        v-model="checkInDate"
-        placeholder="Enter your check-in date"
-        label="Check-in date"
-        type="date"
-      />
-
-      <fwb-input
-        v-model="checkOutDate"
-        placeholder="Enter your check-out date"
-        label="Check-out date"
-        type="date"
-      />
-    </div>
-
-    <div class="payment-info">
-      <h2 class="sub-heading">Payment Information </h2>
-      <fwb-input
-        v-model="paymentCode"
-        placeholder="Enter your payment code"
-        label="Payment Code"
-        type="number"
-      />
-    </div>
-    <div class="Requests">
-      <h2 class="sub-heading">Requests </h2>
-      <div class = "request-fields" v-for="(request, index) in requests">
-        <fwb-input
-          v-model="requests[index]"
-          placeholder="Enter your request"
-          :label="`Request ${index + 1}`"
-          type="text"
-        />
+    <section v-if="guest" class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Personal Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <fwb-input v-model="firstName" placeholder="First Name" label="First Name" class="mb-4" />
+        <fwb-input v-model="lastName" placeholder="Last Name" label="Last Name" class="mb-4" />
+        <fwb-input v-model="email" placeholder="Email Address" label="Email" type="email" class="mb-4" />
+        <fwb-input v-model="phoneNumber" placeholder="Phone Number" label="Phone Number" type="number" class="mb-4" />
       </div>
-      <fwb-button @click="addRequest">Add</fwb-button>
-      <fwb-button @click="removeRequest">Remove</fwb-button>
-    </div>
+    </section>
 
-    <fwb-button type="submit" @click="submitBooking">Submit</fwb-button>
-  </div>
-  <div v-if="error" class="error-message">
-    <fwb-p class="text-red-600">
-      {{errorMessage}}
-    </fwb-p>
+    <section class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Room Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <fwb-select
+          v-model="roomType"
+          placeholder="Select a Room Type"
+          label="Room Type"
+          :options="[
+            { value: 'Regular', name: 'Regular ($40/night)' },
+            { value: 'Suite', name: 'Suite ($60/night)' },
+            { value: 'Deluxe', name: 'Deluxe ($80/night)' },
+          ]"
+          class="mb-4"
+        />
+        <div class="flex flex-col gap-4">
+          <fwb-input v-model="checkInDate" placeholder="Check-in Date" label="Check-in Date" type="date" class="mb-4" />
+          <fwb-input v-model="checkOutDate" placeholder="Check-out Date" label="Check-out Date" type="date" class="mb-4" />
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Payment Information</h2>
+      <fwb-input v-model="paymentCode" placeholder="Payment Code" label="Payment Code" type="number" class="mb-4" />
+    </section>
+
+    <section class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Requests</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div v-for="(request, index) in requests" :key="index">
+          <fwb-input
+            v-model="requests[index]"
+            placeholder="Enter Your Request"
+            :label="`Request ${index + 1}`"
+            type="text"
+            class="mb-2"
+          />
+        </div>
+      </div>
+      <div class="flex space-x-2 mt-4">
+        <fwb-button @click="addRequest" class="bg-green-500 hover:bg-green-600 text-white">
+          Add Request
+        </fwb-button>
+        <fwb-button @click="removeRequest" class="bg-red-500 hover:bg-red-600 text-white">
+          Remove Request
+        </fwb-button>
+      </div>
+    </section>
+
+    <fwb-button type="submit" @click="submitBooking" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white">
+      Submit
+    </fwb-button>
+
+    <!-- Error Message -->
+    <div v-if="error" class="error-message mt-4">
+      <fwb-p class="text-red-600">{{ errorMessage }}</fwb-p>
+    </div>
   </div>
 </template>
 
