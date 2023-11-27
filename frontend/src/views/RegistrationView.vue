@@ -61,6 +61,7 @@ export default {
 
         // Log the created customer
         console.log(createdCustomer);
+        this.$router.push(`/account/${this.email}`);
     },
 
     // This method sends a POST request to create a new customer

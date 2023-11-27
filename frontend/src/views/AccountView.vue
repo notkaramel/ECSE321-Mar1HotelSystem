@@ -13,6 +13,11 @@
       </div>
     </div>
 
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Delete Account</h2>
+      <button class="btn-delete" @click="confirmDelete">Delete Account</button>
+    </div>
+
     <!-- Edit Information Section -->
     <div v-if="edit" class="mb-6">
       <h2 class="text-xl font-semibold mb-4">Edit Personal Information</h2>
@@ -139,13 +144,35 @@ export default {
       } catch (error) {
         console.error('Error fetching customer data', error);
       }
-    }
+    },
+
+  confirmDelete() {
+      if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+        this.deleteAccount();
+      }
+    },
+    async deleteAccount() {
+      try {
+        const response = await axios.delete(`${backendUrl}/customer/${this.customer.email}`);
+
+        if (response.status === 200) {
+          alert("Your account has been successfully deleted.");
+
+          this.$router.push('/');
+        } else {
+          alert("There was a problem deleting your account.");
+        }
+      } catch (error) {
+        console.error('Error deleting account', error);
+        alert('Failed to delete account. Please try again later.');
+      }
+    },
   },
   created() {
     this.fetchCustomerInfo(this.$route.params.email.toString());
-
   },
 };
+
 </script>
 
 <style scoped>
@@ -176,6 +203,24 @@ export default {
   transition: background-color 0.3s ease;
   font-weight: bold;
   /* Adding bold font for button text */
+}
+
+.btn-delete {
+  padding: 0.75rem 1rem;
+  background-color: #dc2626;
+  /* Red background for delete button */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
+  /* Darker shade on hover */
 }
 
 .edit-info-btn {
@@ -227,4 +272,3 @@ export default {
   background-color: #cc3636;
   /* Darker shade on hover */
 }</style>
-
