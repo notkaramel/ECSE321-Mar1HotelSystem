@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.RequestService;
-import org.springframework.web.bind.annotation.RequestBody;
+import ca.mcgill.ecse321.Mar1HotelSystem.service.BookingService;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.RequestResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Booking;
@@ -40,6 +41,9 @@ public class RequestRestController {
 
     @Autowired
     private RequestService requestService;
+
+    @Autowired
+    private BookingService bookingService;
 
     @GetMapping(value = { "/requests", "/requests/" })
     @ResponseStatus(HttpStatus.OK)
@@ -88,11 +92,13 @@ public class RequestRestController {
     @PutMapping(value = { "/requests/update/{requestId}", "/requests/update/{requestId}/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<RequestResponseDto> updateRequest(@PathVariable("requestId") int requestId,
-            @RequestBody RequestResponseDto requestDto) {
+            @RequestBody RequestRequestDto requestDto) {
 
         String description = requestDto.getDescription();
         boolean isFufilled = requestDto.getIsFulfilled();
-        Booking booking = requestDto.getBooking();
+        int bookingId = requestDto.getBookingId();
+
+        Booking booking = bookingService.getBookingById(bookingId);
 
         requestService.updateRequestDescriptionByRequestId(requestId, description);
         requestService.updateIsFulfilledByRequestId(requestId, isFufilled);
