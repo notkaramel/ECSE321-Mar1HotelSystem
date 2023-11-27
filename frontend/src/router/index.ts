@@ -4,6 +4,7 @@ import RoomView from '../views/RoomView.vue'
 import ViewBookingView from '../views/BookingSummaryView.vue'
 import SignInView from '../views/SignInView.vue'
 import RegistrationView from '../views/RegistrationView.vue'
+import ManagerView from '../views/ManagerView.vue'
 import AccountView from '../views/AccountView.vue';
 
 const router = createRouter({
@@ -29,6 +30,11 @@ const router = createRouter({
       path: '/signin',
       name: 'signin',
       component: SignInView
+    },
+    {
+      path: '/manager',
+      name: 'manager',
+      component: ManagerView
     },
     {
       path: '/registration',
