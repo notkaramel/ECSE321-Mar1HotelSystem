@@ -34,7 +34,6 @@ import {
     FwbTableHead,
     FwbTableHeadCell,
     FwbTableRow,
-    FwbButton,
 } from 'flowbite-vue'
 import axios from 'axios';
 

@@ -4,7 +4,6 @@ import ManageBooking from '@/components/ManageBooking.vue';
 import HotelSchedule from '@/components/HotelScheduleComp.vue';
 
 import axios from 'axios'
-import { isBooleanAttr } from '@vue/shared'
 const backendUrl = import.meta.env.VITE_BACKEND;
 
 console.log(backendUrl)
@@ -93,14 +92,6 @@ let RequestList: any[] = await getRequests();
 let AssignmentList: any[] = await getAssignments();
 let BookingList: any[] = await getBookings();
 let ShiftList: any[] = await getShifts();
-console.log(EmployeeList);
-console.log(ManagerList);
-console.log(CustomerList);
-console.log(GeneralUserList);
-console.log(RequestList);
-console.log(AssignmentList);
-console.log(BookingList);
-console.log(ShiftList);
 export default {
   components: {
     ManageBooking,
@@ -128,7 +119,6 @@ async function deleteEmployee(emailDelete: string) {
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(deletedEmployee);
   window.location.reload();
 
   return deletedEmployee;
@@ -142,7 +132,6 @@ async function deleteManager(firstName: string, lastName: string, email: string,
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(deletedManager);
   window.location.reload();
   return deletedManager;
 
@@ -155,7 +144,6 @@ async function updateManager(firstName: string, lastName: string, email: string,
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(updatedManager);
   window.location.reload();
   return updatedManager;
 
@@ -168,7 +156,6 @@ async function deleteCustomer(emailDelete: string) {
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(deletedCustomer);
   window.location.reload();
   return deletedCustomer;
 }
@@ -180,7 +167,6 @@ async function deleteGeneralUser(firstName: string, lastName: string, email: str
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(deletedGeneralUser);
   window.location.reload();
   return deletedGeneralUser;
 }
@@ -192,7 +178,6 @@ async function deleteRequest(requestId: number) {
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(deletedRequest);
   window.location.reload();
   return deletedRequest;
 }
@@ -204,7 +189,6 @@ async function deleteAssignment(assignmentId: number) {
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(deletedAssignment);
   window.location.reload();
   return deletedAssignment;
 }
@@ -217,7 +201,6 @@ async function deleteEmployeeShift(shiftId: number) {
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(deletedEmployeeShift);
   window.location.reload();
   return deletedEmployeeShift;
 }
@@ -230,7 +213,6 @@ async function createEmployee(firstName: string, lastName: string, email: string
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(createdEmployee);
   window.location.reload();
   return createdEmployee;
 }
@@ -242,7 +224,6 @@ async function createManager(firstName: string, lastName: string, email: string,
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(createdManager);
   window.location.reload();
   return createdManager;
 }
@@ -254,7 +235,6 @@ async function createCustomer(firstName: string, lastName: string, email: string
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(createdCustomer);
   window.location.reload();
   return createdCustomer;
 }
@@ -266,19 +246,18 @@ async function createGeneralUser(firstName: string, lastName: string, email: str
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(createdGeneralUser);
   window.location.reload();
   return createdGeneralUser;
 }
 
-async function createRequest(description: String, bookingId: Number, isFulfilled: Boolean) {
-  let createdRequest = await axios.post(backendUrl + "/request/create", { "description": description, "bookingId": bookingId, "isFulfilled": isFulfilled })
+async function createRequest(description: String, bookingId: Number, isFulfilled: String) {
+  var setTrue = (isFulfilled === "true");
+  let createdRequest = await axios.post(backendUrl + "/request/create", { "description": description, "bookingId": bookingId, "isFulfilled": setTrue})
     .then(response => response.data)
     .catch(err => {
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(createdRequest);
   window.location.reload();
   return createdRequest;
 }
@@ -290,20 +269,18 @@ async function createAssignment(employeeId: String, requestId: Number) {
       console.log(err)
       alert(err.response["data"])
     });
-  console.log(createdAssignment);
   window.location.reload();
   return createdAssignment;
 }
 
-async function createEmployeeShift(shiftId: Number, date: String, startTime: Number, endTime: Number,
-  email: String, firstName: String, lastName: String, phoneNumber: Number, password: String, hoursWorked: Number) {
-  let createdEmployeeShift = await axios.post(backendUrl + "/employee/" + email + "/shift", { "shiftId": shiftId, "date": date, "startTime": startTime, "endTime": endTime, "employee": { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked } })
+async function createEmployeeShift(date: String, startTime: Number, endTime: Number,
+  email: String) {
+  let createdEmployeeShift = await axios.post(backendUrl + "/employee/" + email + "/shift", {"date": date, "startTime": startTime, "endTime": endTime})
     .then(response => response.data)
     .catch(err => {
       console.log(err)
-      alert(err.response["data"])
+      alert(err.response["data"]) 
     });
-  console.log(createdEmployeeShift);
   window.location.reload();
   return createdEmployeeShift;
 }
@@ -378,16 +355,12 @@ const managerUpdatePhoneNumber = ref('')
 const managerUdpatePassword = ref('')
 const managerNewPassword = ref('')
 
-const shiftId = ref('')
 const shiftDate = ref('')
 const shiftStartTime = ref('')
 const shiftEndTime = ref('')
 const shiftFirstName = ref('')
 const shiftLastName = ref('')
 const shiftEmail = ref('')
-const shiftPhoneNumber = ref('')
-const shiftPassword = ref('')
-const shiftHoursWorked = ref('')
 const shiftIdDelete = ref('')
 
 const messageRequestDescription = ref('')
@@ -431,7 +404,7 @@ const messageAssignmentRequestId = ref('')
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  <fwb-table-row v-for="employee in employeeList">
+                  <fwb-table-row v-for="employee in employeeList" :key="employee.email">
                     <fwb-table-cell> {{ employee.email }}</fwb-table-cell>
                     <fwb-table-cell>{{ employee.firstName }}</fwb-table-cell>
                     <fwb-table-cell>{{ employee.lastName }}</fwb-table-cell>
@@ -494,7 +467,7 @@ const messageAssignmentRequestId = ref('')
                 </fwb-table-head>
                 <fwb-table-body>
                   
-                  <fwb-table-row v-for="manager in managerList">
+                  <fwb-table-row v-for="manager in managerList" :key="manager.email">
                     <fwb-table-cell> {{ manager.email }}</fwb-table-cell>
                     <fwb-table-cell>{{ manager.firstName }}</fwb-table-cell>
                     <fwb-table-cell>{{ manager.lastName }}</fwb-table-cell>
@@ -583,7 +556,7 @@ const messageAssignmentRequestId = ref('')
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  <fwb-table-row v-for="customer in customerList">
+                  <fwb-table-row v-for="customer in customerList" :key="customer.email">
                     <fwb-table-cell> {{ customer.email }}</fwb-table-cell>
                     <fwb-table-cell>{{ customer.firstName }}</fwb-table-cell>
                     <fwb-table-cell>{{ customer.lastName }}</fwb-table-cell>
@@ -640,7 +613,7 @@ const messageAssignmentRequestId = ref('')
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  <fwb-table-row v-for="generalUser in generalUserList">
+                  <fwb-table-row v-for="generalUser in generalUserList" :key="generalUser.email">
                     <fwb-table-cell> {{ generalUser.email }}</fwb-table-cell>
                     <fwb-table-cell>{{ generalUser.firstName }}</fwb-table-cell>
                     <fwb-table-cell>{{ generalUser.lastName }}</fwb-table-cell>
@@ -706,7 +679,7 @@ const messageAssignmentRequestId = ref('')
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  <fwb-table-row v-for="request in requestList">
+                  <fwb-table-row v-for="request in requestList" :key="request.requestId">
                     <fwb-table-cell> {{ request.requestId }}</fwb-table-cell>
                     <fwb-table-cell>{{ request.description }}</fwb-table-cell>
                     <fwb-table-cell>{{ request.isFulfilled }}</fwb-table-cell>
@@ -735,7 +708,7 @@ const messageAssignmentRequestId = ref('')
                 label="Request Status as boolean either true of false (all lower caser)"
                 placeholder="Input Request Status as boolean either true of false (all lower caser)" />
               <fwb-button
-                @click="createRequest(messageRequestDescription, parseInt(messageRequestBookingId), isBooleanAttr(messageRequestIsFufilled))"
+                @click="createRequest(messageRequestDescription, parseInt(messageRequestBookingId), messageRequestIsFufilled)"
                 color="green">Create Request</fwb-button>
             </div>
           </main>
@@ -764,7 +737,7 @@ const messageAssignmentRequestId = ref('')
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  <fwb-table-row v-for="assignment in assignmentList">
+                  <fwb-table-row v-for="assignment in assignmentList" :key="assignment.assignmentId">
                     <fwb-table-cell> {{ assignment["request"].requestId }}</fwb-table-cell>
                     <fwb-table-cell>{{ assignment["request"].description }}</fwb-table-cell>
                     <fwb-table-cell>{{ assignment["request"].isFulfilled }}</fwb-table-cell>
@@ -839,7 +812,7 @@ const messageAssignmentRequestId = ref('')
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  <fwb-table-row v-for="shift in shiftList">
+                  <fwb-table-row v-for="shift in shiftList" :key="shift.shiftId">
                     <fwb-table-cell> {{ shift.shiftId }}</fwb-table-cell>
                     <fwb-table-cell> {{ shift.date }}</fwb-table-cell>
                     <fwb-table-cell>{{ shift.startTime }}</fwb-table-cell>
@@ -861,11 +834,8 @@ const messageAssignmentRequestId = ref('')
             </div>
             <div>
               <fwb-badge type="green">Create Employee Shift</fwb-badge>
-              <fwb-textarea v-model="shiftId" :rows="2"
-                label="Enter Employee Shift Id (You make a unique Employee Shift Id)"
-                placeholder="Input Employee Shift Id..." />
               <fwb-textarea v-model="shiftDate" :rows="2" label="Enter Employee Shift Date YYYY-MM-DD"
-                placeholder="Input Employee Shift Date YYYY-MM-DD.." />
+                placeholder="Input Employee Shift Date YYYY-MM-DD..." />
               <fwb-textarea v-model="shiftStartTime" :rows="2" label="Enter Employee Shift Start Time"
                 placeholder="Input Employee Shift Start Time..." />
 
@@ -875,20 +845,9 @@ const messageAssignmentRequestId = ref('')
                 placeholder="Input employee first name..." />
               <fwb-textarea v-model="shiftLastName" :rows="2" label="Enter Employee Last Name"
                 placeholder="Input employee last name..." />
-              <fwb-textarea v-model="shiftEmail" :rows="2" label="Enter Employee Email"
-                placeholder="Input employee email..." />
-
-              <fwb-textarea v-model="shiftPhoneNumber" :rows="2" label="Enter Employee Phone Number"
-                placeholder="Input employee phone Number..." />
-
-              <fwb-textarea v-model="shiftPassword" :rows="2" label="Enter Employee Password"
-                placeholder="Input employee password..." />
-
-              <fwb-textarea v-model="shiftHoursWorked" :rows="2" label="Enter Employee hours worked"
-                placeholder="Input employee hours worked..." />
               <fwb-button
-                @click="createEmployeeShift(parseInt(shiftId), shiftDate, parseInt(shiftStartTime),
-                  parseInt(shiftEndTime), shiftEmail, shiftFirstName, shiftLastName, parseInt(shiftPhoneNumber), shiftPassword, parseInt(shiftHoursWorked))"
+                @click="createEmployeeShift(shiftDate, parseInt(shiftStartTime),
+                  parseInt(shiftEndTime), shiftEmail)"
                 color="green">Create Employee Shift</fwb-button>
             </div>
           </main>

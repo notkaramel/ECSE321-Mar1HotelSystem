@@ -45,20 +45,16 @@ export default {
       const backend = import.meta.env.VITE_BACKEND;
       let hotelScheduleInfo = await fetch(backend + '/hotelSchedule')
         .then(response => {
-          // console.log(response);
           return response.json();
         })
         .then(json => {
           const hotelScheduleList = json["allHotelSchedule"];
-          console.log(hotelScheduleList);
           this.hotelSchedule = hotelScheduleList;
           return json;
         })
         .catch(error => {
           console.log(error);
         });
-
-      console.log(hotelScheduleInfo);
       return {
         hotelScheduleInfo
       }
@@ -72,15 +68,12 @@ export default {
         })
         .then(json => {
           const customHoursList = json["allCustomHours"];
-          console.log(customHoursList);
           this.customHours = customHoursList;
           return json;
         })
         .catch(error => {
           console.log(error);
         });
-
-      console.log(customHoursInfo);
       return {
         customHoursInfo
       }
@@ -94,7 +87,6 @@ export default {
         })
         .then(json => {
           const operatingHoursList = json["operatingHoursList"];
-          console.log(operatingHoursList);
           this.operatingHours = operatingHoursList;
           return json;
 
@@ -102,8 +94,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-
-      console.log(operatingHoursInfo);
       return {
         operatingHoursInfo
       }
@@ -121,7 +111,6 @@ export default {
         })
         .then(data => {
           const operatingHoursList = data["operatingHoursList"];
-          console.log(operatingHoursList);
           this.operatingHours = operatingHoursList;
           return data;
         })
@@ -129,7 +118,6 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      console.log(operatingHoursInfo);
       window.location.reload();
       return {
         operatingHoursInfo
@@ -147,7 +135,6 @@ export default {
         })
         .then(data => {
           const customHoursList = data["customHoursList"];
-          console.log(customHoursList);
           this.customHours = customHoursList;
           return data;
         })
@@ -155,7 +142,6 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      console.log(customHoursInfo);
       window.location.reload();
       return {
         customHoursInfo
@@ -177,7 +163,6 @@ export default {
         })
         .then(data => {
           const hotelScheduleList = data["allHoteSchedule"];
-          console.log(hotelScheduleList);
           this.hotelSchedule = hotelScheduleList;
           return data;
         })
@@ -185,7 +170,6 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      console.log(hotelScheduleInfo);
       window.location.reload();
       return {
         hotelScheduleInfo
@@ -201,7 +185,6 @@ export default {
         })
         .then(data => {
           const operatingHoursList = data["operatingHoursList"];
-          console.log(operatingHoursList);
           this.operatingHours = operatingHoursList;
           return data;
         })
@@ -209,7 +192,6 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      console.log(operatingHoursInfo);
       window.location.reload();
       return {
         operatingHoursInfo
@@ -223,7 +205,6 @@ export default {
         })
         .then(data => {
           const customHoursList = data["customHoursList"];
-          console.log(customHoursList);
           this.customHours = customHoursList;
           return data;
         })
@@ -231,7 +212,6 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      console.log(customHoursInfo);
       window.location.reload();
       return {
         customHoursInfo
@@ -249,7 +229,6 @@ export default {
         })
         .then(data => {
           const operatingHoursList = data["operatingHoursList"];
-          console.log(operatingHoursList);
           this.operatingHours = operatingHoursList;
           return data;
         })
@@ -257,7 +236,6 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      console.log(operatingHoursInfo);
       window.location.reload();
       return {
         operatingHoursInfo
@@ -276,7 +254,6 @@ export default {
         })
         .then(data => {
           const customHoursList = data["customHoursList"];
-          console.log(customHoursList);
           this.customHours = customHoursList;
           return data;
         })
@@ -284,7 +261,6 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      console.log(customHoursInfo);
       window.location.reload();
       return {
         customHoursInfo
@@ -364,7 +340,7 @@ export default {
           <fwb-table-head-cell>Closing Hour</fwb-table-head-cell>
         </fwb-table-head>
         <fwb-table-body>
-          <fwb-table-row v-for="operating in operatingHours">
+          <fwb-table-row v-for="operating in operatingHours" :key="operating.operatingHoursId">
             <fwb-table-cell>{{ operating.operatingHoursId }} </fwb-table-cell>
             <fwb-table-cell>{{ operating.dayOfWeek }}</fwb-table-cell>
             <fwb-table-cell>{{ operating.openingHour }}</fwb-table-cell>
@@ -419,7 +395,7 @@ export default {
           <fwb-table-head-cell>Closing Hour</fwb-table-head-cell>
         </fwb-table-head>
         <fwb-table-body>
-          <fwb-table-row v-for="custom in customHours">
+          <fwb-table-row v-for="custom in customHours" :key="custom.customHoursId">
             <fwb-table-cell>{{ custom.customHoursId }}</fwb-table-cell>
             <fwb-table-cell>{{ custom.date }}</fwb-table-cell>
             <fwb-table-cell>{{ custom.openingHour }}</fwb-table-cell>
@@ -479,17 +455,17 @@ export default {
           <fwb-table-head-cell>Closing Hour</fwb-table-head-cell>
         </fwb-table-head>
         <fwb-table-body>
-          <fwb-table-row v-for="hotel in hotelSchedule">
+          <fwb-table-row v-for="hotel in hotelSchedule" :key="hotel.year">
             <fwb-table-cell>{{ hotel.year }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList">{{ operating.operatingHoursId
+            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.operatingHoursId
             }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList">{{ operating.dayOfWeek }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList">{{ operating.openingHour }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList">{{ operating.closingHour }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList">{{ custom.customHoursId }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList">{{ custom.date }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList">{{ custom.openingHour }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList">{{ custom.closingHour }}</fwb-table-cell>
+            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.dayOfWeek }}</fwb-table-cell>
+            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.openingHour }}</fwb-table-cell>
+            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.closingHour }}</fwb-table-cell>
+            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.customHoursId }}</fwb-table-cell>
+            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.date }}</fwb-table-cell>
+            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.openingHour }}</fwb-table-cell>
+            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.closingHour }}</fwb-table-cell>
           </fwb-table-row>
         </fwb-table-body>
       </fwb-table>
