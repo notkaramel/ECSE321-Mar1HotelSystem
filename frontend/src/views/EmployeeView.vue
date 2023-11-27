@@ -30,7 +30,7 @@
                 <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
                 <table>
                     <tr>
-                        <th>Request ID</th> <th>Booking Id</th> <th>Description</th>
+                        <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
                     </tr>
                     <tr v-for = "request in requestsList.filter( (p) => p.isFulfilled === false)">
                         <td>{{request.requestId}}</td> <td>{{request.booking.bookingId}}</td> <td>{{request.description}}</td>
@@ -39,10 +39,10 @@
                 <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
                 <table>
                     <tr>
-                        <th>Request ID</th> <th>Booking</th> <th>Description</th>
+                        <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th> <th>Description</th>
                     </tr>
-                    <tr v-for = "employeeRequest in employeeRequestList.filter(r => r.isFulfilled === false)">
-                        <td>{{employeeRequest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
+                    <tr v-for = "employeeRequest in employeeRequestList">
+                        <td>{{ employeeRequest.assignmentId }}</td> <td>{{employeeRequest.reqest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
                     </tr>
                 </table>
                 <div class="centered">
@@ -89,7 +89,9 @@ const backendUrl = import.meta.env.VITE_BACKEND;
 
 async function getEmployees() {
     let employees: any[] = await axios.get(backendUrl + "/employees")
-    .then(response => response.data)
+    .then((response) => {
+        console.log(response.data);
+        return response.data})
     .catch(error => console.log(error));
     return employees;
 }
@@ -117,15 +119,18 @@ async function getAllRequests() {
 }
 
 async function getEmployeeAssignments(email: string) {
-    let assignments: any[] = await axios.get(backendUrl + "assignments/all")
-    .then(response => response.data)
-    .catch(error => console.log(error));
     let employeeRequests: any[] = [];
-    for (let assignment of assignments) {
-        if (assignment.employee.email === email) {
-            employeeRequests.push(assignment);
-        }
-    }
+    let assignments: any[] = await axios.get(backendUrl + "/assignments/all")
+    .then((response) => {
+        console.log(response.data instanceof Array);
+        return response.data}).then((response => response.filter((assignment: any) => assignment.employee.email === email)))
+    .catch(error => console.log(error));
+    // for (let assignment of assignments) {
+    //     if (assignment.employee.email === email) {
+    //         employeeRequests.push(assignment);
+    //     }
+    // }
+    console.log("get employee requests");
     console.log(employeeRequests);
     return employeeRequests;
 }
@@ -160,14 +165,14 @@ async function createAssignment(requestId: string, employeeEmail: string) {
 
 async function fulfillChange(requestId: string) {
     let request: any = await axios.get(backendUrl + "/requests/" + requestId)
-    request= await axios.put(backendUrl + "/requests/update/" + requestId, {
+    let requestUpdate = await axios.put(backendUrl + "/requests/update/" + requestId, {
         description: request.description,
         bookingId: request.bookingId,
         isFulfilled: true
     })
     
-    console.log(request);
-    return request;
+    console.log(requestUpdate);
+    return requestUpdate;
 }
 
 let employees: any[] = await getEmployees();
@@ -206,6 +211,7 @@ export default {
             this.getShiftsList(this.text);
             this.currentEmployeeEmail = this.text;
             console.log(this.currentEmployeeEmail);
+            this.getAssignments(this.currentEmployeeEmail);
         },
 
         checkPassword: async function(email: string, password: string) {
@@ -249,6 +255,7 @@ export default {
                 console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
+                this.login(this.currentEmployeeEmail, this.password);
             } catch (error: AxiosError) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
