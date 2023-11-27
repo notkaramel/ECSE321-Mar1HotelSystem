@@ -2,43 +2,41 @@
 title "Mar-1 Hotel System (MHS) Architecture"
 ' Using PlantUML Deployment Diagram
 
-rectangle Frontend as "Client Layer" {
-    node UI as "Frontend UI" {
-        note as UN
-        UI is implemented using
-        VueJS framework, with:
-        # <b>Axios</b>: to send HTTP Request
-        # <b>Vue-router</b>: to navigate between pages
-        # <b>Flowbite-vue</b>: UI components library
-        # <b>TypeScript</b>: to type-check our codebase
-        # <b>TailwindCSS</b>: to style our UI with
-        premade classes and utilities
-        end note
+rectangle Frontend as "Frontend Layer" {
+    note as UN
+    UI is implemented using
+    VueJS framework, with:
+    # <b>Axios</b>: to send HTTP Request
+    # <b>Vue-router</b>: to navigate between pages
+    # <b>Flowbite-vue</b>: UI components library
+    # <b>TypeScript</b>: to type-check our codebase
+    # <b>TailwindCSS</b>: to style our UI with
+    premade classes and utilities
+    end note
 
-        node Pages as "Views/Pages" {
-            rectangle "Welcome" as wc #LightBlue
-            rectangle "Login" as l #LightBlue
-            rectangle "Register" as r #LightBlue
-            rectangle "Booking" as b #LightBlue
-            rectangle "Booking Summary" as bs #LightBlue
-            rectangle "Customer\nDashboard" as c #LightBlue
-            rectangle "Manager\nDashboard" as m #LightBlue
-            rectangle "Employee\nDashboard" as e #LightBlue
+    node Pages as "Views/Pages" {
+        rectangle "Welcome" as wc #LightBlue
+        rectangle "Login" as l #LightBlue
+        rectangle "Register" as r #LightBlue
+        rectangle "Booking" as b #LightBlue
+        rectangle "Booking Summary" as bs #LightBlue
+        rectangle "Customer\nDashboard" as c #LightBlue
+        rectangle "Manager\nDashboard" as m #LightBlue
+        rectangle "Employee\nDashboard" as e #LightBlue
 
-            wc --> b : booking a room
-            wc --> l : logging in
-            wc --> r: signing up
+        wc --> b : booking a room
+        wc --> l : logging in
+        wc --> r: signing up
 
-            b -down-> bs : booking successful
-            r <-left-> l
+        b -down-> bs : booking successful
+        r <-left-> l
 
-            l -down-> c
-            l --> m
-            l --> e
-
-        }
+        l -down-> c
+        l --> m
+        l --> e
     }
 }
+
 
 rectangle Backend as "Backend Layer" {
     together {
