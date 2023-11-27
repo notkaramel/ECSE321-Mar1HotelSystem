@@ -214,7 +214,7 @@ export default {
         },
         async deleteCustomHours(date:String){
             const backend = import.meta.env.VITE_BACKEND;
-            let customHoursInfo = await axios.post(backend + '/customHours/delete'+ date)
+            let customHoursInfo = await axios.post(backend + '/customHours/delete/'+ date)
                 .then(response => {
                     return response.data;
                 })
@@ -262,7 +262,7 @@ export default {
         async updateCustomHours(date:String, openingHour: Number, closingHour: Number){
 
             const backend = import.meta.env.VITE_BACKEND;
-            let customHoursInfo = await axios.post(backend + '/customHours/udpate', {"date": date, "openingHour": openingHour,
+            let customHoursInfo = await axios.post(backend + '/customHours/update', {"date": date, "openingHour": openingHour,
                 "closingHour": closingHour})
                 .then(response => {
                     return response.data;
@@ -363,7 +363,7 @@ export default {
             v-model="messageDeleteOperatingHours"
             :rows="2"
             label="Delete operating hours"
-            placeholder="Input operating hours day of wekk of operating hours of day you want to delete..."
+            placeholder="Input operating hours day of week of operating hours of day you want to delete..."
             />
             <fwb-button @click="deleteOperatingHours(messageDeleteOperatingHours)" color="red">Delete</fwb-button>
 </div>
@@ -440,8 +440,8 @@ export default {
   <fwb-textarea
             v-model="messageDeleteCustomHours"
             :rows="2"
-            label="Delete operating hours"
-            placeholder="Input operating hours day of wekk of operating hours of day you want to delete..."
+            label="Delete Custom hours"
+            placeholder="Input custom hours data (YYYY-MM-DDTHH:MMM...can copy date from table) of custom hours of date you want to delete..."
             />
             <fwb-button @click="deleteCustomHours(messageDeleteCustomHours)" color="red">Delete</fwb-button>
 </div>
