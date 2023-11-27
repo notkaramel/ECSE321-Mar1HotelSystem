@@ -94,6 +94,7 @@ export default {
           firstName: this.customer.firstName,
           lastName: this.customer.lastName,
           email: this.customer.email,
+          phoneNumber: this.customer.phoneNumber,
           password: this.password.new,
         });
 
