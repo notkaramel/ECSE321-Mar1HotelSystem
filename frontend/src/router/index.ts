@@ -24,6 +24,8 @@ const router = createRouter({
       name: 'Booking Summary View',
       component: ViewBookingView,
       props: route => ({ query: route.query.bookingId })
+    },
+    {
       path: '/signin',
       name: 'signin',
       component: SignInView
