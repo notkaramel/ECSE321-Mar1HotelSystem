@@ -10,20 +10,14 @@
                 <fwb-navbar-link link="/">
                     Home
                 </fwb-navbar-link>
-                <fwb-navbar-link link="/rooms">
-                    Room Options
-                </fwb-navbar-link>
-                <fwb-navbar-link link="/schedule">
-                    Schedule
-                      </fwb-navbar-link>
                 <fwb-navbar-link link="/booking">
                     Booking
                 </fwb-navbar-link>
                 <fwb-navbar-link link="/employees">
-                    Employees
+                    Employee
                 </fwb-navbar-link>
-                <fwb-navbar-link link="/policy">
-                    Policy
+                <fwb-navbar-link link="/manager">
+                    Manager
                 </fwb-navbar-link>
             </fwb-navbar-collapse>
         </template>
