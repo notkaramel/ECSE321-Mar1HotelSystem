@@ -160,6 +160,7 @@ public class EmployeeRestController {
             throw new Mar1HotelSystemException(HttpStatus.NOT_FOUND, "The shift does not exist!");
         }
         return new ShiftResponseDto(
+                shift.getShiftId(),
                 convertToDto(shift.getEmployee()),
                 shift.getDate(),
                 shift.getStartTime(),
