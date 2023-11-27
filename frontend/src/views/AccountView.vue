@@ -7,8 +7,9 @@
         <p><span class="font-medium">First Name:</span> {{ customer.firstName }}</p>
         <p><span class="font-medium">Last Name:</span> {{ customer.lastName }}</p>
         <p><span class="font-medium">Email:</span> {{ customer.email }}</p>
-        <button class="mt-4 px-4 py-2 bg-black-900 text-black rounded hover:bg-black-700 focus:outline-none"
-          @click="edit = true">Edit Info</button>
+        <p><span class="font-medium">Phone Number:</span> {{ customer.phoneNumber }}</p>
+        <button class="edit-info-btn" @click="edit = true">Edit Info
+        </button>
       </div>
     </div>
 
@@ -85,10 +86,10 @@ export default {
 
       try {
         const response = await axios.put(`${backendUrl}/customer/${this.customer.email}`, {
-          firstName: this.customer.firstName, 
-          lastName: this.customer.lastName,   
-          email: this.customer.email,         
-          password: this.password.new,        
+          firstName: this.customer.firstName,
+          lastName: this.customer.lastName,
+          email: this.customer.email,
+          password: this.password.new,
         });
 
         if (response.status === 200) {
@@ -102,7 +103,7 @@ export default {
         }
       } catch (error) {
         console.error('Error changing password', error);
-        alert('Failed to change password. Please try again later.'); 
+        alert('Failed to change password. Please try again later.');
       }
     },
 
@@ -112,23 +113,24 @@ export default {
           firstName: this.customer.firstName,
           lastName: this.customer.lastName,
           email: this.customer.email,
+          phoneNumber: this.customer.phoneNumber,
           password: this.customer.password,
         });
 
         if (response.status === 200) {
           this.customer = response.data; // Update the customer data with the response
           alert("Your information has been successfully updated.");
-          this.edit = false; 
+          this.edit = false;
         } else {
           alert("There was a problem updating your information.");
         }
       } catch (error) {
         console.error('Error saving customer information', error);
-        alert('Failed to update information. Please try again later.'); 
+        alert('Failed to update information. Please try again later.');
       }
     },
 
-    async fetchCustomerInfo(email :String) {
+    async fetchCustomerInfo(email: String) {
       try {
         const response = await axios.get(`${backendUrl}/customer/${email}`);
         if (response.status === 200) {
@@ -176,6 +178,32 @@ export default {
   /* Adding bold font for button text */
 }
 
+.edit-info-btn {
+  padding: 0.75rem 1rem;
+  /* Standard padding */
+  background-color: #0056b3;
+  /* Blue background */
+  color: white;
+  /* White text */
+  border: none;
+  /* No border */
+  border-radius: 0.375rem;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Pointer cursor on hover */
+  transition: background-color 0.3s;
+  /* Smooth transition for hover effect */
+  font-weight: bold;
+  /* Bold font */
+  margin-top: 1rem;
+  /* Margin on top */
+}
+
+.edit-info-btn:hover {
+  background-color: #003d82;
+  /* Darker blue on hover */
+}
+
 .btn-save:hover {
   background-color: #003d82;
   /* Darker shade on hover */
@@ -198,6 +226,5 @@ export default {
 .btn-cancel:hover {
   background-color: #cc3636;
   /* Darker shade on hover */
-}
-</style>
+}</style>
 
