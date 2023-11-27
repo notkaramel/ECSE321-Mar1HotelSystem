@@ -1,6 +1,7 @@
 <template>
     <main>
         <div>
+            <!-- Table for all employees -->
             <table>
                 <tr>
                     <th>First Name</th> <th>Last Name</th> <th>Email</th>
@@ -9,6 +10,8 @@
                     <td>{{e.firstName}}</td> <td>{{e.lastName}}</td> <td>{{e.email}}</td>
                 </tr>
             </table>
+
+            <!-- Login form -->
             <div class="centered">
                 <input type = "text" placeholder="email" v-model="text">
                 <input type = "password" placeholder="password" v-model="password">
@@ -18,7 +21,10 @@
                 <span class="errorDisplay">{{errorMessageDisplay}}</span>
             </div>
             
+            <!-- Section that opens when an employee logs in -->
             <div v-if = canDisplay>
+
+                <!-- Table for all shifts -->
                 <table>
                     <tr>
                         <th>Shift ID</th> <th>Shift date</th> <th>Shift start time</th> <th>Shift end time</th>
@@ -28,6 +34,8 @@
                     </tr>
                 </table>
                 <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
+
+                <!-- Table for all requests -->
                 <table>
                     <tr>
                         <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
@@ -37,6 +45,8 @@
                     </tr>
                 </table>
                 <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
+
+                <!-- Table for all requests assigned to employee -->
                 <table>
                     <tr>
                         <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th> <th>Description</th>
@@ -45,6 +55,8 @@
                         <td>{{ employeeRequest.assignmentId }}</td> <td>{{employeeRequest.reqest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
                     </tr>
                 </table>
+
+                <!-- Selecting request -->
                 <div class="centered">
                     <h1 class="centeredHeader"> Selecting request </h1>
                     <input type = "text" placeholder="request id" v-model="requestId">
@@ -55,6 +67,8 @@
                     <span class="errorDisplay">{{errorMessageDisplaySelect}}</span>
                 </div>
                 <b> <h1 class="centeredHeader"> All bookings </h1> </b>
+
+                <!-- Table for all bookings -->
                 <table>
                     <tr>
                         <th>Booking ID</th> <th>Room ID</th> <th>Customer email</th>
@@ -63,6 +77,8 @@
                         <td>{{booking.bookingId}}</td> <td>{{booking.room.roomId}}</td> <td>{{booking.generalUser.email}}</td>
                     </tr>
                 </table>
+
+                <!-- Creating request -->
                 <div class="centered">
                     <h1 class="centeredHeader"> Create a request </h1>
                     <input type = "text" placeholder="booking id" v-model="bookingId">
@@ -87,6 +103,9 @@ import axios, { AxiosError } from 'axios';
 
 const backendUrl = import.meta.env.VITE_BACKEND;
 
+// HELPER METHODS
+
+// Get all employees
 async function getEmployees() {
     let employees: any[] = await axios.get(backendUrl + "/employees")
     .then((response) => {
@@ -96,12 +115,14 @@ async function getEmployees() {
     return employees;
 }
 
+// Get employee by email
 async function getEmployee(email: string) {
     let employee: any = await axios.get(backendUrl + "/employee/" + email)
     .then(response => response.data)
     return employee;
 }
 
+// Get shifts by employee email
 async function getShifts(email: string) {
     let shifts: any[] = await axios.get(backendUrl + "/employee/" + email + "/shifts")
     .then(response => response.data)
@@ -110,6 +131,7 @@ async function getShifts(email: string) {
     return shifts;
 }
 
+// Get all requests
 async function getAllRequests() {
     let requests: any[] = await axios.get(backendUrl + "/requests")
     .then(response => response.data)
@@ -118,6 +140,7 @@ async function getAllRequests() {
     return requests;
 }
 
+// Get all requests assigned to employee
 async function getEmployeeAssignments(email: string) {
     let employeeRequests: any[] = [];
     let assignments: any[] = await axios.get(backendUrl + "/assignments/all")
@@ -135,6 +158,7 @@ async function getEmployeeAssignments(email: string) {
     return employeeRequests;
 }
 
+// Create request
 async function createRequest(bookingId: string, description: string) {
     let request: any = await axios.post(backendUrl + "/request/create", {
         bookingId: bookingId,
@@ -145,6 +169,7 @@ async function createRequest(bookingId: string, description: string) {
     return request;
 }
 
+// Get all bookings
 async function getBookings() {
     let bookings: any[] = await axios.get(backendUrl + "/booking/all")
     .then(response => response.data)
@@ -153,6 +178,7 @@ async function getBookings() {
     return bookings;
 }
 
+// Create assignment
 async function createAssignment(requestId: string, employeeEmail: string) {
     let assignment: any = await axios.post(backendUrl + "/assignment/create", {
         employeeId: employeeEmail,
@@ -163,6 +189,7 @@ async function createAssignment(requestId: string, employeeEmail: string) {
     return assignment;
 }
 
+// Fulfill request
 async function fulfillChange(requestId: string) {
     let request: any = await axios.get(backendUrl + "/requests/" + requestId)
     let requestUpdate = await axios.put(backendUrl + "/requests/update/" + requestId, {
@@ -175,6 +202,7 @@ async function fulfillChange(requestId: string) {
     return requestUpdate;
 }
 
+// MAIN EXPORT
 let employees: any[] = await getEmployees();
 let requests: any[] = await getAllRequests();
 let bookings: any[] = await getBookings();
@@ -206,6 +234,7 @@ export default {
     },
 
     methods: {
+        // Login method
         login: async function(email: string, password: string) {
             this.checkPassword(email, password);
             this.getShiftsList(this.text);
@@ -213,7 +242,7 @@ export default {
             console.log(this.currentEmployeeEmail);
             this.getAssignments(this.currentEmployeeEmail);
         },
-
+        // Check if password is correct
         checkPassword: async function(email: string, password: string) {
             try {
                 let employee: any = await getEmployee(email);
@@ -236,25 +265,27 @@ export default {
             }
             
         },
+        // Get shifts by employee email
         getShiftsList: async function(email: string) {
             let shifts: any[] = await getShifts(email);
             this.shiftsList = shifts;
             console.log("shifts")
             console.log(shifts);
         },
-        
+        // Get all requests assigned to employee
         getAssignments: async function(email: string) {
             let employeeRequests: any[] = await getEmployeeAssignments(email);
             this.employeeRequestList = employeeRequests;
             console.log(employeeRequests);
         },
-
+        // Create request
         createRequest: async function(bookingId: string, description: string) {
             try {
                 let request: any = await createRequest(bookingId, description);
                 console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
+                this.requestsList.push(request);
                 this.login(this.currentEmployeeEmail, this.password);
             } catch (error: AxiosError) {
                 if (error.response?.status === 404) {
@@ -265,7 +296,7 @@ export default {
                 }
             }
         },
-
+        // Select request
         selectRequest: async function(requestId: string) {
             try {
                 let assignment: any = await createAssignment(requestId, this.currentEmployeeEmail);
@@ -281,7 +312,7 @@ export default {
                 }
             }
         },
-
+        // Fulfill request
         fulfillRequest: async function(requestId: string) {
             try {
                 let request: any = await fulfillChange(requestId);
