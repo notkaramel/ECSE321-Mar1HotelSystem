@@ -275,7 +275,7 @@ async function createAssignment(employeeId: String, requestId: Number) {
 
 async function createEmployeeShift(date: String, startTime: Number, endTime: Number,
   email: String) {
-  let createdEmployeeShift = await axios.post(backendUrl + "/employee/" + email + "/shift", {"date": date, "startTime": startTime, "endTime": endTime})
+  let createdEmployeeShift = await axios.post(backendUrl + "/employee/" + email + "/shift", {"date": date+"T00:00:00.000+00:00", "startTime": startTime, "endTime": endTime})
     .then(response => response.data)
     .catch(err => {
       console.log(err)
@@ -358,8 +358,6 @@ const managerNewPassword = ref('')
 const shiftDate = ref('')
 const shiftStartTime = ref('')
 const shiftEndTime = ref('')
-const shiftFirstName = ref('')
-const shiftLastName = ref('')
 const shiftEmail = ref('')
 const shiftIdDelete = ref('')
 
@@ -841,10 +839,8 @@ const messageAssignmentRequestId = ref('')
 
               <fwb-textarea v-model="shiftEndTime" :rows="2" label="Enter Employee Shift End Time"
                 placeholder="Input Employee Shift End Time..." />
-              <fwb-textarea v-model="shiftFirstName" :rows="2" label="Enter Employee First Name"
-                placeholder="Input employee first name..." />
-              <fwb-textarea v-model="shiftLastName" :rows="2" label="Enter Employee Last Name"
-                placeholder="Input employee last name..." />
+              <fwb-textarea v-model="shiftEmail" :rows="2" label="Enter Employee Email"
+                placeholder="Input employee email..." />
               <fwb-button
                 @click="createEmployeeShift(shiftDate, parseInt(shiftStartTime),
                   parseInt(shiftEndTime), shiftEmail)"
