@@ -7,7 +7,6 @@
         <p><span class="font-medium">First Name:</span> {{ customer.firstName }}</p>
         <p><span class="font-medium">Last Name:</span> {{ customer.lastName }}</p>
         <p><span class="font-medium">Email:</span> {{ customer.email }}</p>
-        <p><span class="font-medium">Phone Number:</span> {{ customer.phoneNumber }}</p>
         <button class="mt-4 px-4 py-2 bg-black-900 text-black rounded hover:bg-black-700 focus:outline-none"
           @click="edit = true">Edit Info</button>
       </div>
@@ -50,7 +49,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios';
 const backendUrl = import.meta.env.VITE_BACKEND;
 
@@ -64,7 +63,8 @@ export default {
         lastName: '',
         email: '',
         address: '',
-        phone: '',
+        phoneNumber: '',
+        password: '',
       },
       password: {
         old: '',
@@ -88,7 +88,6 @@ export default {
           firstName: this.customer.firstName, 
           lastName: this.customer.lastName,   
           email: this.customer.email,         
-          phoneNumber: this.customer.phoneNumber,  
           password: this.password.new,        
         });
 
@@ -113,7 +112,6 @@ export default {
           firstName: this.customer.firstName,
           lastName: this.customer.lastName,
           email: this.customer.email,
-          phoneNumber: this.customer.phoneNumber,
           password: this.customer.password,
         });
 
@@ -129,21 +127,8 @@ export default {
         alert('Failed to update information. Please try again later.'); 
       }
     },
+  },
 
-    async fetchCustomerInfo(email) {
-      try {
-        const response = await axios.get(`${backendUrl}/customer/${email}`);
-        if (response.status === 200) {
-          this.customer = response.data;
-        }
-      } catch (error) {
-        console.error('Error fetching customer data', error);
-      }
-    }
-  },
-  created() {
-    this.fetchCustomerInfo(this.$route.params.email);
-  },
 };
 </script>
 
