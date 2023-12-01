@@ -15,15 +15,7 @@
                 </tr>
             </table>
 
-            <!-- Login form -->
-            <div class="centered">
-                <input type="text" placeholder="email" v-model="text">
-                <input type="password" placeholder="password" v-model="password">
-                <br>
-                <button @click="login(text, password)">Login</button>
-                <br>
-                <span class="errorDisplay">{{ errorMessageDisplay }}</span>
-            </div>
+
             
             <!-- Section that opens when an employee logs in -->
             <div v-if = canDisplay>
@@ -230,6 +222,11 @@ let shifts: any[] = [];
 let assignments: any[] = [];
 console.log(employees);
 export default {
+
+    mounted() {
+        this.autoLoginIfCredentialsExist();
+    },
+
     components: {
     },
     data() {
@@ -253,6 +250,17 @@ export default {
     },
 
     methods: {
+
+        autoLoginIfCredentialsExist() {
+            const employeeEmail = localStorage.getItem('employeeEmail');
+            const employeePassword = localStorage.getItem('employeePassword');
+            // Assuming you have a method to verify the employee
+            if (employeeEmail && employeePassword) {
+                this.login(employeeEmail, employeePassword);
+            }
+            },
+
+
         // Login method
         login: async function(email: string, password: string) {
             this.checkPassword(email, password);
