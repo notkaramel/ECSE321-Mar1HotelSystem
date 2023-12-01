@@ -111,6 +111,15 @@
     </main>
 </template>
 
+<script setup lang="ts">
+
+async function createUser() {
+    let user: any = await axios.post(backendUrl + "/user/create", {
+        email: "u@mail.com",
+        password: "password", })
+}
+</script>
+
 <script lang="ts">
 import axios from 'axios';
 
@@ -154,7 +163,7 @@ async function getAllRequests() {
 // Get all requests assigned to employee
 async function getEmployeeAssignments(email: string) {
     let employeeRequests: any[] = [];
-    await axios.get(backendUrl + "/assignments/all")
+    employeeRequests = await axios.get(backendUrl + "/assignments/all")
     .then((response) => {
         console.log(response.data instanceof Array);
         return response.data}).then((response => response.filter((assignment: any) => assignment.employee.email === email)))
