@@ -66,6 +66,8 @@ export default {
         // If not found in customer, try employee
         let response = await axios.get(`${backendUrl}/employee/${this.email}`);
         if (response.status === 200 && response.data.password === this.password) {
+            localStorage.setItem('employeeEmail', this.email);
+            localStorage.setItem('employeePassword', this.password);
             this.$router.push(`/employees`);
             return; // Stop further execution if login is successful
         }
