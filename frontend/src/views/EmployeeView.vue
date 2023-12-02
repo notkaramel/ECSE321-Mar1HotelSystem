@@ -105,11 +105,30 @@
 
 <script setup lang="ts">
 
-async function createUser() {
-    let user: any = await axios.post(backendUrl + "/user/create", {
+async function createSetup() {
+    let user: any = await axios.post(backendUrl + "/generalUsers/create", {
         email: "u@mail.com",
-        password: "password", })
+        firstName: "an",
+        lastName: "user", 
+        phoneNumber: "12345678"})
+        .then(response => response.data).catch(error => console.log(error));
+    let payments: any[] = await axios.get(backendUrl + "/payment/all").then(response => response.data).catch(error => console.log(error));
+    console.log(payments);
+    let room: any = await axios.post(backendUrl + "/room/create", {
+        roomType: "Regular",
+        bedType: "Doubles",
+        isAvailable: true,
+        pricePerNight: 10,
+        maxCapacity: 1})
+        .then(response => response.data).catch(error => console.log(error));
+    let booking: any = await axios.post(backendUrl + "/booking/create", {
+        generalUserEmail: "u@mail.com",
+        roomId: 402, 
+        paymentId: 202}).then(response => response.data).catch(error => console.log(error));
 }
+
+//createSetup();
+
 </script>
 
 <script lang="ts">
@@ -220,6 +239,7 @@ let requests: any[] = await getAllRequests();
 let bookings: any[] = await getBookings();
 let shifts: any[] = [];
 let assignments: any[] = [];
+let email: any = localStorage.getItem('employeeEmail');
 console.log(employees);
 export default {
 
@@ -242,7 +262,7 @@ export default {
             descriptionRequest: "",
             errorMessageDisplayRequest: "",
             bookingsList: bookings,
-            currentEmployeeEmail: "",
+            currentEmployeeEmail: email,
             requestId: "",
             errorMessageDisplaySelect: "",
             requestsList: requests
@@ -264,8 +284,7 @@ export default {
         // Login method
         login: async function(email: string, password: string) {
             this.checkPassword(email, password);
-            this.getShiftsList(this.text);
-            this.currentEmployeeEmail = this.text;
+            this.getShiftsList(this.currentEmployeeEmail);
             console.log(this.currentEmployeeEmail);
             this.getAssignments(this.currentEmployeeEmail);
         },
@@ -313,8 +332,7 @@ export default {
                 console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
-                this.requestsList.push(request);
-                this.login(this.currentEmployeeEmail, this.password);
+                location.reload();
             } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
@@ -331,6 +349,7 @@ export default {
                 console.log(assignment);
                 alert("Request selected");
                 this.errorMessageDisplaySelect = "";
+                location.reload();
                 // } catch (error: AxiosError) {
             } catch (error: any) {
 
@@ -349,6 +368,7 @@ export default {
                 console.log(request);
                 alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
+                location.reload();
                 // } catch (error:AxiosError) {
             } catch (error: any) {
 
