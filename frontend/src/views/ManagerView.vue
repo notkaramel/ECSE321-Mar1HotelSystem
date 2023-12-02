@@ -288,7 +288,6 @@ async function createEmployeeShift(date: String, startTime: Number, endTime: Num
 
 </script>
 
-
 <script setup lang="ts">
 // Imports and messages of textboxes
 import { ref } from 'vue'
