@@ -1,6 +1,7 @@
 <template>
     <main>
         <div>
+            
             <!-- Table for all employees -->
             <table>
                 <tr>
@@ -125,6 +126,8 @@ async function getEmployee(email: string) {
     return employee;
 }
 
+
+
 // Get shifts by employee email
 async function getShifts(email: string) {
     let shifts: any[] = await axios.get(backendUrl + "/employee/" + email + "/shifts")
@@ -243,7 +246,7 @@ export default {
     methods: {
 
         autoLoginIfCredentialsExist() {
-            const employeeEmail = localStorage.getItem('userEmail');
+            const employeeEmail = localStorage.getItem('employeeEmail');
             const employeePassword = localStorage.getItem('employeePassword');
             // Assuming you have a method to verify the employee
             if (employeeEmail && employeePassword) {

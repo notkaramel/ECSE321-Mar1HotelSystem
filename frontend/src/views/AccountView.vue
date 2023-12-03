@@ -53,6 +53,10 @@
       </form>
     </div>
   </div>
+  <!-- Logout Button -->
+  <div class="flex justify-center mt-6">
+    <button class="btn-logout" @click="logout">Logout</button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -136,6 +140,13 @@ export default {
       }
     },
 
+    logout() {
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userRole');
+      // Add any other cleanup you need here
+
+      this.$router.push('/signin'); // Redirect to the home-page
+    },
     async fetchCustomerInfo(email: String) {
       try {
         const response = await axios.get(`${backendUrl}/customer/${email}`);
@@ -224,6 +235,20 @@ export default {
   /* Darker shade on hover */
 }
 
+.btn-logout {
+    padding: 0.75rem 1rem;
+    background-color: #64748b; /* Grayish color for logout button */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+  }
+
+  .btn-logout:hover {
+    background-color: #475569; /* Darker shade on hover */
+  }
 .edit-info-btn {
   padding: 0.75rem 1rem;
   /* Standard padding */

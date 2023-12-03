@@ -41,7 +41,11 @@ export default {
         // Try to log in as a customer
         let response = await axios.get(`${backendUrl}/customer/${this.email}`);
         if (response.status === 200 && response.data.password === this.password) {
+            localStorage.setItem('userEmail', this.email);
+            localStorage.setItem('userPassword', this.password);
+            localStorage.setItem('userRole', 'customer');
             this.$router.push(`/account/${this.email}`);
+            
             return; // Stop further execution if login is successful
         }
     } catch (error: unknown) {
@@ -61,8 +65,9 @@ export default {
         // If not found in customer, try employee
         let response = await axios.get(`${backendUrl}/employee/${this.email}`);
         if (response.status === 200 && response.data.password === this.password) {
-            localStorage.setItem('employeeEmail', this.email);
-            localStorage.setItem('employeePassword', this.password);
+            localStorage.setItem('userEmail', this.email);
+            localStorage.setItem('userPassword', this.password);
+            localStorage.setItem('userRole', 'employee');
             this.$router.push(`/employees`);
             return; // Stop further execution if login is successful
         }
@@ -83,6 +88,9 @@ export default {
         // If not found in employee, try manager
         let response = await axios.get(`${backendUrl}/managers/${this.email}`);
         if (response.status === 200 && response.data.password === this.password) {
+            localStorage.setItem('userEmail', this.email);
+            localStorage.setItem('userPassword', this.password);
+            localStorage.setItem('userRole', 'manager');
             this.$router.push(`/manager`);
             return; // Stop further execution if login is successful
         }

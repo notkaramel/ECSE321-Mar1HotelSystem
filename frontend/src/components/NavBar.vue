@@ -22,42 +22,34 @@
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
-        <fwb-button @click="goToCreateBooking">
-            Book Now
-        </fwb-button>
-        <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
-            Sign in
-        </fwb-button>
-        <fwb-button v-else @click="goToAccount">
-            Account
-        </fwb-button>
+      <fwb-button @click="goToCreateBooking">
+        Book Now
+      </fwb-button>
+      <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
+        Sign in
+      </fwb-button>
+      <fwb-button v-else @click="goToAccount">
+        Account
+      </fwb-button>
     </template>
-</fwb-navbar>
+  </fwb-navbar>
 </template>
-  <script setup lang="ts">
-  import { useRouter } from 'vue-router';
-  import {
-    FwbButton,
-    FwbNavbar,
-    FwbNavbarCollapse,
-    FwbNavbarLink,
-    FwbNavbarLogo,
-  } from 'flowbite-vue';
-  
-  import logo from '@/assets/logo.svg'
-import { computed } from 'vue';
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import {
+  FwbButton,
+  FwbNavbar,
+  FwbNavbarCollapse,
+  FwbNavbarLink,
+  FwbNavbarLogo,
+} from 'flowbite-vue';
+import logo from '@/assets/logo.svg';
 
-  const router = useRouter();
+const router = useRouter();
+const userEmail = ref(localStorage.getItem('userEmail'));
 
-// Computed property to determine if a user is logged in
-const isLoggedIn = computed(() => {
-  return localStorage.getItem('userEmail') !== null;
-});
-
-// Computed property to get the user's role
-const userRole = computed(() => {
-  return localStorage.getItem('userRole');
-});
+const isLoggedIn = computed(() => !!userEmail.value);
 
 const goToSignIn = () => {
   router.push('/signin');
@@ -68,16 +60,14 @@ const goToCreateBooking = () => {
 };
 
 const goToAccount = () => {
-  const email = localStorage.getItem('userEmail');
-  if (userRole.value === 'customer') {
-    router.push(`/account/${email}`);
-  } else if (userRole.value === 'employee') {
+  // Assuming different routes for different user roles
+  const userRole = localStorage.getItem('userRole');
+  if (userRole === 'employee') {
     router.push('/employees');
-  } else if (userRole.value === 'manager') {
+  } else if (userRole === 'manager') {
     router.push('/manager');
+  } else {
+    router.push(`/account/${userEmail.value}`);
   }
 };
-
-  
-  </script>
-  
+</script>
