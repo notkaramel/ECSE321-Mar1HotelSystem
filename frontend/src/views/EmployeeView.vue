@@ -21,7 +21,7 @@
             <div v-if = canDisplay>
 
                 <!-- Table for all shifts -->
-                <table>
+                <table :key = "refreshShift">
                     <tr>
                         <th>Shift ID</th>
                         <th>Shift date</th>
@@ -38,7 +38,7 @@
                 <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
 
                 <!-- Table for all requests -->
-                <table>
+                <table :key = "refreshRequests">
                     <tr>
                         <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
                     </tr>
@@ -52,12 +52,15 @@
                 <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
 
                 <!-- Table for all requests assigned to employee -->
-                <table>
+                <table :key = "refreshAssignment">
                     <tr>
                         <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th> <th>Description</th>
                     </tr>
                     <tr v-for="employeeRequest in employeeRequestList" v-bind:key="employeeRequest.assignmentId">
-                        <td>{{ employeeRequest.assignmentId }}</td> <td>{{employeeRequest.reqest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
+                        <td>{{ employeeRequest.assignmentId }}</td> 
+                        <td>{{employeeRequest.request.requestId}}</td> 
+                        <td>{{employeeRequest.request.booking.bookingId}}</td> 
+                        <td>{{employeeRequest.description}}</td>
                     </tr>
                 </table>
 
@@ -67,14 +70,14 @@
                     <input type="text" placeholder="request id" v-model="requestId">
                     <br>
                     <button @click="selectRequest(requestId)">Select request</button>
-                    <button @click="fulfillRequest(requestId)">Fulfill request</button>
+                    <button @click="fulfillRequest(parseInt(requestId))">Fulfill request</button>
                     <br>
                     <span class="errorDisplay">{{ errorMessageDisplaySelect }}</span>
                 </div>
                 <b> <h1 class="centeredHeader"> All bookings </h1> </b>
 
                 <!-- Table for all bookings -->
-                <table>
+                <table :key = "refreshBooking">
                     <tr>
                         <th>Booking ID</th>
                         <th>Room ID</th>
@@ -93,7 +96,7 @@
                     <input type="text" placeholder="booking id" v-model="bookingId">
                     <input type="text" placeholder="description" v-model="descriptionRequest">
                     <br>
-                    <button @click="createRequest(bookingId, descriptionRequest)">Create request</button>
+                    <button @click="createRequestMain(bookingId, descriptionRequest)">Create request</button>
                     <br>
                     <span class="errorDisplay">{{ errorMessageDisplayRequest }}</span>
                 </div>
@@ -104,6 +107,19 @@
 </template>
 
 <script setup lang="ts">
+
+import { ref } from 'vue';
+const refreshShift = ref(0);
+const refreshRequests = ref(0);
+const refreshAssignment = ref(0);
+const refreshBooking = ref(0);
+
+const forceRender = () => {
+    refreshShift.value += 1;
+    refreshRequests.value += 1;
+    refreshAssignment.value += 1;
+    refreshBooking.value += 1;
+}
 
 async function createSetup() {
     let user: any = await axios.post(backendUrl + "/generalUsers/create", {
@@ -128,6 +144,8 @@ async function createSetup() {
 }
 
 //createSetup();
+
+
 
 </script>
 
@@ -185,7 +203,7 @@ async function getEmployeeAssignments(email: string) {
     //     }
     // }
     console.log("get employee requests");
-    console.log(employeeRequests);
+    console.log(employeeRequests[0].request.requestId);
     return employeeRequests;
 }
 
@@ -197,6 +215,7 @@ async function createRequest(bookingId: string, description: string) {
         isFulfilled: false
     })
         .then(response => response.data)
+    console.log(request);
     return request;
 }
 
@@ -221,13 +240,14 @@ async function createAssignment(requestId: string, employeeEmail: string) {
 }
 
 // Fulfill request
-async function fulfillChange(requestId: string) {
-    let request: any = await axios.get(backendUrl + "/requests/" + requestId)
-    let requestUpdate = await axios.put(backendUrl + "/requests/update/" + requestId, {
+async function fulfillChange(requestId: number) {
+    let request: any = await axios.get(backendUrl + "/requests/" + requestId).then(response => response.data);
+    console.log(request);
+    let requestUpdate: any = await axios.put(backendUrl + "/requests/update/" + request.requestId, {
         description: request.description,
         bookingId: request.bookingId,
         isFulfilled: true
-    })
+    }).then(response => response.data);
     
     console.log(requestUpdate);
     return requestUpdate;
@@ -326,13 +346,15 @@ export default {
             console.log(employeeRequests);
         },
         // Create request
-        createRequest: async function(bookingId: string, description: string) {
+        createRequestMain: async function(bookingId: string, description: string) {
             try {
                 let request: any = await createRequest(bookingId, description);
                 console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
-                location.reload();
+                console.log(this.employeeRequestList)
+                console.log(refreshRequests)
+                forceRender();
             } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
@@ -349,7 +371,7 @@ export default {
                 console.log(assignment);
                 alert("Request selected");
                 this.errorMessageDisplaySelect = "";
-                location.reload();
+                forceRender();
                 // } catch (error: AxiosError) {
             } catch (error: any) {
 
@@ -362,13 +384,13 @@ export default {
             }
         },
         // Fulfill request
-        fulfillRequest: async function(requestId: string) {
+        fulfillRequest: async function(requestId: number) {
             try {
                 let request: any = await fulfillChange(requestId);
                 console.log(request);
                 alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
-                location.reload();
+                forceRender();
                 // } catch (error:AxiosError) {
             } catch (error: any) {
 
