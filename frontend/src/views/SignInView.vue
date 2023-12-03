@@ -44,7 +44,7 @@ export default {
                     localStorage.setItem('userEmail', this.email);
                     localStorage.setItem('userPassword', this.password);
                     localStorage.setItem('userRole', 'customer');
-                    this.$router.push('/').then(() => {
+                    this.$router.push(`/account/userEmail`).then(() => {
                         window.location.reload();
                     });
 
