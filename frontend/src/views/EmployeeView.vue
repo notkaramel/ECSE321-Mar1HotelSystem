@@ -21,7 +21,7 @@
             <div v-if = canDisplay>
 
                 <!-- Table for all shifts -->
-                <table :key = "refreshShift">
+                <table :key = refreshShift>
                     <tr>
                         <th>Shift ID</th>
                         <th>Shift date</th>
@@ -38,7 +38,7 @@
                 <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
 
                 <!-- Table for all requests -->
-                <table :key = "refreshRequests">
+                <table :key = refreshRequests>
                     <tr>
                         <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
                     </tr>
@@ -52,7 +52,7 @@
                 <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
 
                 <!-- Table for all requests assigned to employee -->
-                <table :key = "refreshAssignment">
+                <table :key = refreshAssignment>
                     <tr>
                         <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th>
                     </tr>
@@ -76,7 +76,7 @@
                 <b> <h1 class="centeredHeader"> All bookings </h1> </b>
 
                 <!-- Table for all bookings -->
-                <table :key = "refreshBooking">
+                <table :key = refreshBooking>
                     <tr>
                         <th>Booking ID</th>
                         <th>Room ID</th>
@@ -108,17 +108,17 @@
 <script setup lang="ts">
 
 import { ref } from 'vue';
-let refreshShift = ref(0);
-let refreshRequests = ref(0);
-let refreshAssignment = ref(0);
-let refreshBooking = ref(0);
+// let refreshShift = ref(0);
+// let refreshRequests = ref(0);
+// let refreshAssignment = ref(0);
+// let refreshBooking = ref(0);
 
-const forceRender = () => {
-    refreshShift.value += 1;
-    refreshRequests.value += 1;
-    refreshAssignment.value += 1;
-    refreshBooking.value += 1;
-}
+// const forceRender = () => {
+//     refreshShift.value += 1;
+//     refreshRequests.value += 1;
+//     refreshAssignment.value += 1;
+//     refreshBooking.value += 1;
+// }
 
 async function createSetup() {
     let user: any = await axios.post(backendUrl + "/generalUsers/create", {
@@ -284,7 +284,11 @@ export default {
             currentEmployeeEmail: email,
             requestId: "",
             errorMessageDisplaySelect: "",
-            requestsList: requests
+            requestsList: requests,
+            refreshShift: 0,
+            refreshRequests: 0,
+            refreshAssignment: 0,
+            refreshBooking: 0
         }
     },
 
@@ -351,9 +355,8 @@ export default {
                 console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
-                console.log(this.employeeRequestList)
-                console.log(refreshRequests.value)
-                forceRender();
+                this.forceRender();
+                console.log(this.refreshRequests)
             } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
@@ -370,7 +373,7 @@ export default {
                 console.log(assignment);
                 alert("Request selected");
                 this.errorMessageDisplaySelect = "";
-                forceRender();
+                this.forceRender();
                 // } catch (error: AxiosError) {
             } catch (error: any) {
 
@@ -389,7 +392,7 @@ export default {
                 console.log(request);
                 alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
-                forceRender();
+                this.forceRender();
                 // } catch (error:AxiosError) {
             } catch (error: any) {
 
@@ -400,6 +403,16 @@ export default {
                     this.errorMessageDisplaySelect = error.message;
                 }
             }
+        }, 
+        forceRender: async function() {
+            this.requestsList = await getAllRequests();
+            this.employeeRequestList = await getEmployeeAssignments(this.currentEmployeeEmail);
+            this.shiftsList = await getShifts(this.currentEmployeeEmail);
+            this.bookingsList = await getBookings();
+            this.refreshShift += 1;
+            this.refreshRequests += 1;
+            this.refreshAssignment += 1;
+            this.refreshBooking += 1;
         }
     }
 }
