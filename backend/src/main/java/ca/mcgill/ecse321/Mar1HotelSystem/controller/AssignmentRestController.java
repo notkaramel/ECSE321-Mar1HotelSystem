@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.service.AssignmentService;
+import ca.mcgill.ecse321.Mar1HotelSystem.service.EmployeeService;
+import ca.mcgill.ecse321.Mar1HotelSystem.service.RequestService;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.AssignmentRequestDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.dto.AssignmentResponseDto;
 import ca.mcgill.ecse321.Mar1HotelSystem.model.Assignment;
@@ -40,6 +42,10 @@ public class AssignmentRestController {
 
     @Autowired
     private AssignmentService assignmentService;
+    @Autowired
+    private EmployeeService employeeService;
+    @Autowired
+    private RequestService requestService;
 
     @GetMapping(value = { "/assignments/all", "/assignments/all/" })
     @ResponseStatus(HttpStatus.OK)
@@ -88,10 +94,10 @@ public class AssignmentRestController {
     @PutMapping(value = { "/assignments/update/{assignmentId}", "/assignments/update/{assignmentId}/" })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AssignmentResponseDto> updateAssignment(@PathVariable int assignmentId,
-            @RequestBody AssignmentResponseDto assignmentDto) {
+            @RequestBody AssignmentRequestDto assignmentDto) {
 
-        Employee employee = assignmentDto.getEmployee();
-        Request request = assignmentDto.getRequest();
+        Employee employee = employeeService.getEmployee(assignmentDto.getEmployeeId());
+        Request request = requestService.getRequestById(assignmentDto.getRequestId());
 
         assignmentService.updateAssignment(assignmentId, employee, request);
 
