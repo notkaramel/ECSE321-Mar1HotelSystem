@@ -45,21 +45,16 @@ export default {
             return; // Stop further execution if login is successful
         }
     } catch (error: unknown) {
-        // Assert that error is of type AxiosError
         if (axios.isAxiosError(error)) {
-            if (!error.response || error.response.status !== 404) {
-                console.error('Error during employee login', error);
+            if (error.response && error.response.status === 404) {
+                this.loginError = 'User not found. Please check your credentials.';
+            } else {
                 this.loginError = 'An error occurred during login';
-                alert('An error occurred during employee login.');
-                return; // Stop further execution if error is not a 404
             }
-            // 404 error means employee not found, try next login type
         } else {
-            // Handle non-Axios errors
-            console.error('Non-Axios error during employee login', error);
             this.loginError = 'An unexpected error occurred';
-            return;
         }
+        console.error('Login error', error);
     }
 
     try {
@@ -72,21 +67,16 @@ export default {
             return; // Stop further execution if login is successful
         }
     } catch (error: unknown) {
-        // Assert that error is of type AxiosError
         if (axios.isAxiosError(error)) {
-            if (!error.response || error.response.status !== 404) {
-                console.error('Error during employee login', error);
+            if (error.response && error.response.status === 404) {
+                this.loginError = 'User not found. Please check your credentials.';
+            } else {
                 this.loginError = 'An error occurred during login';
-                alert('An error occurred during employee login.');
-                return; // Stop further execution if error is not a 404
             }
-            // 404 error means employee not found, try next login type
         } else {
-            // Handle non-Axios errors
-            console.error('Non-Axios error during employee login', error);
             this.loginError = 'An unexpected error occurred';
-            return;
         }
+        console.error('Login error', error);
     }
 
     try {
@@ -97,21 +87,16 @@ export default {
             return; // Stop further execution if login is successful
         }
     } catch (error: unknown) {
-        // Assert that error is of type AxiosError
         if (axios.isAxiosError(error)) {
-            if (!error.response || error.response.status !== 404) {
-                console.error('Error during employee login', error);
+            if (error.response && error.response.status === 404) {
+                this.loginError = 'User not found. Please check your credentials.';
+            } else {
                 this.loginError = 'An error occurred during login';
-                alert('An error occurred during employee login.');
-                return; // Stop further execution if error is not a 404
             }
-            // 404 error means employee not found, try next login type
         } else {
-            // Handle non-Axios errors
-            console.error('Non-Axios error during employee login', error);
             this.loginError = 'An unexpected error occurred';
-            return;
         }
+        console.error('Login error', error);
     }
 },
 

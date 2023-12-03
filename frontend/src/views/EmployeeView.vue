@@ -243,7 +243,7 @@ export default {
     methods: {
 
         autoLoginIfCredentialsExist() {
-            const employeeEmail = localStorage.getItem('employeeEmail');
+            const employeeEmail = localStorage.getItem('userEmail');
             const employeePassword = localStorage.getItem('employeePassword');
             // Assuming you have a method to verify the employee
             if (employeeEmail && employeePassword) {
