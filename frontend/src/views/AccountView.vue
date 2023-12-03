@@ -145,7 +145,9 @@ export default {
       localStorage.removeItem('userRole');
       // Add any other cleanup you need here
 
-      this.$router.push('/signin'); // Redirect to the home-page
+      this.$router.push('/').then(() => {
+        window.location.reload();
+      });
     },
     async fetchCustomerInfo(email: String) {
       try {
