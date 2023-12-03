@@ -54,13 +54,12 @@
                 <!-- Table for all requests assigned to employee -->
                 <table :key = "refreshAssignment">
                     <tr>
-                        <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th> <th>Description</th>
+                        <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th>
                     </tr>
-                    <tr v-for="employeeRequest in employeeRequestList" v-bind:key="employeeRequest.assignmentId">
+                    <tr v-for="employeeRequest in employeeRequestList.filter((a) => a.request.isFulfilled === false)" v-bind:key="employeeRequest.assignmentId">
                         <td>{{ employeeRequest.assignmentId }}</td> 
                         <td>{{employeeRequest.request.requestId}}</td> 
                         <td>{{employeeRequest.request.booking.bookingId}}</td> 
-                        <td>{{employeeRequest.description}}</td>
                     </tr>
                 </table>
 
@@ -109,10 +108,10 @@
 <script setup lang="ts">
 
 import { ref } from 'vue';
-const refreshShift = ref(0);
-const refreshRequests = ref(0);
-const refreshAssignment = ref(0);
-const refreshBooking = ref(0);
+let refreshShift = ref(0);
+let refreshRequests = ref(0);
+let refreshAssignment = ref(0);
+let refreshBooking = ref(0);
 
 const forceRender = () => {
     refreshShift.value += 1;
@@ -245,7 +244,7 @@ async function fulfillChange(requestId: number) {
     console.log(request);
     let requestUpdate: any = await axios.put(backendUrl + "/requests/update/" + request.requestId, {
         description: request.description,
-        bookingId: request.bookingId,
+        bookingId: request.booking.bookingId,
         isFulfilled: true
     }).then(response => response.data);
     
@@ -353,7 +352,7 @@ export default {
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
                 console.log(this.employeeRequestList)
-                console.log(refreshRequests)
+                console.log(refreshRequests.value)
                 forceRender();
             } catch (error: any) {
                 if (error.response?.status === 404) {
