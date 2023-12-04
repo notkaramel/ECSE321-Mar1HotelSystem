@@ -124,10 +124,16 @@ export default {
                         {
                             axios.delete(backend + '/requests/delete/' + req.requestId)
                             .then(response => {
-                                return (response.status == 200 ? alert("Booking cancelled successfully!") : null);
+                                if(response.status == 200){
+                                    console.log("Request " + req.requestId + " deleted successfully!");
+                                }
+                                else {
+                                    console.error(`Response status: ${response.status}`)
+                                    console.error("Unable to delete request with ID " + req.requestId + "!");
+                                }
                             })
                             .catch(error => {
-                                console.log(error);
+                                console.error(error);
                             });
                         }
                     }
