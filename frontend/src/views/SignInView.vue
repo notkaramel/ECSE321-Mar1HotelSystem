@@ -35,29 +35,87 @@ export default {
         };
     },
     methods: {
+    
         async submitSignIn() {
-        try {
-            const response = await axios.get(`${backendUrl}/customer/${this.email}`);
-
-            if (response.status === 200) {
-                const customer = response.data;
-                if (customer.password === this.password) {
-                    // Redirect using email instead of userId
-                    this.$router.push(`/account/${this.email}`);
-                } else {
-                    this.loginError = 'Incorrect email or password';
-                    alert('Incorrect email or password.'); // Using JavaScript alert
-                }
-            } else {
-                this.loginError = 'Customer not found';
-                alert('Customer not found.'); // Using JavaScript alert
-            }
-        } catch (error) {
-            console.error('Error during login', error);
-            this.loginError = 'An error occurred during login';
-            alert('An error occurred during login.'); // Using JavaScript alert
+    try {
+        // Try to log in as a customer
+        let response = await axios.get(`${backendUrl}/customer/${this.email}`);
+        if (response.status === 200 && response.data.password === this.password) {
+            this.$router.push(`/account/${this.email}`);
+            return; // Stop further execution if login is successful
         }
-    },
+    } catch (error: unknown) {
+        // Assert that error is of type AxiosError
+        if (axios.isAxiosError(error)) {
+            if (!error.response || error.response.status !== 404) {
+                console.error('Error during employee login', error);
+                this.loginError = 'An error occurred during login';
+                alert('An error occurred during employee login.');
+                return; // Stop further execution if error is not a 404
+            }
+            // 404 error means employee not found, try next login type
+        } else {
+            // Handle non-Axios errors
+            console.error('Non-Axios error during employee login', error);
+            this.loginError = 'An unexpected error occurred';
+            return;
+        }
+    }
+
+    try {
+        // If not found in customer, try employee
+        let response = await axios.get(`${backendUrl}/employee/${this.email}`);
+        if (response.status === 200 && response.data.password === this.password) {
+            localStorage.setItem('employeeEmail', this.email);
+            localStorage.setItem('employeePassword', this.password);
+            this.$router.push(`/employees`);
+            return; // Stop further execution if login is successful
+        }
+    } catch (error: unknown) {
+        // Assert that error is of type AxiosError
+        if (axios.isAxiosError(error)) {
+            if (!error.response || error.response.status !== 404) {
+                console.error('Error during employee login', error);
+                this.loginError = 'An error occurred during login';
+                alert('An error occurred during employee login.');
+                return; // Stop further execution if error is not a 404
+            }
+            // 404 error means employee not found, try next login type
+        } else {
+            // Handle non-Axios errors
+            console.error('Non-Axios error during employee login', error);
+            this.loginError = 'An unexpected error occurred';
+            return;
+        }
+    }
+
+    try {
+        // If not found in employee, try manager
+        let response = await axios.get(`${backendUrl}/managers/${this.email}`);
+        if (response.status === 200 && response.data.password === this.password) {
+            this.$router.push(`/manager`);
+            return; // Stop further execution if login is successful
+        }
+    } catch (error: unknown) {
+        // Assert that error is of type AxiosError
+        if (axios.isAxiosError(error)) {
+            if (!error.response || error.response.status !== 404) {
+                console.error('Error during employee login', error);
+                this.loginError = 'An error occurred during login';
+                alert('An error occurred during employee login.');
+                return; // Stop further execution if error is not a 404
+            }
+            // 404 error means employee not found, try next login type
+        } else {
+            // Handle non-Axios errors
+            console.error('Non-Axios error during employee login', error);
+            this.loginError = 'An unexpected error occurred';
+            return;
+        }
+    }
+},
+
+
 
         onRegister() {
             this.$emit('register');

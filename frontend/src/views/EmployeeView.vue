@@ -15,21 +15,13 @@
                 </tr>
             </table>
 
-            <!-- Login form -->
-            <div class="centered">
-                <input type="text" placeholder="email" v-model="text">
-                <input type="password" placeholder="password" v-model="password">
-                <br>
-                <button @click="login(text, password)">Login</button>
-                <br>
-                <span class="errorDisplay">{{ errorMessageDisplay }}</span>
-            </div>
+
             
             <!-- Section that opens when an employee logs in -->
             <div v-if = canDisplay>
 
                 <!-- Table for all shifts -->
-                <table>
+                <table :key = refreshShift>
                     <tr>
                         <th>Shift ID</th>
                         <th>Shift date</th>
@@ -46,7 +38,7 @@
                 <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
 
                 <!-- Table for all requests -->
-                <table>
+                <table :key = refreshRequests>
                     <tr>
                         <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
                     </tr>
@@ -60,12 +52,14 @@
                 <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
 
                 <!-- Table for all requests assigned to employee -->
-                <table>
+                <table :key = refreshAssignment>
                     <tr>
-                        <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th> <th>Description</th>
+                        <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th>
                     </tr>
-                    <tr v-for="employeeRequest in employeeRequestList" v-bind:key="employeeRequest.assignmentId">
-                        <td>{{ employeeRequest.assignmentId }}</td> <td>{{employeeRequest.reqest.requestId}}</td> <td>{{employeeRequest.bookingId}}</td> <td>{{employeeRequest.description}}</td>
+                    <tr v-for="employeeRequest in employeeRequestList.filter((a) => a.request.isFulfilled === false)" v-bind:key="employeeRequest.assignmentId">
+                        <td>{{ employeeRequest.assignmentId }}</td> 
+                        <td>{{employeeRequest.request.requestId}}</td> 
+                        <td>{{employeeRequest.request.booking.bookingId}}</td> 
                     </tr>
                 </table>
 
@@ -75,14 +69,14 @@
                     <input type="text" placeholder="request id" v-model="requestId">
                     <br>
                     <button @click="selectRequest(requestId)">Select request</button>
-                    <button @click="fulfillRequest(requestId)">Fulfill request</button>
+                    <button @click="fulfillRequest(parseInt(requestId))">Fulfill request</button>
                     <br>
                     <span class="errorDisplay">{{ errorMessageDisplaySelect }}</span>
                 </div>
                 <b> <h1 class="centeredHeader"> All bookings </h1> </b>
 
                 <!-- Table for all bookings -->
-                <table>
+                <table :key = refreshBooking>
                     <tr>
                         <th>Booking ID</th>
                         <th>Room ID</th>
@@ -101,7 +95,7 @@
                     <input type="text" placeholder="booking id" v-model="bookingId">
                     <input type="text" placeholder="description" v-model="descriptionRequest">
                     <br>
-                    <button @click="createRequest(bookingId, descriptionRequest)">Create request</button>
+                    <button @click="createRequestMain(bookingId, descriptionRequest)">Create request</button>
                     <br>
                     <span class="errorDisplay">{{ errorMessageDisplayRequest }}</span>
                 </div>
@@ -110,6 +104,48 @@
         </div>
     </main>
 </template>
+
+<script setup lang="ts">
+
+import { ref } from 'vue';
+// let refreshShift = ref(0);
+// let refreshRequests = ref(0);
+// let refreshAssignment = ref(0);
+// let refreshBooking = ref(0);
+
+// const forceRender = () => {
+//     refreshShift.value += 1;
+//     refreshRequests.value += 1;
+//     refreshAssignment.value += 1;
+//     refreshBooking.value += 1;
+// }
+
+async function createSetup() {
+    let user: any = await axios.post(backendUrl + "/generalUsers/create", {
+        email: "u@mail.com",
+        firstName: "an",
+        lastName: "user", 
+        phoneNumber: "12345678"})
+        .then(response => response.data).catch(error => console.log(error));
+    let payments: any[] = await axios.get(backendUrl + "/payment/all").then(response => response.data).catch(error => console.log(error));
+    let room: any = await axios.post(backendUrl + "/room/create", {
+        roomType: "Regular",
+        bedType: "Doubles",
+        isAvailable: true,
+        pricePerNight: 10,
+        maxCapacity: 1})
+        .then(response => response.data).catch(error => console.log(error));
+    let booking: any = await axios.post(backendUrl + "/booking/create", {
+        generalUserEmail: "u@mail.com",
+        roomId: 402, 
+        paymentId: 202}).then(response => response.data).catch(error => console.log(error));
+}
+
+//createSetup();
+
+
+
+</script>
 
 <script lang="ts">
 import axios from 'axios';
@@ -123,6 +159,7 @@ async function getEmployees() {
     let employees: any[] = await axios.get(backendUrl + "/employees")
         .then(response => response.data)
         .catch(error => console.log(error));
+    console.log(employees);
     return employees;
 }
 
@@ -138,7 +175,6 @@ async function getShifts(email: string) {
     let shifts: any[] = await axios.get(backendUrl + "/employee/" + email + "/shifts")
         .then(response => response.data)
         .catch(error => console.log(error));
-    console.log(shifts);
     return shifts;
 }
 
@@ -147,16 +183,14 @@ async function getAllRequests() {
     let requests: any[] = await axios.get(backendUrl + "/requests")
         .then(response => response.data)
         .catch(error => console.log(error));
-    console.log(requests);
     return requests;
 }
 
 // Get all requests assigned to employee
 async function getEmployeeAssignments(email: string) {
     let employeeRequests: any[] = [];
-    await axios.get(backendUrl + "/assignments/all")
+    employeeRequests = await axios.get(backendUrl + "/assignments/all")
     .then((response) => {
-        console.log(response.data instanceof Array);
         return response.data}).then((response => response.filter((assignment: any) => assignment.employee.email === email)))
     .catch(error => console.log(error));
     // for (let assignment of assignments) {
@@ -164,8 +198,6 @@ async function getEmployeeAssignments(email: string) {
     //         employeeRequests.push(assignment);
     //     }
     // }
-    console.log("get employee requests");
-    console.log(employeeRequests);
     return employeeRequests;
 }
 
@@ -185,7 +217,6 @@ async function getBookings() {
     let bookings: any[] = await axios.get(backendUrl + "/booking/all")
         .then(response => response.data)
         .catch(error => console.log(error));
-    console.log(bookings);
     return bookings;
 }
 
@@ -196,18 +227,17 @@ async function createAssignment(requestId: string, employeeEmail: string) {
         requestId: requestId
     })
         .then(response => response.data)
-    console.log(assignment);
     return assignment;
 }
 
 // Fulfill request
-async function fulfillChange(requestId: string) {
-    let request: any = await axios.get(backendUrl + "/requests/" + requestId)
-    let requestUpdate = await axios.put(backendUrl + "/requests/update/" + requestId, {
+async function fulfillChange(requestId: number) {
+    let request: any = await axios.get(backendUrl + "/requests/" + requestId).then(response => response.data);
+    let requestUpdate: any = await axios.put(backendUrl + "/requests/update/" + request.requestId, {
         description: request.description,
-        bookingId: request.bookingId,
+        bookingId: request.booking.bookingId,
         isFulfilled: true
-    })
+    }).then(response => response.data);
     
     console.log(requestUpdate);
     return requestUpdate;
@@ -219,8 +249,13 @@ let requests: any[] = await getAllRequests();
 let bookings: any[] = await getBookings();
 let shifts: any[] = [];
 let assignments: any[] = [];
-console.log(employees);
+let email: any = localStorage.getItem('employeeEmail');
 export default {
+
+    mounted() {
+        this.autoLoginIfCredentialsExist();
+    },
+
     components: {
     },
     data() {
@@ -236,20 +271,33 @@ export default {
             descriptionRequest: "",
             errorMessageDisplayRequest: "",
             bookingsList: bookings,
-            currentEmployeeEmail: "",
+            currentEmployeeEmail: email,
             requestId: "",
             errorMessageDisplaySelect: "",
-            requestsList: requests
+            requestsList: requests,
+            refreshShift: 0,
+            refreshRequests: 0,
+            refreshAssignment: 0,
+            refreshBooking: 0
         }
     },
 
     methods: {
+
+        autoLoginIfCredentialsExist() {
+            const employeeEmail = localStorage.getItem('employeeEmail');
+            const employeePassword = localStorage.getItem('employeePassword');
+            // Assuming you have a method to verify the employee
+            if (employeeEmail && employeePassword) {
+                this.login(employeeEmail, employeePassword);
+            }
+            },
+
+
         // Login method
         login: async function(email: string, password: string) {
             this.checkPassword(email, password);
-            this.getShiftsList(this.text);
-            this.currentEmployeeEmail = this.text;
-            console.log(this.currentEmployeeEmail);
+            this.getShiftsList(this.currentEmployeeEmail);
             this.getAssignments(this.currentEmployeeEmail);
         },
         // Check if password is correct
@@ -280,24 +328,19 @@ export default {
         getShiftsList: async function(email: string) {
             let shifts: any[] = await getShifts(email);
             this.shiftsList = shifts;
-            console.log("shifts")
-            console.log(shifts);
         },
         // Get all requests assigned to employee
         getAssignments: async function(email: string) {
             let employeeRequests: any[] = await getEmployeeAssignments(email);
             this.employeeRequestList = employeeRequests;
-            console.log(employeeRequests);
         },
         // Create request
-        createRequest: async function(bookingId: string, description: string) {
+        createRequestMain: async function(bookingId: string, description: string) {
             try {
                 let request: any = await createRequest(bookingId, description);
-                console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
-                this.requestsList.push(request);
-                this.login(this.currentEmployeeEmail, this.password);
+                this.forceRender();
             } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
@@ -311,9 +354,9 @@ export default {
         selectRequest: async function(requestId: string) {
             try {
                 let assignment: any = await createAssignment(requestId, this.currentEmployeeEmail);
-                console.log(assignment);
                 alert("Request selected");
                 this.errorMessageDisplaySelect = "";
+                this.forceRender();
                 // } catch (error: AxiosError) {
             } catch (error: any) {
 
@@ -326,12 +369,12 @@ export default {
             }
         },
         // Fulfill request
-        fulfillRequest: async function(requestId: string) {
+        fulfillRequest: async function(requestId: number) {
             try {
                 let request: any = await fulfillChange(requestId);
-                console.log(request);
                 alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
+                this.forceRender();
                 // } catch (error:AxiosError) {
             } catch (error: any) {
 
@@ -342,6 +385,16 @@ export default {
                     this.errorMessageDisplaySelect = error.message;
                 }
             }
+        }, 
+        forceRender: async function() {
+            this.requestsList = await getAllRequests();
+            this.employeeRequestList = await getEmployeeAssignments(this.currentEmployeeEmail);
+            this.shiftsList = await getShifts(this.currentEmployeeEmail);
+            this.bookingsList = await getBookings();
+            this.refreshShift += 1;
+            this.refreshRequests += 1;
+            this.refreshAssignment += 1;
+            this.refreshBooking += 1;
         }
     }
 }
