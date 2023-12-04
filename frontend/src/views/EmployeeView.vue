@@ -159,6 +159,7 @@ async function getEmployees() {
     let employees: any[] = await axios.get(backendUrl + "/employees")
         .then(response => response.data)
         .catch(error => console.log(error));
+    console.log(employees);
     return employees;
 }
 
