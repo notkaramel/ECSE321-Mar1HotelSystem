@@ -53,10 +53,6 @@
       </form>
     </div>
   </div>
-  <!-- Logout Button -->
-  <div class="flex justify-center mt-6">
-    <button class="btn-logout" @click="logout">Logout</button>
-  </div>
 </template>
 
 <script lang="ts">
@@ -140,15 +136,6 @@ export default {
       }
     },
 
-    logout() {
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userRole');
-      // Add any other cleanup you need here
-
-      this.$router.push('/').then(() => {
-        window.location.reload();
-      });
-    },
     async fetchCustomerInfo(email: String) {
       try {
         const response = await axios.get(`${backendUrl}/customer/${email}`);

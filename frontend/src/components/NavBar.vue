@@ -22,17 +22,21 @@
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
-            <fwb-button @click="goToCreateBooking">
-                Book Now
-            </fwb-button>
-            <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
-                Sign in
-            </fwb-button>
-            <fwb-button v-else @click="goToAccount">
-                Account
-            </fwb-button>
-        </template>
-    </fwb-navbar>
+      <fwb-button @click="goToCreateBooking">
+          Book Now
+      </fwb-button>
+      <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
+          Sign in
+      </fwb-button>
+      <fwb-button v-if="isLoggedIn" @click="goToAccount">
+          Account
+      </fwb-button>
+      <!-- Logout button only appears if user is logged in -->
+      <fwb-button v-if="isLoggedIn" @click="logout">
+          Logout
+      </fwb-button>
+    </template>
+  </fwb-navbar>
 </template>
 
 <script setup lang="ts">
@@ -61,6 +65,17 @@ const userRole = computed(() => {
 
 const goToSignIn = () => {
     router.push('/signin');
+};
+
+const logout = () => {
+    // Clear user data from localStorage
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    
+    // Redirect to the home page or login page
+    router.push('/').then(() => {
+      window.location.reload(); // Optional: Force reload the page
+    });
 };
 
 const goToCreateBooking = () => {
