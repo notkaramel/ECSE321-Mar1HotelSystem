@@ -22,21 +22,29 @@
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
-            <fwb-button @click="goToCreateBooking">
-                Book Now
-            </fwb-button>
-            <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
-                Sign in
-            </fwb-button>
-            <fwb-button v-else @click="goToAccount">
-                Account
-            </fwb-button>
+            <div class="navbar-buttons">
+                <fwb-button @click="goToCreateBooking">
+                    Book Now
+                </fwb-button>
+                <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
+                    Sign in
+                </fwb-button>
+                <fwb-button v-else @click="goToAccount">
+                    Account
+                </fwb-button>
+            </div>
         </template>
     </fwb-navbar>
 </template>
 
+<style scoped lang="postcss">
+.navbar-buttons {
+    @apply flex items-center gap-2;
+}
+</style>
+
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import {
     FwbButton,
     FwbNavbar,
@@ -49,7 +57,6 @@ import logo from '@/assets/logo.svg'
 import { computed } from 'vue';
 
 const router = useRouter();
-const route = useRoute();
 
 const isLoggedIn = computed(() => {
     return localStorage.getItem('userEmail') !== null;
