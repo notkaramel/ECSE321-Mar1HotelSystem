@@ -3,16 +3,19 @@
         <div>
             <!-- Table for all employees -->
             <table>
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
                 </tr>
+                </thead>
                 <tr v-for="e in employeesList" v-bind:key="e.email">
                     <td>{{ e.firstName }}</td>
                     <td>{{ e.lastName }}</td>
                     <td>{{ e.email }}</td>
                 </tr>
+                
             </table>
 
 
@@ -22,12 +25,14 @@
 
                 <!-- Table for all shifts -->
                 <table :key = refreshShift>
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th>Shift ID</th>
                         <th>Shift date</th>
                         <th>Shift start time</th>
                         <th>Shift end time</th>
                     </tr>
+                    </thead>
                     <tr v-for="s in shiftsList" v-bind:key="s.shiftId">
                         <td>{{ s.shiftId }}</td>
                         <td>{{ s.date }}</td>
@@ -39,9 +44,11 @@
 
                 <!-- Table for all requests -->
                 <table :key = refreshRequests>
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
                     </tr>
+                    </thead>
                     <tr v-for="request in requestsList.filter((p) => p.isFulfilled === false)"
                         v-bind:key="request.requestId">
                         <td>{{ request.requestId }}</td>
@@ -53,9 +60,11 @@
 
                 <!-- Table for all requests assigned to employee -->
                 <table :key = refreshAssignment>
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th>
                     </tr>
+                    </thead>
                     <tr v-for="employeeRequest in employeeRequestList.filter((a) => a.request.isFulfilled === false)" v-bind:key="employeeRequest.assignmentId">
                         <td>{{ employeeRequest.assignmentId }}</td> 
                         <td>{{employeeRequest.request.requestId}}</td> 
@@ -77,11 +86,13 @@
 
                 <!-- Table for all bookings -->
                 <table :key = refreshBooking>
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th>Booking ID</th>
                         <th>Room ID</th>
                         <th>Customer email</th>
                     </tr>
+                    </thead>
                     <tr v-for="booking in bookingsList" v-bind:key="booking.bookingId">
                         <td>{{ booking.bookingId }}</td>
                         <td>{{ booking.room.roomId }}</td>
