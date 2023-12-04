@@ -128,7 +128,6 @@ async function createSetup() {
         phoneNumber: "12345678"})
         .then(response => response.data).catch(error => console.log(error));
     let payments: any[] = await axios.get(backendUrl + "/payment/all").then(response => response.data).catch(error => console.log(error));
-    console.log(payments);
     let room: any = await axios.post(backendUrl + "/room/create", {
         roomType: "Regular",
         bedType: "Doubles",
@@ -175,7 +174,6 @@ async function getShifts(email: string) {
     let shifts: any[] = await axios.get(backendUrl + "/employee/" + email + "/shifts")
         .then(response => response.data)
         .catch(error => console.log(error));
-    console.log(shifts);
     return shifts;
 }
 
@@ -184,7 +182,6 @@ async function getAllRequests() {
     let requests: any[] = await axios.get(backendUrl + "/requests")
         .then(response => response.data)
         .catch(error => console.log(error));
-    console.log(requests);
     return requests;
 }
 
@@ -193,7 +190,6 @@ async function getEmployeeAssignments(email: string) {
     let employeeRequests: any[] = [];
     employeeRequests = await axios.get(backendUrl + "/assignments/all")
     .then((response) => {
-        console.log(response.data instanceof Array);
         return response.data}).then((response => response.filter((assignment: any) => assignment.employee.email === email)))
     .catch(error => console.log(error));
     // for (let assignment of assignments) {
@@ -201,8 +197,6 @@ async function getEmployeeAssignments(email: string) {
     //         employeeRequests.push(assignment);
     //     }
     // }
-    console.log("get employee requests");
-    console.log(employeeRequests[0].request.requestId);
     return employeeRequests;
 }
 
@@ -214,7 +208,6 @@ async function createRequest(bookingId: string, description: string) {
         isFulfilled: false
     })
         .then(response => response.data)
-    console.log(request);
     return request;
 }
 
@@ -223,7 +216,6 @@ async function getBookings() {
     let bookings: any[] = await axios.get(backendUrl + "/booking/all")
         .then(response => response.data)
         .catch(error => console.log(error));
-    console.log(bookings);
     return bookings;
 }
 
@@ -234,14 +226,12 @@ async function createAssignment(requestId: string, employeeEmail: string) {
         requestId: requestId
     })
         .then(response => response.data)
-    console.log(assignment);
     return assignment;
 }
 
 // Fulfill request
 async function fulfillChange(requestId: number) {
     let request: any = await axios.get(backendUrl + "/requests/" + requestId).then(response => response.data);
-    console.log(request);
     let requestUpdate: any = await axios.put(backendUrl + "/requests/update/" + request.requestId, {
         description: request.description,
         bookingId: request.booking.bookingId,
@@ -259,7 +249,6 @@ let bookings: any[] = await getBookings();
 let shifts: any[] = [];
 let assignments: any[] = [];
 let email: any = localStorage.getItem('employeeEmail');
-console.log(employees);
 export default {
 
     mounted() {
@@ -308,7 +297,6 @@ export default {
         login: async function(email: string, password: string) {
             this.checkPassword(email, password);
             this.getShiftsList(this.currentEmployeeEmail);
-            console.log(this.currentEmployeeEmail);
             this.getAssignments(this.currentEmployeeEmail);
         },
         // Check if password is correct
@@ -339,24 +327,19 @@ export default {
         getShiftsList: async function(email: string) {
             let shifts: any[] = await getShifts(email);
             this.shiftsList = shifts;
-            console.log("shifts")
-            console.log(shifts);
         },
         // Get all requests assigned to employee
         getAssignments: async function(email: string) {
             let employeeRequests: any[] = await getEmployeeAssignments(email);
             this.employeeRequestList = employeeRequests;
-            console.log(employeeRequests);
         },
         // Create request
         createRequestMain: async function(bookingId: string, description: string) {
             try {
                 let request: any = await createRequest(bookingId, description);
-                console.log(request);
                 alert("Request created");
                 this.errorMessageDisplayRequest = "";
                 this.forceRender();
-                console.log(this.refreshRequests)
             } catch (error: any) {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
@@ -370,7 +353,6 @@ export default {
         selectRequest: async function(requestId: string) {
             try {
                 let assignment: any = await createAssignment(requestId, this.currentEmployeeEmail);
-                console.log(assignment);
                 alert("Request selected");
                 this.errorMessageDisplaySelect = "";
                 this.forceRender();
@@ -389,7 +371,6 @@ export default {
         fulfillRequest: async function(requestId: number) {
             try {
                 let request: any = await fulfillChange(requestId);
-                console.log(request);
                 alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
                 this.forceRender();
