@@ -290,10 +290,6 @@ async function addRequests(bookingId:number) {
       </div>
     </section>
 
-    <section class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Payment Information</h2>
-      <fwb-input v-model="paymentCode" placeholder="Payment Code" label="Payment Code" type="number" class="mb-4" />
-    </section>
 
     <section class="mb-6">
       <h2 class="text-xl font-semibold mb-4">Requests</h2>
