@@ -1,31 +1,35 @@
 <template>
     <main>
         <div>
-            <!-- Table for all employees -->
+            <h1 class="centeredHeader"> Employee Information </h1>
+            <!-- Table for the employee -->
             <table>
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead>
                 <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Hours Worked</th>
                 </tr>
                 </thead>
-                <tr v-for="e in employeesList" v-bind:key="e.email">
-                    <td>{{ e.firstName }}</td>
-                    <td>{{ e.lastName }}</td>
-                    <td>{{ e.email }}</td>
+                <tr>
+                    <td>{{ employeesInfo.firstName }}</td>
+                    <td>{{ employeesInfo.lastName }}</td>
+                    <td>{{ employeesInfo.email }}</td>
+                    <td>{{ employeesInfo.phoneNumber }}</td>
+                    <td>{{ employeesInfo.hoursWorked }}</td>
                 </tr>
-                
             </table>
-
+            <br>
 
             
             <!-- Section that opens when an employee logs in -->
             <div v-if = canDisplay>
-
+                <h1 class="centeredHeader"> List of all shifts </h1>
                 <!-- Table for all shifts -->
                 <table :key = refreshShift>
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead>
                     <tr>
                         <th>Shift ID</th>
                         <th>Shift date</th>
@@ -44,13 +48,13 @@
 
                 <!-- Table for all requests -->
                 <table :key = refreshRequests>
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead>
                     <tr>
                         <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
                     </tr>
                     </thead>
                     <tr v-for="request in requestsList.filter((p) => p.isFulfilled === false)"
-                        v-bind:key="request.requestId">
+                        v-bind:key="request.requestId" class = "tableBody">
                         <td>{{ request.requestId }}</td>
                         <td>{{ request.booking.bookingId }}</td>
                         <td>{{ request.description }}</td>
@@ -60,12 +64,13 @@
 
                 <!-- Table for all requests assigned to employee -->
                 <table :key = refreshAssignment>
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead>
                     <tr>
                         <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th>
                     </tr>
                     </thead>
-                    <tr v-for="employeeRequest in employeeRequestList.filter((a) => a.request.isFulfilled === false)" v-bind:key="employeeRequest.assignmentId">
+                    <tr v-for="employeeRequest in employeeRequestList.filter((a) => a.request.isFulfilled === false)" v-bind:key="employeeRequest.assignmentId"
+                        class = "tableBody">
                         <td>{{ employeeRequest.assignmentId }}</td> 
                         <td>{{employeeRequest.request.requestId}}</td> 
                         <td>{{employeeRequest.request.booking.bookingId}}</td> 
@@ -86,14 +91,15 @@
 
                 <!-- Table for all bookings -->
                 <table :key = refreshBooking>
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead>
                     <tr>
                         <th>Booking ID</th>
                         <th>Room ID</th>
                         <th>Customer email</th>
                     </tr>
                     </thead>
-                    <tr v-for="booking in bookingsList" v-bind:key="booking.bookingId">
+                    <tr v-for="booking in bookingsList" v-bind:key="booking.bookingId"
+                    class = "tableBody">
                         <td>{{ booking.bookingId }}</td>
                         <td>{{ booking.room.roomId }}</td>
                         <td>{{ booking.generalUser.email }}</td>
@@ -104,7 +110,8 @@
                 <div class="centered">
                     <h1 class="centeredHeader"> Create a request </h1>
                     <input type="text" placeholder="booking id" v-model="bookingId">
-                    <input type="text" placeholder="description" v-model="descriptionRequest">
+                    <br>
+                    <textarea placeholder="description" v-model="descriptionRequest"></textarea>
                     <br>
                     <button @click="createRequestMain(bookingId, descriptionRequest)">Create request</button>
                     <br>
@@ -255,12 +262,13 @@ async function fulfillChange(requestId: number) {
 }
 
 // MAIN EXPORT
-let employees: any[] = await getEmployees();
+
 let requests: any[] = await getAllRequests();
 let bookings: any[] = await getBookings();
 let shifts: any[] = [];
 let assignments: any[] = [];
 let email: any = localStorage.getItem('employeeEmail');
+let employee: any = await getEmployee(email);
 export default {
 
     mounted() {
@@ -271,7 +279,7 @@ export default {
     },
     data() {
         return {
-            employeesList: employees,
+            employeesInfo: employee,
             text: "",
             shiftsList: shifts,
             password: "",
@@ -307,10 +315,11 @@ export default {
 
         // Login method
         login: async function(email: string, password: string) {
-            this.checkPassword(email, password);
-            this.getShiftsList(this.currentEmployeeEmail);
-            this.getAssignments(this.currentEmployeeEmail);
+            await this.checkPassword(email, password);
+            await this.getShiftsList(this.currentEmployeeEmail);
+            await this.getAssignments(this.currentEmployeeEmail);
         },
+
         // Check if password is correct
         checkPassword: async function(email: string, password: string) {
             try {
@@ -411,17 +420,28 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
+
+thead {
+    @apply bg-gray-50 dark:bg-gray-700 dark:text-gray-400;
+}
+
 table {
+    @apply table-auto ;
+    @apply w-full text-base text-left rtl:text-right text-gray-500 dark:text-gray-400 -m-1.5;
     font-family: arial, sans-serif;
-    border-color: black;
     border-width: thin;
     width: 80%;
     text-align: center;
     margin: auto;
 }
 
+.tableBody {
+    @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600;
+}
+
 button {
+    @apply hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md;
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -439,6 +459,13 @@ button {
 }
 
 input {
+    @apply rounded-md;
+    margin: 10px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    @apply w-1/2 h-24 p-2 border rounded-md;
     margin: 10px;
     border: 1px solid #ccc;
 }
@@ -449,6 +476,7 @@ input {
 }
 
 .centeredHeader {
+    @apply text-2xl font-bold text-gray-700 dark:text-gray-200;
     font: sans-serif;
     text-align: center;
     margin: auto;
