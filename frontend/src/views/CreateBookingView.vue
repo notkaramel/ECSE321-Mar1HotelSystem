@@ -311,7 +311,7 @@ async function addRequests(bookingId:number) {
 
 <style scoped lang="postcss">
 .form-container {
-  @apply bg-gray-100 p-8 rounded-lg shadow-md w-full lg:w-1/2 xl:w-1/3 mx-auto ;
+  @apply bg-gray-100 p-8 rounded-lg shadow-md w-full lg:w-1/2 xl:w-1/3 mx-auto border ;
 }
 
 .submit-btn {
