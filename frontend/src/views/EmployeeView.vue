@@ -221,8 +221,6 @@ async function fulfillChange(requestId: number) {
         bookingId: request.booking.bookingId,
         isFulfilled: true
     }).then(response => response.data);
-
-    console.log(requestUpdate);
     return requestUpdate;
 }
 
@@ -329,11 +327,9 @@ export default {
         // Create request
         createRequestMain: async function (bookingId: string, description: string) {
             await createRequest(bookingId, description).then((response) => {
-                if (response.status === 200) {
-                    // alert("Request created");
-                    this.errorMessageDisplayRequest = "";
-                    this.forceRender();
-                }
+                //alert("Request created");
+                this.errorMessageDisplayRequest = "";
+                this.forceRender();
             }).catch((error) => {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
