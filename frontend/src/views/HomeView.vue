@@ -69,7 +69,7 @@
           <br>
           Weekdays: 8am-8pm<br>
           Weekends: 9am-8pm<br>
-          Honidays: 9am-4pm<br>
+          Holidays: 9am-4pm<br>
         </p>
       </div>
     </div>
@@ -126,12 +126,6 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-/* Global Style */
-body {
-  scroll-behavior: smooth;
-  font-family: 'Arial', sans-serif;
-}
-
 /* Section Style */
 .alternate-section {
   @apply flex flex-row items-center py-6 mx-10 gap-12 align-baseline;

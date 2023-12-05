@@ -7,11 +7,7 @@ import './style.css'
 </script>
 
 <template>
-<Navbar/>
-<RouterView />
-<Footer/>
+    <Navbar />
+    <RouterView />
+    <Footer />
 </template>
-
-
-<style scoped>
-</style>
