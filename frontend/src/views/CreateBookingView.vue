@@ -48,21 +48,10 @@ async function getGeneralUserExists(email:string) {
     let generalUser = await axios.get(backendUrl + "/generalUsers/" + email)
         .then(response => response.data)
         .catch(err => {
+            if (err.response.status != 404) console.log(err);
             output = false;
         });
     return output;
-}
-
-async function getGeneralUser(email:string) {
-    let generalUser = await axios.get(backendUrl + "/generalUsers/" + email)
-        .then(response => response.data)
-        .catch(err => {
-            console.log(err);
-            error.value = true;
-            errorMessage.value = err.response.data;
-        });
-    return generalUser.email;
-  
 }
 
 async function createGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
@@ -197,7 +186,7 @@ async function getCustomerInfo() {
 
 async function submitBooking() {
   clearError();
-
+  let guestId = "";
   if (guest.value) {
     if (firstName.value == "" || lastName.value == "" || email.value == "" || phoneNumber.value == "") {
       error.value = true;
@@ -206,13 +195,15 @@ async function submitBooking() {
     }
     // if guest already exists under  this email, add the booking to their account
     let returning = await getGeneralUserExists(email.value);
+    let guestId = "";
     if (!returning) {
-      let guestId = await createGeneralUser(firstName.value, lastName.value, email.value, phoneNumber.value);
+      guestId = await createGeneralUser(firstName.value, lastName.value, email.value, phoneNumber.value);
     } else {
-      let guestId = await getGeneralUser(email.value);
+      guestId = email.value;
     }
   } else {
     getCustomerInfo();
+    let guestId = email.value;
   }
   if (error.value) return;
   let roomId = await getRoomOfType(roomType.value);
@@ -223,7 +214,7 @@ async function submitBooking() {
   if (error.value) return;
   console.log(paymentId);
   console.log(roomId);
-  let bookingId = await createBooking(email.value, roomId, paymentId);
+  let bookingId = await createBooking(guestId, roomId, paymentId);
   if (error.value) return;
 
   await addRequests(bookingId);
@@ -290,10 +281,10 @@ async function addRequests(bookingId:number) {
       </div>
     </section>
 
-    <section class="mb-6">
+    <!-- <section class="mb-6">
       <h2 class="text-xl font-semibold mb-4">Payment Information</h2>
       <fwb-input v-model="paymentCode" placeholder="Payment Code" label="Payment Code" type="number" class="mb-4" />
-    </section>
+    </section> -->
 
     <section class="mb-6">
       <h2 class="text-xl font-semibold mb-4">Requests</h2>
