@@ -10,7 +10,7 @@ import {
 } from 'flowbite-vue'
 
 import { ref } from 'vue'
-import { FwbTextarea } from 'flowbite-vue'
+import { FwbInput } from 'flowbite-vue'
 import { FwbButton } from 'flowbite-vue'
 import { FwbBadge } from 'flowbite-vue'
 
@@ -40,6 +40,11 @@ import axios from 'axios'
 export default {
   name: 'ManagerView',
   methods: {
+    async rerender() {
+      this.setup_operatingHours();
+      this.setup_customHours();
+      this.setup_hotelSchedule();
+    },
     // Get Data
     async setup_hotelSchedule() {
       const backend = import.meta.env.VITE_BACKEND;
@@ -100,7 +105,7 @@ export default {
     },
 
     // Functions for endpoints used
-    async ceateOperatingHours(dayOfWeek: String, openingHour: Number, closingHour: Number) {
+    async createOperatingHours(dayOfWeek: String, openingHour: Number, closingHour: Number) {
       const backend = import.meta.env.VITE_BACKEND;
       let operatingHoursInfo = await axios.post(backend + '/operatingHours/create', {
         "dayOfWeek": dayOfWeek, "openingHour": openingHour,
@@ -118,13 +123,14 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      window.location.reload();
+      // window.location.reload();
+      this.rerender();
       return {
         operatingHoursInfo
       }
     },
 
-    async ceateCustomHours(date: String, openingHour: Number, closingHour: Number) {
+    async createCustomHours(date: String, openingHour: Number, closingHour: Number) {
       const backend = import.meta.env.VITE_BACKEND;
       let customHoursInfo = await axios.post(backend + '/customHours/create', {
         "date": date, "openingHour": openingHour,
@@ -142,20 +148,23 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      window.location.reload();
+      // window.location.reload();
+      this.rerender();
+
       return {
         customHoursInfo
       }
     },
 
-    async ceateHotelSchedule(year: Number, openingHoursId: Number, closingHoursId: Number) {
+    async createHotelSchedule(year: Number, openingHoursId: Number, closingHoursId: Number) {
       const backend = import.meta.env.VITE_BACKEND;
       let openingHoursList = new Array()
       openingHoursList[0] = openingHoursId;
       let closingHoursList = new Array()
       closingHoursList[0] = closingHoursId;
-      let hotelScheduleInfo = await axios.post(backend + '/customHours/create', {
-        "year": year, "openingHoursList": openingHoursList,
+      let hotelScheduleInfo = await axios.post(backend + '/hotelSchedule/create', {
+        "year": year,
+        "openingHoursList": openingHoursList,
         "closingHoursList": closingHoursList
       })
         .then(response => {
@@ -170,7 +179,8 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      window.location.reload();
+      // window.location.reload();
+      this.rerender();
       return {
         hotelScheduleInfo
       }
@@ -192,7 +202,9 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      window.location.reload();
+      // window.location.reload();
+      this.rerender();
+
       return {
         operatingHoursInfo
       }
@@ -212,7 +224,9 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      window.location.reload();
+      // window.location.reload();
+      this.rerender();
+
       return {
         customHoursInfo
       }
@@ -236,7 +250,9 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      window.location.reload();
+      // window.location.reload();
+      this.rerender();
+
       return {
         operatingHoursInfo
       }
@@ -261,7 +277,9 @@ export default {
           console.log(error);
           alert(error.response["data"])
         });
-      window.location.reload();
+      // window.location.reload();
+      this.rerender();
+
       return {
         customHoursInfo
       }
@@ -323,7 +341,7 @@ export default {
 
 <style scoped lang="postcss">
 .accordion-content {
-  @apply flex flex-row items-start justify-center gap-12 py-4;
+  @apply flex flex-row items-start justify-center gap-2 py-4;
 }
 </style>
 
@@ -349,38 +367,33 @@ export default {
         </fwb-table-body>
       </fwb-table>
       <fwb-badge type="red">Delete Operating Hours</fwb-badge>
-      <fwb-textarea v-model="messageDeleteOperatingHours" :rows="2" label="Operating Hours ID:"
+      <fwb-input v-model="messageDeleteOperatingHours" size="md" label="Operating Hours ID:"
         placeholder="Input operating hours day of week of operating hours of day you want to delete..." />
       <fwb-button @click="deleteOperatingHours(messageDeleteOperatingHours)" color="red">Delete</fwb-button>
     </div>
 
     <div class="p-2">
       <fwb-badge type="green">Create Operating Hours</fwb-badge>
-      <fwb-textarea v-model="messageDayOfWeek" :rows="2" label="Enter day of week" placeholder="Input day of week..." />
+      <fwb-input v-model="messageDayOfWeek" size="md" label="Enter day of week" placeholder="Monday" />
 
-      <fwb-textarea v-model="messageOpeningHour" :rows="2" label="Enter opening hour"
-        placeholder="Input opening hour..." />
+      <fwb-input v-model="messageOpeningHour" size="md" label="Enter opening hour" placeholder="9" />
 
-      <fwb-textarea v-model="messageClosingHour" :rows="2" label="Enter closing hour"
-        placeholder="Input closing hour..." />
+      <fwb-input v-model="messageClosingHour" size="md" label="Enter closing hour" placeholder="18" />
 
       <fwb-button
-        @click="ceateOperatingHours(messageDayOfWeek, parseInt(messageOpeningHour), parseInt(messageClosingHour))"
+        @click="createOperatingHours(messageDayOfWeek, parseInt(messageOpeningHour), parseInt(messageClosingHour))"
         color="green">Create Operating Hours</fwb-button>
 
-      <fwb-badge type="green">Update Operating Hours</fwb-badge>
-      <fwb-textarea v-model="messageUpdateDayOfWeek" :rows="2" label="Enter day of week"
-        placeholder="Input day of week..." />
+      <fwb-badge type="yellow">Update Operating Hours</fwb-badge>
+      <fwb-input v-model="messageUpdateDayOfWeek" size="md" label="Enter day of week" placeholder="Monday" />
 
-      <fwb-textarea v-model="messageUpdateOpeningHour" :rows="2" label="Enter opening hour"
-        placeholder="Input opening hour..." />
+      <fwb-input v-model="messageUpdateOpeningHour" size="md" label="Enter opening hour" placeholder="8" />
 
-      <fwb-textarea v-model="messageUpdateClosingHour" :rows="2" label="Enter closing hour"
-        placeholder="Input closing hour..." />
+      <fwb-input v-model="messageUpdateClosingHour" size="md" label="Enter closing hour" placeholder="20" />
 
       <fwb-button
-        @click="ceateOperatingHours(messageUpdateDayOfWeek, parseInt(messageUpdateOpeningHour), parseInt(messageUpdateClosingHour))"
-        color="green">Udpate Operating Hours</fwb-button>
+        @click="createOperatingHours(messageUpdateDayOfWeek, parseInt(messageUpdateOpeningHour), parseInt(messageUpdateClosingHour))"
+        color="yellow">Update Operating Hours</fwb-button>
     </div>
   </main>
 
@@ -404,68 +417,85 @@ export default {
         </fwb-table-body>
       </fwb-table>
       <fwb-badge type="red">Delete Custom Hours</fwb-badge>
-      <fwb-textarea v-model="messageDeleteCustomHours" :rows="2" label="Custom Hours ID:"
-        placeholder="Input custom hours data (YYYY-MM-DDTHH:MMM...can copy date from table) of custom hours of date you want to delete..." />
+      <fwb-input v-model="messageDeleteCustomHours" size="md" label="Custom Hours ID:"
+        placeholder="YYYY-MM-DDTHH:MMM (can copy date from table)" />
       <fwb-button @click="deleteCustomHours(messageDeleteCustomHours)" color="red">Delete</fwb-button>
     </div>
     <div class="p-2">
       <fwb-badge type="green">Create Custom Hours</fwb-badge>
-      <fwb-textarea v-model="messageDate" :rows="2" label="Enter date YYYY-MM-DD" placeholder="Input day of week..." />
+      <fwb-input v-model="messageDate" size="md" label="Enter date YYYY-MM-DD" placeholder="2023-12-24" />
 
-      <fwb-textarea v-model="messageCustomOpeningHour" :rows="2" label="Enter opening hour"
-        placeholder="Input opening hour..." />
+      <fwb-input v-model="messageCustomOpeningHour" size="md" label="Enter opening hour" placeholder="8" />
 
-      <fwb-textarea v-model="messageCustomClosingHour" :rows="2" label="Enter closing hour"
-        placeholder="Input closing hour..." />
+      <fwb-input v-model="messageCustomClosingHour" size="md" label="Enter closing hour" placeholder="14" />
 
       <fwb-button
-        @click="ceateCustomHours(messageDate, parseInt(messageCustomOpeningHour), parseInt(messageCustomClosingHour))"
+        @click="createCustomHours(messageDate, parseInt(messageCustomOpeningHour), parseInt(messageCustomClosingHour))"
         color="green">Create Custom Hours</fwb-button>
 
-      <fwb-badge type="green">Update Custom Hours</fwb-badge>
-      <fwb-textarea v-model="messageUpdateDate" :rows="2"
-        label="Enter date YYYY-MM-DDTHH:MM:... (you can copy the date of custom hour you want to change)"
-        placeholder="Input day of week..." />
+      <fwb-badge type="yellow">Update Custom Hours</fwb-badge>
+      <fwb-input v-model="messageUpdateDate" size="md"
+        label="Enter date YYYY-MM-DDTHH:MM:... (copy the date of custom hour)"
+        placeholder="2023-12-24" />
 
-      <fwb-textarea v-model="messageUpdateCustomOpeningHour" :rows="2" label="Enter opening hour"
-        placeholder="Input opening hour..." />
+      <fwb-input v-model="messageUpdateCustomOpeningHour" size="md" label="Enter opening hour"
+        placeholder="8" />
 
-      <fwb-textarea v-model="messageUpdateCustomClosingHour" :rows="2" label="Enter closing hour"
-        placeholder="Input closing hour..." />
+      <fwb-input v-model="messageUpdateCustomClosingHour" size="md" label="Enter closing hour"
+        placeholder="14" />
 
       <fwb-button
         @click="updateCustomHours(messageUpdateDate, parseInt(messageUpdateCustomOpeningHour), parseInt(messageUpdateCustomClosingHour))"
-        color="green">Update Custom Hours</fwb-button>
+        color="yellow">Update Custom Hours</fwb-button>
     </div>
   </main>
 
-  <main class="accordion-content flex-col">
+  <main class="accordion-content gap-12">
     <div>
       <fwb-badge type="default">View Hotel Schedule</fwb-badge>
       <fwb-table>
         <fwb-table-head>
           <fwb-table-head-cell>Year</fwb-table-head-cell>
-          <fwb-table-head-cell>Operating Hours Id</fwb-table-head-cell>
-          <fwb-table-head-cell>Day Of Week</fwb-table-head-cell>
-          <fwb-table-head-cell>Operating Opening Hour</fwb-table-head-cell>
-          <fwb-table-head-cell>Operating Closing Hour</fwb-table-head-cell>
-          <fwb-table-head-cell>Custom Hours Id</fwb-table-head-cell>
-          <fwb-table-head-cell>Custom Hours Date</fwb-table-head-cell>
-          <fwb-table-head-cell>Custom Opening Hour</fwb-table-head-cell>
-          <fwb-table-head-cell>Closing Hour</fwb-table-head-cell>
+          <fwb-table-head-cell>OH IDs</fwb-table-head-cell>
+          <fwb-table-head-cell>OH Day Of Week</fwb-table-head-cell>
+          <fwb-table-head-cell>CH IDs</fwb-table-head-cell>
+          <fwb-table-head-cell>CH Date</fwb-table-head-cell>
         </fwb-table-head>
         <fwb-table-body>
-          <fwb-table-row v-for="hotel in hotelSchedule" :key="hotel.year">
-            <fwb-table-cell>{{ hotel.year }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.operatingHoursId
-            }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.dayOfWeek }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.openingHour }}</fwb-table-cell>
-            <fwb-table-cell v-for="operating in hotel.operatingHoursList" :key="operating.operatingHoursId">{{ operating.closingHour }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.customHoursId }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.date }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.openingHour }}</fwb-table-cell>
-            <fwb-table-cell v-for="custom in hotel.customHoursList" :key="custom.customHoursId">{{ custom.closingHour }}</fwb-table-cell>
+          <fwb-table-row v-for="hs in hotelSchedule" :key="hs.year">
+            <!-- <fwb-table-cell>{{ hs.year }}</fwb-table-cell> -->
+            <fwb-table-cell> 2023 </fwb-table-cell>
+            <fwb-table-cell>
+              <li v-for="operating in hs.operatingHoursList" :key="operating.operatingHoursId"> {{
+                operating.operatingHoursId }}
+              </li>
+            </fwb-table-cell>
+            <fwb-table-cell>
+              <li v-for="operating in hs.operatingHoursList" :key="operating.operatingHoursId">
+                {{
+                  operating.dayOfWeek }}
+              </li>
+            </fwb-table-cell>
+            <!-- <fwb-table-cell>
+              <li v-for="operating in hs.operatingHoursList" :key="operating.operatingHoursId">
+                {{ operating.openingHour }}
+              </li>
+            </fwb-table-cell> -->
+            <!-- <fwb-table-cell>
+              <li v-for="operating in hs.operatingHoursList" :key="operating.operatingHoursId">
+              {{ operating.closingHour }}
+              </li>
+            </fwb-table-cell> -->
+            <fwb-table-cell>
+              <li v-for="custom in hs.customHoursList" :key="custom.customHoursId">
+                {{ custom.customHoursId }}
+              </li>
+            </fwb-table-cell>
+            <fwb-table-cell>
+              <li v-for="custom in hs.customHoursList" :key="custom.customHoursId">
+                {{ custom.date }}
+              </li>
+            </fwb-table-cell>
           </fwb-table-row>
         </fwb-table-body>
       </fwb-table>
@@ -473,16 +503,14 @@ export default {
 
     <div>
       <fwb-badge type="green">Create Hotel Schedule</fwb-badge>
-      <fwb-textarea v-model="messageYear" :rows="2" label="Enter Year" placeholder="Input year..." />
+      <fwb-input v-model="messageYear" size="md" label="Enter Year" placeholder="2023" />
 
-      <fwb-textarea v-model="messageOperatingHour" :rows="2" label="Enter operating hours id"
-        placeholder="Input opening hour..." />
+      <fwb-input v-model="messageOperatingHour" size="md" label="Enter operating hours id" placeholder="8" />
 
-      <fwb-textarea v-model="messageCustomHour" :rows="2" label="Enter custom hours id"
-        placeholder="Input closing hour..." />
+      <fwb-input v-model="messageCustomHour" size="md" label="Enter custom hours id" placeholder="15" />
 
       <fwb-button
-        @click="ceateHotelSchedule(parseInt(messageYear), parseInt(messageOperatingHour), parseInt(messageCustomHour))"
+        @click="createHotelSchedule(parseInt(messageYear), parseInt(messageOperatingHour), parseInt(messageCustomHour))"
         color="green">Create Hotel Schedule</fwb-button>
     </div>
   </main>
