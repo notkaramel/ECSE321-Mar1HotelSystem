@@ -8,7 +8,6 @@ import RegistrationView from '../views/RegistrationView.vue'
 import ManagerView from '../views/ManagerView.vue'
 import AccountView from '../views/AccountView.vue';
 import BookingView from '../views/BookingView.vue';
-import ContactUsViewVue from '@/views/ContactUsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,11 +63,6 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'notFound',
       component: HomeView
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: ContactUsViewVue
     }
   ],
 
