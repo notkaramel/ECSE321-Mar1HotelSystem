@@ -224,6 +224,20 @@ export default {
   /* Darker shade on hover */
 }
 
+.btn-logout {
+    padding: 0.75rem 1rem;
+    background-color: #64748b; /* Grayish color for logout button */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+  }
+
+  .btn-logout:hover {
+    background-color: #475569; /* Darker shade on hover */
+  }
 .edit-info-btn {
   padding: 0.75rem 1rem;
   /* Standard padding */

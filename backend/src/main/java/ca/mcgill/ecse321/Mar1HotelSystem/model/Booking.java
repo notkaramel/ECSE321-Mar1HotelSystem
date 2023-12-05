@@ -19,7 +19,7 @@ public class Booking {
 
     @OneToOne
     private Payment payment;
-    @OneToOne
+    @ManyToOne
     private GeneralUser generalUser;
     @ManyToOne
     private Room room;
