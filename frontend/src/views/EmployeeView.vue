@@ -188,6 +188,8 @@ async function getEmployee(email: string) {
     return employee;
 }
 
+
+
 // Get shifts by employee email
 async function getShifts(email: string) {
     let shifts: any[] = await axios.get(backendUrl + "/employee/" + email + "/shifts")
