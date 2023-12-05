@@ -330,7 +330,7 @@ export default {
         createRequestMain: async function (bookingId: string, description: string) {
             await createRequest(bookingId, description).then((response) => {
                 if (response.status === 200) {
-                    alert("Request created");
+                    // alert("Request created");
                     this.errorMessageDisplayRequest = "";
                     this.forceRender();
                 }
@@ -348,7 +348,7 @@ export default {
         selectRequest: async function (requestId: string) {
             try {
                 await createAssignment(requestId, this.currentEmployeeEmail);
-                alert("Request selected");
+                // alert("Request selected");
                 this.errorMessageDisplaySelect = "";
                 this.forceRender();
             } catch (error: any) {
@@ -365,7 +365,7 @@ export default {
         fulfillRequest: async function (requestId: number) {
             try {
                 await fulfillChange(requestId);
-                alert("Request fulfilled");
+                // alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
                 this.forceRender();
             } catch (error: any) {
@@ -394,10 +394,10 @@ export default {
 
 <style scoped lang="postcss">
 thead tr th {
-    @apply bg-gray-100 py-2 text-xl;
+    @apply bg-gray-100 py-2 text-lg;
 }
 td {
-    @apply bg-gray-50 py-2 text-lg;
+    @apply bg-gray-50 py-2 text-base;
 }
 
 table {

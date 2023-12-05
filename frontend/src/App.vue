@@ -8,6 +8,14 @@ import './style.css'
 
 <template>
     <Navbar />
-    <RouterView />
+    <div class="main">
+        <RouterView /> 
+    </div>
     <Footer />
 </template>
+
+<style lang="postcss">
+.main {
+    @apply p-2 m-4;
+}
+</style>

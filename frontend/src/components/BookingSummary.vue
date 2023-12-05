@@ -35,19 +35,20 @@
                 Payment ID: {{ payment.paymentId || "?" }}
             </p>
         </div>
-        <div id="cancel-booking" class="my-4 pt-4">
-            <p> Booked by mistake? Cancel now with full refund! </p>
-            <button class="w-full bg-red-600 text-white font-semibold py-3" @click="cancelBooking">
+        <div id="cancel-booking">
+            <button class="bg-red-600 text-white font-semibold py-3 rounded-lg w-1/2" @click="cancelBooking">
                 Cancel
             </button>
+            <p> Booked by mistake? Cancel now with full refund! </p>
+            <p v-if="error != ''"> {{error}} </p>
         </div>
     </div>
 </template>
 
 <style scoped lang="postcss">
 .card {
-    @apply block w-1/2 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100;
-    @apply p-8;
+    @apply block md:w-1/2 lg:w-1/3 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100;
+    @apply p-8 m-12;
     @apply dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700;
 }
 
@@ -65,6 +66,10 @@
 
 .info p {
     @apply text-lg text-gray-800;
+}
+
+#cancel-booking {
+    @apply mt-8 p-1 flex flex-col items-center;
 }
 </style>
 
@@ -97,7 +102,8 @@ export default {
                     return json;
                 })
                 .catch(error => {
-                    alert("Unable to load booking summary!");
+                    // alert("Unable to load booking summary!");
+                    this.error = "Unable to load booking summary!";
                     if(error.response.status == 404)
                     {
                         alert("Unable to find booking with ID " + bookingId + "!");
@@ -141,7 +147,8 @@ export default {
                     alert("Unable to find booking with ID " + bookingId + "!");
                 }
                 else {
-                    alert("Unable to cancel booking!");
+                    // alert("Unable to cancel booking!");
+                    this.error = "Unable to cancel booking!";
                 }
             });
 
@@ -184,6 +191,7 @@ export default {
             user: UserDTO,
             room: RoomDTO,
             payment: PaymentDTO,
+            error: ""
         }
     },
     beforeMount() {
