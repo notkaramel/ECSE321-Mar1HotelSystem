@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import '../style.css'
-
 import {
     ref
 } from 'vue'
@@ -57,7 +55,7 @@ async function findBooking() {
 
 
 <template>
-    <div class="form-container bg-gray-100 p-8 rounded-lg shadow-md max-w-md mx-auto">
+    <div class="form-container">
       <h1 class="text-3xl font-bold mb-4">Bookings</h1>
   
       <section v-if="!guest" class="mb-6">
@@ -65,14 +63,14 @@ async function findBooking() {
         <h2 class="text-xl font-semibold mb-4">View your bookings</h2>
       </section>
   
-      <section v-if="guest" class="mb-6">
+      <section v-if="guest" class="mb-3">
         <h2 class="text-xl font-semibold mb-4">Find your booking</h2>
-        <fwb-input v-model="bookingIdInput" placeholder="XXXX" label="Please enter your booking code: " type="number" class="mb-4" number/>
+        <fwb-input v-model="bookingIdInput" placeholder="XXX" label="Please enter your booking code: " type="number" class="mb-4" number/>
       </section>
   
       
   
-      <fwb-button type="submit" @click="findBooking" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white">
+      <fwb-button type="submit" @click="findBooking" gradient="blue">
         Find Booking
       </fwb-button>
   
@@ -80,27 +78,14 @@ async function findBooking() {
       <div v-if="error" class="error-message mt-4">
         <fwb-p class="text-red-600">{{ errorMessage }}</fwb-p>
       </div>
-      <div class="">
-        <fwb-p class="">Don't have a booking? <a href="/booking/create" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Book now!</a></fwb-p>
+      <div class="mb-2">
+        <fwb-p class="">Don't have a booking? <a href="/booking/create" class="text-lg font-medium text-blue-600 hover:underline">Book now!</a></fwb-p>
       </div>
     </div>
   </template>
 
-<style scoped>
-.main-heading {
-  font-size: 32px;
-  font-weight: bold;
+<style scoped lang="postcss">
+.form-container {
+  @apply bg-gray-100 p-8 rounded-lg shadow-md w-full lg:w-1/2 xl:w-1/3 mx-auto border;
 }
-
-.sub-heading {
-  font-size: 20px;
-}
-
-/* Set display to block for labels and inputs to make them appear on new lines */
-label,
-input {
-  display: block;
-  margin-bottom: 10px; /* Add margin between each label-input pair */
-}
-
 </style>

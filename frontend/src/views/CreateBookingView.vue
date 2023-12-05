@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import '../style.css'
-
 import {
     ref
 } from 'vue'
@@ -33,7 +31,7 @@ const phoneNumber = ref()
 const roomType = ref('')
 const checkInDate = ref()
 const checkOutDate = ref()
-const paymentCode = ref()
+// const paymentCode = ref()
 
 const guest = ref(true)
 
@@ -48,21 +46,10 @@ async function getGeneralUserExists(email:string) {
     let generalUser = await axios.get(backendUrl + "/generalUsers/" + email)
         .then(response => response.data)
         .catch(err => {
+            if (err.response.status != 404) console.log(err);
             output = false;
         });
     return output;
-}
-
-async function getGeneralUser(email:string) {
-    let generalUser = await axios.get(backendUrl + "/generalUsers/" + email)
-        .then(response => response.data)
-        .catch(err => {
-            console.log(err);
-            error.value = true;
-            errorMessage.value = err.response.data;
-        });
-    return generalUser.email;
-  
 }
 
 async function createGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
@@ -197,7 +184,7 @@ async function getCustomerInfo() {
 
 async function submitBooking() {
   clearError();
-
+  let guestId = "";
   if (guest.value) {
     if (firstName.value == "" || lastName.value == "" || email.value == "" || phoneNumber.value == "") {
       error.value = true;
@@ -206,13 +193,15 @@ async function submitBooking() {
     }
     // if guest already exists under  this email, add the booking to their account
     let returning = await getGeneralUserExists(email.value);
+    let guestId = "";
     if (!returning) {
-      let guestId = await createGeneralUser(firstName.value, lastName.value, email.value, phoneNumber.value);
+      guestId = await createGeneralUser(firstName.value, lastName.value, email.value, phoneNumber.value);
     } else {
-      let guestId = await getGeneralUser(email.value);
+      guestId = email.value;
     }
   } else {
     getCustomerInfo();
+    let guestId = email.value;
   }
   if (error.value) return;
   let roomId = await getRoomOfType(roomType.value);
@@ -223,7 +212,7 @@ async function submitBooking() {
   if (error.value) return;
   console.log(paymentId);
   console.log(roomId);
-  let bookingId = await createBooking(email.value, roomId, paymentId);
+  let bookingId = await createBooking(guestId, roomId, paymentId);
   if (error.value) return;
 
   await addRequests(bookingId);
@@ -246,20 +235,11 @@ async function addRequests(bookingId:number) {
 
 </script>
 
-
-
-
-
-
-
-
-
-
 <template>
-  <div class="form-container bg-gray-100 p-8 rounded-lg shadow-md max-w-md mx-auto">
+  <div class="form-container">
     <h1 class="text-3xl font-bold mb-4">Book a Room</h1>
 
-    <section v-if="guest" class="mb-6">
+    <section v-if="guest" class="mb-3">
       <h2 class="text-xl font-semibold mb-4">Personal Information</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <fwb-input v-model="firstName" placeholder="First Name" label="First Name" class="mb-4" />
@@ -269,8 +249,8 @@ async function addRequests(bookingId:number) {
       </div>
     </section>
 
-    <section class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Room Information</h2>
+    <section class="mb-4">
+      <h2 class="text-xl font-semibold mb-3">Room Information</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <fwb-select
           v-model="roomType"
@@ -290,9 +270,13 @@ async function addRequests(bookingId:number) {
       </div>
     </section>
 
+    <!-- <section class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Payment Information</h2>
+      <fwb-input v-model="paymentCode" placeholder="Payment Code" label="Payment Code" type="number" class="mb-4" />
+    </section> -->
 
     <section class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Requests</h2>
+      <h2 class="text-xl font-semibold mb-2">Requests</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div v-for="(request, index) in requests" :key="index">
           <fwb-input
@@ -305,16 +289,16 @@ async function addRequests(bookingId:number) {
         </div>
       </div>
       <div class="flex space-x-2 mt-4">
-        <fwb-button @click="addRequest" class="bg-green-500 hover:bg-green-600 text-white">
+        <fwb-button @click="addRequest" gradient="green">
           Add Request
         </fwb-button>
-        <fwb-button @click="removeRequest" class="bg-red-500 hover:bg-red-600 text-white">
+        <fwb-button @click="removeRequest" gradient="red">
           Remove Request
         </fwb-button>
       </div>
     </section>
 
-    <fwb-button type="submit" @click="submitBooking" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white">
+    <fwb-button type="submit" @click="submitBooking" gradient="blue" class="submit-btn">
       Submit
     </fwb-button>
 
@@ -325,21 +309,13 @@ async function addRequests(bookingId:number) {
   </div>
 </template>
 
-<style scoped>
-.main-heading {
-  font-size: 32px;
-  font-weight: bold;
+<style scoped lang="postcss">
+.form-container {
+  @apply bg-gray-100 p-8 rounded-lg shadow-md w-full lg:w-1/2 xl:w-1/3 mx-auto border ;
 }
 
-.sub-heading {
-  font-size: 20px;
-}
-
-/* Set display to block for labels and inputs to make them appear on new lines */
-label,
-input {
-  display: block;
-  margin-bottom: 10px; /* Add margin between each label-input pair */
+.submit-btn {
+  @apply text-white w-full text-center;
 }
 
 </style>
