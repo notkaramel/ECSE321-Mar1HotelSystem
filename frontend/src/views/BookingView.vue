@@ -65,7 +65,7 @@ async function findBooking() {
   
       <section v-if="guest" class="mb-3">
         <h2 class="text-xl font-semibold mb-4">Find your booking</h2>
-        <fwb-input v-model="bookingIdInput" placeholder="for example: 423" label="Please enter your booking code: " type="number" class="mb-4" number/>
+        <fwb-input v-model="bookingIdInput" placeholder="XXX" label="Please enter your booking code: " type="number" class="mb-4" number/>
       </section>
   
       
