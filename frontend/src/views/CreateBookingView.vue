@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import '../style.css'
-
 import {
     ref
 } from 'vue'
@@ -33,7 +31,7 @@ const phoneNumber = ref()
 const roomType = ref('')
 const checkInDate = ref()
 const checkOutDate = ref()
-const paymentCode = ref()
+// const paymentCode = ref()
 
 const guest = ref(true)
 
@@ -237,20 +235,11 @@ async function addRequests(bookingId:number) {
 
 </script>
 
-
-
-
-
-
-
-
-
-
 <template>
-  <div class="form-container bg-gray-100 p-8 rounded-lg shadow-md max-w-md mx-auto">
+  <div class="form-container">
     <h1 class="text-3xl font-bold mb-4">Book a Room</h1>
 
-    <section v-if="guest" class="mb-6">
+    <section v-if="guest" class="mb-3">
       <h2 class="text-xl font-semibold mb-4">Personal Information</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <fwb-input v-model="firstName" placeholder="First Name" label="First Name" class="mb-4" />
@@ -260,8 +249,8 @@ async function addRequests(bookingId:number) {
       </div>
     </section>
 
-    <section class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Room Information</h2>
+    <section class="mb-4">
+      <h2 class="text-xl font-semibold mb-3">Room Information</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <fwb-select
           v-model="roomType"
@@ -287,7 +276,7 @@ async function addRequests(bookingId:number) {
     </section> -->
 
     <section class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Requests</h2>
+      <h2 class="text-xl font-semibold mb-2">Requests</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div v-for="(request, index) in requests" :key="index">
           <fwb-input
@@ -300,16 +289,16 @@ async function addRequests(bookingId:number) {
         </div>
       </div>
       <div class="flex space-x-2 mt-4">
-        <fwb-button @click="addRequest" class="bg-green-500 hover:bg-green-600 text-white">
+        <fwb-button @click="addRequest" gradient="green">
           Add Request
         </fwb-button>
-        <fwb-button @click="removeRequest" class="bg-red-500 hover:bg-red-600 text-white">
+        <fwb-button @click="removeRequest" gradient="red">
           Remove Request
         </fwb-button>
       </div>
     </section>
 
-    <fwb-button type="submit" @click="submitBooking" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white">
+    <fwb-button type="submit" @click="submitBooking" gradient="blue" class="submit-btn">
       Submit
     </fwb-button>
 
@@ -320,21 +309,13 @@ async function addRequests(bookingId:number) {
   </div>
 </template>
 
-<style scoped>
-.main-heading {
-  font-size: 32px;
-  font-weight: bold;
+<style scoped lang="postcss">
+.form-container {
+  @apply bg-gray-100 p-8 rounded-lg shadow-md w-full lg:w-1/2 xl:w-1/3 mx-auto ;
 }
 
-.sub-heading {
-  font-size: 20px;
-}
-
-/* Set display to block for labels and inputs to make them appear on new lines */
-label,
-input {
-  display: block;
-  margin-bottom: 10px; /* Add margin between each label-input pair */
+.submit-btn {
+  @apply text-white w-full text-center;
 }
 
 </style>
