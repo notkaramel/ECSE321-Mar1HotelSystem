@@ -6,7 +6,7 @@ import HotelSchedule from '@/components/HotelScheduleComp.vue';
 import axios from 'axios'
 const backendUrl = import.meta.env.VITE_BACKEND;
 
-console.log(backendUrl)
+// console.log(backendUrl)
 
 // Get the data
 async function getEmployees() {
@@ -44,6 +44,15 @@ async function getGeneralUsers() {
       console.log(err)
     });
   return listOfGeneralUsers;
+}
+
+async function getRooms() {
+  let listOfRooms: any[] = await axios.get(backendUrl + "/rooms")
+    .then(response => response.data["roomList"])
+    .catch(err => {
+      console.log(err)
+    });
+  return listOfRooms;
 }
 
 async function getRequests() {
@@ -92,6 +101,7 @@ let RequestList: any[] = await getRequests();
 let AssignmentList: any[] = await getAssignments();
 let BookingList: any[] = await getBookings();
 let ShiftList: any[] = await getShifts();
+let RoomList: any[] = await getRooms();
 export default {
   components: {
     ManageBooking,
@@ -103,196 +113,227 @@ export default {
       managerList: ManagerList,
       customerList: CustomerList,
       generalUserList: GeneralUserList,
+      roomList: RoomList,
       requestList: RequestList,
       assignmentList: AssignmentList,
       bookingList: BookingList,
       shiftList: ShiftList,
     }
   },
-}
+  methods: {
+    // rerender the page
+    async rerender() {
+      this.employeeList = await getEmployees();
+      this.managerList = await getManagers();
+      this.customerList = await getCustomers();
+      this.generalUserList = await getGeneralUsers();
+      this.roomList = await getRooms();
+      this.requestList = await getRequests();
+      this.assignmentList = await getAssignments();
+      this.bookingList = await getBookings();
+      this.shiftList = await getShifts();
+    },
+    // Functions for endpoints used
+    async deleteEmployee(emailDelete: string) {
+      let deletedEmployee = await axios.delete(backendUrl + "/employee/" + emailDelete)
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return deletedEmployee;
+    },
+    async deleteManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string) {
+      let deletedManager = await axios.post(backendUrl + "/managers/delete", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return deletedManager;
+    },
+    async deleteRoom(roomId: number) {
+      let deletedRoom = await axios.delete(backendUrl + "/room/delete/" + roomId)
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      this.rerender();
+      return deletedRoom;
+    },
 
-// Functions for endpoints used
-async function deleteEmployee(emailDelete: string) {
-  let deletedEmployee = await axios.delete(backendUrl + "/employee/" + emailDelete)
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
+    async updateManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string, passwordUpdate: String) {
+      let updatedManager = await axios.put(backendUrl + "/managers/update/" + passwordUpdate, { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return updatedManager;
+    },
 
-  return deletedEmployee;
-}
+    async deleteCustomer(emailDelete: string) {
+      let deletedCustomer = await axios.delete(backendUrl + "/customer/" + emailDelete)
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return deletedCustomer;
+    },
 
-
-async function deleteManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string) {
-  let deletedManager = await axios.post(backendUrl + "/managers/delete", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return deletedManager;
-
-}
-
-async function updateManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string, passwordUpdate: String) {
-  let updatedManager = await axios.put(backendUrl + "/managers/update/" + passwordUpdate, { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return updatedManager;
-
-}
-
-async function deleteCustomer(emailDelete: string) {
-  let deletedCustomer = await axios.delete(backendUrl + "/customer/" + emailDelete)
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return deletedCustomer;
-}
-
-async function deleteGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
-  let deletedGeneralUser = await axios.post(backendUrl + "/generalUsers/delete", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return deletedGeneralUser;
-}
-
-async function deleteRequest(requestId: number) {
-  let deletedRequest = await axios.delete(backendUrl + "/requests/delete/" + requestId)
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return deletedRequest;
-}
-
-async function deleteAssignment(assignmentId: number) {
-  let deletedAssignment = await axios.delete(backendUrl + "/assignments/delete/" + assignmentId)
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return deletedAssignment;
-}
-
-
-async function deleteEmployeeShift(shiftId: number) {
-  let deletedEmployeeShift = await axios.delete(backendUrl + "/employee/shift/" + shiftId)
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return deletedEmployeeShift;
-}
-
-
-async function createEmployee(firstName: string, lastName: string, email: string, phoneNumber: number, password: string, hoursWorked: number) {
-  let createdEmployee = await axios.post(backendUrl + "/employee/", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return createdEmployee;
-}
-
-async function createManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string) {
-  let createdManager = await axios.post(backendUrl + "/managers/create/", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return createdManager;
-}
-
-async function createCustomer(firstName: string, lastName: string, email: string, phoneNumber: number, password: string) {
-  let createdCustomer = await axios.post(backendUrl + "/customer/", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return createdCustomer;
-}
-
-async function createGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
-  let createdGeneralUser = await axios.post(backendUrl + "/generalUsers/create", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return createdGeneralUser;
-}
-
-async function createRequest(description: String, bookingId: Number, isFulfilled: String) {
-  var setTrue = (isFulfilled === "true");
-  let createdRequest = await axios.post(backendUrl + "/request/create", { "description": description, "bookingId": bookingId, "isFulfilled": setTrue})
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return createdRequest;
-}
-
-async function createAssignment(employeeId: String, requestId: Number) {
-  let createdAssignment = await axios.post(backendUrl + "/assignment/create", { "employeeId": employeeId, "requestId": requestId })
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"])
-    });
-  window.location.reload();
-  return createdAssignment;
-}
-
-async function createEmployeeShift(date: String, startTime: Number, endTime: Number,
-  email: String) {
-  let createdEmployeeShift = await axios.post(backendUrl + "/employee/" + email + "/shift", {"date": date+"T00:00:00.000+00:00", "startTime": startTime, "endTime": endTime})
-    .then(response => response.data)
-    .catch(err => {
-      console.log(err)
-      alert(err.response["data"]) 
-    });
-  window.location.reload();
-  return createdEmployeeShift;
-}
-
+    async deleteGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
+      let deletedGeneralUser = await axios.post(backendUrl + "/generalUsers/delete", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return deletedGeneralUser;
+    },
+    async deleteRequest(requestId: number) {
+      let deletedRequest = await axios.delete(backendUrl + "/requests/delete/" + requestId)
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return deletedRequest;
+    },
+    async deleteAssignment(assignmentId: number) {
+      let deletedAssignment = await axios.delete(backendUrl + "/assignments/delete/" + assignmentId)
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return deletedAssignment;
+    },
+    async deleteEmployeeShift(shiftId: number) {
+      let deletedEmployeeShift = await axios.delete(backendUrl + "/employee/shift/" + shiftId)
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return deletedEmployeeShift;
+    },
+    async createEmployee(firstName: string, lastName: string, email: string, phoneNumber: number, password: string, hoursWorked: number) {
+      let createdEmployee = await axios.post(backendUrl + "/employee/", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password, "hoursWorked": hoursWorked })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdEmployee;
+    },
+    async createManager(firstName: string, lastName: string, email: string, phoneNumber: number, password: string) {
+      let createdManager = await axios.post(backendUrl + "/managers/create/", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdManager;
+    },
+    async createCustomer(firstName: string, lastName: string, email: string, phoneNumber: number, password: string) {
+      let createdCustomer = await axios.post(backendUrl + "/customer/", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber, "password": password })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdCustomer;
+    },
+    async createGeneralUser(firstName: string, lastName: string, email: string, phoneNumber: number) {
+      let createdGeneralUser = await axios.post(backendUrl + "/generalUsers/create", { "email": email, "firstName": firstName, "lastName": lastName, "phoneNumber": phoneNumber })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdGeneralUser;
+    },
+    async createRoom(roomType: String, bedType: String, roomMaxCapacity: Number, roomPricePerNight: Number) {
+      let createdRoom = await axios.post(backendUrl + "/room/create", { "roomType": roomType, "bedType": bedType, "maxCapacity": roomMaxCapacity, "pricePerNight": roomPricePerNight, "isAvailable": 'true' })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdRoom;
+    },
+    async createRequest(description: String, bookingId: Number, isFulfilled: String) {
+      var setTrue = (isFulfilled === "true");
+      let createdRequest = await axios.post(backendUrl + "/request/create", { "description": description, "bookingId": bookingId, "isFulfilled": setTrue })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdRequest;
+    },
+    async createAssignment(employeeId: String, requestId: Number) {
+      let createdAssignment = await axios.post(backendUrl + "/assignment/create", { "employeeId": employeeId, "requestId": requestId })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdAssignment;
+    },
+    async createEmployeeShift(date: String, startTime: Number, endTime: Number,
+      email: String) {
+      let createdEmployeeShift = await axios.post(backendUrl + "/employee/" + email + "/shift", { "date": date + "T00:00:00.000+00:00", "startTime": startTime, "endTime": endTime })
+        .then(response => response.data)
+        .catch(err => {
+          console.log(err)
+          alert(err.response["data"])
+        });
+      // window.location.reload();
+      this.rerender();
+      return createdEmployeeShift;
+    }
+  }
+};
 
 </script>
-
 
 <script setup lang="ts">
 // Imports and messages of textboxes
 import { ref } from 'vue'
-import { FwbTextarea } from 'flowbite-vue'
+import { FwbInput } from 'flowbite-vue'
 import { FwbButton } from 'flowbite-vue'
 import { FwbBadge } from 'flowbite-vue'
 import {
@@ -355,6 +396,12 @@ const managerUpdatePhoneNumber = ref('')
 const managerUdpatePassword = ref('')
 const managerNewPassword = ref('')
 
+const roomId = ref('')
+const roomType = ref('')
+const bedType = ref('')
+const roomMaxCapacity = ref('')
+const roomPricePerNight = ref('')
+
 const shiftDate = ref('')
 const shiftStartTime = ref('')
 const shiftEndTime = ref('')
@@ -372,11 +419,11 @@ const messageAssignmentRequestId = ref('')
 <style scoped lang="postcss">
 .manager {
   @apply block bg-white rounded-lg border border-gray-200 shadow-md;
-  @apply p-8;
+  @apply p-8 m-3;
 }
+
 .accordion-content {
   @apply flex flex-row items-start justify-evenly;
-  @apply gap-6;
 }
 </style>
 
@@ -414,34 +461,30 @@ const messageAssignmentRequestId = ref('')
                 </fwb-table-body>
               </fwb-table>
             </div>
-            <div>
-                <fwb-badge type="red">Delete Employee</fwb-badge>
-              <fwb-textarea v-model="messageEmployee" :rows="2" label="Employee Email To Delete"
-                placeholder="Input employee email of employee you want to delete..." />
-              <fwb-button @click="deleteEmployee(messageEmployee)" color="red">Delete</fwb-button>
-            </div>
 
             <div id="CreatingEmployee">
               <fwb-badge type="green">Create Employee</fwb-badge>
-              <fwb-textarea v-model="employeeFirstName" :rows="2" label="Enter Employee First Name"
-                placeholder="Input employee first name..." />
-              <fwb-textarea v-model="employeeLastName" :rows="2" label="Enter Employee Last Name"
-                placeholder="Input employee last name..." />
-              <fwb-textarea v-model="employeeEmail" :rows="2" label="Enter Employee Email"
-                placeholder="Input employee email..." />
+              <fwb-input v-model="employeeFirstName" size="md" label="Enter Employee First Name" placeholder="John" />
+              <fwb-input v-model="employeeLastName" size="md" label="Enter Employee Last Name" placeholder="Doe" />
+              <fwb-input v-model="employeeEmail" size="md" label="Enter Employee Email" placeholder="john@doe.com" />
 
-              <fwb-textarea v-model="employeePhoneNumber" :rows="2" label="Enter Employee Phone Number"
-                placeholder="Input employee phone Number..." />
+              <fwb-input v-model="employeePhoneNumber" size="md" label="Enter Employee Phone Number"
+                placeholder="438 123 4567" />
 
-              <fwb-textarea v-model="employeePassword" :rows="2" label="Enter Employee Password"
-                placeholder="Input employee password..." />
+              <fwb-input v-model="employeePassword" size="md" label="Enter Employee Password" placeholder="********" />
 
-              <fwb-textarea v-model="employeeHoursWorked" :rows="2" label="Enter Employee hours worked"
-                placeholder="Input employee hours worked..." />
+              <fwb-input v-model="employeeHoursWorked" size="md" label="Enter Employee hours worked" placeholder="14" />
 
               <fwb-button @click="createEmployee(employeeFirstName, employeeLastName, employeeEmail, parseInt(employeePhoneNumber),
                 employeePassword, parseInt(employeeHoursWorked))" color="green">Create
                 Employee</fwb-button>
+            </div>
+
+            <div>
+              <fwb-badge type="red">Delete Employee</fwb-badge>
+              <fwb-input v-model="messageEmployee" size="md" label="Employee Email To Delete"
+                placeholder="john@doe.com" />
+              <fwb-button @click="deleteEmployee(messageEmployee)" color="red">Delete</fwb-button>
             </div>
           </div>
         </fwb-accordion-content>
@@ -464,7 +507,7 @@ const messageAssignmentRequestId = ref('')
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  
+
                   <fwb-table-row v-for="manager in managerList" :key="manager.email">
                     <fwb-table-cell> {{ manager.email }}</fwb-table-cell>
                     <fwb-table-cell>{{ manager.firstName }}</fwb-table-cell>
@@ -476,62 +519,59 @@ const messageAssignmentRequestId = ref('')
                 </fwb-table-body>
               </fwb-table>
             </div>
+
+            <div class="CreatingManager">
+              <fwb-badge type="green">Create Manager</fwb-badge>
+              <fwb-input v-model="managerFirstName" size="md" label="Enter Manager First Name" placeholder="Marwan" />
+              <fwb-input v-model="managerLastName" size="md" label="Enter Manager Last Name" placeholder="Kanaan" />
+              <fwb-input v-model="managerEmail" size="md" label="Enter Manager Email"
+                placeholder="marwan@mar1hotel.com" />
+
+              <fwb-input v-model="managerPhoneNumber" size="md" label="Enter Manager Phone Number"
+                placeholder="438 123 4567" />
+
+              <fwb-input v-model="managerPassword" size="md" label="Enter Manager Password" placeholder="**********" />
+
+              <fwb-button @click="createManager(managerFirstName, managerLastName, managerEmail, parseInt(managerPhoneNumber),
+                managerPassword)" color="green">Create Manager</fwb-button>
+            </div>
+
             <div>
-              <fwb-badge type="red">Delete Manager</fwb-badge>
-              <fwb-textarea v-model="managerDeleteFirstName" :rows="2" label="Enter Manager First Name"
-                placeholder="Input manager first name..." />
-              <fwb-textarea v-model="managerDeleteLastName" :rows="2" label="Enter Manager Last Name"
-                placeholder="Input manager last name..." />
-              <fwb-textarea v-model="managerDeleteEmail" :rows="2" label="Enter Manager Email"
-                placeholder="Input manager email..." />
+              <fwb-badge type="yellow">Update Manager</fwb-badge>
+              <fwb-input v-model="managerUpdateFirstName" size="md" label="Enter Manager First Name"
+                placeholder="Marwan" />
+              <fwb-input v-model="managerUpdateLastName" size="md" label="Enter Manager Last Name" placeholder="Kanaan" />
+              <fwb-input v-model="managerUpdateEmail" size="md" label="Enter Manager Email"
+                placeholder="marwan@mar1hotel.com" />
 
-              <fwb-textarea v-model="managerDeletePhoneNumber" :rows="2" label="Enter Manager Phone Number"
-                placeholder="Input manager phone Number..." />
+              <fwb-input v-model="managerUpdatePhoneNumber" size="md" label="Enter Manager Phone Number"
+                placeholder="438 123 4567" />
 
-              <fwb-textarea v-model="managerDeletePassword" :rows="2" label="Enter Manager Password"
-                placeholder="Input manager password..." />
-              <fwb-button @click="deleteManager(managerDeleteFirstName, managerDeleteLastName, managerDeleteEmail, parseInt(managerDeletePhoneNumber),
-                managerDeletePassword)" color="red">Delete</fwb-button>
-                </div>
-            <div>
-              <fwb-badge type="green">Update Manager</fwb-badge>
-              <fwb-textarea v-model="managerUpdateFirstName" :rows="2" label="Enter Manager First Name"
-                placeholder="Input manager first name..." />
-              <fwb-textarea v-model="managerUpdateLastName" :rows="2" label="Enter Manager Last Name"
-                placeholder="Input manager last name..." />
-              <fwb-textarea v-model="managerUpdateEmail" :rows="2" label="Enter Manager Email"
-                placeholder="Input manager email..." />
+              <fwb-input v-model="managerUdpatePassword" size="md" label="Enter Manager Password"
+                placeholder="**********" />
 
-              <fwb-textarea v-model="managerUpdatePhoneNumber" :rows="2" label="Enter Manager Phone Number"
-                placeholder="Input manager phone Number..." />
-
-              <fwb-textarea v-model="managerUdpatePassword" :rows="2" label="Enter Manager Password"
-                placeholder="Input manager password..." />
-
-              <fwb-textarea v-model="managerNewPassword" :rows="2" label="Enter Manager New Password"
-                placeholder="Input manager new password..." />
+              <fwb-input v-model="managerNewPassword" size="md" label="Enter Manager New Password"
+                placeholder="**********" />
 
               <fwb-button @click="updateManager(managerUpdateFirstName, managerUpdateLastName, managerUpdateEmail, parseInt(managerUpdatePhoneNumber),
                 managerUdpatePassword, managerNewPassword)" color="green">Update Manager</fwb-button>
             </div>
 
-            <div class="CreatingManager">
-              <fwb-badge type="green">Create Manager</fwb-badge>
-              <fwb-textarea v-model="managerFirstName" :rows="2" label="Enter Manager First Name"
-                placeholder="Input manager first name..." />
-              <fwb-textarea v-model="managerLastName" :rows="2" label="Enter Manager Last Name"
-                placeholder="Input manager last name..." />
-              <fwb-textarea v-model="managerEmail" :rows="2" label="Enter Manager Email"
-                placeholder="Input manager email..." />
+            <div>
+              <fwb-badge type="red">Delete Manager</fwb-badge>
+              <fwb-input v-model="managerDeleteFirstName" size="md" label="Enter Manager First Name"
+                placeholder="Marwan" />
+              <fwb-input v-model="managerDeleteLastName" size="md" label="Enter Manager Last Name" placeholder="Kanaan" />
+              <fwb-input v-model="managerDeleteEmail" size="md" label="Enter Manager Email"
+                placeholder="marwan@mar1hotel.com" />
 
-              <fwb-textarea v-model="managerPhoneNumber" :rows="2" label="Enter Manager Phone Number"
-                placeholder="Input manager phone Number..." />
+              <fwb-input v-model="managerDeletePhoneNumber" size="md" label="Enter Manager Phone Number"
+                placeholder="438 123 4567" />
 
-              <fwb-textarea v-model="managerPassword" :rows="2" label="Enter Manager Password"
-                placeholder="Input manager password..." />
-
-              <fwb-button @click="createManager(managerFirstName, managerLastName, managerEmail, parseInt(managerPhoneNumber),
-                managerPassword)" color="green">Create Manager</fwb-button>
+              <fwb-input v-model="managerDeletePassword" size="md" label="Enter Manager Password"
+                placeholder="**********" />
+              <fwb-button @click="deleteManager(managerDeleteFirstName, managerDeleteLastName, managerDeleteEmail, parseInt(managerDeletePhoneNumber),
+                managerDeletePassword)" color="red">Delete</fwb-button>
             </div>
           </main>
         </fwb-accordion-content>
@@ -565,29 +605,23 @@ const messageAssignmentRequestId = ref('')
                 </fwb-table-body>
               </fwb-table>
             </div>
-            <div>
-                <fwb-badge type="red">Delete Customer</fwb-badge>
-              <fwb-textarea v-model="messageCustomer" :rows="2" label="Customer Email To Be Deleted"
-                placeholder="Input customer email of customer you want to delete..." />
-              <fwb-button @click="deleteCustomer(messageCustomer)" color="red">Delete</fwb-button>
-            </div>
             <div class="CreatingCustomer">
               <fwb-badge type="green">Create Customer</fwb-badge>
-              <fwb-textarea v-model="customerFirstName" :rows="2" label="Enter Customer First Name"
-                placeholder="Input customer first name..." />
-              <fwb-textarea v-model="customerLastName" :rows="2" label="Enter Customer Last Name"
-                placeholder="Input customer last name..." />
-              <fwb-textarea v-model="customerEmail" :rows="2" label="Enter Customer Email"
-                placeholder="Input customer email..." />
-
-              <fwb-textarea v-model="customerPhoneNumber" :rows="2" label="Enter Customer Phone Number"
-                placeholder="Input customer phone Number..." />
-
-              <fwb-textarea v-model="customerPassword" :rows="2" label="Enter Customer Password"
-                placeholder="Input customer password..." />
+              <fwb-input v-model="customerFirstName" size="md" label="Enter Customer First Name" placeholder="John" />
+              <fwb-input v-model="customerLastName" size="md" label="Enter Customer Last Name" placeholder="Doe" />
+              <fwb-input v-model="customerEmail" size="md" label="Enter Customer Email" placeholder="john.doe@mail.com" />
+              <fwb-input v-model="customerPhoneNumber" size="md" label="Enter Customer Phone Number"
+                placeholder="438 123 4567" />
+              <fwb-input v-model="customerPassword" size="md" label="Enter Customer Password" placeholder="**********" />
 
               <fwb-button @click="createCustomer(customerFirstName, customerLastName, customerEmail, parseInt(customerPhoneNumber),
                 customerPassword)" color="green">Create Customer</fwb-button>
+            </div>
+            <div>
+              <fwb-badge type="red">Delete Customer</fwb-badge>
+              <fwb-input v-model="messageCustomer" size="md" label="Customer Email To Be Deleted"
+                placeholder="john.doe@mail.com" />
+              <fwb-button @click="deleteCustomer(messageCustomer)" color="red">Delete</fwb-button>
             </div>
           </main>
 
@@ -624,15 +658,14 @@ const messageAssignmentRequestId = ref('')
             </div>
             <div class="CreatingGeneralUser">
               <fwb-badge type="green">Create Guest User</fwb-badge>
-              <fwb-textarea v-model="generalUserFirstName" :rows="2" label="Enter GeneralUser First Name"
-                placeholder="Input general user first name..." />
-              <fwb-textarea v-model="generalUserLastName" :rows="2" label="Enter GeneralUser Last Name"
-                placeholder="Input general user last name..." />
-              <fwb-textarea v-model="generalUserEmail" :rows="2" label="Enter GeneralUser Email"
-                placeholder="Input general user email..." />
+              <fwb-input v-model="generalUserFirstName" size="md" label="Enter GeneralUser First Name"
+                placeholder="John" />
+              <fwb-input v-model="generalUserLastName" size="md" label="Enter GeneralUser Last Name" placeholder="Doe" />
+              <fwb-input v-model="generalUserEmail" size="md" label="Enter GeneralUser Email"
+                placeholder="john.doe@mail.com" />
 
-              <fwb-textarea v-model="generalUserPhoneNumber" :rows="2" label="Enter GeneralUser Phone Number"
-                placeholder="Input general user phone Number..." />
+              <fwb-input v-model="generalUserPhoneNumber" size="md" label="Enter GeneralUser Phone Number"
+                placeholder="438 123 4567" />
 
               <fwb-button
                 @click="createGeneralUser(generalUserFirstName, generalUserLastName, generalUserEmail, parseInt(generalUserPhoneNumber))"
@@ -640,21 +673,75 @@ const messageAssignmentRequestId = ref('')
             </div>
             <div>
               <fwb-badge type="red">Delete Guest User</fwb-badge>
-              <fwb-textarea v-model="generalUserDeleteFirstName" :rows="2" label="Enter GeneralUser First Name"
-                placeholder="Input general user first name..." />
-              <fwb-textarea v-model="generalUserDeleteLastName" :rows="2" label="Enter GeneralUser Last Name"
-                placeholder="Input general user last name..." />
-              <fwb-textarea v-model="generalUserDeleteEmail" :rows="2" label="Enter GeneralUser Email"
-                placeholder="Input general user email..." />
+              <fwb-input v-model="generalUserDeleteFirstName" size="md" label="Enter GeneralUser First Name"
+                placeholder="John" />
+              <fwb-input v-model="generalUserDeleteLastName" size="md" label="Enter GeneralUser Last Name"
+                placeholder="Doe" />
+              <fwb-input v-model="generalUserDeleteEmail" size="md" label="Enter GeneralUser Email"
+                placeholder="john.doe@mail.com" />
 
-              <fwb-textarea v-model="generalUserDeletePhoneNumber" :rows="2" label="Enter GeneralUser Phone Number"
-                placeholder="Input general user phone Number..." />
+              <fwb-input v-model="generalUserDeletePhoneNumber" size="md" label="Enter GeneralUser Phone Number"
+                placeholder="438 123 4567" />
               <fwb-button
                 @click="deleteGeneralUser(generalUserDeleteFirstName, generalUserDeleteLastName, generalUserDeleteEmail, parseInt(generalUserDeletePhoneNumber))"
                 color="red">Delete</fwb-button>
             </div>
           </main>
+        </fwb-accordion-content>
+      </fwb-accordion-panel>
 
+      <!-- Room Panel -->
+      <fwb-accordion-panel>
+        <fwb-accordion-header>Rooms</fwb-accordion-header>
+        <fwb-accordion-content>
+          <main class="accordion-content">
+            <div>
+              <fwb-badge type="default">View All Rooms</fwb-badge>
+              <fwb-table hoverable>
+                <fwb-table-head>
+                  <fwb-table-head-cell>Room ID</fwb-table-head-cell>
+                  <fwb-table-head-cell>Room Type</fwb-table-head-cell>
+                  <fwb-table-head-cell>Bed Type</fwb-table-head-cell>
+                  <fwb-table-head-cell>Capacity</fwb-table-head-cell>
+                  <fwb-table-head-cell>Price/Night</fwb-table-head-cell>
+                  <fwb-table-head-cell>
+                  </fwb-table-head-cell>
+                </fwb-table-head>
+                <fwb-table-body>
+                  <fwb-table-row v-for="room in roomList" :key="room.roomId">
+                    <fwb-table-cell> {{ room.roomId }}</fwb-table-cell>
+                    <fwb-table-cell>{{ room.roomType }}</fwb-table-cell>
+                    <fwb-table-cell>{{ room.bedType }}</fwb-table-cell>
+                    <fwb-table-cell>{{ room.maxCapacity }}</fwb-table-cell>
+                    <fwb-table-cell>{{ room.pricePerNight }}</fwb-table-cell>
+                    <fwb-table-cell>
+                    </fwb-table-cell>
+                  </fwb-table-row>
+                </fwb-table-body>
+              </fwb-table>
+            </div>
+            <div class="CreatingRoom">
+              <fwb-badge type="green">Create Room</fwb-badge>
+              <fwb-input v-model="roomType" size="md" label="Enter Room Type: 'Regular', 'Suite', or 'Deluxe'"
+                placeholder="Regular" />
+              <fwb-input v-model="bedType" size="md" label="Enter Bed Type: 'Single', 'Doubles', 'Queen', or 'King'"
+                placeholder="Queen" />
+              <fwb-input v-model="roomMaxCapacity" size="md" label="Enter Room Capacity" placeholder="4" />
+              <fwb-input v-model="roomPricePerNight" size="md" label="Enter Room Price Per Night (CAD$)"
+                placeholder="120" />
+
+              <fwb-button @click="createRoom(roomType, bedType, parseInt(roomMaxCapacity), parseInt(roomPricePerNight))"
+                color="green">Create Room</fwb-button>
+            </div>
+            <div>
+              <fwb-badge type="red">Delete Room</fwb-badge>
+              <fwb-input v-model="roomId" size="md" label="Enter Room ID to be deleted"
+                placeholder="14" />
+              <fwb-button
+                @click="deleteRoom(parseInt(roomId))"
+                color="red">Delete Room</fwb-button>
+            </div>
+          </main>
         </fwb-accordion-content>
       </fwb-accordion-panel>
 
@@ -690,24 +777,23 @@ const messageAssignmentRequestId = ref('')
                 </fwb-table-body>
               </fwb-table>
             </div>
-            <div>
-                <fwb-badge type="red">Delete Request</fwb-badge>
-              <fwb-textarea v-model="messageRequest" :rows="2" label="Delete Request"
-                placeholder="Input request id of request you want to delete..." />
-              <fwb-button @click="deleteRequest(parseInt(messageRequest))" color="red">Delete</fwb-button>
-            </div>
+
             <div>
               <fwb-badge type="green">Create Requests</fwb-badge>
-              <fwb-textarea v-model="messageRequestDescription" :rows="2" label="Request Description"
-                placeholder="Input Request Description..." />
-              <fwb-textarea v-model="messageRequestBookingId" :rows="2" label="Booking Id of Booking related to Request"
-                placeholder="Input Booking Id of Booking related to Request..." />
-              <fwb-textarea v-model="messageRequestIsFufilled" :rows="2"
-                label="Request Status as boolean either true of false (all lower caser)"
-                placeholder="Input Request Status as boolean either true of false (all lower caser)" />
+              <fwb-input v-model="messageRequestDescription" size="md" label="Request Description"
+                placeholder="I need a hair dryer please!" />
+              <fwb-input v-model="messageRequestBookingId" size="md" label="Booking Id" placeholder="214" />
+              <fwb-input v-model="messageRequestIsFufilled" size="md" label="Request Status"
+                placeholder="'true' or 'false'" />
               <fwb-button
                 @click="createRequest(messageRequestDescription, parseInt(messageRequestBookingId), messageRequestIsFufilled)"
                 color="green">Create Request</fwb-button>
+            </div>
+
+            <div>
+              <fwb-badge type="red">Delete Request</fwb-badge>
+              <fwb-input v-model="messageRequest" size="md" label="Request ID to be deleted" placeholder="132" />
+              <fwb-button @click="deleteRequest(parseInt(messageRequest))" color="red">Delete</fwb-button>
             </div>
           </main>
 
@@ -723,49 +809,47 @@ const messageAssignmentRequestId = ref('')
               <fwb-badge type="default">View Assignments</fwb-badge>
               <fwb-table hoverable>
                 <fwb-table-head>
+                  <fwb-table-head-cell>Assignment Id</fwb-table-head-cell>
                   <fwb-table-head-cell>Request Id</fwb-table-head-cell>
                   <fwb-table-head-cell>Description</fwb-table-head-cell>
                   <fwb-table-head-cell>Is Fufilled</fwb-table-head-cell>
                   <fwb-table-head-cell>Booking Id</fwb-table-head-cell>
-                  <fwb-table-head-cell>Room Id</fwb-table-head-cell>
-                  <fwb-table-head-cell>Customer Email</fwb-table-head-cell>
+                  <!-- <fwb-table-head-cell>Room Id</fwb-table-head-cell> -->
+                  <!-- <fwb-table-head-cell>Customer Email</fwb-table-head-cell> -->
                   <fwb-table-head-cell>Employee Email</fwb-table-head-cell>
-                  <fwb-table-head-cell>Assignment Id</fwb-table-head-cell>
                   <fwb-table-head-cell>
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
                   <fwb-table-row v-for="assignment in assignmentList" :key="assignment.assignmentId">
+                    <fwb-table-cell>{{ assignment.assignmentId }}</fwb-table-cell>
                     <fwb-table-cell> {{ assignment["request"].requestId }}</fwb-table-cell>
                     <fwb-table-cell>{{ assignment["request"].description }}</fwb-table-cell>
                     <fwb-table-cell>{{ assignment["request"].isFulfilled }}</fwb-table-cell>
                     <fwb-table-cell>{{ assignment["request"]["booking"].bookingId }}</fwb-table-cell>
-                    <fwb-table-cell>{{ assignment["request"]["booking"]["room"].roomId }}</fwb-table-cell>
-                    <fwb-table-cell>{{ assignment["request"]["booking"]["generalUser"].email }}</fwb-table-cell>
+                    <!-- <fwb-table-cell>{{ assignment["request"]["booking"]["room"].roomId }}</fwb-table-cell> -->
+                    <!-- <fwb-table-cell>{{ assignment["request"]["booking"]["generalUser"].email }}</fwb-table-cell> -->
                     <fwb-table-cell>{{ assignment["employee"].email }}</fwb-table-cell>
-                    <fwb-table-cell>{{ assignment.assignmentId }}</fwb-table-cell>
                     <fwb-table-cell>
                     </fwb-table-cell>
                   </fwb-table-row>
                 </fwb-table-body>
               </fwb-table>
             </div>
-            <div>
-                <fwb-badge type="red">Delete Assignment</fwb-badge>
-              <fwb-textarea v-model="messageAssignment" :rows="2" label="Assignment ID to be deleted"
-                placeholder="Input assignment id of assignment you want to delete..." />
-              <fwb-button @click="deleteAssignment(parseInt(messageAssignment))" color="red">Delete</fwb-button>
-            </div>
+
             <div>
               <fwb-badge type="green">Create Assignment</fwb-badge>
-              <fwb-textarea v-model="messageAssignmentEmployeeId" :rows="2"
-                label="Employee Id (which is the email) of employee in charge of Assignment"
-                placeholder="Input Employee Id (which is the email) of employee in charge of Assignment..." />
-              <fwb-textarea v-model="messageAssignmentRequestId" :rows="2"
-                label="Request Id of request in related of Assignment"
-                placeholder="Input Request Id of request in related of Assignment..." />
+              <fwb-input v-model="messageAssignmentEmployeeId" size="md" label="Employee's Email"
+                placeholder="lucas@mar1hotel.com" />
+              <fwb-input v-model="messageAssignmentRequestId" size="md" label="Request ID" placeholder="42" />
               <fwb-button @click="createAssignment(messageAssignmentEmployeeId, parseInt(messageAssignmentEmployeeId))"
                 color="green">Create Assignment</fwb-button>
+            </div>
+
+            <div>
+              <fwb-badge type="red">Delete Assignment</fwb-badge>
+              <fwb-input v-model="messageAssignment" size="md" label="Assignment ID to be deleted" placeholder="38" />
+              <fwb-button @click="deleteAssignment(parseInt(messageAssignment))" color="red">Delete</fwb-button>
             </div>
           </main>
         </fwb-accordion-content>
@@ -824,27 +908,25 @@ const messageAssignmentRequestId = ref('')
               </fwb-table>
             </div>
             <div>
-                <fwb-badge type="red">Delete Shift</fwb-badge>
-              <fwb-textarea v-model="shiftIdDelete" :rows="2" label="Enter Shift Id to Delete Specific Shift"
+              <fwb-badge type="red">Delete Shift</fwb-badge>
+              <fwb-input v-model="shiftIdDelete" size="md" label="Enter Shift Id to Delete Specific Shift"
                 placeholder="Input Shift Id to Delete Specific Shift..." />
               <fwb-button @click="deleteEmployeeShift(parseInt(shiftIdDelete))" color="red">Delete Employee
                 Shift</fwb-button>
             </div>
             <div>
               <fwb-badge type="green">Create Employee Shift</fwb-badge>
-              <fwb-textarea v-model="shiftDate" :rows="2" label="Enter Employee Shift Date YYYY-MM-DD"
+              <fwb-input v-model="shiftDate" size="md" label="Enter Employee Shift Date YYYY-MM-DD"
                 placeholder="Input Employee Shift Date YYYY-MM-DD..." />
-              <fwb-textarea v-model="shiftStartTime" :rows="2" label="Enter Employee Shift Start Time"
+              <fwb-input v-model="shiftStartTime" size="md" label="Enter Employee Shift Start Time"
                 placeholder="Input Employee Shift Start Time..." />
 
-              <fwb-textarea v-model="shiftEndTime" :rows="2" label="Enter Employee Shift End Time"
+              <fwb-input v-model="shiftEndTime" size="md" label="Enter Employee Shift End Time"
                 placeholder="Input Employee Shift End Time..." />
-              <fwb-textarea v-model="shiftEmail" :rows="2" label="Enter Employee Email"
+              <fwb-input v-model="shiftEmail" size="md" label="Enter Employee Email"
                 placeholder="Input employee email..." />
-              <fwb-button
-                @click="createEmployeeShift(shiftDate, parseInt(shiftStartTime),
-                  parseInt(shiftEndTime), shiftEmail)"
-                color="green">Create Employee Shift</fwb-button>
+              <fwb-button @click="createEmployeeShift(shiftDate, parseInt(shiftStartTime),
+                parseInt(shiftEndTime), shiftEmail)" color="green">Create Employee Shift</fwb-button>
             </div>
           </main>
         </fwb-accordion-content>

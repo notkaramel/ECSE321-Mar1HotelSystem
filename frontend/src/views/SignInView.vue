@@ -114,8 +114,6 @@ export default {
             }
         },
 
-
-
         onRegister() {
             this.$emit('register');
         }

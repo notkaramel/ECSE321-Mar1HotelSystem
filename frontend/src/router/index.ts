@@ -58,6 +58,11 @@ const router = createRouter({
       path:'/account/:email',
       name: 'account',
       component: AccountView
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: HomeView
     }
   ],
 

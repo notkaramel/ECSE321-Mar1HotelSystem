@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+  <div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md border border-black">
     <!-- Account Information Section -->
     <div class="mb-6">
       <h2 class="text-xl font-semibold mb-4">Account Information</h2>
@@ -11,11 +11,6 @@
         <button class="edit-info-btn" @click="edit = true">Edit Info
         </button>
       </div>
-    </div>
-
-    <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Delete Account</h2>
-      <button class="btn-delete" @click="confirmDelete">Delete Account</button>
     </div>
 
     <!-- Edit Information Section -->
@@ -51,6 +46,12 @@
           v-model="password.confirm" />
         <button type="button" class="btn-save" @click="changePassword">Update Password</button>
       </form>
+    </div>
+
+    <!-- Delete Account Section -->
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Delete Account</h2>
+      <button class="btn-delete" @click="confirmDelete">Delete Account</button>
     </div>
   </div>
 </template>
@@ -147,7 +148,7 @@ export default {
       }
     },
 
-  confirmDelete() {
+    confirmDelete() {
       if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
         this.deleteAccount();
       }
@@ -225,19 +226,22 @@ export default {
 }
 
 .btn-logout {
-    padding: 0.75rem 1rem;
-    background-color: #64748b; /* Grayish color for logout button */
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-  }
+  padding: 0.75rem 1rem;
+  background-color: #64748b;
+  /* Grayish color for logout button */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
 
-  .btn-logout:hover {
-    background-color: #475569; /* Darker shade on hover */
-  }
+.btn-logout:hover {
+  background-color: #475569;
+  /* Darker shade on hover */
+}
+
 .edit-info-btn {
   padding: 0.75rem 1rem;
   /* Standard padding */

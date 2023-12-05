@@ -11,32 +11,31 @@
                     Home
                 </fwb-navbar-link>
                 <fwb-navbar-link link="/booking">
-                    Booking
+                    Find Booking
                 </fwb-navbar-link>
-                <fwb-navbar-link link="/employees">
-                    Employee
-                </fwb-navbar-link>
-                <fwb-navbar-link link="/manager">
-                    Manager
+                <fwb-navbar-link link="/contact">
+                    Contact Us
                 </fwb-navbar-link>
             </fwb-navbar-collapse>
         </template>
         <template #right-side>
-      <fwb-button @click="goToCreateBooking">
-          Book Now
-      </fwb-button>
-      <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
-          Sign in
-      </fwb-button>
-      <fwb-button v-if="isLoggedIn" @click="goToAccount">
-          Account
-      </fwb-button>
-      <!-- Logout button only appears if user is logged in -->
-      <fwb-button v-if="isLoggedIn" @click="logout">
-          Logout
-      </fwb-button>
-    </template>
-  </fwb-navbar>
+            <div class="navbar-buttons">
+                <fwb-button @click="goToCreateBooking">
+                    Book Now
+                </fwb-button>
+                <fwb-button v-if="!isLoggedIn" @click="goToSignIn">
+                    Sign in
+                </fwb-button>
+                <fwb-button v-if="isLoggedIn" @click="goToAccount">
+                    Account
+                </fwb-button>
+                <!-- Logout button only appears if user is logged in -->
+                <fwb-button v-if="isLoggedIn" @click="logout">
+                    Logout
+                </fwb-button>
+            </div>
+        </template>
+    </fwb-navbar>
 </template>
 
 <style scoped lang="postcss">
@@ -76,10 +75,10 @@ const logout = () => {
     // Clear user data from localStorage
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userRole');
-    
+
     // Redirect to the home page or login page
     router.push('/').then(() => {
-      window.location.reload(); // Optional: Force reload the page
+        window.location.reload(); // Optional: Force reload the page
     });
 };
 

@@ -7,11 +7,15 @@ import './style.css'
 </script>
 
 <template>
-<Navbar/>
-<RouterView />
-<Footer/>
+    <Navbar />
+    <div class="main">
+        <RouterView /> 
+    </div>
+    <Footer />
 </template>
 
-
-<style scoped>
+<style lang="postcss">
+.main {
+    @apply p-2 m-4;
+}
 </style>

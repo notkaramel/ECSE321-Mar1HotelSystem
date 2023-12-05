@@ -5,13 +5,13 @@
             <!-- Table for the employee -->
             <table>
                 <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Hours Worked</th>
-                </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Hours Worked</th>
+                    </tr>
                 </thead>
                 <tr>
                     <td>{{ employeesInfo.firstName }}</td>
@@ -23,19 +23,19 @@
             </table>
             <br>
 
-            
+
             <!-- Section that opens when an employee logs in -->
-            <div v-if = canDisplay>
+            <div v-if=canDisplay>
                 <h1 class="centeredHeader"> List of all shifts </h1>
                 <!-- Table for all shifts -->
-                <table :key = refreshShift>
+                <table :key=refreshShift>
                     <thead>
-                    <tr>
-                        <th>Shift ID</th>
-                        <th>Shift date</th>
-                        <th>Shift start time</th>
-                        <th>Shift end time</th>
-                    </tr>
+                        <tr>
+                            <th>Shift ID</th>
+                            <th>Shift date</th>
+                            <th>Shift start time</th>
+                            <th>Shift end time</th>
+                        </tr>
                     </thead>
                     <tr v-for="s in shiftsList" v-bind:key="s.shiftId">
                         <td>{{ s.shiftId }}</td>
@@ -44,62 +44,71 @@
                         <td>{{ s.endTime }}</td>
                     </tr>
                 </table>
-                <b> <h1 class="centeredHeader"> List of all requests </h1> </b>
+                <b>
+                    <h1 class="centeredHeader"> List of all requests </h1>
+                </b>
 
                 <!-- Table for all requests -->
-                <table :key = refreshRequests>
+                <table :key=refreshRequests>
                     <thead>
-                    <tr>
-                        <th>Request ID</th> <th>Booking ID</th> <th>Description</th>
-                    </tr>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Booking ID</th>
+                            <th>Description</th>
+                        </tr>
                     </thead>
                     <tr v-for="request in requestsList.filter((p) => p.isFulfilled === false)"
-                        v-bind:key="request.requestId" class = "tableBody">
+                        v-bind:key="request.requestId" class="tableBody">
                         <td>{{ request.requestId }}</td>
                         <td>{{ request.booking.bookingId }}</td>
                         <td>{{ request.description }}</td>
                     </tr>
                 </table>
-                <b> <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1> </b>
+                <b>
+                    <h1 class="centeredHeader"> List of requests assigned to {{ currentEmployeeEmail }} </h1>
+                </b>
 
                 <!-- Table for all requests assigned to employee -->
-                <table :key = refreshAssignment>
+                <table :key=refreshAssignment>
                     <thead>
-                    <tr>
-                        <th>Assignment ID </th> <th>Request ID</th> <th>Booking</th>
-                    </tr>
+                        <tr>
+                            <th>Assignment ID </th>
+                            <th>Request ID</th>
+                            <th>Booking</th>
+                        </tr>
                     </thead>
-                    <tr v-for="employeeRequest in employeeRequestList.filter((a) => a.request.isFulfilled === false)" v-bind:key="employeeRequest.assignmentId"
-                        class = "tableBody">
-                        <td>{{ employeeRequest.assignmentId }}</td> 
-                        <td>{{employeeRequest.request.requestId}}</td> 
-                        <td>{{employeeRequest.request.booking.bookingId}}</td> 
+                    <tr v-for="employeeRequest in employeeRequestList.filter((a) => a.request.isFulfilled === false)"
+                        v-bind:key="employeeRequest.assignmentId" class="tableBody">
+                        <td>{{ employeeRequest.assignmentId }}</td>
+                        <td>{{ employeeRequest.request.requestId }}</td>
+                        <td>{{ employeeRequest.request.booking.bookingId }}</td>
                     </tr>
                 </table>
 
                 <!-- Selecting request -->
                 <div class="centered">
                     <h1 class="centeredHeader"> Selecting request </h1>
-                    <input type="text" placeholder="request id" v-model="requestId">
+                    <input type="text" placeholder="Enter Request ID" v-model="requestId">
                     <br>
                     <button @click="selectRequest(requestId)">Select request</button>
                     <button @click="fulfillRequest(parseInt(requestId))">Fulfill request</button>
                     <br>
                     <span class="errorDisplay">{{ errorMessageDisplaySelect }}</span>
                 </div>
-                <b> <h1 class="centeredHeader"> All bookings </h1> </b>
+                <b>
+                    <h1 class="centeredHeader"> All bookings </h1>
+                </b>
 
                 <!-- Table for all bookings -->
-                <table :key = refreshBooking>
+                <table :key=refreshBooking>
                     <thead>
-                    <tr>
-                        <th>Booking ID</th>
-                        <th>Room ID</th>
-                        <th>Customer email</th>
-                    </tr>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Room ID</th>
+                            <th>Customer email</th>
+                        </tr>
                     </thead>
-                    <tr v-for="booking in bookingsList" v-bind:key="booking.bookingId"
-                    class = "tableBody">
+                    <tr v-for="booking in bookingsList" v-bind:key="booking.bookingId" class="tableBody">
                         <td>{{ booking.bookingId }}</td>
                         <td>{{ booking.room.roomId }}</td>
                         <td>{{ booking.generalUser.email }}</td>
@@ -123,71 +132,24 @@
     </main>
 </template>
 
-<script setup lang="ts">
-
-import { ref } from 'vue';
-// let refreshShift = ref(0);
-// let refreshRequests = ref(0);
-// let refreshAssignment = ref(0);
-// let refreshBooking = ref(0);
-
-// const forceRender = () => {
-//     refreshShift.value += 1;
-//     refreshRequests.value += 1;
-//     refreshAssignment.value += 1;
-//     refreshBooking.value += 1;
-// }
-
-async function createSetup() {
-    let user: any = await axios.post(backendUrl + "/generalUsers/create", {
-        email: "u@mail.com",
-        firstName: "an",
-        lastName: "user", 
-        phoneNumber: "12345678"})
-        .then(response => response.data).catch(error => console.log(error));
-    let payments: any[] = await axios.get(backendUrl + "/payment/all").then(response => response.data).catch(error => console.log(error));
-    let room: any = await axios.post(backendUrl + "/room/create", {
-        roomType: "Regular",
-        bedType: "Doubles",
-        isAvailable: true,
-        pricePerNight: 10,
-        maxCapacity: 1})
-        .then(response => response.data).catch(error => console.log(error));
-    let booking: any = await axios.post(backendUrl + "/booking/create", {
-        generalUserEmail: "u@mail.com",
-        roomId: 402, 
-        paymentId: 202}).then(response => response.data).catch(error => console.log(error));
-}
-
-//createSetup();
-
-
-
-</script>
-
 <script lang="ts">
 import axios from 'axios';
 
 const backendUrl = import.meta.env.VITE_BACKEND;
 
-// HELPER METHODS
-
-// Get all employees
-async function getEmployees() {
-    let employees: any[] = await axios.get(backendUrl + "/employees")
-        .then(response => response.data)
-        .catch(error => console.log(error));
-    console.log(employees);
-    return employees;
-}
-
 // Get employee by email
 async function getEmployee(email: string) {
     let employee: any = await axios.get(backendUrl + "/employee/" + email)
-        .then(response => response.data)
+        .then((res) => {
+            if (res.status == 200) {
+                return res.data;
+            }
+        }).catch((err) => {
+            console.error(err.message);
+            console.log(`User with email ${email} is not an employee`)
+        })
     return employee;
 }
-
 
 
 // Get shifts by employee email
@@ -210,9 +172,10 @@ async function getAllRequests() {
 async function getEmployeeAssignments(email: string) {
     let employeeRequests: any[] = [];
     employeeRequests = await axios.get(backendUrl + "/assignments/all")
-    .then((response) => {
-        return response.data}).then((response => response.filter((assignment: any) => assignment.employee.email === email)))
-    .catch(error => console.log(error));
+        .then((response) => {
+            return response.data
+        }).then((response => response.filter((assignment: any) => assignment.employee.email === email)))
+        .catch(error => console.log(error));
     // for (let assignment of assignments) {
     //     if (assignment.employee.email === email) {
     //         employeeRequests.push(assignment);
@@ -258,7 +221,7 @@ async function fulfillChange(requestId: number) {
         bookingId: request.booking.bookingId,
         isFulfilled: true
     }).then(response => response.data);
-    
+
     console.log(requestUpdate);
     return requestUpdate;
 }
@@ -269,8 +232,9 @@ let requests: any[] = await getAllRequests();
 let bookings: any[] = await getBookings();
 let shifts: any[] = [];
 let assignments: any[] = [];
-let email: any = localStorage.getItem('employeeEmail');
-let employee: any = await getEmployee(email);
+let email: any = localStorage.getItem('userEmail');
+let employee: any = (email == null) ? "" : await getEmployee(email);
+// console.log(`Employee: ${employee} and email: ${email}`);
 export default {
 
     mounted() {
@@ -304,26 +268,32 @@ export default {
     },
 
     methods: {
-
-        autoLoginIfCredentialsExist() {
-            const employeeEmail = localStorage.getItem('employeeEmail');
-            const employeePassword = localStorage.getItem('employeePassword');
-            // Assuming you have a method to verify the employee
-            if (employeeEmail && employeePassword) {
-                this.login(employeeEmail, employeePassword);
-            }
-            },
-
+        async autoLoginIfCredentialsExist() {
+            const employeeEmail: any = localStorage.getItem('userEmail');
+            const employeePassword: any = localStorage.getItem('userPassword');
+            // Verfying the employee credentials
+            await axios.get(backendUrl + "/employee/" + employeeEmail)
+                .then((res) => {
+                    if (res.status == 200) {
+                        let employeeData = res.data;
+                        if (employeePassword == employeeData.password) {
+                            this.login(employeeEmail, employeePassword);
+                        }
+                    }
+                }).catch((err) => {
+                    console.error(err.message);
+                })
+        },
 
         // Login method
-        login: async function(email: string, password: string) {
+        login: async function (email: string, password: string) {
             await this.checkPassword(email, password);
             await this.getShiftsList(this.currentEmployeeEmail);
             await this.getAssignments(this.currentEmployeeEmail);
         },
 
         // Check if password is correct
-        checkPassword: async function(email: string, password: string) {
+        checkPassword: async function (email: string, password: string) {
             try {
                 let employee: any = await getEmployee(email);
                 if (employee.password === password) {
@@ -347,39 +317,40 @@ export default {
 
         },
         // Get shifts by employee email
-        getShiftsList: async function(email: string) {
+        getShiftsList: async function (email: string) {
             let shifts: any[] = await getShifts(email);
             this.shiftsList = shifts;
         },
         // Get all requests assigned to employee
-        getAssignments: async function(email: string) {
+        getAssignments: async function (email: string) {
             let employeeRequests: any[] = await getEmployeeAssignments(email);
             this.employeeRequestList = employeeRequests;
         },
         // Create request
-        createRequestMain: async function(bookingId: string, description: string) {
-            try {
-                let request: any = await createRequest(bookingId, description);
-                alert("Request created");
-                this.errorMessageDisplayRequest = "";
-                this.forceRender();
-            } catch (error: any) {
+        createRequestMain: async function (bookingId: string, description: string) {
+            await createRequest(bookingId, description).then((response) => {
+                if (response.status === 200) {
+                    // alert("Request created");
+                    this.errorMessageDisplayRequest = "";
+                    this.forceRender();
+                }
+            }).catch((error) => {
                 if (error.response?.status === 404) {
                     this.errorMessageDisplayRequest = "Booking not found";
                 }
                 else {
                     this.errorMessageDisplayRequest = error.message;
                 }
-            }
+            });
         },
+
         // Select request
-        selectRequest: async function(requestId: string) {
+        selectRequest: async function (requestId: string) {
             try {
-                let assignment: any = await createAssignment(requestId, this.currentEmployeeEmail);
-                alert("Request selected");
+                await createAssignment(requestId, this.currentEmployeeEmail);
+                // alert("Request selected");
                 this.errorMessageDisplaySelect = "";
                 this.forceRender();
-                // } catch (error: AxiosError) {
             } catch (error: any) {
 
                 if (error.response?.status === 404) {
@@ -391,13 +362,12 @@ export default {
             }
         },
         // Fulfill request
-        fulfillRequest: async function(requestId: number) {
+        fulfillRequest: async function (requestId: number) {
             try {
-                let request: any = await fulfillChange(requestId);
-                alert("Request fulfilled");
+                await fulfillChange(requestId);
+                // alert("Request fulfilled");
                 this.errorMessageDisplaySelect = "";
                 this.forceRender();
-                // } catch (error:AxiosError) {
             } catch (error: any) {
 
                 if (error.response?.status === 404) {
@@ -407,8 +377,8 @@ export default {
                     this.errorMessageDisplaySelect = error.message;
                 }
             }
-        }, 
-        forceRender: async function() {
+        },
+        forceRender: async function () {
             this.requestsList = await getAllRequests();
             this.employeeRequestList = await getEmployeeAssignments(this.currentEmployeeEmail);
             this.shiftsList = await getShifts(this.currentEmployeeEmail);
@@ -423,23 +393,22 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-
-thead {
-    @apply bg-gray-50 dark:bg-gray-700 dark:text-gray-400;
+thead tr th {
+    @apply bg-gray-100 py-2 text-lg;
+}
+td {
+    @apply bg-gray-50 py-2 text-base;
 }
 
 table {
-    @apply table-auto ;
-    @apply w-full text-base text-left rtl:text-right text-gray-500 dark:text-gray-400 -m-1.5;
-    font-family: arial, sans-serif;
-    border-width: thin;
-    width: 80%;
+    @apply table-auto rounded-lg border-gray-100 border;
+    @apply w-9/12 text-base text-left rtl:text-right text-gray-500 dark:text-gray-400 m-1.5 py-3;
     text-align: center;
     margin: auto;
 }
 
 .tableBody {
-    @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600;
+    @apply bg-white border;
 }
 
 button {
@@ -461,15 +430,12 @@ button {
 }
 
 input {
-    @apply rounded-md;
-    margin: 10px;
-    border: 1px solid #ccc;
+    @apply rounded-md p-3 m-4 border border-gray-400 w-1/6;
 }
 
 textarea {
-    @apply w-1/2 h-24 p-2 border rounded-md;
-    margin: 10px;
-    border: 1px solid #ccc;
+    @apply rounded-md p-3 m-4 border border-gray-400;
+    @apply w-1/3 h-20;
 }
 
 .centered {
@@ -478,8 +444,7 @@ textarea {
 }
 
 .centeredHeader {
-    @apply text-2xl font-bold text-gray-700 dark:text-gray-200;
-    font: sans-serif;
+    @apply text-2xl font-bold text-gray-700 dark:text-gray-200 py-2;
     text-align: center;
     margin: auto;
     margin-top: 50px;

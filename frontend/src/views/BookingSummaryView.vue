@@ -2,7 +2,7 @@
     <fwb-alert class="border-t-4 rounded-none" icon type="success" closable>
         Your booking was successful! Please view the booking summary below.
     </fwb-alert>
-    <div class="flex flex-cbookingInfool justify-center">
+    <div class="flex justify-center">
         <BookingSummary :bookingId=bookingId />
     </div>
 </template>
