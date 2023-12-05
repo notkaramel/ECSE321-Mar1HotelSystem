@@ -111,6 +111,41 @@ export default {
         async cancelBooking() {
             const backend = import.meta.env.VITE_BACKEND;
             const bookingId = this.bookingId;
+            // must delete all requests linked to the booking first
+            await axios.get(backend + '/requests')
+            .then((response) => {
+                if(response.status == 200)
+                {
+                    const allRequests = response.data;
+                    for(let req of allRequests) // iterate through all requests using for-of loop
+                    {
+                        // checking the bookingId of all requests
+                        if(req.booking.bookingId == bookingId) 
+                        {
+                            axios.delete(backend + '/requests/delete/' + req.requestId)
+                            .then(response => {
+                                if(response.status == 200){
+                                    console.log("Request " + req.requestId + " deleted successfully!");
+                                }
+                                else {
+                                    console.error(`Response status: ${response.status}`)
+                                    console.error("Unable to delete request with ID " + req.requestId + "!");
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        }
+                    }
+                } else if (response.status == 404) {
+                    alert("Unable to find booking with ID " + bookingId + "!");
+                }
+                else {
+                    alert("Unable to cancel booking!");
+                }
+            });
+
+            // Once all requests are deleted, delete the booking
             await axios.delete(backend + '/booking/delete/' + bookingId)
                 .then(response => {
                     return (response.status == 200 ? alert("Booking cancelled successfully!") : null);

@@ -18,7 +18,6 @@ import java.util.List;
 
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.AssignmentRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.BookingRepository;
-import ca.mcgill.ecse321.Mar1HotelSystem.dao.ShiftRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.EmployeeRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.Mar1HotelSystem.dao.PaymentRepository;
@@ -207,7 +206,7 @@ public class AssignmentIntegrationTest {
                 AssignmentResponseDto.class);
         assertNotNull(assignment);
         assertEquals(assignmentId, assignment.getAssignmentId());
-        assertEquals(assigneeId, assignment.getEmployee().getEmail());
+        assertEquals(newAssigneeId, assignment.getEmployee().getEmail());
         assertEquals(requestId, assignment.getRequest().getRequestId());
 
     }
