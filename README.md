@@ -1,6 +1,6 @@
 # Mar-1 Hotel System - MHS
 
-Welcome to Fall 2023 ECSE 321's Group 05 repository! Please check our [wiki](https://github.com/McGill-ECSE321-Fall2023/project-group-05/wiki) for more information about our project.
+Welcome to Fall 2023 ECSE 321's Group 05 repository! Please check our [wiki](./wiki) for more information about our project.
 
 ## Getting started
 - Clone the project
